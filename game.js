@@ -1,11 +1,8 @@
 //COLORS
 var Colors = {
-    red:0xf25346,
-    white:0xd8d0d1,
-    brown:0x59332e,
-    pink:0xF5986E,
-    brownDark:0x23190f,
-    blue:0x68c3c0,
+    skyBlue: 0x86ebcc,
+    ground: 0x332609,
+    golden: 0xebaf2a
 };
 
 // THREEJS RELATED VARIABLES
@@ -13,6 +10,8 @@ var Colors = {
 var scene,
     camera, fieldOfView, aspectRatio, nearPlane, farPlane,
     renderer, container;
+
+var hitBoxesOn = false;
 
 //SCREEN & MOUSE VARIABLES
 
@@ -38,11 +37,20 @@ function createScene() {
       farPlane
     );
 
+  var hemisphereLight = new THREE.HemisphereLight(Colors.skyBlue, Colors.ground, 1);
+  scene.add(hemisphereLight);
+
+  var directLight = new THREE.DirectionalLight(Colors.golden, 1);
+  directLight.position.set(-50, 50, 50);
+  scene.add(directLight);
+
+
   scene.fog = new THREE.Fog(0xf7d9aa, 100, 950);
 
-  camera.position.x = 0;
-  camera.position.z = 200;
-  camera.position.y = 100;
+  //isometric
+  camera.position.x = 50;
+  camera.position.z = 50;
+  camera.position.y = 50;
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(WIDTH, HEIGHT);
@@ -67,22 +75,36 @@ function handleWindowResize() {
 
 
 //creation
-var airplane;
+var basicBoxMesh;
+var blocks = [];
+var hitBoxes = [];
 
-function createObject() {
-  placeHolderModel = placeHolder.model;
-  scene.add(placeHolderModel);
+function createBox(x, y, z) {
+  basicBoxMesh = basicBox.model.clone();
+  basicBoxMesh.position.set(x, y, z);
+  basicBox.x = x;
+  basicBox.y = y;
+  basicBox.z = z;
+  scene.add(basicBoxMesh);
+  blocks.push(basicBox);
+
+  basicHitBoxMesh = basicBox.hitBox.clone();
+  basicHitBoxMesh.position.set(x, y, z);
+
+  hitBoxes.push(basicHitBoxMesh);
 
 }
 
 function loop() {
-  update();
+  doUpdates();
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
 }
 
-function update(){
-    //console.log("Updated");
+function doUpdates(){
+    for(var i = 0; i < blocks.length; i++){
+        blocks[i].update();
+    }
 }
 
 
@@ -91,23 +113,61 @@ function init() {
   document.onkeyup = handleKeyUp;
 
   createScene();
-  createObject();
-
+  
+  //x
+  for(var i = 0; i < 4; i++){
+      createBox(i*basicBox.width*1.5, 0, 0);
+  }
+  //y
+  for(var i = 0; i < 4; i++){
+      createBox(0, i*basicBox.width*1.5, 0);
+  }
+  //z generation
+  for(var i = 0; i < 4; i++){
+      createBox(0, 0, i*basicBox.width*1.5);
+  }
+  console.log(blocks[0]);
+  camera.lookAt(blocks[0].model.position);
 
   loop();
 }
 
 function handleKeyUp(keyEvent){
-    if(keyEvent.key == "a"){
-        //do something
-    }
+    // if(keyEvent.key == "h"){
+    //     hitBoxes(blocks, false);
+    // }
 
 }
 function handleKeyDown(keyEvent){
 
-   if(keyEvent.key == "a"){
-      //do something
+   if(keyEvent.key == "h"){
+
+       if(!hitBoxesOn){
+           hitBoxesOn = true;
+           console.log("hitboxes on");
+           toggleHitBoxes(hitBoxes, true);
+       }
+       else{
+           hitBoxesOn = false;
+           console.log("hitboxes off");
+           toggleHitBoxes(hitBoxes, false);
+       }
 
    }
+
+}
+
+function toggleHitBoxes(objArr, enable){
+    console.log(objArr);
+    if(enable){
+        for(var i = 0; i < objArr.length; i++){
+            scene.add(objArr[i]);
+        }
+    }
+    else{
+        for(var i = 0; i < objArr.length; i++){
+            scene.remove(objArr[i]);
+        }
+    }
 
 }
