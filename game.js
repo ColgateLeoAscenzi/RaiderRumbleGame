@@ -48,9 +48,12 @@ function createScene() {
   scene.fog = new THREE.Fog(0xf7d9aa, 100, 950);
 
   //isometric
-  camera.position.x = 50;
-  camera.position.z = 50;
-  camera.position.y = 50;
+  // camera.position.x = 50;
+  // camera.position.z = 50;
+  // camera.position.y = 50;
+  camera.position.x = 0;
+  camera.position.z = 80;
+  camera.position.y = 40;
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(WIDTH, HEIGHT);
@@ -78,13 +81,14 @@ function handleWindowResize() {
 var basicBoxMesh;
 var blocks = [];
 var hitBoxes = [];
+var player1;
 
 function createBox(x, y, z) {
   basicBoxMesh = basicBox.model.clone();
   basicBoxMesh.position.set(x, y, z);
-  basicBox.x = x;
-  basicBox.y = y;
-  basicBox.z = z;
+  // basicBox.x = x;
+  // basicBox.y = y;
+  // basicBox.z = z;
   scene.add(basicBoxMesh);
   blocks.push(basicBox);
 
@@ -95,53 +99,85 @@ function createBox(x, y, z) {
 
 }
 
+function createSimpleMap(){
+  for(var i = -4; i < 5; i++){
+    if(i == -4 || i == 4){
+      createBox(i*basicBox.width, basicBox.height, 0);
+    }
+    else{
+      createBox(i*basicBox.width, 0, 0);
+    }
+  }
+}
+
+function createPlayer1(x, y, z){
+  player1 = basicCharacter;
+  player1.init();
+  player1Mesh = player1.model;
+  // player1Mesh.position.set(x, y, z);
+
+  player1HitBoxMesh = player1.hitBox;
+  // player1HitBoxMesh.position.set(x, y, z)
+  hitBoxes.push(player1HitBoxMesh);
+
+  scene.add(player1Mesh);
+}
+
 function loop() {
   doUpdates();
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
+  camera.lookAt(player1.model.position);
 }
 
 function doUpdates(){
+  //updates all blocks
     for(var i = 0; i < blocks.length; i++){
         blocks[i].update();
     }
+
+    player1.update();
 }
 
 
-function init() {
+function initGame() {
   document.onkeydown = handleKeyDown;
   document.onkeyup = handleKeyUp;
 
   createScene();
-  
-  //x
-  for(var i = 0; i < 4; i++){
-      createBox(i*basicBox.width*1.5, 0, 0);
-  }
-  //y
-  for(var i = 0; i < 4; i++){
-      createBox(0, i*basicBox.width*1.5, 0);
-  }
-  //z generation
-  for(var i = 0; i < 4; i++){
-      createBox(0, 0, i*basicBox.width*1.5);
-  }
-  console.log(blocks[0]);
+
+  //Build a platform spreading across the x direction
+  createSimpleMap();
   camera.lookAt(blocks[0].model.position);
+
+  createPlayer1(0, 10, 0)
 
   loop();
 }
+
+
 
 function handleKeyUp(keyEvent){
     // if(keyEvent.key == "h"){
     //     hitBoxes(blocks, false);
     // }
+    if(keyEvent.key == "a"){
+      //moving left
+      player1.movingL = false;
+    }
+    if(keyEvent.key == "d"){
+      //moving right
+      player1.movingR = false;
+    }
+    if(keyEvent.key == "w"){
+      //jumping
+      player1.jumping = false;
+    }
 
 }
 function handleKeyDown(keyEvent){
 
    if(keyEvent.key == "h"){
-
        if(!hitBoxesOn){
            hitBoxesOn = true;
            console.log("hitboxes on");
@@ -152,7 +188,28 @@ function handleKeyDown(keyEvent){
            console.log("hitboxes off");
            toggleHitBoxes(hitBoxes, false);
        }
+   }
 
+   if(keyEvent.key == "a"){
+     //moving left
+     player1.movingL = true;
+     player1.xVel = -1;
+   }
+   if(keyEvent.key == "d"){
+     //moving right
+     player1.movingR = true;
+     player1.xVel = 1;
+   }
+   if(keyEvent.key == "w"){
+     //jumping
+     if(player1.jumpCt == 2){
+       player1.canJump = false;
+     }
+     if(player1.canJump){
+       player1.jumping = true;
+       player1.yVel = 1;
+       player1.jumpCt +=1;
+     }
    }
 
 }

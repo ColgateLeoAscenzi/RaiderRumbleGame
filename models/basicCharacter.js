@@ -1,10 +1,10 @@
 var Colors = {
-    black:0x000100,
+    black:0x222222,
     red:0xff1100,
     grey: 0xb0a896
 };
 
-function createBasicCharacterMesh(){
+function createBasicCharacterMesh(x,y,z){
 
   this.mesh      = new THREE.Object3D();
   this.mesh.name = "basicCharacter";
@@ -21,12 +21,14 @@ function createBasicCharacterMesh(){
   box.receiveShadow = true;
 
   this.mesh.add(box);
+  this.mesh.position.set(x,y,z);
+
 
   return this.mesh;
 
 };
 
-function createBasicCharacterBounding(){
+function createBasicCharacterBounding(x,y,z){
 
   this.mesh      = new THREE.Object3D();
   this.mesh.name = "basicCharacterBounding";
@@ -41,6 +43,8 @@ function createBasicCharacterBounding(){
   var box = new THREE.Mesh(geomBox, matBox);
 
   this.mesh.add(box);
+  this.mesh.position.set(x,y,z);
+
 
   return this.mesh;
 
