@@ -1,7 +1,8 @@
 var Colors = {
     black:0x222222,
     red:0xff1100,
-    grey: 0xb0a896
+    grey: 0xb0a896,
+    white: 0xffffff,
 };
 
 function createBasicCharacterMesh(x,y,z){
@@ -12,8 +13,7 @@ function createBasicCharacterMesh(x,y,z){
 	  // Create the Cabin
   var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
   var matBox  = new THREE.MeshPhongMaterial(
-                             { color : Colors.black,
-                             shading : THREE.FlatShading});
+                             { color : Colors.black});
 
   var box = new THREE.Mesh(geomBox, matBox);
 
@@ -36,9 +36,7 @@ function createBasicCharacterBounding(x,y,z){
 	  // Create the Cabin
   var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
   var matBox  = new THREE.MeshPhongMaterial(
-                             { color : Colors.red,
-                             shading : THREE.FlatShading,
-                              wireframe: true});
+                             { color : Colors.red,wireframe: true});
 
   var box = new THREE.Mesh(geomBox, matBox);
 

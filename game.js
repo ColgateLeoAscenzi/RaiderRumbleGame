@@ -2,7 +2,8 @@
 var Colors = {
     skyBlue: 0x86ebcc,
     ground: 0x332609,
-    golden: 0xebaf2a
+    golden: 0xebaf2a,
+    white: 0xffffff
 };
 
 // THREEJS RELATED VARIABLES
@@ -12,6 +13,7 @@ var scene,
     renderer, container;
 
 var hitBoxesOn = false;
+var trackPlayer = true;
 
 //SCREEN & MOUSE VARIABLES
 
@@ -36,11 +38,11 @@ function createScene() {
       nearPlane,
       farPlane
     );
-
-  var hemisphereLight = new THREE.HemisphereLight(Colors.skyBlue, Colors.ground, 1);
+  //
+  var hemisphereLight = new THREE.HemisphereLight(Colors.white, Colors.ground, 1);
   scene.add(hemisphereLight);
 
-  var directLight = new THREE.DirectionalLight(Colors.golden, 1);
+  var directLight = new THREE.DirectionalLight(Colors.white, 1);
   directLight.position.set(-50, 50, 50);
   scene.add(directLight);
 
@@ -112,7 +114,6 @@ function createSimpleMap(){
 
 function createPlayer1(x, y, z){
   player1 = basicCharacter;
-  player1.init();
   player1Mesh = player1.model;
   // player1Mesh.position.set(x, y, z);
 
@@ -127,7 +128,22 @@ function loop() {
   doUpdates();
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
-  camera.lookAt(player1.model.position);
+  if(trackPlayer){
+    camera.position.set(player1.model.position.x,player1.model.position.y+50,player1.model.position.z+80);
+    if(player1.model.position.x < 0){
+      camera.lookAt(player1.model.position.x*+player1.model.position.x*-0.01,player1.model.position.y,player1.model.position.z);
+
+    }
+    else{
+      camera.lookAt(player1.model.position.x*+player1.model.position.x*0.01,player1.model.position.y,player1.model.position.z);
+
+    }
+
+  }
+  else{
+    camera.position.set(0, 40, 80);
+    camera.lookAt(blocks[0].model.position.x,blocks[0].model.position.y+25,blocks[0].model.position.z);
+  }
 }
 
 function doUpdates(){
@@ -148,7 +164,7 @@ function initGame() {
 
   //Build a platform spreading across the x direction
   createSimpleMap();
-  camera.lookAt(blocks[0].model.position);
+  camera.lookAt(blocks[0].model.position.x,blocks[0].model.position.y+10,blocks[0].model.position.z);
 
   createPlayer1(0, 10, 0)
 
@@ -190,25 +206,38 @@ function handleKeyDown(keyEvent){
        }
    }
 
+   if(keyEvent.key == "p"){
+     if(trackPlayer){
+       trackPlayer = false;
+     }
+     else{
+       trackPlayer = true;
+     }
+   }
+
+
+
+   //player 1 control
    if(keyEvent.key == "a"){
      //moving left
      player1.movingL = true;
-     player1.xVel = -1;
+     player1.xVel = -player1.walkSpeed;
    }
    if(keyEvent.key == "d"){
      //moving right
      player1.movingR = true;
-     player1.xVel = 1;
+     player1.xVel = player1.walkSpeed;
    }
    if(keyEvent.key == "w"){
      //jumping
-     if(player1.jumpCt == 2){
+     if(player1.jumpCt == player1.maxJumpCt){
        player1.canJump = false;
      }
      if(player1.canJump){
        player1.jumping = true;
-       player1.yVel = 1;
+       player1.yVel = player1.jumpSpeed;
        player1.jumpCt +=1;
+       player1. onGround = false;
      }
    }
 

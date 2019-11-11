@@ -12,8 +12,8 @@ function createBasicBoxMesh(){
 	  // Create the Cabin
   var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
   var matBox  = new THREE.MeshPhongMaterial(
-                             { color : Colors.grey,
-                             shading : THREE.FlatShading});
+                             { color : Colors.grey});
+
 
   var box = new THREE.Mesh(geomBox, matBox);
 
@@ -34,9 +34,7 @@ function createBasicBoxBounding(){
 	  // Create the Cabin
   var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
   var matBox  = new THREE.MeshPhongMaterial(
-                             { color : Colors.red,
-                             shading : THREE.FlatShading,
-                              wireframe: true});
+                             { color : Colors.red, wireframe: true});
 
   var box = new THREE.Mesh(geomBox, matBox);
 
