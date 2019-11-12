@@ -15,6 +15,10 @@ var scene,
 var hitBoxesOn = false;
 var trackPlayer = true;
 
+//TESTING RAYCASTING
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2(), INTERSECTED;
+
 //SCREEN & MOUSE VARIABLES
 
 var HEIGHT, WIDTH
@@ -66,6 +70,8 @@ function createScene() {
   container.appendChild(renderer.domElement);
 
   window.addEventListener('resize', handleWindowResize, false);
+  window.addEventListener('mousemove', onMouseMove, false);
+
 }
 
 // HANDLE SCREEN EVENTS
@@ -82,6 +88,7 @@ function handleWindowResize() {
 //creation
 var basicBoxMesh;
 var blocks = [];
+var blockMeshes = [];
 var hitBoxes = [];
 var player1;
 
@@ -93,6 +100,7 @@ function createBox(x, y, z) {
   // basicBox.z = z;
   scene.add(basicBoxMesh);
   blocks.push(basicBox);
+  blockMeshes.push(basicBoxMesh);
 
   basicHitBoxMesh = basicBox.hitBox.clone();
   basicHitBoxMesh.position.set(x, y, z);
@@ -100,6 +108,8 @@ function createBox(x, y, z) {
   hitBoxes.push(basicHitBoxMesh);
 
 }
+
+
 
 function createSimpleMap(){
   for(var i = -4; i < 5; i++){
@@ -144,13 +154,36 @@ function loop() {
     camera.position.set(0, 40, 80);
     camera.lookAt(blocks[0].model.position.x,blocks[0].model.position.y+25,blocks[0].model.position.z);
   }
+
+  render();
+
+
+}
+
+function render(){
+    // update the picking ray with the camera and mouse position
+    raycaster.setFromCamera( mouse, camera );
+
+    // calculate objects intersecting the picking ray
+    var intersects = raycaster.intersectObjects(scene.children);
+    if ( intersects.length > 0 ) {
+        if ( INTERSECTED != intersects[ 0 ].object ) {
+            if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+            INTERSECTED = intersects[ 0 ].object;
+            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+            INTERSECTED.material.emissive.setHex( 0xff0000 );
+        }
+    } else {
+        if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+        INTERSECTED = null;
+    }
 }
 
 function doUpdates(){
   //updates all blocks
-    for(var i = 0; i < blocks.length; i++){
-        blocks[i].update();
-    }
+    // for(var i = 0; i < blocks.length; i++){
+    //     blocks[i].update();
+    // }
 
     player1.update();
 }
@@ -167,6 +200,30 @@ function initGame() {
   camera.lookAt(blocks[0].model.position.x,blocks[0].model.position.y+10,blocks[0].model.position.z);
 
   createPlayer1(0, 10, 0)
+
+//add confetti
+  var geometry = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+
+  for ( var i = 0; i < 2000; i ++ ) {
+
+      var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+
+      object.position.x = Math.random() * 800 - 400;
+      object.position.y = Math.random() * 800 - 400;
+      object.position.z = Math.random() * 800 - 400;
+
+      object.rotation.x = Math.random() * 2 * Math.PI;
+      object.rotation.y = Math.random() * 2 * Math.PI;
+      object.rotation.z = Math.random() * 2 * Math.PI;
+
+      object.scale.x = Math.random() + 0.5;
+      object.scale.y = Math.random() + 0.5;
+      object.scale.z = Math.random() + 0.5;
+
+      scene.add( object );
+
+  }
+
 
   loop();
 }
@@ -256,4 +313,11 @@ function toggleHitBoxes(objArr, enable){
         }
     }
 
+}
+
+
+
+function onMouseMove(event){
+        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 }
