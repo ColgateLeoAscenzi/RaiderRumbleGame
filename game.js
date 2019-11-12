@@ -308,17 +308,14 @@ function initGame() {
       var container = document.getElementById("container");
       var leftButton = document.createElement("div");
       leftButton.id = "leftButton";
-      leftButton.innerHTML = "LEFT";
       container.appendChild(leftButton);
 
       var rightButton = document.createElement("div");
       rightButton.id = "rightButton";
-      rightButton.innerHTML = "RIGHT";
       container.appendChild(rightButton);
 
       var topButton = document.createElement("div");
       topButton.id = "topButton";
-      topButton.innerHTML = "JUMP";
       container.appendChild(topButton);
   }
   document.onkeydown = handleKeyDown;
