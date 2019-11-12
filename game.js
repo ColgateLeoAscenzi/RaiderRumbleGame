@@ -260,8 +260,8 @@ function initGame() {
   document.onkeyup = handleKeyUp;
 
   if(mobileMode){
-      document.onmousedown = handleTapDown;
-      document.onmouseup = handleTapUp;
+      document.ontouchstart = handleTapDown;
+      document.ontouchend = handleTapUp;
   }
 
   createScene();
@@ -277,9 +277,8 @@ function initGame() {
 }
 
 function handleTapDown(event){
-    console.log('down');
-    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    mouse.x = (event.touches[0].clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - (event.touches[0].clientY / window.innerHeight ) * 2 + 1;
     //player 1 control
     if(mouse.x < -0.3 && mouse.y < -0.2){
       //moving left
@@ -301,30 +300,13 @@ function handleTapDown(event){
             player1. onGround = false;
           }
     }
-    // if(keyEvent.key == "d"){
-    //   //moving right
-    //   player1.movingR = true;
-    //   player1.xVel = player1.walkSpeed;
-    // }
-    // if(keyEvent.key == "w"){
-    //   //jumping
-    //   if(player1.jumpCt == player1.maxJumpCt){
-    //     player1.canJump = false;
-    //   }
-    //   if(player1.canJump){
-    //     player1.jumping = true;
-    //     player1.yVel = player1.jumpSpeed;
-    //     player1.jumpCt +=1;
-    //     player1. onGround = false;
-    //   }
-    // }
 
 }
 
 function handleTapUp(event){
-    console.log('up');
-    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+    mouse.x = ( event.changedTouches[0].clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.changedTouches[0].clientY / window.innerHeight ) * 2 + 1;
     //player 1 control
     if(mouse.x < -0.3 && mouse.y < -0.2){
         player1.movingL = false;
