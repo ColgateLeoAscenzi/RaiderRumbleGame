@@ -16,7 +16,18 @@ var basicCharacter = {
     jumpSpeed: 1.8,
     walkSpeed: 1,
     onGround: true,
+    lowestPoint: 0,
     update: function(){
+
+        // checks and sets the lowsest current point
+        if(boxBelow != undefined){
+            this.lowestPoint = boxBelow.position.y + 10;
+        }
+        else{
+            this.lowestPoint = -100;
+        }
+
+
         if(this.hitBoxEnabled){
             this.hitBox.position.x = this.x;
             this.hitBox.position.y = this.y;
@@ -28,8 +39,15 @@ var basicCharacter = {
         }
 
 
-        this.yVel -= 0.075;
+        //maximum gravity acceleration
+        if(this.yVel - 0.075 < -1.6){
+            this.yVel = -1.6;
+        }
+        // else{
+            this.yVel -= 0.075;
+        // }
 
+        //changes box position
         this.x += this.xVel;
         this.y += this.yVel;
 
@@ -48,28 +66,29 @@ var basicCharacter = {
         // }
 
 
-        // HARD CODED FLOOR
-        if(this.y < 10){
-          this.y = 10;
+        //doesn't let user pass below boxes
+        if(this.y < this.lowestPoint){
+          this.y = this.lowestPoint;
           this.canJump = true;
           this.jumpCt = 0;
           this.onGround = true;
         }
         if(this.y < -40){
-          alert("you died");
+          // alert("you died");
           this.y = 10;
           this.x = 0;
         }
-        if(this.x < -30){
-          this.x = -30;
-        }
-        if(this.x > 30){
-          this.x = 30;
-        }
+        // if(this.x < -50){
+        //   this.x = -50;
+        // }
+        // if(this.x > 50){
+        //   this.x = 50;
+        // }
 
+
+        //updates models position and hitbox
         this.model.position.set(this.x, this.y, 0);
         this.hitBox.position.set(this.x, this.y, 0);
-
 
 
 

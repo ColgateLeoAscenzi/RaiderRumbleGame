@@ -95,6 +95,8 @@ var blockMeshes = [];
 var hitBoxes = [];
 var player1;
 
+var boxBelow;
+
 
 
 function createBox(x, y, z) {
@@ -121,7 +123,7 @@ function createBox(x, y, z) {
 
 function createSimpleMap(){
   for(var i = -4; i < 5; i++){
-    if(i == -4 || i == 4 || i == 0){
+    if(i == -4 || i == 4){
       createBox(i*basicBox.width, basicBox.height, 0);
     }
     else{
@@ -189,40 +191,44 @@ function loop() {
     camera.lookAt(blocks[0].model.position.x,blocks[0].model.position.y+25,blocks[0].model.position.z);
   }
 
-  render();
+  lookBelow();
 
 
 }
 
-function render(){
-    // update the picking ray with the camera and mouse position
+function lookBelow(){
+    // creates a vector from the player to some point way below
     var positionBelow = new THREE.Vector3();
     positionBelow.x = player1.x;
     positionBelow.y = player1.y-1000;
     positionBelow.z = player1.z;
+
+    //casts a ray from player to point below
     raycaster.set(player1, positionBelow.normalize());
 
     // calculate objects intersecting the picking ray
     var intersects = raycaster.intersectObjects(blockMeshes);
-    // console.log(intersects);
+    // finds the intersections and colors them for testing, adds to the below box
     if ( intersects.length > 0 ) {
         if ( INTERSECTED != intersects[ 0 ].object ) {
             if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
             INTERSECTED = intersects[ 0 ].object;
             INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
             INTERSECTED.material.emissive.setHex( 0xff0000 );
+            boxBelow = intersects[0].object;
         }
     } else {
         if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
         INTERSECTED = null;
+        boxBelow = undefined;
     }
 }
 
 function doUpdates(){
-  //updates all blocks
-    // for(var i = 0; i < blocks.length; i++){
-    //     blocks[i].update();
-    // }
+  // updates all blocks
+    for(var i = 0; i < blocks.length; i++){
+        blocks[i].update();
+    }
 
     player1.update();
 }
