@@ -16,15 +16,31 @@ var basicCharacter = {
     jumpSpeed: 1.8,
     walkSpeed: 1,
     onGround: true,
-    lowestPoint: 0,
+    minDown: 0,
+    minLeft: -10,
+    minRight: 10,
     update: function(){
 
         // checks and sets the lowsest current point
         if(boxBelow != undefined){
-            this.lowestPoint = boxBelow.position.y + 10;
+            this.minDown = boxBelow.position.y + 10;
         }
         else{
-            this.lowestPoint = -100;
+            this.minDown = -100;
+        }
+
+        if(boxLeft != undefined){
+            this.minLeft = boxLeft.position.x + 10;
+        }
+        else{
+            this.minLeft = -100;
+        }
+
+        if(boxRight != undefined){
+            this.minRight = boxRight.position.x-10;
+        }
+        else{
+            this.minRight = 100;
         }
 
 
@@ -67,8 +83,8 @@ var basicCharacter = {
 
 
         //doesn't let user pass below boxes
-        if(this.y < this.lowestPoint){
-          this.y = this.lowestPoint;
+        if(this.y < this.minDown){
+          this.y = this.minDown;
           this.canJump = true;
           this.jumpCt = 0;
           this.onGround = true;
@@ -77,6 +93,12 @@ var basicCharacter = {
           // alert("you died");
           this.y = 10;
           this.x = 0;
+        }
+        if(this.x < this.minLeft){
+          this.x = this.minLeft;
+        }
+        if(this.x > this.minRight){
+          this.x = this.minRight;
         }
         // if(this.x < -50){
         //   this.x = -50;
