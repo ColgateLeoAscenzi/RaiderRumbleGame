@@ -16,6 +16,7 @@ var scene,
 var hitBoxesOn = false;
 var trackPlayer = true;
 var confettiOn = false;
+var mobileMode = false;
 
 //TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
@@ -228,8 +229,34 @@ function doUpdates(){
 
 
 function initGame() {
+  console.log(window.innerWidth, window.innerHeight);
+
+  if(window.innerWidth < 1000 && window.innerHeight < 600){
+      console.log("mobile detected");
+      mobileMode = true;
+      var container = document.getElementById("container");
+      var leftButton = document.createElement("div");
+      leftButton.id = "leftButton";
+      leftButton.innerHTML = "LEFT";
+      container.appendChild(leftButton);
+
+      var rightButton = document.createElement("div");
+      rightButton.id = "rightButton";
+      rightButton.innerHTML = "RIGHT";
+      container.appendChild(rightButton);
+
+      var topButton = document.createElement("div");
+      topButton.id = "topButton";
+      topButton.innerHTML = "JUMP";
+      container.appendChild(topButton);
+  }
   document.onkeydown = handleKeyDown;
   document.onkeyup = handleKeyUp;
+
+  if(mobileMode){
+      document.onmousedown = handleTapDown;
+      document.onmouseup = handleTapUp;
+  }
 
   createScene();
 
@@ -243,6 +270,68 @@ function initGame() {
   loop();
 }
 
+function handleTapDown(event){
+    console.log('down');
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    //player 1 control
+    if(mouse.x < -0.3 && mouse.y < -0.2){
+      //moving left
+      player1.movingL = true;
+      player1.xVel = -player1.walkSpeed;
+    }
+    if(mouse.x > 0.3 && mouse.y < -0.2){
+        player1.movingR = true;
+        player1.xVel = player1.walkSpeed;
+    }
+    if(mouse.y > 0.2){
+        if(player1.jumpCt == player1.maxJumpCt){
+            player1.canJump = false;
+          }
+          if(player1.canJump){
+            player1.jumping = true;
+            player1.yVel = player1.jumpSpeed;
+            player1.jumpCt +=1;
+            player1. onGround = false;
+          }
+    }
+    // if(keyEvent.key == "d"){
+    //   //moving right
+    //   player1.movingR = true;
+    //   player1.xVel = player1.walkSpeed;
+    // }
+    // if(keyEvent.key == "w"){
+    //   //jumping
+    //   if(player1.jumpCt == player1.maxJumpCt){
+    //     player1.canJump = false;
+    //   }
+    //   if(player1.canJump){
+    //     player1.jumping = true;
+    //     player1.yVel = player1.jumpSpeed;
+    //     player1.jumpCt +=1;
+    //     player1. onGround = false;
+    //   }
+    // }
+
+}
+
+function handleTapUp(event){
+    console.log('up');
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    //player 1 control
+    if(mouse.x < -0.3 && mouse.y < -0.2){
+        player1.movingL = false;
+    }
+    if(mouse.x > 0.3 && mouse.y < -0.2){
+        player1.movingR = false;
+    }
+    if(mouse.y > 0.2){
+        player1.jumping = false;
+    }
+
+
+}
 
 
 function handleKeyUp(keyEvent){
