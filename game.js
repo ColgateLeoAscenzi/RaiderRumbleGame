@@ -3,7 +3,8 @@ var Colors = {
     skyBlue: 0x86ebcc,
     ground: 0x332609,
     golden: 0xebaf2a,
-    white: 0xffffff
+    white: 0xffffff,
+    grey: 0xb0a896
 };
 
 // THREEJS RELATED VARIABLES
@@ -14,6 +15,7 @@ var scene,
 
 var hitBoxesOn = false;
 var trackPlayer = true;
+var confettiOn = false;
 
 //TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
@@ -92,8 +94,13 @@ var blockMeshes = [];
 var hitBoxes = [];
 var player1;
 
+
+
 function createBox(x, y, z) {
+
   basicBoxMesh = basicBox.model.clone();
+  basicBoxMesh.material = new THREE.MeshPhongMaterial(
+                             { color : Colors.grey});
   basicBoxMesh.position.set(x, y, z);
   // basicBox.x = x;
   // basicBox.y = y;
@@ -113,7 +120,7 @@ function createBox(x, y, z) {
 
 function createSimpleMap(){
   for(var i = -4; i < 5; i++){
-    if(i == -4 || i == 4){
+    if(i == -4 || i == 4 || i == 0){
       createBox(i*basicBox.width, basicBox.height, 0);
     }
     else{
@@ -121,7 +128,6 @@ function createSimpleMap(){
     }
   }
 }
-
 function createPlayer1(x, y, z){
   player1 = basicCharacter;
   player1Mesh = player1.model;
@@ -132,6 +138,33 @@ function createPlayer1(x, y, z){
   hitBoxes.push(player1HitBoxMesh);
 
   scene.add(player1Mesh);
+}
+
+var confetti = [];
+function createConfetti(){
+    //add confetti
+      var geometry = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+
+      for ( var i = 0; i < 2000; i ++ ) {
+
+          var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+
+          object.position.x = Math.random() * 800 - 400;
+          object.position.y = Math.random() * 800 - 400;
+          object.position.z = Math.random() * 800 - 400;
+
+          object.rotation.x = Math.random() * 2 * Math.PI;
+          object.rotation.y = Math.random() * 2 * Math.PI;
+          object.rotation.z = Math.random() * 2 * Math.PI;
+
+          object.scale.x = Math.random() + 0.5;
+          object.scale.y = Math.random() + 0.5;
+          object.scale.z = Math.random() + 0.5;
+
+          scene.add( object );
+          confetti.push(object);
+
+      }
 }
 
 function loop() {
@@ -162,10 +195,15 @@ function loop() {
 
 function render(){
     // update the picking ray with the camera and mouse position
-    raycaster.setFromCamera( mouse, camera );
+    var positionBelow = new THREE.Vector3();
+    positionBelow.x = player1.x;
+    positionBelow.y = player1.y-1000;
+    positionBelow.z = player1.z;
+    raycaster.set(player1, positionBelow.normalize());
 
     // calculate objects intersecting the picking ray
-    var intersects = raycaster.intersectObjects(scene.children);
+    var intersects = raycaster.intersectObjects(blockMeshes);
+    // console.log(intersects);
     if ( intersects.length > 0 ) {
         if ( INTERSECTED != intersects[ 0 ].object ) {
             if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
@@ -199,30 +237,7 @@ function initGame() {
   createSimpleMap();
   camera.lookAt(blocks[0].model.position.x,blocks[0].model.position.y+10,blocks[0].model.position.z);
 
-  createPlayer1(0, 10, 0)
-
-//add confetti
-  var geometry = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
-
-  for ( var i = 0; i < 2000; i ++ ) {
-
-      var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
-
-      object.position.x = Math.random() * 800 - 400;
-      object.position.y = Math.random() * 800 - 400;
-      object.position.z = Math.random() * 800 - 400;
-
-      object.rotation.x = Math.random() * 2 * Math.PI;
-      object.rotation.y = Math.random() * 2 * Math.PI;
-      object.rotation.z = Math.random() * 2 * Math.PI;
-
-      object.scale.x = Math.random() + 0.5;
-      object.scale.y = Math.random() + 0.5;
-      object.scale.z = Math.random() + 0.5;
-
-      scene.add( object );
-
-  }
+  createPlayer1(0, 10, 0);
 
 
   loop();
@@ -272,6 +287,18 @@ function handleKeyDown(keyEvent){
      }
    }
 
+   if(keyEvent.key == "o"){
+       if(confettiOn){
+           confettiOn = false;
+           for(var i = 0; i < confetti.length; i++){
+               scene.remove(confetti[i]);
+           }
+       }
+       else{
+           createConfetti();
+           confettiOn = true;
+       }
+   }
 
 
    //player 1 control

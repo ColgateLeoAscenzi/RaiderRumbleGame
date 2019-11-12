@@ -20,9 +20,8 @@ function createBasicBoxMesh(){
   box.castShadow = true;
   box.receiveShadow = true;
 
-  this.mesh.add(box);
 
-  return this.mesh;
+  return box;
 
 };
 
@@ -38,8 +37,7 @@ function createBasicBoxBounding(){
 
   var box = new THREE.Mesh(geomBox, matBox);
 
-  this.mesh.add(box);
 
-  return this.mesh;
+  return box;
 
 };
