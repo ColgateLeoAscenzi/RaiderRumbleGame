@@ -23,6 +23,7 @@ var basicCharacter = {
 
         // checks and sets the lowsest current point
         if(boxBelow != undefined){
+
             this.minDown = boxBelow.position.y + 10;
         }
         else{
