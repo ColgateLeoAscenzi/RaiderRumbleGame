@@ -4,7 +4,7 @@ var Colors = {
     ground: 0x332609,
     golden: 0xebaf2a,
     white: 0xffffff,
-    grey: 0xb0a896
+    grey: 0xc7c9c8
 };
 
 // THREEJS RELATED VARIABLES
@@ -14,7 +14,7 @@ var scene,
     renderer, container;
 
 var hitBoxesOn = false;
-var trackPlayer = true;
+var trackPlayer = false;
 var confettiOn = false;
 var mobileMode = false;
 
@@ -46,15 +46,18 @@ function createScene() {
       farPlane
     );
   //
-  var hemisphereLight = new THREE.HemisphereLight(Colors.white, Colors.ground, 1);
-  scene.add(hemisphereLight);
+  // var hemisphereLight = new THREE.HemisphereLight(Colors.white, Colors.ground, 1);
+  // scene.add(hemisphereLight);
 
-  var directLight = new THREE.DirectionalLight(Colors.white, 1);
-  directLight.position.set(-50, 50, 50);
+  var ambientLight = new THREE.AmbientLight(Colors.white, 0.1);
+  scene.add(ambientLight);
+
+  var directLight = new THREE.PointLight(Colors.white, 1.2);
+  directLight.position.set(0, 80, 90);
   scene.add(directLight);
 
 
-  scene.fog = new THREE.Fog(0xf7d9aa, 100, 950);
+  scene.fog = new THREE.Fog(Colors.skyBlue, -100, -950);
 
   //isometric
   // camera.position.x = 50;
@@ -393,6 +396,22 @@ function handleKeyDown(keyEvent){
        player1.jumpCt +=1;
        player1. onGround = false;
      }
+   }
+
+   if(keyEvent.key == "1"){
+     player1.walkStyle1 = true;
+     player1.walkStyle2 = false;
+     player1.walkStyle3 = false;
+   }
+   if(keyEvent.key == "2"){
+     player1.walkStyle1 = false;
+     player1.walkStyle2 = true;
+     player1.walkStyle3 = false;
+   }
+   if(keyEvent.key == "3"){
+     player1.walkStyle1 = false;
+     player1.walkStyle2 = false;
+     player1.walkStyle3 = true;
    }
 
 }

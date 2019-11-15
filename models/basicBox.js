@@ -1,7 +1,7 @@
 var Colors = {
     black:0x000000,
     red:0xff1100,
-    grey: 0xb0a896
+    grey: 0xc7c9c8
 };
 
 function createBasicBoxMesh(){

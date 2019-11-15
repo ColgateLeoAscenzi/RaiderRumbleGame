@@ -1,8 +1,10 @@
 var basicCharacter = {
     x: 0,
-    y: 15,
+    //0.1 is a smoothing factor added for the rays
+    // y: 10.1,
+    y: 50,
     z: 0,
-    height: 20,
+    height: 10,
     width: 10,
     xVel: 0,
     yVel: 0,
@@ -24,30 +26,29 @@ var basicCharacter = {
     minLeft: -10,
     minRight: 10,
     timeTick: 0,
+    walkStyle1: true,
     update: function(){
-      this.timeTick+= 1;
-
-
+      this.timeTick += 1;
         //this.model.children[2].position.x = this.x*2;
 
         // checks and sets the lowsest current point
         if(boxBelow != undefined){
 
-            this.minDown = boxBelow.position.y + 10 + this.height/4;
+            this.minDown = boxBelow.position.y + 10/2 + player1.height/2;
         }
         else{
             this.minDown = -100;
         }
 
         if(boxLeft != undefined){
-            this.minLeft = boxLeft.position.x + 10;
+            this.minLeft = boxLeft.position.x + 10/2 + player1.width/2;
         }
         else{
             this.minLeft = -100;
         }
 
         if(boxRight != undefined){
-            this.minRight = boxRight.position.x-10;
+            this.minRight = boxRight.position.x-10/2 - player1.width/2;
         }
         else{
             this.minRight = 100;
@@ -126,6 +127,7 @@ var basicCharacter = {
 
     },
     animate: function(){
+      //direction changes
       if(this.facingR){
         this.model.rotation.y = 0.5;
       }
@@ -133,7 +135,65 @@ var basicCharacter = {
         this.model.rotation.y = -0.5;
       }
 
-      // this.model.torso.leg.position.y = this.timeTick%3;
+      //walking changes
+      if((this.movingR || this.movingL) && this.xVel != 0){
+        //alternates legs up and down between 0.5 and -0.5 from the original place
+        if(this.walkStyle1){
+          this.model.torso.rightLeg.position.y = -3 + 0.5*Math.sin(this.timeTick*0.5);
+          this.model.torso.leftLeg.position.y =  -3 - 0.5*Math.sin(this.timeTick*0.5);
+        }
+        else if(this.walkStyle2){
+          this.model.torso.rightLeg.rotation.x = 0.3*Math.sin(this.timeTick*0.5);
+          this.model.torso.leftLeg.rotation.x = - 0.3*Math.sin(this.timeTick*0.5);
+        }
+        else if(this.walkStyle3){
+          this.model.torso.rightLeg.position.y = -3 + 0.5*Math.sin(this.timeTick*0.2);
+          this.model.torso.leftLeg.position.y =  -3 - 0.5*Math.sin(this.timeTick*0.2);
+          this.model.rotation.z = 0.1*Math.sin(this.timeTick*0.2);
+
+        }
+
+        //arm changes
+        this.model.torso.rightArm.rotation.x = 0.3*Math.sin(this.timeTick*0.5);
+        this.model.torso.leftArm.rotation.x = - 0.3*Math.sin(this.timeTick*0.5);
+        //
+        // //headchanges
+        // this.model.head.rotation.z = 0.08*Math.sin(this.timeTick*0.2);
+        // this.model.head.rotation.y = 0.08*Math.sin(this.timeTick*0.2);
+      }
+
+      //default
+      else{
+        //reset leg position and rotation
+        this.model.torso.rightLeg.position.y = -3;
+        this.model.torso.leftLeg.position.y =  -3;
+        this.model.torso.rightLeg.rotation.x = 0;
+        this.model.torso.leftLeg.rotation.x =  0;
+
+        //arm reset
+        this.model.torso.rightArm.rotation.x = 0;
+        this.model.torso.leftArm.rotation.x = - 0;
+
+        // //head reset
+        // this.model.head.rotation.z = 0;
+        // this.model.head.rotation.y = 0;
+        //body reset
+        this.model.rotation.z = 0;
+      }
+
+      //blinking
+      if(this.timeTick%500 == 0){
+        this.model.head.rightEye.scale.set(1,0.2,1);
+        this.model.head.leftEye.scale.set(1,0.2,1);
+      }
+      else{
+        this.model.head.rightEye.scale.set(1,1,1);
+        this.model.head.leftEye.scale.set(1,1,1);
+      }
+
+
+
+
       // console.log(this.model.torso.leg.position.y);
 
     }

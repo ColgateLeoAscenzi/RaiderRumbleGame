@@ -14,7 +14,7 @@ function lookDirection(direction){
 
   var pVec = new THREE.Vector3();
   pVec.x = player1.x;
-  pVec.y = player1.y-7.5;
+  pVec.y = player1.y-player1.height/2+0.01;
   pVec.z = player1.z;
   // console.log(pVec);
   //casts a ray from player to point below
