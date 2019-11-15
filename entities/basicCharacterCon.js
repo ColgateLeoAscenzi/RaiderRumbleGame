@@ -23,7 +23,9 @@ var basicCharacter = {
     minDown: 0,
     minLeft: -10,
     minRight: 10,
+    timeTick: 0,
     update: function(){
+      this.timeTick+= 1;
 
 
         //this.model.children[2].position.x = this.x*2;
@@ -130,6 +132,9 @@ var basicCharacter = {
       if(this.facingL){
         this.model.rotation.y = -0.5;
       }
+
+      // this.model.torso.leg.position.y = this.timeTick%3;
+      // console.log(this.model.torso.leg.position.y);
 
     }
 }
