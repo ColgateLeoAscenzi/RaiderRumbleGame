@@ -3,6 +3,7 @@ var Colors = {
     red:0xff1100,
     grey: 0xb0a896,
     white: 0xffffff,
+    green: 0x02aa20
 };
 
 function createBasicCharacterMesh(x,y,z){
@@ -11,7 +12,7 @@ function createBasicCharacterMesh(x,y,z){
   this.mesh.name = "basicCharacter";
 
 // BACKGROUND REMOVE LATER
-  var geomBox = new THREE.BoxGeometry(10, 20, 2, 1, 1, 1);
+  var geomBox = new THREE.BoxGeometry(10, 20, 0.5, 1, 1, 1);
   var matBox  = new THREE.MeshPhongMaterial(
                              { color : Colors.grey})
 
@@ -20,44 +21,40 @@ function createBasicCharacterMesh(x,y,z){
   box.castShadow = true;
   box.receiveShadow = true;
 
-  this.mesh.add(box);
+  // this.mesh.add(box);
 
-//HEART REMOVE LATER
-  var geomBox = new THREE.BoxGeometry(3, 3, 3, 1, 1, 1);
-  var matBox  = new THREE.MeshPhongMaterial(
-                             { color : Colors.red})
 
-  var heart = new THREE.Mesh(geomBox, matBox);
 
-  heart.position.set(x,y,z);
-  this.mesh.add(heart);
+  //TORSO amde of shirt material
+  this.mesh.torso = new THREE.Object3D();
 
-  //TORSO
+  var torsoBox = new THREE.BoxGeometry(7,10,5, 1,1,1);
+  var torsoMat = new THREE.MeshPhongMaterial(
+                             { color : Colors.green});
 
-  var legObj = new THREE.Object3D();
+  var shirt = new THREE.Mesh(torsoBox, torsoMat);
+  this.mesh.torso.add(shirt);
 
-  var legBox = new THREE.BoxGeometry(3, 2, 3, 1, 1,1);
+  this.mesh.torso.position.y = y-1.75;
+
+
+  //legs adde to base of torso
+  var legBox = new THREE.BoxGeometry(3, 3, 3, 1, 1,1);
   var legMat = new THREE.MeshPhongMaterial(
                              { color : Colors.black});
 
-  legObj.mesh = new THREE.Mesh(legBox, legMat);
-
-  legObj.mesh.name = "leg";
-  legObj.mesh.position.set(x-4,y-9,z);
-  this.mesh.add(legObj.mesh);
-
-  var leg2 = legObj.mesh.clone();
-  leg2.position.x += 8;
-  this.mesh.add(leg2);
+  this.mesh.torso.leg = new THREE.Mesh(legBox, legMat);
+  this.mesh.torso.add(this.mesh.torso.leg);
+  this.mesh.torso.leg.position.set(x-3.5,y-6.5,z)
 
 
-  var footBox = new THREE.BoxGeometry(3, 0.5, 3, 1, 1,1);
-  var footMat = new THREE.MeshPhongMaterial(
-                             { color : Colors.red});
+  this.mesh.torso.leftleg = this.mesh.torso.leg.clone();
+  this.mesh.torso.add(this.mesh.torso.leftleg);
+  this.mesh.torso.leftleg.position.set(x+3.5,y-6.5,z)
 
-  var foot = new THREE.Mesh(footBox, footMat);
 
-  legObj.add(foot);
+
+  this.mesh.add(this.mesh.torso);
 
 
   this.mesh.position.set(x,y,z);

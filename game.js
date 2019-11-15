@@ -217,6 +217,7 @@ function doUpdates(){
     }
 
     player1.update();
+    player1.animate();
 }
 
 
@@ -267,10 +268,14 @@ function handleTapDown(event){
     if(mouse.x < -0.3 && mouse.y < -0.2){
       //moving left
       player1.movingL = true;
+      player1.facingL = true;
+      player1.facingR = false;
       player1.xVel = -player1.walkSpeed;
     }
     if(mouse.x > 0.3 && mouse.y < -0.2){
         player1.movingR = true;
+        player1.facingR = true;
+        player1.facingL = false;
         player1.xVel = player1.walkSpeed;
     }
     if(mouse.y > 0.2){
@@ -366,11 +371,15 @@ function handleKeyDown(keyEvent){
    if(keyEvent.key == "a"){
      //moving left
      player1.movingL = true;
+     player1.facingL = true;
+     player1.facingR = false;
      player1.xVel = -player1.walkSpeed;
    }
    if(keyEvent.key == "d"){
      //moving right
      player1.movingR = true;
+     player1.facingR = true;
+     player1.facingL = false;
      player1.xVel = player1.walkSpeed;
    }
    if(keyEvent.key == "w"){

@@ -9,6 +9,8 @@ var basicCharacter = {
     movingR: false,
     movingL: false,
     jumping: false,
+    facingR: false,
+    facingL: false,
     model: createBasicCharacterMesh(0, 0, 0),
     hitBox: createBasicCharacterBounding(0, 0, 0),
     hitBoxEnabled: false,
@@ -77,7 +79,7 @@ var basicCharacter = {
 
         //dampen left and right movement on floor
         if(!this.movingR && !this.movingL && this.onGround){
-          this.xVel = this.xVel*0.8;
+          this.xVel = this.xVel*0.7;
         }
         if(!this.movingR && !this.movingL && !this.onGround){
           this.xVel = this.xVel*0.98;
@@ -119,6 +121,15 @@ var basicCharacter = {
         this.hitBox.position.set(this.x, this.y, 0);
 
 
+
+    },
+    animate: function(){
+      if(this.facingR){
+        this.model.rotation.y = 0.5;
+      }
+      if(this.facingL){
+        this.model.rotation.y = -0.5;
+      }
 
     }
 }
