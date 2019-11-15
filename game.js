@@ -118,6 +118,7 @@ function createBox(x, y, z) {
   blockMeshes.push(basicBoxMesh);
 
   basicHitBoxMesh = basicBox.hitBox.clone();
+
   basicHitBoxMesh.position.set(x, y, z);
 
   hitBoxes.push(basicHitBoxMesh);
@@ -145,9 +146,8 @@ function createPlayer1(x, y, z){
   player1 = basicCharacter;
   player1Mesh = player1.model;
   // player1Mesh.position.set(x, y, z);
-
   player1HitBoxMesh = player1.hitBox;
-  // player1HitBoxMesh.position.set(x, y, z)
+  player1HitBoxMesh.position.set(x, y, z)
   hitBoxes.push(player1HitBoxMesh);
 
   scene.add(player1Mesh);

@@ -13,12 +13,12 @@ function lookDirection(direction){
   positionBelow.z = player1.z-(1000*direction[2]);
 
   var pVec = new THREE.Vector3();
-  pVec.x = 0;
-  pVec.y = 10;
-  pVec.z = 10;
+  pVec.x = player1.x;
+  pVec.y = player1.y-7.5;
+  pVec.z = player1.z;
   // console.log(pVec);
   //casts a ray from player to point below
-  raycaster.set(player1, positionBelow.normalize());
+  raycaster.set(pVec, positionBelow.normalize());
   // calculate objects intersecting the picking ray
   var intersects = raycaster.intersectObjects(blockMeshes);
   // console.log(direction);

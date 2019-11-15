@@ -1,7 +1,9 @@
 var basicCharacter = {
     x: 0,
-    y: 10,
+    y: 15,
     z: 0,
+    height: 20,
+    width: 10,
     xVel: 0,
     yVel: 0,
     movingR: false,
@@ -21,10 +23,13 @@ var basicCharacter = {
     minRight: 10,
     update: function(){
 
+
+        //this.model.children[2].position.x = this.x*2;
+
         // checks and sets the lowsest current point
         if(boxBelow != undefined){
 
-            this.minDown = boxBelow.position.y + 10;
+            this.minDown = boxBelow.position.y + 10 + this.height/4;
         }
         else{
             this.minDown = -100;
