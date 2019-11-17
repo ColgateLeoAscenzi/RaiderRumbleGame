@@ -46,13 +46,13 @@ function lookDirection(direction){
     farAwayPoint.z = 0;
 
     pVec1.x = player1.x-player1.width/2;
-    pVec1.y = player1.y-player1.height/2+0.01;
+    pVec1.y = player1.y-player1.height/2;
     pVec1.z = player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
     intersects1 = raycaster.intersectObjects(blockMeshes);
 
     pVec2.x = player1.x-player1.width/2;
-    pVec2.y = player1.y+player1.height/2-0.01;
+    pVec2.y = player1.y+player1.height/2;
     pVec2.z = player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
     intersects2 = raycaster.intersectObjects(blockMeshes);
@@ -76,13 +76,13 @@ function lookDirection(direction){
 
     //current right below
     pVec1.x = player1.x+player1.width/2;
-    pVec1.y = player1.y-player1.height/2+0.01;
+    pVec1.y = player1.y-player1.height/2;
     pVec1.z = player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
     intersects1 = raycaster.intersectObjects(blockMeshes);
     //current right top
     pVec2.x = player1.x+player1.width/2;
-    pVec2.y = player1.y+player1.height/2-0.01;
+    pVec2.y = player1.y+player1.height/2;
     pVec2.z = player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
     intersects2 = raycaster.intersectObjects(blockMeshes);
@@ -105,13 +105,13 @@ function lookDirection(direction){
     farAwayPoint.y = -1;
     farAwayPoint.z = 0;
 
-    pVec1.x = player1.x-player1.width/2+0.01;
+    pVec1.x = player1.x-player1.width/2;
     pVec1.y = player1.y-player1.height/2;
     pVec1.z = player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
     intersects1 = raycaster.intersectObjects(blockMeshes);
 
-    pVec2.x = player1.x+player1.width/2-0.01;
+    pVec2.x = player1.x+player1.width/2;
     pVec2.y = player1.y-player1.height/2;
     pVec2.z = player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
