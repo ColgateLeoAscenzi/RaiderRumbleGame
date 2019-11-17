@@ -128,7 +128,7 @@ function lookDirection(direction){
     drawRay(pointA, pointB, 0x0000ff);
 
   }
-  //below
+  //above
   else if(arrEqual(direction, [0,-1,0])){
     farAwayPoint.x = 0;
     farAwayPoint.y = 1;

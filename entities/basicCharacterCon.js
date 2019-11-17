@@ -18,14 +18,14 @@ var basicCharacter = {
     hitBoxEnabled: false,
     canJump: true,
     jumpCt: 0,
-    maxJumpCt: 200,
+    maxJumpCt: 2,
     jumpSpeed: 1.8,
     walkSpeed: 1,
     onGround: true,
-    minDown: 0,
-    minLeft: -10,
-    minRight: 10,
-    minUp: 10,
+    minDown: -100,
+    minLeft: -100,
+    minRight: 100,
+    minUp: 100,
     timeTick: 0,
     walkStyle1: true,
     update: function(){
@@ -55,7 +55,7 @@ var basicCharacter = {
         }
 
         if(boxAbove != undefined){
-          this.minUp = boxBelow.position.y - 10/2 - player1.height/2;
+          this.minUp = boxAbove.position.y - 10/2 - player1.height/2;
         }
         else{
           this.minUp = 100000;
@@ -110,14 +110,10 @@ var basicCharacter = {
           this.jumpCt = 0;
           this.onGround = true;
         }
-        if(this.y < -40){
-          // alert("you died");
-          this.y = 10;
-          this.x = 0;
+        if(this.y > this.minUp){
+          this.y = this.minUp;
+          this.yVel = 0;
         }
-        // if(this.y > this.minUp){
-        //   this.y = this.minUp;
-        // }
         if(this.x < this.minLeft){
           this.x = this.minLeft;
         }
@@ -125,7 +121,13 @@ var basicCharacter = {
           this.x = this.minRight;
         }
 
-
+        if(this.y < -40){
+          // alert("you died");
+          this.y = 10;
+          this.x = 0;
+          this.xVel = 0;
+          this.yVel = 0;
+        }
         //updates models position and hitbox
         this.model.position.set(this.x, this.y, 0);
         this.hitBox.position.set(this.x, this.y, 0);
