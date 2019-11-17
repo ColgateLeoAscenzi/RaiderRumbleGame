@@ -178,7 +178,13 @@ function lookDirection(direction){
 
 function determineClosest(arr1, arr2){
   if(arr1.length > 0 && arr2.length > 0){
-
+      if(arr1[0].distance < arr2[0].distance){
+          return arr1;
+      }
+      else{
+          return arr2;
+      }
+      return arr1;
   }
   else if(!(arr1.length > 0) && arr2.length > 0){
     return arr2;
@@ -196,7 +202,6 @@ function determineClosest(arr1, arr2){
   // console.log(arr2);
   // console.log("END");
 
-  return arr1;
 }
 
 function drawRay(pointA, pointB, color){
