@@ -1,5 +1,12 @@
 var raycaster = new THREE.Raycaster();
-var INTERSECTED, INTERSECTEDLEFT, INTERSECTEDRIGHT;
+//bottom looking, left and right
+var intBL, intBR;
+//left looking top and bottom
+var intLT, intLB;
+//right looking top and bottom
+var intRT, intRB;
+
+var oldRays = [];
 
 
 function arrEqual(arr1, arr2){
@@ -16,63 +23,116 @@ function arrEqual(arr1, arr2){
 //right = [-1,0,0];
 //below = [0,1,0];
 function lookDirection(direction){
+
   // var pVec;
   // creates a vector from the player to some point way below
-  var positionBelow = new THREE.Vector3();
-  positionBelow.x = player1.x-(1000*direction[0]);
-  positionBelow.y = player1.y-(1000*direction[1]);
-  positionBelow.z = player1.z-(1000*direction[2]);
+  var farAwayPoint = new THREE.Vector3();
 
-  if(arrEqual(direction, [1,0,0]) || arrEqual(direction, [-1,0,0])){
-    var intersects =[]
-    var pVec = new THREE.Vector3();
-    pVec.x = player1.x-player1.width/2+0.01;
-    pVec.y = player1.y-player1.height/2+0.01;
-    pVec.z = player1.z;
-    raycaster.set(pVec, positionBelow.normalize());
-    // calculate objects intersecting the picking ray
-    intersects = raycaster.intersectObjects(blockMeshes);
+
+  var intersects =[];
+  //will be bottom left then bottom right,
+  //right bottom, right top,
+  //left bottom, left top
+  var pVec1 = new THREE.Vector3();
+  var pVec2 = new THREE.Vector3();
+  var intersects1 = [];
+  var intersects2 = [];
+
+  //left
+  if(arrEqual(direction, [1,0,0])){
+    //far left
+    farAwayPoint.x = -1;
+    farAwayPoint.y = 0;
+    farAwayPoint.z = 0;
+
+    pVec1.x = player1.x-player1.width/2;
+    pVec1.y = player1.y-player1.height/2+0.01;
+    pVec1.z = player1.z;
+    raycaster.set(pVec1, farAwayPoint.normalize());
+    intersects1 = raycaster.intersectObjects(blockMeshes);
+
+    pVec2.x = player1.x-player1.width/2;
+    pVec2.y = player1.y+player1.height/2-0.01;
+    pVec2.z = player1.z;
+    raycaster.set(pVec2, farAwayPoint.normalize());
+    intersects2 = raycaster.intersectObjects(blockMeshes);
+
+    var pointA = pVec1;
+    var pointB = new THREE.Vector3();
+    pointB.addVectors ( pointA, farAwayPoint.normalize().multiplyScalar( 20 ) );
+    drawRay(pointA, pointB, 0xff0000);
+    var pointA = pVec2;
+    var pointB = new THREE.Vector3();
+    pointB.addVectors ( pointA, farAwayPoint.normalize().multiplyScalar( 20 ) );
+    drawRay(pointA, pointB, 0xff0000);
+
   }
+  //right
+  else if(arrEqual(direction, [-1,0,0])){
+    //far right
+    farAwayPoint.x = 1;
+    farAwayPoint.y = 0;
+    farAwayPoint.z = 0;
+
+    //current right below
+    pVec1.x = player1.x+player1.width/2;
+    pVec1.y = player1.y-player1.height/2+0.01;
+    pVec1.z = player1.z;
+    raycaster.set(pVec1, farAwayPoint.normalize());
+    intersects1 = raycaster.intersectObjects(blockMeshes);
+    //current right top
+    pVec2.x = player1.x+player1.width/2;
+    pVec2.y = player1.y+player1.height/2-0.01;
+    pVec2.z = player1.z;
+    raycaster.set(pVec2, farAwayPoint.normalize());
+    intersects2 = raycaster.intersectObjects(blockMeshes);
+
+    //draw right below
+    var pointA = pVec1;
+    var pointB = new THREE.Vector3();
+    pointB.addVectors ( pointA, farAwayPoint.normalize().multiplyScalar( 20 ) );
+    drawRay(pointA, pointB, 0x00ff00);
+    //draw right top
+    var pointA = pVec2;
+    var pointB = new THREE.Vector3();
+    pointB.addVectors ( pointA, farAwayPoint.normalize().multiplyScalar( 20 ) );
+    drawRay(pointA, pointB, 0x00ff00);
+
+  }
+  //below
   else if(arrEqual(direction, [0,1,0])){
-    //cast one from bottom left
-    var intersects =[];
-    var pVecBL = new THREE.Vector3();
-    pVecBL.x = player1.x-player1.width/2+0.01;
-    pVecBL.y = player1.y-player1.height/2+0.01;
-    pVecBL.z = player1.z;
-    raycaster.set(pVecBL, positionBelow.normalize());
-    var intersectsBL = raycaster.intersectObjects(blockMeshes);
+    farAwayPoint.x = 0;
+    farAwayPoint.y = -1;
+    farAwayPoint.z = 0;
 
-    //set from bottom right
-    var pVecBR = new THREE.Vector3();
-    pVecBR.x = player1.x+player1.width/2-0.01;
-    pVecBR.y = player1.y-player1.height/2+0.01;
-    pVecBR.z = player1.z;
-    raycaster.set(pVecBR, positionBelow.normalize());
-    var intersectsBR = raycaster.intersectObjects(blockMeshes);
+    pVec1.x = player1.x-player1.width/2+0.01;
+    pVec1.y = player1.y-player1.height/2;
+    pVec1.z = player1.z;
+    raycaster.set(pVec1, farAwayPoint.normalize());
+    intersects1 = raycaster.intersectObjects(blockMeshes);
 
-    // if(intersectsBL[0] > intersectsBR[0]){
-    //   intersects.push(intersectsBL[0]);
-    // }
-    // else{
-    //   intersects.push(intersectsBR[0]);
-    // }
-    // console.log(intersectsBL[0],intersectsBR[0]);
-    intersects.push(intersectsBL[0]);
+    pVec2.x = player1.x+player1.width/2-0.01;
+    pVec2.y = player1.y-player1.height/2;
+    pVec2.z = player1.z;
+    raycaster.set(pVec2, farAwayPoint.normalize());
+    intersects2 = raycaster.intersectObjects(blockMeshes);
+
+    var pointA = pVec1;
+    var pointB = new THREE.Vector3();
+    pointB.addVectors ( pointA, farAwayPoint.normalize().multiplyScalar( 20 ) );
+    drawRay(pointA, pointB, 0x0000ff);
+
+    var pointA = pVec2;
+    var pointB = new THREE.Vector3();
+    pointB.addVectors ( pointA, farAwayPoint.normalize().multiplyScalar( 20 ) );
+    drawRay(pointA, pointB, 0x0000ff);
+
   }
 
-  // console.log(pVec);
-  //casts a ray from player to point below
+  intersects = determineClosest(intersects1, intersects2);
 
-  // console.log(direction);
-  // console.log(intersects);
-
-  if ( intersects.length > 0 ) {
-      // if ( INTERSECTED != intersects[ 0 ].object ) {
-      //     if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-      //     INTERSECTED = intersects[ 0 ].object;
-      //     INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-      //     INTERSECTED.material.emissive.setHex( 0xff0000 );
+  if ( intersects != undefined) {
+      if(intersects.length > 0){
           //boxBelow = intersects[0].object;
       if(direction[1] == 1){
         boxBelow = intersects[0].object;
@@ -85,11 +145,22 @@ function lookDirection(direction){
       if(direction[0] == -1){
         boxRight = intersects[0].object;
       }
+    }
+    else{
+      //boxBelow = undefined;
+      if(direction[1] == 1){
+        boxBelow = undefined;
+      }
+      //boxLeft = undefined;
+      if(direction[0] == 1){
+        boxLeft = undefined;
+      }
+      if(direction[0] == -1){
+        boxRight = undefined;
+      }
+    }
 
-      // }
   } else {
-      // if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-      // INTERSECTED = null;
       //boxBelow = undefined;
       if(direction[1] == 1){
         boxBelow = undefined;
@@ -103,8 +174,37 @@ function lookDirection(direction){
       }
   }
 
-  // belowBox = boxes[0];
-  // boxLeft = boxes[1];
-  // boxRight = boxes[2];
+}
 
+function determineClosest(arr1, arr2){
+  if(arr1.length > 0 && arr2.length > 0){
+
+  }
+  else if(!(arr1.length > 0) && arr2.length > 0){
+    return arr2;
+  }
+  else if(!(arr2.length > 0) && arr1.length > 0){
+    return arr1;
+  }
+  else if(!(arr1.length > 0) && !(arr2.length > 0)){
+    return undefined;
+  }
+  // console.log("START")
+  // console.log("ARR1: ");
+  // console.log(arr1);
+  // console.log("ARR2: ");
+  // console.log(arr2);
+  // console.log("END");
+
+  return arr1;
+}
+
+function drawRay(pointA, pointB, color){
+  var geometry = new THREE.Geometry();
+  geometry.vertices.push( pointA );
+  geometry.vertices.push( pointB );
+  var material = new THREE.LineBasicMaterial( { color : color } );
+  var intLT = new THREE.Line(geometry, material);
+  scene.add(intLT);
+  setTimeout(function(){scene.remove(intLT)}, 25);
 }

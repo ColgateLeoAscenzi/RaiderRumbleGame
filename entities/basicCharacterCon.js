@@ -18,7 +18,7 @@ var basicCharacter = {
     hitBoxEnabled: false,
     canJump: true,
     jumpCt: 0,
-    maxJumpCt: 2,
+    maxJumpCt: 200,
     jumpSpeed: 1.8,
     walkSpeed: 1,
     onGround: true,
