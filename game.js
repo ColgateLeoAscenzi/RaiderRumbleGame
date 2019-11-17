@@ -17,6 +17,7 @@ var hitBoxesOn = false;
 var trackPlayer = false;
 var confettiOn = false;
 var mobileMode = false;
+var drawRays = false;
 
 //TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
@@ -335,6 +336,7 @@ function handleKeyUp(keyEvent){
 function handleKeyDown(keyEvent){
 
    if(keyEvent.key == "h"){
+       drawRays = !drawRays;
        if(!hitBoxesOn){
            hitBoxesOn = true;
            console.log("hitboxes on");

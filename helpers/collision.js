@@ -205,11 +205,13 @@ function determineClosest(arr1, arr2){
 }
 
 function drawRay(pointA, pointB, color){
-  var geometry = new THREE.Geometry();
-  geometry.vertices.push( pointA );
-  geometry.vertices.push( pointB );
-  var material = new THREE.LineBasicMaterial( { color : color } );
-  var intLT = new THREE.Line(geometry, material);
-  scene.add(intLT);
-  setTimeout(function(){scene.remove(intLT)}, 25);
+  if(drawRays){
+      var geometry = new THREE.Geometry();
+      geometry.vertices.push( pointA );
+      geometry.vertices.push( pointB );
+      var material = new THREE.LineBasicMaterial( { color : color } );
+      var intLT = new THREE.Line(geometry, material);
+      scene.add(intLT);
+      setTimeout(function(){scene.remove(intLT)}, 25);
+  }
 }
