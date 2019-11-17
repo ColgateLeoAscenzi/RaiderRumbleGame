@@ -45,13 +45,13 @@ function lookDirection(direction){
     farAwayPoint.y = 0;
     farAwayPoint.z = 0;
 
-    pVec1.x = player1.x-player1.width/2;
+    pVec1.x = player1.x-player1.width/2+1;
     pVec1.y = player1.y-player1.height/2;
     pVec1.z = player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
     intersects1 = raycaster.intersectObjects(blockMeshes);
 
-    pVec2.x = player1.x-player1.width/2;
+    pVec2.x = player1.x-player1.width/2+1;
     pVec2.y = player1.y+player1.height/2;
     pVec2.z = player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
@@ -75,13 +75,13 @@ function lookDirection(direction){
     farAwayPoint.z = 0;
 
     //current right below
-    pVec1.x = player1.x+player1.width/2;
+    pVec1.x = player1.x+player1.width/2-1;
     pVec1.y = player1.y-player1.height/2;
     pVec1.z = player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
     intersects1 = raycaster.intersectObjects(blockMeshes);
     //current right top
-    pVec2.x = player1.x+player1.width/2;
+    pVec2.x = player1.x+player1.width/2-1;
     pVec2.y = player1.y+player1.height/2;
     pVec2.z = player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
@@ -106,13 +106,13 @@ function lookDirection(direction){
     farAwayPoint.z = 0;
 
     pVec1.x = player1.x-player1.width/2;
-    pVec1.y = player1.y-player1.height/2;
+    pVec1.y = player1.y-player1.height/2+1;
     pVec1.z = player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
     intersects1 = raycaster.intersectObjects(blockMeshes);
 
     pVec2.x = player1.x+player1.width/2;
-    pVec2.y = player1.y-player1.height/2;
+    pVec2.y = player1.y-player1.height/2+1;
     pVec2.z = player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
     intersects2 = raycaster.intersectObjects(blockMeshes);
@@ -205,7 +205,7 @@ function determineClosest(arr1, arr2){
 }
 
 function drawRay(pointA, pointB, color){
-  if(drawRays){
+  //if(drawRays){
       var geometry = new THREE.Geometry();
       geometry.vertices.push( pointA );
       geometry.vertices.push( pointB );
@@ -213,5 +213,5 @@ function drawRay(pointA, pointB, color){
       var intLT = new THREE.Line(geometry, material);
       scene.add(intLT);
       setTimeout(function(){scene.remove(intLT)}, 25);
-  }
+ // }
 }
