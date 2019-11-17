@@ -6,10 +6,10 @@ var basicBox = {
     hitBoxEnabled: false,
     update: function(){
         if(this.hitBoxEnabled){
-            scene.add(this.hitBox);
+            stage.scene.add(this.hitBox);
         }
         else{
-            scene.remove(this.hitBox);
+            stage.scene.remove(this.hitBox);
         }
 
     }

@@ -34,28 +34,28 @@ var basicCharacter = {
 
         // checks and sets the lowsest current point
         if(boxBelow != undefined){
-            this.minDown = boxBelow.position.y + 10/2 + player1.height/2;
+            this.minDown = boxBelow.position.y + 10/2 + stage.player1.height/2;
         }
         else{
             this.minDown = -1000;
         }
 
         if(boxLeft != undefined){
-            this.minLeft = boxLeft.position.x + 10/2 + player1.width/2;
+            this.minLeft = boxLeft.position.x + 10/2 + stage.player1.width/2;
         }
         else{
             this.minLeft = -1000;
         }
 
         if(boxRight != undefined){
-            this.minRight = boxRight.position.x-10/2 - player1.width/2;
+            this.minRight = boxRight.position.x-10/2 - stage.player1.width/2;
         }
         else{
             this.minRight = 1000;
         }
 
         if(boxAbove != undefined){
-          this.minUp = boxAbove.position.y - 10/2 - player1.height/2;
+          this.minUp = boxAbove.position.y - 10/2 - stage.player1.height/2;
         }
         else{
           this.minUp = 100000;
@@ -66,10 +66,10 @@ var basicCharacter = {
             this.hitBox.position.x = this.x;
             this.hitBox.position.y = this.y;
             this.hitBox.position.z = this.z;
-            scene.add(this.hitBox);
+            stage.scene.add(this.hitBox);
         }
         else{
-            scene.remove(this.hitBox);
+            stage.scene.remove(this.hitBox);
         }
 
 

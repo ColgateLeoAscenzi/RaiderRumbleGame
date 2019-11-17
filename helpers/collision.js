@@ -45,17 +45,17 @@ function lookDirection(direction){
     farAwayPoint.y = 0;
     farAwayPoint.z = 0;
 
-    pVec1.x = player1.x-player1.width/3;
-    pVec1.y = player1.y-player1.height/3;
-    pVec1.z = player1.z;
+    pVec1.x = stage.player1.x-(2*stage.player1.width)/5;
+    pVec1.y = stage.player1.y-(2*stage.player1.height)/5;
+    pVec1.z = stage.player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
-    intersects1 = raycaster.intersectObjects(blockMeshes);
+    intersects1 = raycaster.intersectObjects(stage.blockAMeshes);
 
-    pVec2.x = player1.x-player1.width/3;
-    pVec2.y = player1.y+player1.height/3;
-    pVec2.z = player1.z;
+    pVec2.x = stage.player1.x-(2*stage.player1.width)/5;
+    pVec2.y = stage.player1.y+(2*stage.player1.height)/5;
+    pVec2.z = stage.player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
-    intersects2 = raycaster.intersectObjects(blockMeshes);
+    intersects2 = raycaster.intersectObjects(stage.blockAMeshes);
 
     var pointA = pVec1;
     var pointB = new THREE.Vector3();
@@ -75,17 +75,17 @@ function lookDirection(direction){
     farAwayPoint.z = 0;
 
     //current right below
-    pVec1.x = player1.x+player1.width/3;
-    pVec1.y = player1.y-player1.height/3;
-    pVec1.z = player1.z;
+    pVec1.x = stage.player1.x+(2*stage.player1.width)/5;
+    pVec1.y = stage.player1.y-(2*stage.player1.height)/5;
+    pVec1.z = stage.player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
-    intersects1 = raycaster.intersectObjects(blockMeshes);
+    intersects1 = raycaster.intersectObjects(stage.blockAMeshes);
     //current right top
-    pVec2.x = player1.x+player1.width/3;
-    pVec2.y = player1.y+player1.height/3;
-    pVec2.z = player1.z;
+    pVec2.x = stage.player1.x+(2*stage.player1.width)/5;
+    pVec2.y = stage.player1.y+(2*stage.player1.height)/5;
+    pVec2.z = stage.player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
-    intersects2 = raycaster.intersectObjects(blockMeshes);
+    intersects2 = raycaster.intersectObjects(stage.blockAMeshes);
 
     //draw right below
     var pointA = pVec1;
@@ -105,17 +105,17 @@ function lookDirection(direction){
     farAwayPoint.y = -1;
     farAwayPoint.z = 0;
 
-    pVec1.x = player1.x-player1.width/3;
-    pVec1.y = player1.y-player1.height/3;
-    pVec1.z = player1.z;
+    pVec1.x = stage.player1.x-(2*stage.player1.width)/5;
+    pVec1.y = stage.player1.y-(2*stage.player1.height)/5;
+    pVec1.z = stage.player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
-    intersects1 = raycaster.intersectObjects(blockMeshes);
+    intersects1 = raycaster.intersectObjects(stage.blockAMeshes);
 
-    pVec2.x = player1.x+player1.width/3;
-    pVec2.y = player1.y-player1.height/3;
-    pVec2.z = player1.z;
+    pVec2.x = stage.player1.x+(2*stage.player1.width)/5;
+    pVec2.y = stage.player1.y-(2*stage.player1.height)/5;
+    pVec2.z = stage.player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
-    intersects2 = raycaster.intersectObjects(blockMeshes);
+    intersects2 = raycaster.intersectObjects(stage.blockAMeshes);
 
     var pointA = pVec1;
     var pointB = new THREE.Vector3();
@@ -134,17 +134,17 @@ function lookDirection(direction){
     farAwayPoint.y = 1;
     farAwayPoint.z = 0;
 
-    pVec1.x = player1.x-player1.width/3;
-    pVec1.y = player1.y+player1.height/3;
-    pVec1.z = player1.z;
+    pVec1.x = stage.player1.x-(2*stage.player1.width)/5;
+    pVec1.y = stage.player1.y+(2*stage.player1.height)/5;
+    pVec1.z = stage.player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
-    intersects1 = raycaster.intersectObjects(blockMeshes);
+    intersects1 = raycaster.intersectObjects(stage.blockAMeshes);
 
-    pVec2.x = player1.x+player1.width/3;
-    pVec2.y = player1.y+player1.height/3;
-    pVec2.z = player1.z;
+    pVec2.x = stage.player1.x+(2*stage.player1.width)/5;
+    pVec2.y = stage.player1.y+(2*stage.player1.height)/5;
+    pVec2.z = stage.player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
-    intersects2 = raycaster.intersectObjects(blockMeshes);
+    intersects2 = raycaster.intersectObjects(stage.blockAMeshes);
 
     var pointA = pVec1;
     var pointB = new THREE.Vector3();
@@ -234,12 +234,6 @@ function determineClosest(arr1, arr2){
   else if(!(arr1.length > 0) && !(arr2.length > 0)){
     return undefined;
   }
-  // console.log("START")
-  // console.log("ARR1: ");
-  // console.log(arr1);
-  // console.log("ARR2: ");
-  // console.log(arr2);
-  // console.log("END");
   console.log("none of these three cases exist");
   return arr1;
 }
@@ -251,7 +245,7 @@ function drawRay(pointA, pointB, color){
       geometry.vertices.push( pointB );
       var material = new THREE.LineBasicMaterial( { color : color } );
       var intLT = new THREE.Line(geometry, material);
-      scene.add(intLT);
-      setTimeout(function(){scene.remove(intLT)}, 25);
+      stage.scene.add(intLT);
+      setTimeout(function(){stage.scene.remove(intLT)}, 25);
  }
 }

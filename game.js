@@ -9,13 +9,13 @@ var Colors = {
 
 // THREEJS RELATED VARIABLES
 
-var scene,
-    camera, fieldOfView, aspectRatio, nearPlane, farPlane,
+var camera, fieldOfView, aspectRatio, nearPlane, farPlane,
     renderer, container;
+
+var stage;
 
 var hitBoxesOn = false;
 var trackPlayer = false;
-var confettiOn = false;
 var mobileMode = false;
 var drawRays = false;
 
@@ -29,12 +29,10 @@ var HEIGHT, WIDTH
 
 //INIT THREE JS, SCREEN AND MOUSE EVENTS
 
-function createScene() {
+function createCameraRender() {
 
   HEIGHT = window.innerHeight;
   WIDTH = window.innerWidth;
-
-  scene = new THREE.Scene();
 
   aspectRatio = WIDTH / HEIGHT;
   fieldOfView = 60;
@@ -47,23 +45,6 @@ function createScene() {
       farPlane
     );
   //
-  // var hemisphereLight = new THREE.HemisphereLight(Colors.white, Colors.ground, 1);
-  // scene.add(hemisphereLight);
-
-  var ambientLight = new THREE.AmbientLight(Colors.white, 0.1);
-  scene.add(ambientLight);
-
-  var directLight = new THREE.PointLight(Colors.white, 1.2);
-  directLight.position.set(0, 80, 90);
-  scene.add(directLight);
-
-
-  scene.fog = new THREE.Fog(Colors.skyBlue, -100, -950);
-
-  //isometric
-  // camera.position.x = 50;
-  // camera.position.z = 50;
-  // camera.position.y = 50;
   camera.position.x = 0;
   camera.position.z = 80;
   camera.position.y = 40;
@@ -92,117 +73,32 @@ function handleWindowResize() {
 }
 
 
-//creation
-var basicBoxMesh;
-var blocks = [];
-var blockMeshes = [];
-var hitBoxes = [];
-var player1;
 
 var boxBelow;
 var boxAbove;
 var boxLeft;
 var boxRight;
 
-// var boxes = [boxBelow, boxLeft, boxRight, boxAbove];
-
-
-
-function createBox(x, y, z) {
-
-  basicBoxMesh = basicBox.model.clone();
-  basicBoxMesh.material = new THREE.MeshPhongMaterial(
-                             { color : Colors.grey});
-  basicBoxMesh.position.set(x, y, z);
-  // basicBox.x = x;
-  // basicBox.y = y;
-  // basicBox.z = z;
-  scene.add(basicBoxMesh);
-  blocks.push(basicBox);
-  blockMeshes.push(basicBoxMesh);
-
-  basicHitBoxMesh = basicBox.hitBox.clone();
-
-  basicHitBoxMesh.position.set(x, y, z);
-
-  hitBoxes.push(basicHitBoxMesh);
-
-}
-
-
-
-function createSimpleMap(){
-  for(var i = -5; i < 6; i++){
-    if(i == -5 || i == 5){
-      createBox(i*basicBox.width, basicBox.height, 0);
-      createBox(i*basicBox.width, basicBox.height*2, 0);
-    }
-    if(i == 0){
-      createBox(i*basicBox.width, 0, 0);
-      createBox(i*basicBox.width, basicBox.height*3, 0);
-    }
-    else{
-      createBox(i*basicBox.width, 0, 0);
-    }
-  }
-}
-function createPlayer1(x, y, z){
-  player1 = basicCharacter;
-  player1Mesh = player1.model;
-  // player1Mesh.position.set(x, y, z);
-  player1HitBoxMesh = player1.hitBox;
-  player1HitBoxMesh.position.set(x, y, z)
-  hitBoxes.push(player1HitBoxMesh);
-
-  scene.add(player1Mesh);
-}
-
-var confetti = [];
-function createConfetti(){
-    //add confetti
-      var geometry = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
-
-      for ( var i = 0; i < 2000; i ++ ) {
-
-          var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
-
-          object.position.x = Math.random() * 800 - 400;
-          object.position.y = Math.random() * 800 - 400;
-          object.position.z = Math.random() * 800 - 400;
-
-          object.rotation.x = Math.random() * 2 * Math.PI;
-          object.rotation.y = Math.random() * 2 * Math.PI;
-          object.rotation.z = Math.random() * 2 * Math.PI;
-
-          object.scale.x = Math.random() + 0.5;
-          object.scale.y = Math.random() + 0.5;
-          object.scale.z = Math.random() + 0.5;
-
-          scene.add( object );
-          confetti.push(object);
-
-      }
-}
 
 function loop() {
   doUpdates();
-  renderer.render(scene, camera);
+  renderer.render(stage.scene, camera);
   requestAnimationFrame(loop);
   if(trackPlayer){
-    camera.position.set(player1.model.position.x,player1.model.position.y+50,player1.model.position.z+80);
-    if(player1.model.position.x < 0){
-      camera.lookAt(player1.model.position.x*+player1.model.position.x*-0.01,player1.model.position.y,player1.model.position.z);
+    camera.position.set(stage.player1.model.position.x,stage.player1.model.position.y+50,stage.player1.model.position.z+80);
+    if(stage.player1.model.position.x < 0){
+      camera.lookAt(stage.player1.model.position.x*+stage.player1.model.position.x*-0.01,stage.player1.model.position.y,stage.player1.model.position.z);
 
     }
     else{
-      camera.lookAt(player1.model.position.x*+player1.model.position.x*0.01,player1.model.position.y,player1.model.position.z);
+      camera.lookAt(stage.player1.model.position.x*+stage.player1.model.position.x*0.01,stage.player1.model.position.y,stage.player1.model.position.z);
 
     }
 
   }
   else{
     camera.position.set(0, 40, 80);
-    camera.lookAt(blocks[0].model.position.x,blocks[0].model.position.y+25,blocks[0].model.position.z);
+    camera.lookAt(stage.stageBlocks[0].model.position.x,stage.stageBlocks[0].model.position.y+25,stage.stageBlocks[0].model.position.z);
   }
 
   lookDirection([1,0,0]);
@@ -210,19 +106,18 @@ function loop() {
   lookDirection([0,1,0]);
   lookDirection([0,-1,0]);
 
-
 }
 
 
 
 function doUpdates(){
-  // updates all blocks
-    for(var i = 0; i < blocks.length; i++){
-        blocks[i].update();
+  // updates all stage.stageBlocks
+    for(var i = 0; i < stage.stageBlocks.length; i++){
+        stage.stageBlocks[i].update();
     }
 
-    player1.update();
-    player1.animate();
+    stage.player1.update();
+    stage.player1.animate();
 }
 
 
@@ -254,16 +149,21 @@ function initGame() {
       document.ontouchend = handleTapUp;
   }
 
-  createScene();
+  //make a camera and renderer
+  createCameraRender();
+  //selected a stage!!
+  initializeWorld();
 
-  //Build a platform spreading across the x direction
-  createSimpleMap();
-  camera.lookAt(blocks[0].model.position.x,blocks[0].model.position.y+10,blocks[0].model.position.z);
+}
 
-  createPlayer1(0, 10, 0);
+function initializeWorld(){
+    stage = stageA;
+    stage.init();
+    console.log(stage);
 
+    camera.lookAt(stage.stageBlocks[0].model.position.x,stage.stageBlocks[0].model.position.y+10,stage.stageBlocks[0].model.position.z);
 
-  loop();
+    loop();
 }
 
 function handleTapDown(event){
@@ -272,26 +172,26 @@ function handleTapDown(event){
     //player 1 control
     if(mouse.x < -0.3 && mouse.y < -0.2){
       //moving left
-      player1.movingL = true;
-      player1.facingL = true;
-      player1.facingR = false;
-      player1.xVel = -player1.walkSpeed;
+      stage.player1.movingL = true;
+      stage.player1.facingL = true;
+      stage.player1.facingR = false;
+      stage.player1.xVel = -stage.player1.walkSpeed;
     }
     if(mouse.x > 0.3 && mouse.y < -0.2){
-        player1.movingR = true;
-        player1.facingR = true;
-        player1.facingL = false;
-        player1.xVel = player1.walkSpeed;
+        stage.player1.movingR = true;
+        stage.player1.facingR = true;
+        stage.player1.facingL = false;
+        stage.player1.xVel = stage.player1.walkSpeed;
     }
     if(mouse.y > 0.2){
-        if(player1.jumpCt == player1.maxJumpCt){
-            player1.canJump = false;
+        if(stage.player1.jumpCt == stage.player1.maxJumpCt){
+            stage.player1.canJump = false;
           }
-          if(player1.canJump){
-            player1.jumping = true;
-            player1.yVel = player1.jumpSpeed;
-            player1.jumpCt +=1;
-            player1. onGround = false;
+          if(stage.player1.canJump){
+            stage.player1.jumping = true;
+            stage.player1.yVel = stage.player1.jumpSpeed;
+            stage.player1.jumpCt +=1;
+            stage.player1. onGround = false;
           }
     }
 
@@ -303,13 +203,13 @@ function handleTapUp(event){
     mouse.y = - ( event.changedTouches[0].clientY / window.innerHeight ) * 2 + 1;
     //player 1 control
     if(mouse.x < -0.3 && mouse.y < -0.2){
-        player1.movingL = false;
+        stage.player1.movingL = false;
     }
     if(mouse.x > 0.3 && mouse.y < -0.2){
-        player1.movingR = false;
+        stage.player1.movingR = false;
     }
     if(mouse.y > 0.2){
-        player1.jumping = false;
+        stage.player1.jumping = false;
     }
 
 
@@ -322,15 +222,15 @@ function handleKeyUp(keyEvent){
     // }
     if(keyEvent.key == "a"){
       //moving left
-      player1.movingL = false;
+      stage.player1.movingL = false;
     }
     if(keyEvent.key == "d"){
       //moving right
-      player1.movingR = false;
+      stage.player1.movingR = false;
     }
     if(keyEvent.key == "w"){
       //jumping
-      player1.jumping = false;
+      stage.player1.jumping = false;
     }
 
 }
@@ -341,12 +241,12 @@ function handleKeyDown(keyEvent){
        if(!hitBoxesOn){
            hitBoxesOn = true;
            console.log("hitboxes on");
-           toggleHitBoxes(hitBoxes, true);
+           toggleHitBoxes(stage.stageHitBoxes, true);
        }
        else{
            hitBoxesOn = false;
            console.log("hitboxes off");
-           toggleHitBoxes(hitBoxes, false);
+           toggleHitBoxes(stage.stageHitBoxes, false);
        }
    }
 
@@ -359,76 +259,63 @@ function handleKeyDown(keyEvent){
      }
    }
 
-   if(keyEvent.key == "o"){
-       if(confettiOn){
-           confettiOn = false;
-           for(var i = 0; i < confetti.length; i++){
-               scene.remove(confetti[i]);
-           }
-       }
-       else{
-           createConfetti();
-           confettiOn = true;
-       }
-   }
 
 
    //player 1 control
    if(keyEvent.key == "a"){
      //moving left
-     player1.movingL = true;
-     player1.facingL = true;
-     player1.facingR = false;
-     player1.xVel = -player1.walkSpeed;
+     stage.player1.movingL = true;
+     stage.player1.facingL = true;
+     stage.player1.facingR = false;
+     stage.player1.xVel = -stage.player1.walkSpeed;
    }
    if(keyEvent.key == "d"){
      //moving right
-     player1.movingR = true;
-     player1.facingR = true;
-     player1.facingL = false;
-     player1.xVel = player1.walkSpeed;
+     stage.player1.movingR = true;
+     stage.player1.facingR = true;
+     stage.player1.facingL = false;
+     stage.player1.xVel = stage.player1.walkSpeed;
    }
    if(keyEvent.key == "w"){
      //jumping
-     if(player1.jumpCt == player1.maxJumpCt){
-       player1.canJump = false;
+     if(stage.player1.jumpCt == stage.player1.maxJumpCt){
+       stage.player1.canJump = false;
      }
-     if(player1.canJump){
-       player1.jumping = true;
-       player1.yVel = player1.jumpSpeed;
-       player1.jumpCt +=1;
-       player1. onGround = false;
+     if(stage.player1.canJump){
+       stage.player1.jumping = true;
+       stage.player1.yVel = stage.player1.jumpSpeed;
+       stage.player1.jumpCt +=1;
+       stage.player1. onGround = false;
      }
    }
 
    if(keyEvent.key == "1"){
-     player1.walkStyle1 = true;
-     player1.walkStyle2 = false;
-     player1.walkStyle3 = false;
+     stage.player1.walkStyle1 = true;
+     stage.player1.walkStyle2 = false;
+     stage.player1.walkStyle3 = false;
    }
    if(keyEvent.key == "2"){
-     player1.walkStyle1 = false;
-     player1.walkStyle2 = true;
-     player1.walkStyle3 = false;
+     stage.player1.walkStyle1 = false;
+     stage.player1.walkStyle2 = true;
+     stage.player1.walkStyle3 = false;
    }
    if(keyEvent.key == "3"){
-     player1.walkStyle1 = false;
-     player1.walkStyle2 = false;
-     player1.walkStyle3 = true;
+     stage.player1.walkStyle1 = false;
+     stage.player1.walkStyle2 = false;
+     stage.player1.walkStyle3 = true;
    }
 
 }
 
 function toggleHitBoxes(objArr, enable){
-    console.log(objArr);
     if(enable){
         for(var i = 0; i < objArr.length; i++){
-            scene.add(objArr[i]);
+            stage.scene.add(objArr[i]);
         }
     }
     else{
         for(var i = 0; i < objArr.length; i++){
-            scene.remove(objArr[i]);
+            stage.scene.remove(objArr[i]);
         }
     }
 
