@@ -208,6 +208,7 @@ function loop() {
   lookDirection([1,0,0]);
   lookDirection([-1,0,0]);
   lookDirection([0,1,0]);
+  lookDirection([0,-1,0]);
 
 
 }

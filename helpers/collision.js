@@ -45,14 +45,14 @@ function lookDirection(direction){
     farAwayPoint.y = 0;
     farAwayPoint.z = 0;
 
-    pVec1.x = player1.x-player1.width/2;
-    pVec1.y = player1.y-player1.height/2;
+    pVec1.x = player1.x-player1.width/3;
+    pVec1.y = player1.y-player1.height/3;
     pVec1.z = player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
     intersects1 = raycaster.intersectObjects(blockMeshes);
 
-    pVec2.x = player1.x-player1.width/2;
-    pVec2.y = player1.y+player1.height/2;
+    pVec2.x = player1.x-player1.width/3;
+    pVec2.y = player1.y+player1.height/3;
     pVec2.z = player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
     intersects2 = raycaster.intersectObjects(blockMeshes);
@@ -75,14 +75,14 @@ function lookDirection(direction){
     farAwayPoint.z = 0;
 
     //current right below
-    pVec1.x = player1.x+player1.width/2;
-    pVec1.y = player1.y-player1.height/2;
+    pVec1.x = player1.x+player1.width/3;
+    pVec1.y = player1.y-player1.height/3;
     pVec1.z = player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
     intersects1 = raycaster.intersectObjects(blockMeshes);
     //current right top
-    pVec2.x = player1.x+player1.width/2;
-    pVec2.y = player1.y+player1.height/2;
+    pVec2.x = player1.x+player1.width/3;
+    pVec2.y = player1.y+player1.height/3;
     pVec2.z = player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
     intersects2 = raycaster.intersectObjects(blockMeshes);
@@ -105,14 +105,14 @@ function lookDirection(direction){
     farAwayPoint.y = -1;
     farAwayPoint.z = 0;
 
-    pVec1.x = player1.x-player1.width/2;
-    pVec1.y = player1.y-player1.height/2;
+    pVec1.x = player1.x-player1.width/3;
+    pVec1.y = player1.y-player1.height/3;
     pVec1.z = player1.z;
     raycaster.set(pVec1, farAwayPoint.normalize());
     intersects1 = raycaster.intersectObjects(blockMeshes);
 
-    pVec2.x = player1.x+player1.width/2;
-    pVec2.y = player1.y-player1.height/2;
+    pVec2.x = player1.x+player1.width/3;
+    pVec2.y = player1.y-player1.height/3;
     pVec2.z = player1.z;
     raycaster.set(pVec2, farAwayPoint.normalize());
     intersects2 = raycaster.intersectObjects(blockMeshes);
@@ -126,6 +126,35 @@ function lookDirection(direction){
     var pointB = new THREE.Vector3();
     pointB.addVectors ( pointA, farAwayPoint.normalize().multiplyScalar( 20 ) );
     drawRay(pointA, pointB, 0x0000ff);
+
+  }
+  //below
+  else if(arrEqual(direction, [0,-1,0])){
+    farAwayPoint.x = 0;
+    farAwayPoint.y = 1;
+    farAwayPoint.z = 0;
+
+    pVec1.x = player1.x-player1.width/3;
+    pVec1.y = player1.y+player1.height/3;
+    pVec1.z = player1.z;
+    raycaster.set(pVec1, farAwayPoint.normalize());
+    intersects1 = raycaster.intersectObjects(blockMeshes);
+
+    pVec2.x = player1.x+player1.width/3;
+    pVec2.y = player1.y+player1.height/3;
+    pVec2.z = player1.z;
+    raycaster.set(pVec2, farAwayPoint.normalize());
+    intersects2 = raycaster.intersectObjects(blockMeshes);
+
+    var pointA = pVec1;
+    var pointB = new THREE.Vector3();
+    pointB.addVectors ( pointA, farAwayPoint.normalize().multiplyScalar( 20 ) );
+    drawRay(pointA, pointB, 0xff00ff);
+
+    var pointA = pVec2;
+    var pointB = new THREE.Vector3();
+    pointB.addVectors ( pointA, farAwayPoint.normalize().multiplyScalar( 20 ) );
+    drawRay(pointA, pointB, 0xff00ff);
 
   }
 
@@ -145,6 +174,9 @@ function lookDirection(direction){
       if(direction[0] == -1){
         boxRight = intersects[0].object;
       }
+      if(direction[1] == -1){
+        boxAbove = intersects[0].object;
+      }
     }
     else{
       //boxBelow = undefined;
@@ -157,6 +189,9 @@ function lookDirection(direction){
       }
       if(direction[0] == -1){
         boxRight = undefined;
+      }
+      if(direction[1] == -1){
+        boxAbove = undefined;
       }
     }
 
@@ -172,6 +207,9 @@ function lookDirection(direction){
       if(direction[0] == -1){
         boxRight = undefined;
       }
+      if(direction[1] == -1){
+        boxAbove = undefined;
+      }
   }
 
 }
@@ -184,6 +222,7 @@ function determineClosest(arr1, arr2){
       else{
           return arr2;
       }
+      console.log("Both exist but neither is closer");
       return arr1;
   }
   else if(!(arr1.length > 0) && arr2.length > 0){
@@ -201,11 +240,12 @@ function determineClosest(arr1, arr2){
   // console.log("ARR2: ");
   // console.log(arr2);
   // console.log("END");
-
+  console.log("none of these three cases exist");
+  return arr1;
 }
 
 function drawRay(pointA, pointB, color){
-  //if(drawRays){
+  if(drawRays){
       var geometry = new THREE.Geometry();
       geometry.vertices.push( pointA );
       geometry.vertices.push( pointB );
@@ -213,5 +253,5 @@ function drawRay(pointA, pointB, color){
       var intLT = new THREE.Line(geometry, material);
       scene.add(intLT);
       setTimeout(function(){scene.remove(intLT)}, 25);
- // }
+ }
 }

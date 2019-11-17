@@ -2,7 +2,7 @@ var basicCharacter = {
     x: 0,
     //0.1 is a smoothing factor added for the rays
     // y: 10.1,
-    y: 50,
+    y: 10,
     z: 0,
     height: 10,
     width: 10,
@@ -25,6 +25,7 @@ var basicCharacter = {
     minDown: 0,
     minLeft: -10,
     minRight: 10,
+    minUp: 10,
     timeTick: 0,
     walkStyle1: true,
     update: function(){
@@ -33,25 +34,31 @@ var basicCharacter = {
 
         // checks and sets the lowsest current point
         if(boxBelow != undefined){
-
             this.minDown = boxBelow.position.y + 10/2 + player1.height/2;
         }
         else{
-            this.minDown = -100;
+            this.minDown = -1000;
         }
 
         if(boxLeft != undefined){
             this.minLeft = boxLeft.position.x + 10/2 + player1.width/2;
         }
         else{
-            this.minLeft = -100;
+            this.minLeft = -1000;
         }
 
         if(boxRight != undefined){
             this.minRight = boxRight.position.x-10/2 - player1.width/2;
         }
         else{
-            this.minRight = 100;
+            this.minRight = 1000;
+        }
+
+        if(boxAbove != undefined){
+          this.minUp = boxBelow.position.y - 10/2 - player1.height/2;
+        }
+        else{
+          this.minUp = 100000;
         }
 
 
@@ -87,6 +94,9 @@ var basicCharacter = {
         if(!this.movingR && !this.movingL && !this.onGround){
           this.xVel = this.xVel*0.98;
         }
+        if(Math.abs(this.xVel) < 0.0005){
+          this.xVel = 0;
+        }
         // decrease airspeed
         // if(!this.jumping){
         //   // this.yVel = this.yVel*0.9;
@@ -105,18 +115,15 @@ var basicCharacter = {
           this.y = 10;
           this.x = 0;
         }
+        // if(this.y > this.minUp){
+        //   this.y = this.minUp;
+        // }
         if(this.x < this.minLeft){
           this.x = this.minLeft;
         }
         if(this.x > this.minRight){
           this.x = this.minRight;
         }
-        // if(this.x < -50){
-        //   this.x = -50;
-        // }
-        // if(this.x > 50){
-        //   this.x = 50;
-        // }
 
 
         //updates models position and hitbox
