@@ -13,7 +13,8 @@ var stageA = {
     blockB: undefined,
     gravity: -0.75,
     scene: undefined,
-    minimumY: 0,
+    minimumY: -40,
+    maximumY: 100,
     height: 0,
     width: 0,
     airResistance: 0,
@@ -28,8 +29,6 @@ var stageA = {
         this.populateScene();
         createPlayer1(0, 10, 0);
         createPlayer2(0, 10, 0);
-        this.player1.otherPlayer = this.player2;
-        this.player2.otherPlayer = this.player1;
         this.startTimer();
     },
     createScene: function(){
@@ -41,7 +40,7 @@ var stageA = {
         directLight.position.set(0, 80, 90);
         this.scene.add(directLight);
 
-        // this.scene.fog = new THREE.Fog(Colors.skyBlue, 140, -10);
+        this.scene.fog = new THREE.Fog(Colors.skyBlue, -100, -950);
 
     },
     populateScene: function(){
@@ -82,6 +81,19 @@ var stageA = {
                 gameOver = true;
             }
         }
+        
+        for(let i =0; i<players.length; i++){
+            if(stage.players[i].y >= stage.maximumY || stage.players[i].y<= stage.mininmumY){
+              // alert("you died");
+              stage.players[i].y = 10;
+              stage.players[i].x = 0;
+              stage.players[i].xVel = 0;
+              stage.players[i].yVel = 0;
+              stage.players[i].stock -=1;
+              stage.players[i].percentage = 0;
+            }
+        }
+
 
 
         player1Box.innerHTML = "Stock: "+this.player1.stock+"<br>Percent: "+this.player1.percentage;
@@ -129,7 +141,6 @@ var stageA = {
         player2Box.id = "player2Box";
         player2Box.innerHTML = "Stock: "+this.player2.stock+"<br>Percent: "+this.player2.percentage;
         container.appendChild(player2Box);
-
 
     }
 }
