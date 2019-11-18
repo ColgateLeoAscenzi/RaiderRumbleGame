@@ -40,6 +40,7 @@ var pingu = {
     basicAttackModel: createBasicAttackModel(),
     walkStyle1: true,
     canMove: false,
+    otherPlayer: undefined,
     update: function(){
         //this.model.children[2].position.x = this.x*2;
 
@@ -243,23 +244,23 @@ var pingu = {
           if(this.facingL){
               attackBox.position.set(this.x-10, this.y, this.z);
               //HARDED CODED CHANGE THIS
-              if(stage.player1.x < this.x && stage.player1.x > this.x - 20){
-                  if(stage.player1.y > this.y - this.height/2 && stage.player1.y < this.y +this.height/2){
-                      stage.player1.percentage += 5;
-                      stage.player1.xVel = stage.player1.percentage*-0.1;
-                      stage.player1.yVel = stage.player1.percentage*0.1*0.33;
-                      stage.player1.isHit = true;
+              if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
+                  if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
+                      this.otherPlayer.percentage += 5;
+                      this.otherPlayer.xVel = this.otherPlayer.percentage*-0.1;
+                      this.otherPlayer.yVel = this.otherPlayer.percentage*0.1*0.33;
+                      this.otherPlayer.isHit = true;
                   }
               }
           }
           else{
               attackBox.position.set(this.x+10, this.y, this.z);
-              if(stage.player1.x > this.x && stage.player1.x < this.x + 20){
-                  if(stage.player1.y > this.y - this.height/2 && stage.player1.y < this.y +this.height/2){
-                      stage.player1.percentage += 5;
-                      stage.player1.xVel = stage.player1.percentage*0.1;
-                      stage.player1.yVel = stage.player1.percentage*0.1*0.33;
-                      stage.player1.isHit = true;
+              if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
+                  if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
+                      this.otherPlayer.percentage += 5;
+                      this.otherPlayer.xVel = this.otherPlayer.percentage*0.1;
+                      this.otherPlayer.yVel = this.otherPlayer.percentage*0.1*0.33;
+                      this.otherPlayer.isHit = true;
                   }
               }
           }

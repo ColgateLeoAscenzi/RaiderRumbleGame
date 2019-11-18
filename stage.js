@@ -28,6 +28,8 @@ var stageA = {
         this.populateScene();
         createPlayer1(0, 10, 0);
         createPlayer2(0, 10, 0);
+        this.player1.otherPlayer = this.player2;
+        this.player2.otherPlayer = this.player1;
         this.startTimer();
     },
     createScene: function(){
@@ -39,7 +41,7 @@ var stageA = {
         directLight.position.set(0, 80, 90);
         this.scene.add(directLight);
 
-        this.scene.fog = new THREE.Fog(Colors.skyBlue, -100, -950);
+        // this.scene.fog = new THREE.Fog(Colors.skyBlue, 140, -10);
 
     },
     populateScene: function(){
@@ -127,6 +129,7 @@ var stageA = {
         player2Box.id = "player2Box";
         player2Box.innerHTML = "Stock: "+this.player2.stock+"<br>Percent: "+this.player2.percentage;
         container.appendChild(player2Box);
+
 
     }
 }
