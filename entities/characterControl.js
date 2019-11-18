@@ -134,15 +134,6 @@ var basicCharacter = {
           this.x = this.minRight;
         }
 
-        if(this.y < -40){
-          // alert("you died");
-          this.y = 10;
-          this.x = -10;
-          this.xVel = 0;
-          this.yVel = 0;
-          this.stock -=1;
-          this.percentage = 0;
-        }
         //updates models position and hitbox
         if(this.stock == 0){
           this.model.position.set(1000,1000,0);
