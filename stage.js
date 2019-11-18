@@ -14,7 +14,7 @@ var stageA = {
     gravity: -0.75,
     scene: undefined,
     minimumY: -40,
-    maximumY: 100,
+    maximumY: 180,
     height: 0,
     width: 0,
     airResistance: 0,
