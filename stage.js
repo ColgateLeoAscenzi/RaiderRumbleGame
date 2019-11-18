@@ -35,14 +35,10 @@ var stageA = {
     },
     createScene: function(){
         this.scene = new THREE.Scene();
-        var ambientLight = new THREE.AmbientLight(Colors.white, 0.1);
-        this.scene.add(ambientLight);
 
-        var directLight = new THREE.PointLight(Colors.white, 1.2);
-        directLight.position.set(0, 80, 90);
-        this.scene.add(directLight);
-        //
-        // this.scene.fog = new THREE.Fog(Colors.skyBlue, -100, -950);
+        sunsetLights(this.scene);
+        //noonLights(this.scene);
+
 
     },
     populateScene: function(){
@@ -151,7 +147,7 @@ var stageA = {
 function createBoxA(x, y, z) {
 
     stageA.basicBoxAMesh = basicBox.model.clone();
-    stageA.basicBoxAMesh.material = new THREE.MeshPhongMaterial({ color : Colors.grey});
+    stageA.basicBoxAMesh.material = new THREE.MeshPhongMaterial({ color : Colors.white});
     stageA.basicBoxAMesh.position.set(x, y, z);
     stageA.scene.add(stageA.basicBoxAMesh);
     stageA.stageBlocks.push(stageA.blockA);
