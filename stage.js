@@ -85,8 +85,7 @@ var stageA = {
         }
 
         for(let i =0; i<stage.players.length; i++){
-            if(stage.players[i].y >= stage.maximumY || stage.players[i].y<= stage.mininmumY){
-              // alert("you died");
+            if(stage.players[i].y >= stage.maximumY || stage.players[i].y<= stage.minimumY){
               stage.players[i].y = 10;
               stage.players[i].x = 0;
               stage.players[i].xVel = 0;
