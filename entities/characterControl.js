@@ -32,6 +32,8 @@ var basicCharacter = {
     boxRight:undefined,
     timeTick: 0,
     walkStyle1: true,
+    walkStyle2: false,
+    walkStyle3: false,
     update: function(){
         //this.model.children[2].position.x = this.x*2;
 
@@ -204,6 +206,9 @@ var basicCharacter = {
       }
 
 
+    },
+    basicAttack: function(){
+      alert("PUNCHED");
     }
 }
 

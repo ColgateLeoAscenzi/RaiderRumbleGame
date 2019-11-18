@@ -17,6 +17,7 @@ function handleKeyUp(keyEvent){
     }
 
 
+
     //player2
     if(keyEvent.key == "ArrowLeft"){
       //moving left
@@ -85,6 +86,10 @@ function handleKeyDown(keyEvent){
        stage.player1.jumpCt +=1;
        stage.player1. onGround = false;
      }
+   }
+
+   if(keyEvent.key == "j"){
+     stage.player1.basicAttack();
    }
 
    if(keyEvent.key == "1"){
