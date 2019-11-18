@@ -268,4 +268,20 @@ function createBasicCharacterBounding(x,y,z){
 
   return this.mesh;
 
-};
+}
+
+function createBasicAttackModel(){
+    this.mesh      = new THREE.Object3D();
+    this.mesh.name = "basicAttackMesh";
+
+        // Create the Cabin
+    var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+    var matBox  = new THREE.MeshPhongMaterial(
+                               { color : Colors.red});
+
+    var box = new THREE.Mesh(geomBox, matBox);
+
+    this.mesh.add(box);
+
+    return this.mesh;
+}

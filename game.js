@@ -46,7 +46,7 @@ function createCameraRender() {
     );
   //
   camera.position.x = 0;
-  camera.position.z = 80;
+  camera.position.z = 100;
   camera.position.y = 40;
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -82,7 +82,7 @@ function loop() {
   renderer.render(stage.scene, camera);
   requestAnimationFrame(loop);
   if(trackPlayer){
-    camera.position.set(stage.player1.model.position.x,stage.player1.model.position.y+50,stage.player1.model.position.z+80);
+    camera.position.set(stage.player1.model.position.x,stage.player1.model.position.y+50,stage.player1.model.position.z+100);
     if(stage.player1.model.position.x < 0){
       camera.lookAt(stage.player1.model.position.x*+stage.player1.model.position.x*-0.01,stage.player1.model.position.y,stage.player1.model.position.z);
 
@@ -94,7 +94,7 @@ function loop() {
 
   }
   else{
-    camera.position.set(0, 40, 80);
+    camera.position.set(0, 40, 100);
     camera.lookAt(stage.stageBlocks[0].model.position.x,stage.stageBlocks[0].model.position.y+25,stage.stageBlocks[0].model.position.z);
   }
 

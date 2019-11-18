@@ -1,5 +1,5 @@
 var basicCharacter = {
-    x: 0,
+    x: -10,
     //0.1 is a smoothing factor added for the rays
     // y: 10.1,
     y: 10,
@@ -30,7 +30,9 @@ var basicCharacter = {
     boxAbove: undefined,
     boxLeft: undefined,
     boxRight:undefined,
-    timeTick: 0,
+    canBasicAttack: true,
+    basicAttackFrames: 25,
+    basicAttackModel: createBasicAttackModel(),
     walkStyle1: true,
     walkStyle2: false,
     walkStyle3: false,
@@ -129,7 +131,7 @@ var basicCharacter = {
         if(this.y < -40){
           // alert("you died");
           this.y = 10;
-          this.x = 0;
+          this.x = -10;
           this.xVel = 0;
           this.yVel = 0;
         }
@@ -171,9 +173,12 @@ var basicCharacter = {
         this.model.torso.rightArm.rotation.x = 0.3*Math.sin(stage.timer*0.5);
         this.model.torso.leftArm.rotation.x = - 0.3*Math.sin(stage.timer*0.5);
         //
-        // //headchanges
-        // this.model.head.rotation.z = 0.08*Math.sin(stage.timer*0.2);
-        // this.model.head.rotation.y = 0.08*Math.sin(stage.timer*0.2);
+
+
+        //to reset animation from attack
+        if(this.canBasicAttack){
+            this.model.rotation.z = 0;
+        }
       }
 
       //default
@@ -188,11 +193,10 @@ var basicCharacter = {
         this.model.torso.rightArm.rotation.x = 0;
         this.model.torso.leftArm.rotation.x = - 0;
 
-        // //head reset
-        // this.model.head.rotation.z = 0;
-        // this.model.head.rotation.y = 0;
-        //body reset
-        this.model.rotation.z = 0;
+        //to reset animation from attack
+        if(this.canBasicAttack){
+            this.model.rotation.z = 0;
+        }
       }
 
       //blinking
@@ -206,9 +210,52 @@ var basicCharacter = {
       }
 
 
+      if(!this.canBasicAttack){
+          this.basicAttackFrames-=1;
+          this.model.rotation.z -= 0.4;
+
+
+          if(this.basicAttackFrames == 0){
+              this.basicAttackFrames = 25;
+              this.canBasicAttack = true;
+          }
+      }
+
     },
     basicAttack: function(){
-      alert("PUNCHED");
+        //keeping track
+        if(this.basicAttackFrames == 0){
+            this.basicAttackFrames = 25;
+            this.canBasicAttack = true;
+        }
+
+        if(this.canBasicAttack){
+            var attackBox = this.basicAttackModel.clone();
+            if(this.facingL){
+                attackBox.position.set(this.x-10, this.y, this.z);
+                if(stage.player2.x < this.x && stage.player2.x > this.x - 20){
+                    if(stage.player2.y > this.y - this.height/2 && stage.player2.y < this.y +this.height/2){
+                        stage.player2.xVel = -10;
+                        stage.player2.yVel = 2;
+                    }
+                }
+            }
+            else{
+                attackBox.position.set(this.x+10, this.y, this.z);
+                if(stage.player2.x > this.x && stage.player2.x < this.x + 20){
+                    if(stage.player2.y > this.y - this.height/2 && stage.player2.y < this.y +this.height/2){
+                        stage.player2.xVel = 10;
+                        stage.player2.yVel = 2;
+                    }
+                }
+            }
+            stage.scene.add(attackBox);
+            setTimeout(function(){stage.scene.remove(attackBox);}, 100);
+
+            this.canBasicAttack = false;
+
+        }
+
     }
 }
 
@@ -218,7 +265,7 @@ var basicCharacter = {
 //character2
 
 var pingu = {
-    x: 0,
+    x: 10,
     //0.1 is a smoothing factor added for the rays
     // y: 10.1,
     y: 10,
@@ -346,7 +393,7 @@ var pingu = {
         if(this.y < -40){
           // alert("you died");
           this.y = 10;
-          this.x = 0;
+          this.x = 10;
           this.xVel = 0;
           this.yVel = 0;
         }
