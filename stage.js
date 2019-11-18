@@ -4,6 +4,9 @@ var stageA = {
     player1Mesh: undefined,
     player1HitBoxMesh: undefined,
     player2: undefined,
+    player2Mesh: undefined,
+    player2HitBoxMesh: undefined,
+    players: [],
     blockA: basicBox,
     basicBoxAMesh: undefined,
     basicHitBoxAMesh: undefined,
@@ -22,6 +25,7 @@ var stageA = {
         this.createScene();
         this.populateScene();
         createPlayer1(0, 10, 0);
+        createPlayer2(0, 10, 0);
     },
     createScene: function(){
         this.scene = new THREE.Scene();
@@ -53,6 +57,10 @@ var stageA = {
     },
     update: function(){
         this.timer+= 1;
+
+        for(var i = 0; i < this.stageBlocks.length; i++){
+            this.stageBlocks[i].update();
+        }
     }
 }
 
@@ -76,6 +84,7 @@ function createBoxA(x, y, z) {
 
 function createPlayer1(x, y, z){
   stageA.player1 = basicCharacter;
+  stageA.players.push(stageA.player1);
   stageA.player1Mesh = stageA.player1.model;
   // player1Mesh.position.set(x, y, z);
   stageA.player1HitBoxMesh = stageA.player1.hitBox;
@@ -83,4 +92,16 @@ function createPlayer1(x, y, z){
   stageA.stageHitBoxes.push(stageA.player1HitBoxMesh);
 
   stageA.scene.add(stageA.player1Mesh);
+}
+
+function createPlayer2(x, y, z){
+  stageA.player2 = pingu;
+  stageA.players.push(stageA.player2);
+  stageA.player2Mesh = stageA.player2.model;
+  // player1Mesh.position.set(x, y, z);
+  stageA.player2HitBoxMesh = stageA.player2.hitBox;
+  stageA.player2HitBoxMesh.position.set(x, y, z)
+  stageA.stageHitBoxes.push(stageA.player2HitBoxMesh);
+
+  stageA.scene.add(stageA.player2Mesh);
 }
