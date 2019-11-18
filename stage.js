@@ -29,6 +29,8 @@ var stageA = {
         this.populateScene();
         createPlayer1(0, 10, 0);
         createPlayer2(0, 10, 0);
+        this.player1.otherPlayer = this.player2;
+        this.player2.otherPlayer = this.player1;
         this.startTimer();
     },
     createScene: function(){
@@ -39,8 +41,8 @@ var stageA = {
         var directLight = new THREE.PointLight(Colors.white, 1.2);
         directLight.position.set(0, 80, 90);
         this.scene.add(directLight);
-
-        this.scene.fog = new THREE.Fog(Colors.skyBlue, -100, -950);
+        //
+        // this.scene.fog = new THREE.Fog(Colors.skyBlue, -100, -950);
 
     },
     populateScene: function(){
@@ -81,7 +83,7 @@ var stageA = {
                 gameOver = true;
             }
         }
-        
+
         for(let i =0; i<stage.players.length; i++){
             if(stage.players[i].y >= stage.maximumY || stage.players[i].y<= stage.mininmumY){
               // alert("you died");
