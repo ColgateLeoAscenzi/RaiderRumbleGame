@@ -142,8 +142,15 @@ var pingu = {
           this.percentage = 0;
         }
         //updates models position and hitbox
-        this.model.position.set(this.x, this.y, 0);
-        this.hitBox.position.set(this.x, this.y, 0);
+        if(this.stock == 0){
+          this.model.position.set(1000,1000,0);
+          this.hitBox.position.set(1000,1000,0);
+        }
+        else{
+          this.model.position.set(this.x, this.y, 0);
+          this.hitBox.position.set(this.x, this.y, 0);
+        }
+
 
 
 
