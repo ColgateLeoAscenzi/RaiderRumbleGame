@@ -1,5 +1,4 @@
 //character2
-
 var pingu = {
     x: 10,
     //0.1 is a smoothing factor added for the rays
@@ -11,6 +10,7 @@ var pingu = {
     xVel: 0,
     yVel: 0,
     stock: 3,
+    weight: 10,
     percentage: 0,
     isHit: false,
     movingR: false,
@@ -99,10 +99,10 @@ var pingu = {
 
 
         //dampen left and right movement on floor
-        if(!this.movingR && !this.movingL && this.onGround && this.canMove){
+        if(!this.movingR && !this.movingL && this.onGround){
           this.xVel = this.xVel*0.7;
         }
-        if(!this.movingR && !this.movingL && !this.onGround && this.canMove){
+        if(!this.movingR && !this.movingL && !this.onGround){
           this.xVel = this.xVel*0.98;
         }
         if(Math.abs(this.xVel) < 0.0005){
@@ -139,12 +139,11 @@ var pingu = {
           this.xVel = 0;
           this.yVel = 0;
           this.stock-=1;
+          this.percentage = 0;
         }
         //updates models position and hitbox
-        if(this.canMove){
-            this.model.position.set(this.x, this.y, 0);
-            this.hitBox.position.set(this.x, this.y, 0);
-        }
+        this.model.position.set(this.x, this.y, 0);
+        this.hitBox.position.set(this.x, this.y, 0);
 
 
 
@@ -152,15 +151,15 @@ var pingu = {
     },
     animate: function(){
       //direction changes
-      if(this.facingR && this.canMove){
+      if(this.facingR){
         this.model.rotation.y = 0.5;
       }
-      if(this.facingL && this.canMove){
+      if(this.facingL){
         this.model.rotation.y = -0.5;
       }
 
       //walking changes
-      if((this.movingR || this.movingL) && this.xVel != 0 && this.canMove){
+      if((this.movingR || this.movingL) && this.xVel != 0){
         //alternates legs up and down between 0.5 and -0.5 from the original place
         if(this.walkStyle1){
           this.model.torso.rightLeg.position.y = -3 + 0.5*Math.sin(stage.timer*0.5);
@@ -232,14 +231,17 @@ var pingu = {
   },
   basicAttack: function(){
 
-      if(this.canBasicAttack && this.canMove){
+      if(this.canBasicAttack){
           var attackBox = this.basicAttackModel.clone();
           if(this.facingL){
               attackBox.position.set(this.x-10, this.y, this.z);
+              //HARDED CODED CHANGE THIS
               if(stage.player1.x < this.x && stage.player1.x > this.x - 20){
                   if(stage.player1.y > this.y - this.height/2 && stage.player1.y < this.y +this.height/2){
-                      stage.player1.xVel = -10;
-                      stage.player1.yVel = 2;
+                      stage.player1.percentage += 5;
+                      stage.player1.xVel = stage.player1.percentage*-0.1;
+                      stage.player1.yVel = stage.player1.percentage*0.1*0.33;
+                      stage.player1.isHit = true;
                   }
               }
           }
@@ -247,8 +249,10 @@ var pingu = {
               attackBox.position.set(this.x+10, this.y, this.z);
               if(stage.player1.x > this.x && stage.player1.x < this.x + 20){
                   if(stage.player1.y > this.y - this.height/2 && stage.player1.y < this.y +this.height/2){
-                      stage.player1.xVel = 10;
-                      stage.player1.yVel = 2;
+                      stage.player1.percentage += 5;
+                      stage.player1.xVel = stage.player1.percentage*0.1;
+                      stage.player1.yVel = stage.player1.percentage*0.1*0.33;
+                      stage.player1.isHit = true;
                   }
               }
           }

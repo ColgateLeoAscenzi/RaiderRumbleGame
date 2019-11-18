@@ -9,6 +9,7 @@ var basicCharacter = {
     xVel: 0,
     yVel: 0,
     stock: 3,
+    weight: 5,
     percentage: 0,
     isHit: false,
     movingR: false,
@@ -139,6 +140,7 @@ var basicCharacter = {
           this.xVel = 0;
           this.yVel = 0;
           this.stock -=1;
+          this.percentage = 0;
         }
         //updates models position and hitbox
         this.model.position.set(this.x, this.y, 0);
@@ -236,8 +238,10 @@ var basicCharacter = {
                 attackBox.position.set(this.x-10, this.y, this.z);
                 if(stage.player2.x < this.x && stage.player2.x > this.x - 20){
                     if(stage.player2.y > this.y - this.height/2 && stage.player2.y < this.y +this.height/2){
-                        stage.player2.xVel = -10;
-                        stage.player2.yVel = 2;
+                        stage.player2.percentage += 5;
+                        stage.player2.xVel = stage.player2.percentage*-0.1;
+                        stage.player2.yVel = stage.player2.percentage*0.1*0.33;
+                        stage.player2.isHit = true;
                     }
                 }
             }
@@ -245,8 +249,10 @@ var basicCharacter = {
                 attackBox.position.set(this.x+10, this.y, this.z);
                 if(stage.player2.x > this.x && stage.player2.x < this.x + 20){
                     if(stage.player2.y > this.y - this.height/2 && stage.player2.y < this.y +this.height/2){
-                        stage.player2.xVel = 10;
-                        stage.player2.yVel = 2;
+                        stage.player2.percentage += 5;
+                        stage.player2.xVel = stage.player2.percentage*0.1;
+                        stage.player2.yVel = stage.player2.percentage*0.1*0.33;
+                        stage.player2.isHit = true;
                     }
                 }
             }

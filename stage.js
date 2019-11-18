@@ -22,7 +22,7 @@ var stageA = {
     blockAMeshes: [],
     timer: 0,
     timerIncrement: 0,
-    maxTime: 60,
+    maxTime: 120,
     init: function(){
         this.createScene();
         this.populateScene();
@@ -44,18 +44,15 @@ var stageA = {
     },
     populateScene: function(){
         //replace the block with blockA
-        for(var i = -5; i < 6; i++){
-            if(i == -5 || i == 5){
+        for(var i = -10; i < 11; i++){
+            if(i == -10 || i == 10){
                 createBoxA(i*this.blockA.width,this.blockA.height, 0);
                 createBoxA(i*this.blockA.width, this.blockA.height*2, 0);
             }
-            if(i == 0){
-                createBoxA(i*this.blockA.width, 0, 0);
-                createBoxA(i*this.blockA.width, this.blockA.height*3, 0);
+            if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
+                createBoxA(i*this.blockA.width, this.blockA.height*4, 0);
             }
-            else{
-                createBoxA(i*this.blockA.width, 0, 0);
-            }
+            createBoxA(i*this.blockA.width, 0, 0);
         }
     },
     update: function(){
@@ -66,9 +63,10 @@ var stageA = {
                 document.getElementById("timerBox").innerHTML = "GO!";
                 this.player1.canMove = true;
                 this.player2.canMove = true;
-                this.maxTime = 60;
+                this.maxTime = 120;
                 this.timer = 0;
                 gameStarted = true;
+                countDown = false;
             }
         }
         if(!gameOver && gameStarted){
@@ -96,9 +94,11 @@ var stageA = {
             this.player2.canMove = false;
             if(this.player1.stock > this.player2.stock){
                 document.getElementById("timerBox").innerHTML = "GAME!<br>Player 1 Wins!";
+                winner = 1;
             }
             else if(this.player2.stock > this.player1.stock){
                 document.getElementById("timerBox").innerHTML = "GAME!<br>Player 2 Wins!";
+                winner = 2;
             }
             else{
                 document.getElementById("timerBox").innerHTML = "GAME!<br>It's a tie!";
