@@ -265,7 +265,6 @@ function createBasicCharacterBounding(x,y,z){
   this.mesh.add(box);
   this.mesh.position.set(x,y,z);
 
-
   return this.mesh;
 
 }

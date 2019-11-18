@@ -18,6 +18,9 @@ var hitBoxesOn = false;
 var trackPlayer = false;
 var mobileMode = false;
 var drawRays = false;
+var gameOver = false;
+var gameStarted = false;
+var countDown = false;
 
 //TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
@@ -110,12 +113,11 @@ function loop() {
 function doUpdates(){
   // updates all stage.stageBlocks
 
+      stage.player1.update();
+      stage.player1.animate();
 
-    stage.player1.update();
-    stage.player1.animate();
-
-    stage.player2.update();
-    stage.player2.animate();
+      stage.player2.update();
+      stage.player2.animate();
 
     stage.update();
 }

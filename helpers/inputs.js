@@ -136,6 +136,9 @@ function handleKeyDown(keyEvent){
       stage.player2.onGround = false;
     }
   }
+  if(keyEvent.key == "1"){
+      stage.player2.basicAttack();
+  }
 
 }
 

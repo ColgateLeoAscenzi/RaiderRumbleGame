@@ -21,11 +21,14 @@ var stageA = {
     stageBlocks:  [],
     blockAMeshes: [],
     timer: 0,
+    timerIncrement: 0,
+    maxTime: 60,
     init: function(){
         this.createScene();
         this.populateScene();
         createPlayer1(0, 10, 0);
         createPlayer2(0, 10, 0);
+        this.startTimer();
     },
     createScene: function(){
         this.scene = new THREE.Scene();
@@ -56,13 +59,78 @@ var stageA = {
         }
     },
     update: function(){
-        this.timer+= 1;
-
-        for(var i = 0; i < this.stageBlocks.length; i++){
-            this.stageBlocks[i].update();
+        if(countDown){
+            document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/75));
+            this.timer+= this.timerIncrement;
+            if((this.maxTime)-Math.floor(this.timer/75) == 0){
+                document.getElementById("timerBox").innerHTML = "GO!";
+                this.player1.canMove = true;
+                this.player2.canMove = true;
+                this.maxTime = 60;
+                this.timer = 0;
+                gameStarted = true;
+            }
         }
+        if(!gameOver && gameStarted){
+            this.timer+= this.timerIncrement;
+            document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/75));
+
+            for(var i = 0; i < this.stageBlocks.length; i++){
+                this.stageBlocks[i].update();
+            }
+            if(this.maxTime - Math.floor(this.timer/75) == 0){
+                gameOver = true;
+            }
+        }
+
+
+        player1Box.innerHTML = "Stock: "+this.player1.stock+"<br>Percent: "+this.player1.percentage;
+        player2Box.innerHTML = "Stock: "+this.player2.stock+"<br>Percent: "+this.player2.percentage;
+
+        if(this.player1.stock == 0 || this.player2.stock == 0){
+            gameOver = true;
+        }
+
+        if(gameOver){
+            this.player1.canMove = false;
+            this.player2.canMove = false;
+            if(this.player1.stock > this.player2.stock){
+                document.getElementById("timerBox").innerHTML = "GAME!<br>Player 1 Wins!";
+            }
+            else if(this.player2.stock > this.player1.stock){
+                document.getElementById("timerBox").innerHTML = "GAME!<br>Player 2 Wins!";
+            }
+            else{
+                document.getElementById("timerBox").innerHTML = "GAME!<br>It's a tie!";
+            }
+        }
+
+
+
+    },
+    startTimer: function(){
+        this.timerIncrement = 1;
+        var container = document.getElementById("container");
+        var timerBox = document.createElement("div");
+        timerBox.id = "timerBox";
+        timerBox.innerHTML = "Time: " +((this.maxTime)- Math.floor(this.timer/75));
+        container.appendChild(timerBox);
+        countDown = true;
+        this.maxTime = 3;
+
+        var player1Box = document.createElement("div");
+        player1Box.id = "player1Box";
+        player1Box.innerHTML = "Stock: "+this.player1.stock+"<br>Percent: "+this.player1.percentage;
+        container.appendChild(player1Box);
+
+        var player2Box = document.createElement("div");
+        player2Box.id = "player2Box";
+        player2Box.innerHTML = "Stock: "+this.player2.stock+"<br>Percent: "+this.player2.percentage;
+        container.appendChild(player2Box);
+
     }
 }
+
 
 
 function createBoxA(x, y, z) {

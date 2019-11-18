@@ -1,5 +1,7 @@
-var basicCharacter = {
-    x: -10,
+//character2
+
+var pingu = {
+    x: 10,
     //0.1 is a smoothing factor added for the rays
     // y: 10.1,
     y: 10,
@@ -16,14 +18,14 @@ var basicCharacter = {
     jumping: false,
     facingR: false,
     facingL: false,
-    model: createBasicCharacterMesh(0, 0, 0),
+    model: createPinguMesh(0, 0, 0),
     hitBox: createBasicCharacterBounding(0, 0, 0),
     hitBoxEnabled: false,
     canJump: true,
     jumpCt: 0,
-    maxJumpCt: 2,
-    jumpSpeed: 1.8,
-    walkSpeed: 1,
+    maxJumpCt: 3,
+    jumpSpeed: 1.6,
+    walkSpeed: 1.2,
     onGround: true,
     minDown: -100,
     minLeft: -100,
@@ -37,8 +39,6 @@ var basicCharacter = {
     basicAttackFrames: 25,
     basicAttackModel: createBasicAttackModel(),
     walkStyle1: true,
-    walkStyle2: false,
-    walkStyle3: false,
     canMove: false,
     update: function(){
         //this.model.children[2].position.x = this.x*2;
@@ -99,10 +99,10 @@ var basicCharacter = {
 
 
         //dampen left and right movement on floor
-        if(!this.movingR && !this.movingL && this.onGround){
+        if(!this.movingR && !this.movingL && this.onGround && this.canMove){
           this.xVel = this.xVel*0.7;
         }
-        if(!this.movingR && !this.movingL && !this.onGround){
+        if(!this.movingR && !this.movingL && !this.onGround && this.canMove){
           this.xVel = this.xVel*0.98;
         }
         if(Math.abs(this.xVel) < 0.0005){
@@ -135,29 +135,32 @@ var basicCharacter = {
         if(this.y < -40){
           // alert("you died");
           this.y = 10;
-          this.x = -10;
+          this.x = 10;
           this.xVel = 0;
           this.yVel = 0;
-          this.stock -=1;
+          this.stock-=1;
         }
         //updates models position and hitbox
-        this.model.position.set(this.x, this.y, 0);
-        this.hitBox.position.set(this.x, this.y, 0);
+        if(this.canMove){
+            this.model.position.set(this.x, this.y, 0);
+            this.hitBox.position.set(this.x, this.y, 0);
+        }
+
 
 
 
     },
     animate: function(){
       //direction changes
-      if(this.facingR){
+      if(this.facingR && this.canMove){
         this.model.rotation.y = 0.5;
       }
-      if(this.facingL){
+      if(this.facingL && this.canMove){
         this.model.rotation.y = -0.5;
       }
 
       //walking changes
-      if((this.movingR || this.movingL) && this.xVel != 0){
+      if((this.movingR || this.movingL) && this.xVel != 0 && this.canMove){
         //alternates legs up and down between 0.5 and -0.5 from the original place
         if(this.walkStyle1){
           this.model.torso.rightLeg.position.y = -3 + 0.5*Math.sin(stage.timer*0.5);
@@ -178,9 +181,6 @@ var basicCharacter = {
         this.model.torso.rightArm.rotation.x = 0.3*Math.sin(stage.timer*0.5);
         this.model.torso.leftArm.rotation.x = - 0.3*Math.sin(stage.timer*0.5);
         //
-
-
-        //to reset animation from attack
         if(this.canBasicAttack){
             this.model.rotation.z = 0;
         }
@@ -198,7 +198,10 @@ var basicCharacter = {
         this.model.torso.rightArm.rotation.x = 0;
         this.model.torso.leftArm.rotation.x = - 0;
 
-        //to reset animation from attack
+        // //head reset
+        // this.model.head.rotation.z = 0;
+        // this.model.head.rotation.y = 0;
+        //body reset
         if(this.canBasicAttack){
             this.model.rotation.z = 0;
         }
@@ -214,7 +217,6 @@ var basicCharacter = {
         this.model.head.leftEye.scale.set(1,1,1);
       }
 
-
       if(!this.canBasicAttack){
           this.basicAttackFrames-=1;
           this.model.rotation.z -= 0.4;
@@ -226,36 +228,36 @@ var basicCharacter = {
           }
       }
 
-    },
-    basicAttack: function(){
-        //keeping track
 
-        if(this.canBasicAttack){
-            var attackBox = this.basicAttackModel.clone();
-            if(this.facingL){
-                attackBox.position.set(this.x-10, this.y, this.z);
-                if(stage.player2.x < this.x && stage.player2.x > this.x - 20){
-                    if(stage.player2.y > this.y - this.height/2 && stage.player2.y < this.y +this.height/2){
-                        stage.player2.xVel = -10;
-                        stage.player2.yVel = 2;
-                    }
-                }
-            }
-            else{
-                attackBox.position.set(this.x+10, this.y, this.z);
-                if(stage.player2.x > this.x && stage.player2.x < this.x + 20){
-                    if(stage.player2.y > this.y - this.height/2 && stage.player2.y < this.y +this.height/2){
-                        stage.player2.xVel = 10;
-                        stage.player2.yVel = 2;
-                    }
-                }
-            }
-            stage.scene.add(attackBox);
-            setTimeout(function(){stage.scene.remove(attackBox);}, 100);
+  },
+  basicAttack: function(){
 
-            this.canBasicAttack = false;
+      if(this.canBasicAttack && this.canMove){
+          var attackBox = this.basicAttackModel.clone();
+          if(this.facingL){
+              attackBox.position.set(this.x-10, this.y, this.z);
+              if(stage.player1.x < this.x && stage.player1.x > this.x - 20){
+                  if(stage.player1.y > this.y - this.height/2 && stage.player1.y < this.y +this.height/2){
+                      stage.player1.xVel = -10;
+                      stage.player1.yVel = 2;
+                  }
+              }
+          }
+          else{
+              attackBox.position.set(this.x+10, this.y, this.z);
+              if(stage.player1.x > this.x && stage.player1.x < this.x + 20){
+                  if(stage.player1.y > this.y - this.height/2 && stage.player1.y < this.y +this.height/2){
+                      stage.player1.xVel = 10;
+                      stage.player1.yVel = 2;
+                  }
+              }
+          }
+          stage.scene.add(attackBox);
+          setTimeout(function(){stage.scene.remove(attackBox);}, 100);
 
-        }
+          this.canBasicAttack = false;
 
-    }
+      }
+
+  }
 }

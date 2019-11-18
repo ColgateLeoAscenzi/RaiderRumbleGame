@@ -2,6 +2,49 @@ body{
   color: #000000;
 }
 
+
+#timerBox{
+    position: absolute;
+    text-align: center;
+    background-color: rgba(20,20,20, 0.2);
+    top: 0px;
+    left: 40%;
+    width: 20%;
+    height: 10%;
+}
+#player1Box{
+    position: absolute;
+    text-align: center;
+    background-color: rgba(20,20,20, 0.2);
+    top: 0px;
+    left: 0%;
+    width: 20%;
+    height: 10%;
+}
+
+#player2Box{
+    position: absolute;
+    text-align: center;
+    background-color: rgba(20,20,20, 0.2);
+    top: 0px;
+    left: 80%;
+    width: 20%;
+    height: 10%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* mobile */
+
 #leftButton{
     position: absolute;
     text-align: center;
