@@ -2,39 +2,34 @@ function handleKeyUp(keyEvent){
     // if(keyEvent.key == "h"){
     //     hitBoxes(blocks, false);
     // }
-    //player1
-    if(stage.player1.canMove){
-      if(keyEvent.key == "a"){
-        //moving left
+    if(keyEvent.key == "a"){
+    //moving left
         stage.player1.movingL = false;
-      }
-      if(keyEvent.key == "d"){
-        //moving right
+    }
+    if(keyEvent.key == "d"){
+    //moving right
         stage.player1.movingR = false;
-      }
-      if(keyEvent.key == "w"){
-        //jumping
+    }
+    if(keyEvent.key == "w"){
+    //jumping
         stage.player1.jumping = false;
-      }
     }
 
 
 
 
     //player2
-    if(stage.player2.canMove){
-      if(keyEvent.key == "ArrowLeft"){
-        //moving left
+    if(keyEvent.key == "ArrowLeft"){
+    //moving left
         stage.player2.movingL = false;
-      }
-      if(keyEvent.key == "ArrowRight"){
-        //moving right
+    }
+    if(keyEvent.key == "ArrowRight"){
+    //moving right
         stage.player2.movingR = false;
-      }
-      if(keyEvent.key == "ArrowUp"){
-        //jumping
+    }
+    if(keyEvent.key == "ArrowUp"){
+    //jumping
         stage.player2.jumping = false;
-      }
     }
 
 
