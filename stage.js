@@ -13,12 +13,12 @@ var stageA = {
     blockB: undefined,
     gravity: -0.75,
     scene: undefined,
-    
+
     minimumY: -40,
     maximumY: 180,
-    minimumX: = -200,
-    maximumX: = 200,
-    
+    minimumX: -200,
+    maximumX: 200,
+
     height: 0,
     width: 0,
     airResistance: 0,
@@ -84,11 +84,11 @@ var stageA = {
             }
         }
         //Player x and y checks
-        
+
         for(let i =0; i<stage.players.length; i++){
             if(stage.players[i].y >= stage.maximumY || stage.players[i].y <= stage.minimumY ||
               stage.players[i].x >= stage.maximumX || stage.players[i].x <= stage.minimumX){
-                
+
               stage.players[i].y = 10;
               stage.players[i].x = 0;
               stage.players[i].xVel = 0;

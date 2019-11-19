@@ -75,6 +75,7 @@ function handleKeyDown(keyEvent){
        stage.player1.movingR = true;
        stage.player1.facingR = true;
        stage.player1.facingL = false;
+       //make walk function with accel
        stage.player1.xVel = stage.player1.walkSpeed;
      }
      if(keyEvent.key == "w"){

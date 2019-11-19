@@ -157,6 +157,7 @@ var basicCharacter = {
         this.model.rotation.y = -0.5;
       }
 
+
       //walking changes
       if((this.movingR || this.movingL) && this.xVel != 0){
         //alternates legs up and down between 0.5 and -0.5 from the original place
