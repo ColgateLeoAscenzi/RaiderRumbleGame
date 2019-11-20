@@ -276,7 +276,7 @@ function createBasicAttackModel(){
         // Create the Cabin
     var geomHBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
     var matHBox  = new THREE.MeshPhongMaterial(
-                               { color : Colors.red});
+                               { color : Colors.red, opacity: 1, transparent: true});
 
     var boxH = new THREE.Mesh(geomHBox, matHBox);
 

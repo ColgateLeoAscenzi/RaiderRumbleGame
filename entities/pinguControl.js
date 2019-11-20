@@ -73,6 +73,12 @@ var pingu = {
         this.y += this.yVel;
 
 
+        //DO ALL MOVEMENT HEREE
+
+        if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
+          this.recover();
+          this.canJump = false;
+        }
 
         //dampen left and right movement on floor
         if(!this.movingR && !this.movingL && this.onGround){
@@ -228,6 +234,11 @@ var pingu = {
   drop: function(){
 
   },
+  recover: function(){
+    this.isRecover = true;
+    this.yVel = 4;
+    this.canRecover = false;
+  },
   basicAttack: function(){
 
       if(this.canBasicAttack){
@@ -235,6 +246,41 @@ var pingu = {
           if(this.facingL){
               attackBox.position.set(this.x-10, this.y, this.z);
               //HARDED CODED CHANGE THIS
+              if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
+                  if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
+                      this.otherPlayer.percentage += 5;
+                      this.otherPlayer.xVel = this.otherPlayer.percentage*-0.1;
+                      this.otherPlayer.yVel = this.otherPlayer.percentage*0.1*0.33;
+                      this.otherPlayer.isHit = true;
+                  }
+              }
+          }
+          else{
+              attackBox.position.set(this.x+10, this.y, this.z);
+              if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
+                  if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
+                      this.otherPlayer.percentage += 5;
+                      this.otherPlayer.xVel = this.otherPlayer.percentage*0.1;
+                      this.otherPlayer.yVel = this.otherPlayer.percentage*0.1*0.33;
+                      this.otherPlayer.isHit = true;
+                  }
+              }
+          }
+          stage.scene.add(attackBox);
+          setTimeout(function(){stage.scene.remove(attackBox);}, 100);
+
+          this.canBasicAttack = false;
+
+      }
+
+  },
+  specialAttack: function(){
+      //keeping track
+
+      if(this.canBasicAttack){
+          var attackBox = this.basicAttackModel.clone();
+          if(this.facingL){
+              attackBox.position.set(this.x-10, this.y, this.z);
               if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
                   if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
                       this.otherPlayer.percentage += 5;
