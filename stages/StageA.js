@@ -8,6 +8,9 @@ var stageA = {
         //THESE VARIABLES NEED TO BE INIT FIRST FOR SOME REASON/
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
         this.blockA = basicBox;
+        this.blockB = dirtBlock;
+        this.blockC = platformBlock;
+
         this.stageBlocks = [];
         this.blockAMeshes = [];
         this.stageHitBoxes = [];
@@ -16,7 +19,8 @@ var stageA = {
         this.timerIncrement = 0,
         this.maxTim = 120,
         this.createScene();
-        this.populateScene();
+        // this.populateScene();
+        this.populateOmega();
         this.player1 = basicCharacter;
         this.player1.init();
         this.player2 = pingu;
@@ -40,14 +44,32 @@ var stageA = {
         //replace the block with blockA
         for(var i = -10; i < 11; i++){
             if(i == -10 || i == 10){
-                createBoxA(i*this.blockA.width,this.blockA.height, 0);
-                createBoxA(i*this.blockA.width, this.blockA.height*2, 0);
+                createBox(i*this.blockA.width,this.blockA.height, 0, stage.blockA);
+                createBox(i*this.blockA.width, this.blockA.height*2, 0, stage.blockA);
             }
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
-                createBoxA(i*this.blockA.width, this.blockA.height*4, 0);
+                createBox(i*this.blockA.width, this.blockA.height*4, 0, stage.blockA);
             }
-            createBoxA(i*this.blockA.width, 0, 0);
+            createBox(i*this.blockA.width, 0, 0, stage.blockA);
         }
+    },
+    populateOmega: function(){
+        //create floor out of block a
+        for(var i = -10; i < 11; i++){
+            createBox(i*this.blockA.width, 0, 0, stage.blockA);
+        }
+        //create underside out of block b
+        for(var j = 1; j< 5; j++ ){
+            for(var i = -10+j; i < 11-j; i++){
+                createBox(i*this.blockA.width, -j*this.blockB.height, 0, stage.blockB);
+            }
+        }
+        for(var i = -10+j; i < 11-j; i++){
+            if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
+                createBox(i*this.blockA.width, this.blockA.height*4, 0, stage.blockC);
+            }
+        }
+        //create platforms out of block C
     },
     update: function(){
         if(countDown){
@@ -142,10 +164,10 @@ var stageA = {
 
 
 
-function createBoxA(x, y, z) {
+function createBox(x, y, z, blockType) {
 
-    stageA.basicBoxAMesh = basicBox.model.clone();
-    stageA.basicBoxAMesh.material = new THREE.MeshPhongMaterial({ color : Colors.white});
+    stageA.basicBoxAMesh = blockType.model.clone();
+    // stageA.basicBoxAMesh.material = new THREE.MeshPhongMaterial({ color : Colors.white});
     stageA.basicBoxAMesh.position.set(x, y, z);
     stageA.scene.add(stageA.basicBoxAMesh);
     stageA.stageBlocks.push(stageA.blockA);
