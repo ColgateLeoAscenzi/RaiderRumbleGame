@@ -116,10 +116,16 @@ var stageA = {
             }
         }
 
-
-
-        player1Box.innerHTML = "Stock: "+this.player1.stock+"<br>Percent: "+this.player1.percentage;
-        player2Box.innerHTML = "Stock: "+this.player2.stock+"<br>Percent: "+this.player2.percentage;
+        var stockString1 = ""
+        for(var i = 0; i < this.player1.stock; i++){
+          stockString1+="<3  "
+        }
+        var stockString2 = ""
+        for(var i = 0; i < this.player2.stock; i++){
+          stockString2+="<3  "
+        }
+        player1Box.innerHTML = this.player1.name+"<br>"+stockString1+"<br>Percent: "+this.player1.percentage;
+        player2Box.innerHTML =  this.player2.name+"<br>"+stockString2+"<br>Percent: "+this.player2.percentage;
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
             gameOver = true;

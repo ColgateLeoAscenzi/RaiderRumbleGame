@@ -11,6 +11,7 @@ var pingu = {
         //spawn location
         this.x = 10;
         this.y = 10;
+        this.name = "Pingu"
 
         this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
         attack2: false}
