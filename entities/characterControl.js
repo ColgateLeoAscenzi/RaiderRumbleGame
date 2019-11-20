@@ -1,15 +1,15 @@
 var basicCharacter = {
     model: createBasicCharacterMesh(0,0,0),
-    hitBox: createBasicCharacterMesh(0,0,0),
+    hitBox: createBasicCharacterBounding(0,0,0),
     basicAttackModel: createBasicAttackModel(),
     init: function(){
         var keys = Object.keys(charProto);
         for(var i = 0; i < keys.length; i++){
             this[keys[i]] = charProto[keys[i]];
         }
+        //spawn location
         this.x = -10;
         this.y = 10;
-
 
     },
     update: function(){

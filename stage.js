@@ -33,6 +33,8 @@ var stageA = {
         this.populateScene();
         this.player1 = basicCharacter;
         this.player1.init();
+        this.player2 = pingu;
+        this.player2.init();
         createPlayer1(0, 10, 0);
         createPlayer2(0, 10, 0);
         this.player1.otherPlayer = this.player2;
@@ -182,7 +184,6 @@ function createPlayer1(x, y, z){
 }
 
 function createPlayer2(x, y, z){
-  stageA.player2 = pingu;
   stageA.players.push(stageA.player2);
   stageA.player2Mesh = stageA.player2.model;
   // player1Mesh.position.set(x, y, z);

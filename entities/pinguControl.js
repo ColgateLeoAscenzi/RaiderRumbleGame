@@ -1,46 +1,18 @@
 //character2
 var pingu = {
-    x: 10,
-    //0.1 is a smoothing factor added for the rays
-    // y: 10.1,
-    y: 10,
-    z: 0,
-    height: 10,
-    width: 10,
-    xVel: 0,
-    yVel: 0,
-    stock: 3,
-    weight: 10,
-    percentage: 0,
-    isHit: false,
-    movingR: false,
-    movingL: false,
-    jumping: false,
-    facingR: false,
-    facingL: false,
-    model: createPinguMesh(0, 0, 0),
-    hitBox: createBasicCharacterBounding(0, 0, 0),
-    hitBoxEnabled: false,
-    canJump: true,
-    jumpCt: 0,
-    maxJumpCt: 3,
-    jumpSpeed: 1.6,
-    walkSpeed: 1.2,
-    onGround: true,
-    minDown: -100,
-    minLeft: -100,
-    minRight: 100,
-    minUp: 100,
-    boxBelow: undefined,
-    boxAbove: undefined,
-    boxLeft: undefined,
-    boxRight:undefined,
-    canBasicAttack: true,
-    basicAttackFrames: 25,
+    model: createPinguMesh(0,0,0),
+    hitBox: createBasicCharacterBounding(0,0,0),
     basicAttackModel: createBasicAttackModel(),
-    walkStyle1: true,
-    canMove: false,
-    otherPlayer: undefined,
+    init: function(){
+        var keys = Object.keys(charProto);
+        for(var i = 0; i < keys.length; i++){
+            this[keys[i]] = charProto[keys[i]];
+        }
+        //spawn location
+        this.x = 10;
+        this.y = 10;
+
+    },
     update: function(){
         //this.model.children[2].position.x = this.x*2;
 
