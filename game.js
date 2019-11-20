@@ -38,6 +38,7 @@ var controls;
 var selectableStages = [];
 
 
+
 //SCREEN & MOUSE VARIABLES
 
 var HEIGHT, WIDTH

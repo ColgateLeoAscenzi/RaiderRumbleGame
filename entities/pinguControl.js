@@ -12,6 +12,9 @@ var pingu = {
         this.x = 10;
         this.y = 10;
 
+        this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
+        attack2: false}
+
     },
     update: function(){
         //this.model.children[2].position.x = this.x*2;
@@ -198,6 +201,31 @@ var pingu = {
           }
       }
 
+
+  },
+  walkRight: function(){
+    this.movingR = true;
+    this.facingR = true;
+    this.facingL = false;
+    this.xVel = this.walkSpeed;
+  },
+  walkLeft: function(){
+    this.movingL = true;
+    this.facingL = true;
+    this.facingR = false;
+    this.xVel = -this.walkSpeed;
+  },
+  jump: function(){
+    if(this.jumpCt == this.maxJumpCt){
+      this.canJump = false;
+    }
+    if(this.canJump){
+      this.jumpCt+=1;
+      this.yVel = this.jumpSpeed;
+      this.onGround = false;
+    }
+  },
+  drop: function(){
 
   },
   basicAttack: function(){

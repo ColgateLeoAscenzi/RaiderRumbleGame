@@ -20,6 +20,7 @@ var charProto = {
     jumpCt: 0,
     maxJumpCt: 2,
     jumpSpeed: 1.8,
+    jumpDur: 18,
     walkSpeed: 1,
     onGround: true,
     minDown: -100,

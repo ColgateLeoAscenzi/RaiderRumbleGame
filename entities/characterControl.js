@@ -10,7 +10,10 @@ var basicCharacter = {
         //spawn location
         this.x = -10;
         this.y = 10;
-        
+
+        this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
+        attack2: false}
+
 
     },
     update: function(){
@@ -82,7 +85,6 @@ var basicCharacter = {
         // if(!this.jumping){
         //   // this.yVel = this.yVel*0.9;
         // }
-
 
         //doesn't let user pass below boxes
         if(this.y < this.minDown){
@@ -174,6 +176,7 @@ var basicCharacter = {
         }
       }
 
+
       //blinking
       if(stage.timer%500 == 0){
         this.model.head.rightEye.scale.set(1,0.2,1);
@@ -195,6 +198,31 @@ var basicCharacter = {
               this.canBasicAttack = true;
           }
       }
+
+    },
+    walkRight: function(){
+      this.movingR = true;
+      this.facingR = true;
+      this.facingL = false;
+      this.xVel = this.walkSpeed;
+    },
+    walkLeft: function(){
+      this.movingL = true;
+      this.facingL = true;
+      this.facingR = false;
+      this.xVel = -this.walkSpeed;
+    },
+    jump: function(){
+      if(this.jumpCt == this.maxJumpCt){
+        this.canJump = false;
+      }
+      if(this.canJump){
+        this.jumpCt+=1;
+        this.yVel = this.jumpSpeed;
+        this.onGround = false;
+      }
+    },
+    drop: function(){
 
     },
     basicAttack: function(){
