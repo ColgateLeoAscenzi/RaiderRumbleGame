@@ -195,7 +195,7 @@ function initGame() {
   createCameraRender();
 
   controls = new THREE.OrbitControls(camera, renderer.domElement );
-  THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
+  THREEx.FullScreen.bindKey({ charCode : 'l'.charCodeAt(0) });
 
   buildStageSelect();
   stageSelectLoop();
