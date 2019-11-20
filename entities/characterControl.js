@@ -88,10 +88,10 @@ var basicCharacter = {
         }
 
         //dampen left and right movement on floor
-        if(!this.movingR && !this.movingL && this.onGround){
+        if(!this.movingR && !this.movingL && this.onGround && !this.isHit){
           this.xVel = this.xVel*0.7;
         }
-        if(!this.movingR && !this.movingL && !this.onGround){
+        if(!this.movingR && !this.movingL && !this.onGround && !this.isHit){
           this.xVel = this.xVel*0.98;
         }
         if(Math.abs(this.xVel) < 0.0005){
@@ -110,6 +110,7 @@ var basicCharacter = {
           this.onGround = true;
           this.canRecover = true;
           this.isRecover = false;
+          this.isHit = false;
         }
         if(this.y > this.minUp){
           this.y = this.minUp;
@@ -224,6 +225,7 @@ var basicCharacter = {
       this.facingL = false;
       this.xVel = this.walkSpeed;
       this.canBeHit = true;
+      this.isHit = false;
     },
     walkLeft: function(){
       this.movingL = true;
@@ -231,6 +233,7 @@ var basicCharacter = {
       this.facingR = false;
       this.xVel = -this.walkSpeed;
       this.canBeHit = true;
+      this.isHit = false;
 
     },
     jump: function(){
@@ -242,6 +245,7 @@ var basicCharacter = {
         this.yVel = this.jumpSpeed;
         this.onGround = false;
         this.canBeHit = true;
+        this.isHit = false;
       }
     },
     drop: function(){
@@ -252,6 +256,7 @@ var basicCharacter = {
       this.yVel = 4;
       this.canRecover = false;
       this.canBeHit = true;
+      this.isHit = false;
     },
     basicAttack: function(){
         if(this.canBasicAttack){
