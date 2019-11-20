@@ -176,7 +176,12 @@ function lookDirection(direction){
           stage.players[i].boxRight = intersects[0].object;
         }
         if(direction[1] == -1){
-          stage.players[i].boxAbove = intersects[0].object;
+            if(intersects[0].object.userData.type != "platform"){
+                stage.players[i].boxAbove = intersects[0].object;
+            }
+            else{
+                stage.players[i].boxAbove = undefined;
+            }
         }
       }
       else{

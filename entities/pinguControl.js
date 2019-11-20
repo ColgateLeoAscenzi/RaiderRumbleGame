@@ -18,28 +18,28 @@ var pingu = {
 
         // checks and sets the lowsest current point
         if(this.boxBelow != undefined){
-            this.minDown = this.boxBelow.position.y + 10/2 + this.height/2;
+            this.minDown = this.boxBelow.position.y + this.boxBelow.userData.height/2 + this.height/2;
         }
         else{
             this.minDown = -1000;
         }
 
         if(this.boxLeft != undefined){
-            this.minLeft = this.boxLeft.position.x + 10/2 + this.width/2;
+            this.minLeft = this.boxLeft.position.x + this.boxLeft.userData.width/2 + this.width/2;
         }
         else{
             this.minLeft = -1000;
         }
 
         if(this.boxRight != undefined){
-            this.minRight = this.boxRight.position.x-10/2 - this.width/2;
+            this.minRight = this.boxRight.position.x-  this.boxRight.userData.width/2 - this.width/2;
         }
         else{
             this.minRight = 1000;
         }
 
         if(this.boxAbove != undefined){
-          this.minUp = this.boxAbove.position.y - 10/2 - this.height/2;
+          this.minUp = this.boxAbove.position.y - this.boxAbove.userData.height/2 - this.height/2;
         }
         else{
           this.minUp = 100000;

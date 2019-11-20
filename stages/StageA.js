@@ -18,6 +18,11 @@ var stageA = {
         this.timer =  0,
         this.timerIncrement = 0,
         this.maxTim = 120,
+
+        this.minimumY = -40,
+        this.maximumY = 180,
+        this.minimumX = -200,
+        this.maximumX = 200,
         this.createScene();
         // this.populateScene();
         this.populateOmega();
