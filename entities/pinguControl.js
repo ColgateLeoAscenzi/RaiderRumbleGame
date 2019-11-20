@@ -307,10 +307,8 @@ var pingu = {
               attackBox.position.set(this.x-10, this.y, this.z);
               if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
                   if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
-                      this.otherPlayer.percentage += 5;
-                      this.otherPlayer.xVel = this.otherPlayer.percentage*-0.1;
-                      this.otherPlayer.yVel = this.otherPlayer.percentage*0.1*0.33;
                       this.otherPlayer.isHit = true;
+                      this.doKnockBack();
                   }
               }
           }
@@ -318,10 +316,8 @@ var pingu = {
               attackBox.position.set(this.x+10, this.y, this.z);
               if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
                   if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
-                      this.otherPlayer.percentage += 5;
-                      this.otherPlayer.xVel = this.otherPlayer.percentage*0.1;
-                      this.otherPlayer.yVel = this.otherPlayer.percentage*0.1*0.33;
                       this.otherPlayer.isHit = true;
+                      this.doKnockBack();
                   }
               }
           }
@@ -329,8 +325,20 @@ var pingu = {
           setTimeout(function(){stage.scene.remove(attackBox);}, 100);
 
           this.canBasicAttack = false;
-
       }
+  },
+  doKnockBack: function(){
+    var knockbackVec = new THREE.Vector2();
+    var tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage, this.otherPlayer.weight,
+     this.basicAttackObj.scaling, this.basicAttackObj.knockback);
+     knockbackVec.x = this.otherPlayer.x - this.x;
+     knockbackVec.y = this.otherPlayer.y - this.y;
+     knockbackVec= knockbackVec.normalize();
 
+    this.otherPlayer.percentage += this.basicAttackObj.damage;
+    this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
+    this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;
+    console.log(tKnockback*0.5*knockbackVec.x, tKnockback*0.5*knockbackVec.y);
+    this.otherPlayer.canBeHit = false;
   }
 }

@@ -261,6 +261,7 @@ var basicCharacter = {
                 if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
                     if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
                         this.otherPlayer.isHit = true;
+                        this.doKnockBack();
                     }
                 }
             }
@@ -269,24 +270,11 @@ var basicCharacter = {
                 if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
                     if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
                       this.otherPlayer.isHit = true;
+                      this.doKnockBack();
                     }
                 }
             }
 
-            if(this.otherPlayer.isHit && this.otherPlayer.canBeHit){
-              var knockbackVec = new THREE.Vector2();
-              var tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage, this.otherPlayer.weight,
-               this.basicAttackObj.scaling, this.basicAttackObj.knockback);
-               knockbackVec.x = this.otherPlayer.x - this.x;
-               knockbackVec.y = this.otherPlayer.y - this.y;
-               knockbackVec= knockbackVec.normalize();
-
-              this.otherPlayer.percentage += this.basicAttackObj.damage;
-              this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
-              this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;
-              console.log(tKnockback*0.5*knockbackVec.x, tKnockback*0.5*knockbackVec.y);
-              this.otherPlayer.canBeHit = false;
-            }
             stage.scene.add(attackBox);
             setTimeout(function(){stage.scene.remove(attackBox);}, 100);
 
@@ -330,5 +318,20 @@ var basicCharacter = {
 
         }
 
+    },
+    doKnockBack: function(){
+      var knockbackVec = new THREE.Vector2();
+      var tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage, this.otherPlayer.weight,
+       this.basicAttackObj.scaling, this.basicAttackObj.knockback);
+       knockbackVec.x = this.otherPlayer.x - this.x;
+       knockbackVec.y = this.otherPlayer.y - this.y;
+       knockbackVec= knockbackVec.normalize();
+
+      this.otherPlayer.percentage += this.basicAttackObj.damage;
+      this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
+      this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;
+      console.log(tKnockback*0.5*knockbackVec.x, tKnockback*0.5*knockbackVec.y);
+      this.otherPlayer.canBeHit = false;
     }
+
 }
