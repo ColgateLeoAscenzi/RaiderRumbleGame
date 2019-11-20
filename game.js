@@ -19,6 +19,9 @@ var HIGHLITED;
 var stageSelected = false;
 var selectedStage;
 
+var mediaElement;
+var playingM = false;
+
 var hitBoxesOn = false;
 var trackPlayer = false;
 var mobileMode = false;
@@ -191,6 +194,7 @@ function initGame() {
   //     document.ontouchend = handleTapUp;
   // }
 
+
   // document.onload = onMouseMove();
   createCameraRender();
 
@@ -269,6 +273,13 @@ function initializeWorld(){
     //just if game starts use this
     document.onkeydown = handleKeyDown;
     document.onkeyup = handleKeyUp;
+
+    var listener = new THREE.AudioListener();
+    var audio = new THREE.Audio( listener );
+
+    //Music load
+    mediaElement = new Audio(stage.bgm);
+    mediaElement.loop = true;
 
     loop();
 }
