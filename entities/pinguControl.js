@@ -74,7 +74,6 @@ var pingu = {
 
 
         //DO ALL MOVEMENT HEREE
-
         if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
           this.recover();
           this.canJump = false;
@@ -102,6 +101,8 @@ var pingu = {
           this.canJump = true;
           this.jumpCt = 0;
           this.onGround = true;
+          this.canRecover = true;
+          this.isRecover = false;
         }
         if(this.y > this.minUp){
           this.y = this.minUp;
