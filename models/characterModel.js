@@ -274,13 +274,13 @@ function createBasicAttackModel(){
     this.mesh.name = "basicAttackMesh";
 
         // Create the Cabin
-    var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
-    var matBox  = new THREE.MeshPhongMaterial(
+    var geomHBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+    var matHBox  = new THREE.MeshPhongMaterial(
                                { color : Colors.red});
 
-    var box = new THREE.Mesh(geomBox, matBox);
+    var boxH = new THREE.Mesh(geomHBox, matHBox);
 
-    this.mesh.add(box);
+    this.mesh.add(boxH);
 
     return this.mesh;
 }

@@ -178,7 +178,7 @@ function initGame() {
 function initializeWorld(){
     stage = stageA;
     stage.init();
-    // console.log(stage);
+    console.log(stage);
 
     camera.lookAt(stage.stageBlocks[0].model.position.x,stage.stageBlocks[0].model.position.y+10,stage.stageBlocks[0].model.position.z);
 

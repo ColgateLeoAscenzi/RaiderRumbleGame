@@ -1,34 +1,20 @@
-
 var stageA = {
-    player1: undefined,
-    player1Mesh: undefined,
-    player1HitBoxMesh: undefined,
-    player2: undefined,
-    player2Mesh: undefined,
-    player2HitBoxMesh: undefined,
-    players: [],
-    blockA: basicBox,
-    basicBoxAMesh: undefined,
-    basicHitBoxAMesh: undefined,
-    blockB: undefined,
-    gravity: -0.75,
-    scene: undefined,
-
-    minimumY: -40,
-    maximumY: 180,
-    minimumX: -200,
-    maximumX: 200,
-
-    height: 0,
-    width: 0,
-    airResistance: 0,
-    stageHitBoxes: [],
-    stageBlocks:  [],
-    blockAMeshes: [],
-    timer: 0,
-    timerIncrement: 0,
-    maxTime: 120,
     init: function(){
+        var keys = Object.keys(stageProto);
+        for(var i = 0; i < keys.length; i++){
+            this[keys[i]] = charProto[keys[i]];
+        }
+
+        //THESE VARIABLES NEED TO BE INIT FIRST FOR SOME REASON/
+        //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
+        this.blockA = basicBox;
+        this.stageBlocks = [];
+        this.blockAMeshes = [];
+        this.stageHitBoxes = [];
+        this.players = [],
+        this.timer =  0,
+        this.timerIncrement = 0,
+        this.maxTim = 120,
         this.createScene();
         this.populateScene();
         this.player1 = basicCharacter;
@@ -40,6 +26,7 @@ var stageA = {
         this.player1.otherPlayer = this.player2;
         this.player2.otherPlayer = this.player1;
         this.startTimer();
+        //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
     },
     createScene: function(){
         this.scene = new THREE.Scene();

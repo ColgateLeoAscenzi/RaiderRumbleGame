@@ -13,8 +13,6 @@ var basicCharacter = {
 
     },
     update: function(){
-        //this.model.children[2].position.x = this.x*2;
-
         // checks and sets the lowsest current point
         if(this.boxBelow != undefined){
             this.minDown = this.boxBelow.position.y + 10/2 + this.height/2;
@@ -22,29 +20,24 @@ var basicCharacter = {
         else{
             this.minDown = -1000;
         }
-
         if(this.boxLeft != undefined){
             this.minLeft = this.boxLeft.position.x + 10/2 + this.width/2;
         }
         else{
             this.minLeft = -1000;
         }
-
         if(this.boxRight != undefined){
             this.minRight = this.boxRight.position.x-10/2 - this.width/2;
         }
         else{
             this.minRight = 1000;
         }
-
         if(this.boxAbove != undefined){
           this.minUp = this.boxAbove.position.y - 10/2 - this.height/2;
         }
         else{
           this.minUp = 100000;
         }
-
-
         if(this.hitBoxEnabled){
             this.hitBox.position.x = this.x;
             this.hitBox.position.y = this.y;
