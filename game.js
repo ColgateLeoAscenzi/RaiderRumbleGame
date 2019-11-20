@@ -213,8 +213,6 @@ function initGame() {
 //continues to display the stage select until stage selected is true, then renders that
 function stageSelectLoop(){
 
-
-
     if(!stageSelected){
       requestAnimationFrame(stageSelectLoop);
     }
