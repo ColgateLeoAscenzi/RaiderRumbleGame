@@ -14,6 +14,11 @@ var camera, fieldOfView, aspectRatio, nearPlane, farPlane,
 
 var stage;
 
+var HIGHLITED;
+
+var stageSelected = false;
+var selectedStage;
+
 var hitBoxesOn = false;
 var trackPlayer = false;
 var mobileMode = false;
@@ -23,9 +28,15 @@ var gameStarted = false;
 var countDown = false;
 var winner = -1;
 
+var mapScene;
+
 //TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
+var controls;
+
+var selectableStages = [];
+
 
 //SCREEN & MOUSE VARIABLES
 
@@ -63,6 +74,7 @@ function createCameraRender() {
 
   window.addEventListener('resize', handleWindowResize, false);
   window.addEventListener('mousemove', onMouseMove, false);
+  window.addEventListener('mousedown', onMouseDown, false);
 
 }
 
@@ -171,27 +183,91 @@ function initGame() {
   //     topButton.id = "topButton";
   //     container.appendChild(topButton);
   // }
-  document.onkeydown = handleKeyDown;
-  document.onkeyup = handleKeyUp;
+
 
   // if(mobileMode){
   //     document.ontouchstart = handleTapDown;
   //     document.ontouchend = handleTapUp;
   // }
 
-  //make a camera and renderer
+  // document.onload = onMouseMove();
   createCameraRender();
+
+  controls = new THREE.OrbitControls(camera, renderer.domElement );
+  THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
+
+  buildStageSelect();
+  stageSelectLoop();
+  //make a camera and renderer
+  // createCameraRender();
   //selected a stage!!
-  initializeWorld();
+  // initializeWorld();
 
 }
 
+//continues to display the stage select until stage selected is true, then renders that
+function stageSelectLoop(){
+
+
+
+    if(!stageSelected){
+      requestAnimationFrame(stageSelectLoop);
+    }
+    else{
+      initializeWorld();
+    }
+
+  controls.update();
+
+  renderer.render(mapScene, camera);
+
+  raycaster.setFromCamera( mouse, camera );
+
+// calculate objects intersecting the picking ray
+  var intersects = raycaster.intersectObjects(selectableStages);
+
+  for ( var i = 0; i < intersects.length; i++ ) {
+      if ( HIGHLITED != intersects[ 0 ].object ) {
+          intersects[ 0 ].object.material.emissive.set(0xff0000);
+          HIGHLITED = intersects[0].object;
+        }
+        else{
+          HIGHLITED.material.emissive.set(0x000000);
+          HIGHLITED = undefined;
+        }
+  }
+
+}
+
+//builds the colgate map with locations to play on
+function buildStageSelect(){
+  mapScene = new THREE.Scene();
+  sunsetLights(mapScene);
+
+
+  var planeMesh = new THREE.BoxGeometry(10,10,10,1,1,1);
+  var planeMat = new THREE.MeshPhongMaterial({color: 0xffffff});
+  var planeMesh = new THREE.Mesh(planeMesh, planeMat);
+  planeMesh.userData = {stageData:stageA};
+  mapScene.add(planeMesh);
+  selectableStages.push(planeMesh);
+
+  camera.lookAt(0,0,0);
+  mapScene;
+}
+
+//creates the stage and calls the main loop
 function initializeWorld(){
+    contols = undefined;
     stage = stageA;
     stage.init();
     console.log(stage);
 
     camera.lookAt(stage.stageBlocks[0].model.position.x,stage.stageBlocks[0].model.position.y+10,stage.stageBlocks[0].model.position.z);
+
+    //just if game starts use this
+    document.onkeydown = handleKeyDown;
+    document.onkeyup = handleKeyUp;
 
     loop();
 }
