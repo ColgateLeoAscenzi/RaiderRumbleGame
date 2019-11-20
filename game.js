@@ -276,6 +276,7 @@ function initializeWorld(){
     var audio = new THREE.Audio( listener );
 
     //Music load
+    console.log(stage.bgm);
     mediaElement = new Audio(stage.bgm);
     mediaElement.loop = true;
 

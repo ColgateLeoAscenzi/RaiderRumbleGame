@@ -7,6 +7,8 @@ var stageA = {
 
         //THESE VARIABLES NEED TO BE INIT FIRST FOR SOME REASON/
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
+        this.bgm = 'sounds/If My Heart Had Wings OST - A New World.ogg';
+        
         this.blockA = basicBox;
         this.blockB = dirtBlock;
         this.blockC = platformBlock;

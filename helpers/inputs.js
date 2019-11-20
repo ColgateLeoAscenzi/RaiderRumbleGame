@@ -27,8 +27,6 @@ function handleKeyUp(keyEvent){
     }
 
 
-
-
     //player2
     if(keyEvent.key == "ArrowLeft"){
     //moving left
@@ -55,6 +53,8 @@ function handleKeyUp(keyEvent){
     }
 
 
+
+
 }
 function handleKeyDown(keyEvent){
 
@@ -78,6 +78,18 @@ function handleKeyDown(keyEvent){
      }
      else{
        trackPlayer = true;
+     }
+   }
+   //Music keydown key press
+   if(keyEvent.key == "m"){
+     console.log("Playing "+stage.bgm);
+     if(!playingM){
+       mediaElement.play();
+       playingM = true;
+     }
+     else if (playingM){
+       mediaElement.pause();
+       playingM = false;
      }
    }
 
