@@ -31,6 +31,8 @@ var stageA = {
     init: function(){
         this.createScene();
         this.populateScene();
+        this.player1 = basicCharacter;
+        this.player1.init();
         createPlayer1(0, 10, 0);
         createPlayer2(0, 10, 0);
         this.player1.otherPlayer = this.player2;
@@ -169,7 +171,6 @@ function createBoxA(x, y, z) {
 }
 
 function createPlayer1(x, y, z){
-  stageA.player1 = basicCharacter;
   stageA.players.push(stageA.player1);
   stageA.player1Mesh = stageA.player1.model;
   // player1Mesh.position.set(x, y, z);
