@@ -10,6 +10,8 @@ var charProto = {
     weight: 100,
     percentage: 0,
     isHit: false,
+    hitFrames: 2,
+    canBeHit: true,
     movingR: false,
     movingL: false,
     jumping: false,
