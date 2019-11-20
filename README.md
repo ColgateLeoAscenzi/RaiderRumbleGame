@@ -10,6 +10,8 @@ The final project for COSC 435 Graphics, Professor Elodie Fourquet.
 
 - *lib* : Three.js, Jquery, and other helpers
 
+- *lighting*: lighting for stages
+
 - *models* : Contains code for making and returning meshes
 
 - game.js : Starts the scenes and the game loop
