@@ -19,10 +19,10 @@ var stageA = {
         this.timerIncrement = 0,
         this.maxTim = 120,
 
-        this.minimumY = -40,
-        this.maximumY = 180,
-        this.minimumX = -200,
-        this.maximumX = 200,
+        this.minimumY = -80,
+        this.maximumY = 280,
+        this.minimumX = -300,
+        this.maximumX = 300,
         this.createScene();
         // this.populateScene();
         this.populateOmega();

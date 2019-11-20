@@ -90,7 +90,6 @@ function loop() {
       camera.position.set(stage.player1.model.position.x,stage.player1.model.position.y+50,stage.player1.model.position.z+120);
       if(stage.player1.model.position.x < 0){
         camera.lookAt(stage.player1.model.position.x*+stage.player1.model.position.x*-0.005,stage.player1.model.position.y,stage.player1.model.position.z);
-
       }
       else{
         camera.lookAt(stage.player1.model.position.x*+stage.player1.model.position.x*0.005,stage.player1.model.position.y,stage.player1.model.position.z);
@@ -99,8 +98,20 @@ function loop() {
 
     }
     else{
-      camera.position.set((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2+50,stage.player1.model.position.z+120);
+      camera.position.set((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2+50,stage.player1.model.position.z+120+Math.abs(stage.player1.model.position.x-stage.player2.model.position.x)*0.1);
       camera.lookAt((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2,stage.stageBlocks[0].model.position.z);
+      if(camera.position.x < -90){
+          camera.position.x = -90;
+      }
+      if(camera.position.x > 90){
+          camera.position.x = 90;
+      }
+      if(camera.position.y < -40){
+          camera.position.y = -40;
+      }
+      if(camera.position.y > 100){
+          camera.position.y = 100;
+      }
     }
   }
   else{

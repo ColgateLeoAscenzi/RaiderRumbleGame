@@ -10,6 +10,7 @@ var basicCharacter = {
         //spawn location
         this.x = -10;
         this.y = 10;
+        
 
     },
     update: function(){
@@ -41,7 +42,7 @@ var basicCharacter = {
         else{
           this.minUp = 100000;
         }
-        
+
         if(this.hitBoxEnabled){
             this.hitBox.position.x = this.x;
             this.hitBox.position.y = this.y;
