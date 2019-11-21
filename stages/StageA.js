@@ -8,7 +8,7 @@ var stageA = {
         //THESE VARIABLES NEED TO BE INIT FIRST FOR SOME REASON/
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
         this.bgm = 'sounds/Katawa Shoujo OST - Afternoon.mp3';
-        
+
         this.blockA = basicBox;
         this.blockB = dirtBlock;
         this.blockC = platformBlock;
@@ -42,9 +42,9 @@ var stageA = {
     createScene: function(){
         this.scene = new THREE.Scene();
 
-        sunsetLights(this.scene);
+        //sunsetLights(this.scene);
         //noonLights(this.scene);
-        //nightLights(this.scene);
+        nightLights(this.scene);
 
     },
     populateScene: function(){

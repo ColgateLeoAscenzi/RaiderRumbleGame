@@ -1,4 +1,4 @@
-//noonLights incomplete
+//noonLights and nightLights incomplete
 
 function noonLights(scene) {
     // Create the Skybox
@@ -54,27 +54,27 @@ function nightLights(scene) {
 
   var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
   var matBox  = new THREE.MeshPhongMaterial(
-                             { color : 0x000000});
+                             { color : 0xfff4f3});
   var box = new THREE.Mesh(geomBox, matBox);
   box.material.side = THREE.BackSide;
   scene.add(box);
 
 
 
-  var ambientLight = new THREE.AmbientLight(0xaaaaaa, 0.3);
-  //ambientLight.position.set(0,0,100);
-  scene.add(ambientLight);
+  // var ambientLight = new THREE.AmbientLight(0x5d3667, 0.3);
+  // //ambientLight.position.set(0,0,100);
+  // scene.add(ambientLight);
 
   var star1 = new THREE.PointLight(0xfff4f3, 0.7);
   star1.position.set(100, 100, -100);
 
   var lightbulb = new THREE.Mesh(
     new THREE.SphereGeometry( 10, 16, 8 ),
-    new THREE.MeshBasicMaterial( { color: 0xfff4f3 } )
+    new THREE.MeshPhongMaterial( { color: 0xfff4f3 } )
   );
-  lightbulb.position = star1.position;
-  scene.add(lightbulb);
+  lightbulb.position.set(100, 100, -0);
   scene.add(star1);
+  scene.add(lightbulb);
 
 
   // var star2 = new THREE.PointLight(0xafc9ff, 0.7);
