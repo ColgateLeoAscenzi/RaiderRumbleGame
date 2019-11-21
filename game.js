@@ -41,6 +41,18 @@ var controls;
 var selectableStages = [];
 
 
+//DEBUGGING
+// var stats = new Stats();
+// stats.showPanel(1);
+// document.body.appendChild(stats.dom);
+var stats;
+
+// stats = new Stats();
+// stats.domElement.style.position = 'absolute';
+// stats.domElement.style.bottom = '0px';
+// stats.domElement.style.zIndex = 100;
+//document.getElementById('container').appendChild( stats.domElement );
+
 
 //SCREEN & MOUSE VARIABLES
 
@@ -80,6 +92,12 @@ function createCameraRender() {
   window.addEventListener('mousemove', onMouseMove, false);
   window.addEventListener('mousedown', onMouseDown, false);
 
+  stats = new Stats();
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.bottom = '0px';
+  stats.domElement.style.zIndex = 100;
+  container.appendChild(stats.domElement);
+
 }
 
 // HANDLE SCREEN EVENTS
@@ -100,6 +118,7 @@ function handleWindowResize() {
 function loop() {
   doUpdates();
   renderer.render(stage.scene, camera);
+  stats.update();
   requestAnimationFrame(loop);
   if(!gameOver){
     if(trackPlayer){
@@ -197,12 +216,14 @@ function initGame() {
 
   // document.onload = onMouseMove();
   createCameraRender();
+  stats.begin();
 
   controls = new THREE.OrbitControls(camera, renderer.domElement );
   THREEx.FullScreen.bindKey({ charCode : 'l'.charCodeAt(0) });
 
   buildStageSelect();
   stageSelectLoop();
+  stats.end();
   //make a camera and renderer
   // createCameraRender();
   //selected a stage!!
