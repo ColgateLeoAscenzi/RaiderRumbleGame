@@ -17,6 +17,7 @@ var basicCharacter = {
 
         this.basicAttackObj = raiderBasic;
         this.specialAttackObj = raiderSpecial;
+        this.damageDeal = 0;
 
 
     },
@@ -82,7 +83,8 @@ var basicCharacter = {
 
 
         //IMPORTANT FUNCTION WHICH CONTAINS ANY ATTACK
-        this.doAnyAttack();
+        this.damageDeal = this.doAnyAttack();
+        console.log(this.damageDeal);
 
 
         //dampen left and right movement on floor
@@ -258,7 +260,7 @@ var basicCharacter = {
                 if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
                     if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
                         this.otherPlayer.isHit = true;
-                        this.doKnockBack();
+                        this.doKnockBack(this.damageDeal);
                     }
                 }
             }
@@ -267,7 +269,7 @@ var basicCharacter = {
                 if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
                     if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
                       this.otherPlayer.isHit = true;
-                      this.doKnockBack();
+                      this.doKnockBack(this.damageDeal);
                     }
                 }
             }
@@ -280,7 +282,7 @@ var basicCharacter = {
         }
 
     },
-    specialAttack: function(damage){
+    specialAttack: function(){
         if(this.canBasicAttack && !this.isHit && !this.isRecover){
             var attackBox = this.basicAttackModel.clone();
             if(this.facingL){
@@ -288,7 +290,7 @@ var basicCharacter = {
                 if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
                     if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
                         this.otherPlayer.isHit = true;
-                        this.doKnockBack(damage);
+                        this.doKnockBack(this.damageDeal);
 
                     }
                 }
@@ -298,7 +300,7 @@ var basicCharacter = {
                 if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
                     if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
                         this.otherPlayer.isHit = true;
-                        this.doKnockBack(damage);
+                        this.doKnockBack(this.damageDeal);
                     }
                 }
             }
@@ -312,7 +314,6 @@ var basicCharacter = {
     },
     doKnockBack: function(damage){
 
-      console.log(damage);
       var knockbackVec = new THREE.Vector2();
       var tKnockback = calculateKnockback(this.otherPlayer.percentage, damage, this.otherPlayer.weight,
        this.basicAttackObj.scaling, this.basicAttackObj.knockback);
@@ -344,7 +345,7 @@ var basicCharacter = {
         this.canJump = false;
       }
 
-      var damageToDeal;
+      var damageToDeal = 0;
 
       //basic attack air
       if(this.facingR && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
