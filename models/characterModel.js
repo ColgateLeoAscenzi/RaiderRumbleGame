@@ -10,8 +10,8 @@ var Colors = {
     pinguBlue: 0x4f69b8,
     pinguGray: 0xd9d1e4,
     pinguBrown: 0x482a25,
-    pinguOrange: 0xdb5c16,
-    pinguBlack: 0x19181e
+    pinguOrange: 0xd26617,
+    pinguBlack: 0x19181e,
 
 };
 
@@ -152,17 +152,36 @@ function createPinguMesh(x, y, z) {
   //HAT mesh
   this.mesh.hat = new THREE.Object3D();
   var hatBox = new THREE.BoxGeometry(5.2,1.5,5.2, 1,1,1);
-  var hatMat = new THREE.MeshPhongMaterial(
-                            { color : Colors.pinguBlue});
-  var hatBase = new THREE.Mesh(hatBox, hatMat);
+
+  var colorsOfFacesOfHat = [new THREE.MeshPhongMaterial({ color : Colors.pinguBlue}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlue}),
+      new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlue}),
+      new THREE.MeshPhongMaterial({ color : Colors.pinguBlue}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlue})];
+
+  var hatBase = new THREE.Mesh(hatBox, colorsOfFacesOfHat);
+
   this.mesh.hat.add(hatBase);
 
   this.mesh.hat.tail = new THREE.Object3D();
+
   var hatTailBox = new THREE.BoxGeometry(2,2,2, 1,1,1);
   var hatTailMat = new THREE.MeshPhongMaterial(
                             { color : Colors.pinguBlue});
-    var hatTailBase = new THREE.Mesh(hatTailBox, hatTailMat);
+
+   var hatTailBase = new THREE.Mesh(hatTailBox, hatTailMat);
    this.mesh.hat.tail.add(hatTailBase);
+
+   this.mesh.hat.tail.firstRibbon = new THREE.Object3D();
+
+   var ribbonBox = new THREE.BoxGeometry(1.5,1.5,3, 1,1,1);
+   var ribbonMat = new THREE.MeshPhongMaterial(
+                             { color : Colors.pinguBlue});
+
+    var firstRibbonBase = new THREE.Mesh(ribbonBox, ribbonMat);
+    this.mesh.hat.tail.firstRibbon.add(firstRibbonBase);
+    this.mesh.hat.tail.firstRibbon.position.set(0,0.5,-2);
+    this.mesh.hat.tail.add(this.mesh.hat.tail.firstRibbon);
+
+
    this.mesh.hat.tail.position.z = z - 3;
    this.mesh.hat.add(this.mesh.hat.tail);
 
@@ -172,11 +191,13 @@ function createPinguMesh(x, y, z) {
   //HEAD Mesh with eyes
   this.mesh.head = new THREE.Object3D();
 
-  var headBox = new THREE.BoxGeometry(5,5,5, 1,1,1);
+  var headBox = new THREE.BoxGeometry(5,3.5,5, 1,1,1);
   var headMat = new THREE.MeshPhongMaterial(
                             { color : Colors.pinguGray});
-
-  var headTop = new THREE.Mesh(headBox, headMat);
+  var colorsOfFacesOfHead = [new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
+                              new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
+                             new THREE.MeshPhongMaterial({ color : Colors.pinguGray}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack})];
+  var headTop = new THREE.Mesh(headBox, colorsOfFacesOfHead);
   this.mesh.head.add(headTop);
 
   this.mesh.head.position.y = y + 4;
@@ -198,22 +219,37 @@ function createPinguMesh(x, y, z) {
 
   this.mesh.head.add(this.mesh.head.leftEye);
 
+  this.mesh.head.beak = new THREE.Object3D();
+  var beakBox = new THREE.ConeGeometry(1,2,5);
+  var beakMat = new THREE.MeshPhongMaterial(
+                            { color : Colors.pinguOrange});
+  var beakBase = new THREE.Mesh(beakBox, beakMat);
+
+  this.mesh.head.beak.add(beakBase);
+  this.mesh.head.beak.position.set(0,-1,3.25);
+  this.mesh.head.beak.rotation.set(1.57,0,0);
+
+  this.mesh.head.add(this.mesh.head.beak);
+
 
   //TORSO made of shirt material
   this.mesh.torso = new THREE.Object3D();
 
-  var torsoBox = new THREE.BoxGeometry(6,4,6, 1,1,1);
+  var torsoBox = new THREE.BoxGeometry(6,6,6, 1,1,1);
   var torsoMat = new THREE.MeshPhongMaterial(
                              { color : Colors.pinguGray});
 
-  var shirt = new THREE.Mesh(torsoBox, torsoMat);
+  var colorsOfFacesOfTorso = [new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
+                                new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
+                               new THREE.MeshPhongMaterial({ color : Colors.pinguGray}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack})];
+  var shirt = new THREE.Mesh(torsoBox, colorsOfFacesOfTorso);
   this.mesh.torso.add(shirt);
 
   this.mesh.torso.position.y = y-0.6;
 
   //create the arm
   this.mesh.torso.rightArm = new THREE.Object3D();
-  var armBox = new THREE.BoxGeometry(2,3,2, 1,1,1);
+  var armBox = new THREE.BoxGeometry(1.5,3,2, 1,1,1);
   var armMat = new THREE.MeshPhongMaterial({ color: Colors.pinguBlack});
 
   var rightarm = new THREE.Mesh(armBox, armMat);
@@ -223,10 +259,14 @@ function createPinguMesh(x, y, z) {
 
   //create the hand
   this.mesh.torso.rightArm.rightHand = new THREE.Object3D();
-  var handBox = new THREE.BoxGeometry(2,1,2, 1,1,1);
+  var handBox = new THREE.BoxGeometry(1.5,1,2, 1,1,1);
   var handMat = new THREE.MeshPhongMaterial({ color: Colors.pinguBlack});
 
   var righthand = new THREE.Mesh(handBox, handMat);
+
+
+
+
 
 
   //add the hand model to hand object
@@ -245,8 +285,27 @@ function createPinguMesh(x, y, z) {
   //add the left arm
   this.mesh.torso.add(this.mesh.torso.leftArm);
 
+  this.mesh.torso.rightArm.rightHand.sword = new THREE.Object3D();
+  var swordBaseBox = new THREE.BoxGeometry(2,1,2,1,1,1);
+  var swordBaseMat = new THREE.MeshPhongMaterial({ color: Colors.pinguBrown});
+  var swordBase = new THREE.Mesh(swordBaseBox, swordBaseMat);
+
+  this.mesh.torso.rightArm.rightHand.sword.add(swordBase);
+
+  this.mesh.torso.rightArm.rightHand.sword.swordTop = new THREE.Object3D();
+  var swordTopBox = new THREE.BoxGeometry(1.5,5,1.5,1,1,1);
+  var swordTopMat = new THREE.MeshPhongMaterial({ color: Colors.pinguBrown});
+  var swordTopBase = new THREE.Mesh(swordTopBox, swordTopMat);
+
+  this.mesh.torso.rightArm.rightHand.sword.swordTop.add(swordTopBase);
+  this.mesh.torso.rightArm.rightHand.sword.swordTop.position.set(0,1.5,0);
+  this.mesh.torso.rightArm.rightHand.sword.add(this.mesh.torso.rightArm.rightHand.sword.swordTop);
+  this.mesh.torso.rightArm.rightHand.sword.position.set(-0.4,1,0.7);
+  this.mesh.torso.rightArm.rightHand.sword.rotation.set(0,0,0.6);
+  this.mesh.torso.rightArm.rightHand.add(this.mesh.torso.rightArm.rightHand.sword);
+
   //legs added to base of torso
-  var legBox = new THREE.BoxGeometry(2.25, 2.75, 1.9, 1, 1,1);
+  var legBox = new THREE.BoxGeometry(2.25, 2, 1.9, 1, 1,1);
   var legMat = new THREE.MeshPhongMaterial(
                              { color : Colors.pinguOrange});
 
@@ -259,11 +318,12 @@ function createPinguMesh(x, y, z) {
   this.mesh.torso.add(this.mesh.torso.leftLeg);
   this.mesh.torso.leftLeg.position.set(x+1.9,y-3.25,z)
 
-
+  this.mesh.torso.position.y;
+  this.mesh.head.position.y+=0.3;
+  this.mesh.hat.position.y-=0.05;
   this.mesh.add(this.mesh.torso);
   this.mesh.add(this.mesh.head);
   this.mesh.add(this.mesh.hat);
-
 
   this.mesh.position.set(x,y,z);
   return this.mesh;
