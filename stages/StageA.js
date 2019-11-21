@@ -42,7 +42,7 @@ var stageA = {
 
         sunsetLights(this.scene);
         //noonLights(this.scene);
-
+        //nightLights(this.scene);
 
     },
     populateScene: function(){
