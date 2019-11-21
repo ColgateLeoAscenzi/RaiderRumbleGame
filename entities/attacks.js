@@ -1,16 +1,18 @@
-var attackProto = {
-  knockback: 10,
-  scaling: 0.1,
-  damage: 5,
-  successive: 0
-}
+//damage codes
+// normal attack
+var A = 0;
+//neutral, forward, back, up, down air attack
+var NA  = 1; FA = 2; BA = 3; UA = 4; DA = 5;
+//special, side special, up special, down special
+var S = 0; SS = 1; US = 2; DS = 3;
+
 
 var raiderBasic = {
   attackModel: createBasicAttackModel(),
   attackHitBox: createBasicAttackModel(),
   knockback: 10,
   scaling: 0.1,
-  damage: 5,
+  damage: [5,5,5,5,5,5],
   successive: 0
 }
 
@@ -19,7 +21,7 @@ var pinguBasic = {
   attackHitBox: createBasicAttackModel(),
   knockback: 10,
   scaling: 0.1,
-  damage: 5,
+  damage: [5,5,5,5,5,5],
   successive: 0
 }
 
@@ -28,7 +30,7 @@ var raiderSpecial = {
   attackHitBox: createBasicAttackModel(),
   knockback: 20,
   scaling: 0.1,
-  damage: 2,
+  damage: [2,2,0,2],
   successive: 0
 }
 
@@ -37,7 +39,7 @@ var pinguSpecial = {
   attackHitBox: createBasicAttackModel(),
   knockback: 20,
   scaling: 0.1,
-  damage: 2,
+  damage: [2,2,0,2],
   successive: 0
 }
 

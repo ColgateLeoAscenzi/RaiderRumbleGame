@@ -68,8 +68,6 @@ var pingu = {
         }
         if(this.hitFrames < 0){
           this.isHit = false;
-          this.hitFrames = this.percentage*2;
-          this.canBeHit = true;
         }
 
 
@@ -87,10 +85,7 @@ var pingu = {
 
 
         //DO ALL MOVEMENT HEREE
-        if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
-          this.recover();
-          this.canJump = false;
-        }
+        this.doAnyAttack();
 
         //dampen left and right movement on floor
         if(!this.movingR && !this.movingL && this.onGround && !this.isHit){
@@ -116,7 +111,7 @@ var pingu = {
           this.onGround = true;
           this.canRecover = true;
           this.isRecover = false;
-          this.isHit = false;
+
         }
         if(this.y > this.minUp){
           this.y = this.minUp;
@@ -152,6 +147,8 @@ var pingu = {
       if(this.facingL){
         this.model.rotation.y = -0.5;
       }
+
+
 
       //walking changes
       if((this.movingR || this.movingL) && this.xVel != 0){
@@ -192,11 +189,12 @@ var pingu = {
         this.model.torso.rightArm.rotation.x = 0;
         this.model.torso.leftArm.rotation.x = - 0;
 
+
         // //head reset
         // this.model.head.rotation.z = 0;
         // this.model.head.rotation.y = 0;
         //body reset
-        if(this.canBasicAttack){
+        if(this.canBasicAttack && !this.isHit){
             this.model.rotation.z = 0;
         }
       }
@@ -225,51 +223,57 @@ var pingu = {
 
   },
   walkRight: function(){
-    this.movingR = true;
-    this.facingR = true;
-    this.facingL = false;
-    this.xVel = this.walkSpeed;
-    this.canBeHit = true;
-    this.isHit = false;
+    if(!this.isHit){
+      this.movingR = true;
+      this.facingR = true;
+      this.facingL = false;
+      this.xVel = this.walkSpeed;
+      this.isHit = false;
+    }
+
   },
   walkLeft: function(){
-    this.movingL = true;
-    this.facingL = true;
-    this.facingR = false;
-    this.xVel = -this.walkSpeed;
-    this.canBeHit = true;
-    this.isHit = false;
+    if(!this.isHit){
+      this.movingL = true;
+      this.facingL = true;
+      this.facingR = false;
+      this.xVel = -this.walkSpeed;
+      this.isHit = false;
+    }
   },
   jump: function(){
     if(this.jumpCt == this.maxJumpCt){
       this.canJump = false;
     }
     if(this.canJump){
-      this.jumpCt+=1;
-      this.yVel = this.jumpSpeed;
-      this.onGround = false;
-      this.canBeHit = true;
-      this.isHit = false;
+      if(!this.isHit){
+        this.jumpCt+=1;
+        this.yVel = this.jumpSpeed;
+        this.onGround = false;
+        this.isHit = false;
+      }
     }
   },
   drop: function(){
-    this.canBeHit = true;
   },
   recover: function(){
-    this.isRecover = true;
-    this.yVel = 4;
-    this.canRecover = false;
-    this.canBeHit = true;
-    this.isHit = false;
+    if(!this.isHit){
+      this.isRecover = true;
+      this.yVel = 4;
+      this.canRecover = false;
+      this.isHit = false;
+    }
   },
   basicAttack: function(){
-    if(this.canBasicAttack){
+    //can only attack if attack off cooldown, they're not hitstunned and they haven't recovered
+    if(this.canBasicAttack && !this.isHit && !this.isRecover){
         var attackBox = this.basicAttackModel.clone();
         if(this.facingL){
             attackBox.position.set(this.x-10, this.y, this.z);
             if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
                 if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
-                    this.otherPlayer.isHit = true;
+                  this.otherPlayer.isHit = true;
+                  this.doKnockBack();
                 }
             }
         }
@@ -278,24 +282,11 @@ var pingu = {
             if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
                 if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
                   this.otherPlayer.isHit = true;
+                  this.doKnockBack();
                 }
             }
         }
 
-        if(this.otherPlayer.isHit && this.otherPlayer.canBeHit){
-          var knockbackVec = new THREE.Vector2();
-          var tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage, this.otherPlayer.weight,
-           this.basicAttackObj.scaling, this.basicAttackObj.knockback);
-           knockbackVec.x = this.otherPlayer.x - this.x;
-           knockbackVec.y = this.otherPlayer.y - this.y;
-           knockbackVec= knockbackVec.normalize();
-
-          this.otherPlayer.percentage += this.basicAttackObj.damage;
-          this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
-          this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;
-          console.log(tKnockback*0.5*knockbackVec.x, tKnockback*0.5*knockbackVec.y);
-          this.otherPlayer.canBeHit = false;
-        }
         stage.scene.add(attackBox);
         setTimeout(function(){stage.scene.remove(attackBox);}, 100);
 
@@ -304,9 +295,7 @@ var pingu = {
     }
 },
   specialAttack: function(){
-      //keeping track
-
-      if(this.canBasicAttack){
+      if(this.canBasicAttack && !this.isHit && !this.isRecover){
           var attackBox = this.basicAttackModel.clone();
           if(this.facingL){
               attackBox.position.set(this.x-10, this.y, this.z);
@@ -344,6 +333,51 @@ var pingu = {
     this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
     this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;
     console.log(tKnockback*0.5*knockbackVec.x, tKnockback*0.5*knockbackVec.y);
-    this.otherPlayer.canBeHit = false;
+    this.otherPlayer.hitFrames = this.basicAttackObj.damage;
+
+    if(this.otherPlayer.xVel > 0){
+
+      this.otherPlayer.model.rotation.z = -1.57;
+    }
+    else{
+      this.otherPlayer.model.rotation.z = 1.57;
+    }
+
+  },
+  doAnyAttack: function(){
+    //DO ALL MOTION HEREE
+    if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
+      this.recover();
+      this.canJump = false;
+    }
+
+    //basic attacks
+    if(this.heldKeys.right && this.heldKeys.attack1){
+      this.basicAttack();
+    }
+    if(this.heldKeys.left && this.heldKeys.attack1){
+      this.basicAttack();
+    }
+    if(this.heldKeys.down && this.heldKeys.attack1){
+      this.basicAttack();
+    }
+    if(this.heldKeys.up && this.heldKeys.attack1){
+      this.basicAttack();
+    }
+
+    //special attacks
+    if(this.heldKeys.right && this.heldKeys.attack2){
+      this.specialAttack();
+    }
+    if(this.heldKeys.left && this.heldKeys.attack2){
+      this.specialAttack();
+    }
+    if(this.heldKeys.down && this.heldKeys.attack2){
+      this.specialAttack();
+    }
+    if(this.heldKeys.up && this.heldKeys.attack2){
+      this.specialAttack();
+    }
+
   }
 }
