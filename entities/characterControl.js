@@ -15,6 +15,9 @@ var basicCharacter = {
         this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
         attack2: false}
 
+        this.basicAttackObj = raiderBasic;
+        this.specialAttackObj = raiderSpecial;
+
 
     },
     update: function(){
@@ -57,6 +60,14 @@ var basicCharacter = {
             stage.scene.remove(this.hitBox);
         }
 
+        if(this.isHit){
+          this.hitFrames -= 1;
+        }
+        if(this.hitFrames < 0){
+          this.isHit = false;
+          this.hitFrames = this.percentage*2;
+          this.canBeHit = true;
+        }
 
         //maximum gravity acceleration
         if(this.yVel - 0.075 < -1.6){
@@ -212,12 +223,15 @@ var basicCharacter = {
       this.facingR = true;
       this.facingL = false;
       this.xVel = this.walkSpeed;
+      this.canBeHit = true;
     },
     walkLeft: function(){
       this.movingL = true;
       this.facingL = true;
       this.facingR = false;
       this.xVel = -this.walkSpeed;
+      this.canBeHit = true;
+
     },
     jump: function(){
       if(this.jumpCt == this.maxJumpCt){
@@ -227,28 +241,25 @@ var basicCharacter = {
         this.jumpCt+=1;
         this.yVel = this.jumpSpeed;
         this.onGround = false;
+        this.canBeHit = true;
       }
     },
     drop: function(){
-
+      this.canBeHit = true;
     },
     recover: function(){
       this.isRecover = true;
       this.yVel = 4;
       this.canRecover = false;
+      this.canBeHit = true;
     },
     basicAttack: function(){
-        //keeping track
-
         if(this.canBasicAttack){
             var attackBox = this.basicAttackModel.clone();
             if(this.facingL){
                 attackBox.position.set(this.x-10, this.y, this.z);
                 if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
                     if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
-                        this.otherPlayer.percentage += 5;
-                        this.otherPlayer.xVel = this.otherPlayer.percentage*-0.1;
-                        this.otherPlayer.yVel = this.otherPlayer.percentage*0.1*0.33;
                         this.otherPlayer.isHit = true;
                     }
                 }
@@ -257,12 +268,24 @@ var basicCharacter = {
                 attackBox.position.set(this.x+10, this.y, this.z);
                 if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
                     if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
-                        this.otherPlayer.percentage += 5;
-                        this.otherPlayer.xVel = this.otherPlayer.percentage*0.1;
-                        this.otherPlayer.yVel = this.otherPlayer.percentage*0.1*0.33;
-                        this.otherPlayer.isHit = true;
+                      this.otherPlayer.isHit = true;
                     }
                 }
+            }
+
+            if(this.otherPlayer.isHit && this.otherPlayer.canBeHit){
+              var knockbackVec = new THREE.Vector2();
+              var tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage, this.otherPlayer.weight,
+               this.basicAttackObj.scaling, this.basicAttackObj.knockback);
+               knockbackVec.x = this.otherPlayer.x - this.x;
+               knockbackVec.y = this.otherPlayer.y - this.y;
+               knockbackVec= knockbackVec.normalize();
+
+              this.otherPlayer.percentage += this.basicAttackObj.damage;
+              this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
+              this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;
+              console.log(tKnockback*0.5*knockbackVec.x, tKnockback*0.5*knockbackVec.y);
+              this.otherPlayer.canBeHit = false;
             }
             stage.scene.add(attackBox);
             setTimeout(function(){stage.scene.remove(attackBox);}, 100);
@@ -285,6 +308,7 @@ var basicCharacter = {
                         this.otherPlayer.xVel = this.otherPlayer.percentage*-0.1;
                         this.otherPlayer.yVel = this.otherPlayer.percentage*0.1*0.33;
                         this.otherPlayer.isHit = true;
+
                     }
                 }
             }
