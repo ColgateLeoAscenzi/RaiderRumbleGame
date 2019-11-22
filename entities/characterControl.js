@@ -332,7 +332,6 @@ var basicCharacter = {
       var tKnockback = 0;
       var damageToDeal = 0;
 
-
       //basic attack air
       if(this.facingR && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
           console.log("Forward Air");
