@@ -12,6 +12,7 @@ var Colors = {
     pinguBrown: 0x482a25,
     pinguOrange: 0xd26617,
     pinguBlack: 0x19181e,
+    coinColor: 0xf2be75,
 
 };
 
@@ -32,6 +33,25 @@ function createBasicCharacterMesh(x, y, z) {
   // this.mesh.add(box);
   //HAT mesh
   this.mesh.hat = new THREE.Object3D();
+  var hatBox = new THREE.BoxGeometry(6.5,2.5,6.5, 1,1,1);
+  var hatMat = new THREE.MeshPhongMaterial(
+                             { color : Colors.colgateMaroon});
+
+  var hatBase = new THREE.Mesh(hatBox, hatMat);
+
+  this.mesh.hat.add(hatBase);
+
+  this.mesh.hat.hatMiddle = new THREE.Object3D();
+  var hatMiddleBox = new THREE.BoxGeometry(3,2.5,6.5, 1,1,1);
+  var hatMiddleMat = new THREE.MeshPhongMaterial(
+                             { color : Colors.colgateMaroon});
+
+  var hatMiddleBase = new THREE.Mesh(hatMiddleBox, hatMiddleMat);
+  this.mesh.hat.hatMiddle.add(hatMiddleBase);
+  this.mesh.hat.hatMiddle.position.set(0,2,0);
+  this.mesh.hat.add(this.mesh.hat.hatMiddle);
+  this.mesh.hat.position.set(0,8,0);
+
 
   //HEAD Mesh with eyes
   this.mesh.head = new THREE.Object3D();
@@ -62,8 +82,6 @@ function createBasicCharacterMesh(x, y, z) {
 
   this.mesh.head.add(this.mesh.head.leftEye);
 
-
-
   //TORSO made of shirt material
   this.mesh.torso = new THREE.Object3D();
 
@@ -93,7 +111,6 @@ function createBasicCharacterMesh(x, y, z) {
 
   var righthand = new THREE.Mesh(handBox, handMat);
 
-
   //add the hand model to hand object
   this.mesh.torso.rightArm.rightHand.add(righthand);
   this.mesh.torso.rightArm.rightHand.position.y = -2;
@@ -110,6 +127,17 @@ function createBasicCharacterMesh(x, y, z) {
   //add the left arm
   this.mesh.torso.add(this.mesh.torso.leftArm);
 
+  //create the coin in his hand
+  this.mesh.torso.rightArm.rightHand.coin = new THREE.Object3D();
+  var coinBox = new THREE.CylinderGeometry(2,2,1, 19);
+  var coinMat = new THREE.MeshPhongMaterial({ color: Colors.coinColor});
+
+  var coinBase = new THREE.Mesh(coinBox, coinMat);
+  this.mesh.torso.rightArm.rightHand.coin.add(coinBase);
+  this.mesh.torso.rightArm.rightHand.coin.rotation.set(1.57,0,0);
+  this.mesh.torso.rightArm.rightHand.coin.position.set(-1.0,-0.5,1);
+  this.mesh.torso.rightArm.rightHand.add(this.mesh.torso.rightArm.rightHand.coin);
+
   //legs added to base of torso
   var legBox = new THREE.BoxGeometry(2.25, 2.75, 1.9, 1, 1,1);
   var legMat = new THREE.MeshPhongMaterial(
@@ -119,14 +147,13 @@ function createBasicCharacterMesh(x, y, z) {
   this.mesh.torso.add(this.mesh.torso.rightLeg);
   this.mesh.torso.rightLeg.position.set(x-1.9,y-3.25,z)
 
-
   this.mesh.torso.leftLeg = this.mesh.torso.rightLeg.clone();
   this.mesh.torso.add(this.mesh.torso.leftLeg);
   this.mesh.torso.leftLeg.position.set(x+1.9,y-3.25,z)
 
-
   this.mesh.add(this.mesh.torso);
   this.mesh.add(this.mesh.head);
+  this.mesh.add(this.mesh.hat);
 
 
   this.mesh.position.set(x,y,z);
@@ -181,10 +208,8 @@ function createPinguMesh(x, y, z) {
     this.mesh.hat.tail.firstRibbon.position.set(0,0.5,-2);
     this.mesh.hat.tail.add(this.mesh.hat.tail.firstRibbon);
 
-
    this.mesh.hat.tail.position.z = z - 3;
    this.mesh.hat.add(this.mesh.hat.tail);
-
 
    this.mesh.hat.position.y = y + 7;
 
@@ -194,9 +219,11 @@ function createPinguMesh(x, y, z) {
   var headBox = new THREE.BoxGeometry(5,3.5,5, 1,1,1);
   var headMat = new THREE.MeshPhongMaterial(
                             { color : Colors.pinguGray});
+
   var colorsOfFacesOfHead = [new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
                               new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
                              new THREE.MeshPhongMaterial({ color : Colors.pinguGray}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack})];
+
   var headTop = new THREE.Mesh(headBox, colorsOfFacesOfHead);
   this.mesh.head.add(headTop);
 
@@ -231,7 +258,6 @@ function createPinguMesh(x, y, z) {
 
   this.mesh.head.add(this.mesh.head.beak);
 
-
   //TORSO made of shirt material
   this.mesh.torso = new THREE.Object3D();
 
@@ -239,9 +265,13 @@ function createPinguMesh(x, y, z) {
   var torsoMat = new THREE.MeshPhongMaterial(
                              { color : Colors.pinguGray});
 
-  var colorsOfFacesOfTorso = [new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
-                                new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
-                               new THREE.MeshPhongMaterial({ color : Colors.pinguGray}), new THREE.MeshPhongMaterial({ color : Colors.pinguBlack})];
+  var colorsOfFacesOfTorso = [new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
+                                new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
+                                new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
+                                new THREE.MeshPhongMaterial({ color : Colors.pinguBlack}),
+                               new THREE.MeshPhongMaterial({ color : Colors.pinguGray}),
+                               new THREE.MeshPhongMaterial({ color : Colors.pinguBlack})];
+
   var shirt = new THREE.Mesh(torsoBox, colorsOfFacesOfTorso);
   this.mesh.torso.add(shirt);
 
@@ -263,11 +293,6 @@ function createPinguMesh(x, y, z) {
   var handMat = new THREE.MeshPhongMaterial({ color: Colors.pinguBlack});
 
   var righthand = new THREE.Mesh(handBox, handMat);
-
-
-
-
-
 
   //add the hand model to hand object
   this.mesh.torso.rightArm.rightHand.add(righthand);
@@ -319,8 +344,8 @@ function createPinguMesh(x, y, z) {
   this.mesh.torso.leftLeg.position.set(x+1.9,y-3.25,z)
 
   this.mesh.torso.position.y;
-  this.mesh.head.position.y+=0.3;
-  this.mesh.hat.position.y-=0.05;
+  this.mesh.head.position.y+=0.25;
+  this.mesh.hat.position.y-=0.2;
   this.mesh.add(this.mesh.torso);
   this.mesh.add(this.mesh.head);
   this.mesh.add(this.mesh.hat);
