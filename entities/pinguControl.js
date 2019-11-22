@@ -17,7 +17,7 @@ var pingu = {
         attack2: false}
 
         this.basicAttackObj = pinguBasic;
-        this.specialAttackObj = pinguBasic;
+        this.specialAttackObj = pinguSpecial;
 
     },
     update: function(){
@@ -83,6 +83,17 @@ var pingu = {
         this.x += this.xVel;
         this.y += this.yVel;
 
+        //other held keys
+        if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
+          this.recover();
+          this.canJump = false;
+        }
+        if(this.heldKeys.right && !this.heldKeys.left){
+            this.walkRight();
+        }
+        if(this.heldKeys.left && !this.heldKeys.right){
+            this.walkLeft();
+        }
 
 
         //dampen left and right movement on floor
@@ -99,12 +110,6 @@ var pingu = {
         // if(!this.jumping){
         //   // this.yVel = this.yVel*0.9;
         // }
-
-        //other held keys
-        if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
-          this.recover();
-          this.canJump = false;
-        }
 
         //doesn't let user pass below boxes
         if(this.y < this.minDown){
@@ -226,23 +231,30 @@ var pingu = {
 
   },
   walkRight: function(){
-    if(!this.isHit){
-      this.movingR = true;
-      this.facingR = true;
-      this.facingL = false;
-      this.xVel = this.walkSpeed;
-      this.isHit = false;
+    this.movingR = true;
+    this.facingR = true;
+    this.facingL = false;
+    //you can touch the ground to revert momentum, hurts ankles
+    // if(this.xVel < 0 && !this.isHit){
+    //     this.xVel = 0;
+    // }
+    this.xVel += this.xAccel;
+    if(this.xVel > this.maxXVel){
+        this.xVel = this.maxXVel;
     }
-
+    this.isHit = false;
   },
   walkLeft: function(){
-    if(!this.isHit){
-      this.movingL = true;
-      this.facingL = true;
-      this.facingR = false;
-      this.xVel = -this.walkSpeed;
-      this.isHit = false;
+    this.movingL = true;
+    this.facingL = true;
+    this.facingR = false;
+    this.xVel -= this.xAccel;
+    if(this.xVel < -this.maxXVel){
+        this.xVel = -this.maxXVel;
     }
+    this.isHit = false;
+    this.isHit = false;
+
   },
   jump: function(){
     if(this.jumpCt == this.maxJumpCt){

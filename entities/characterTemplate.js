@@ -5,6 +5,8 @@ var charProto = {
     height: 10,
     width: 10,
     xVel: 0,
+    xAccel: 0.9,
+    maxXVel: 1,
     yVel: 0,
     stock: 3,
     weight: 100,

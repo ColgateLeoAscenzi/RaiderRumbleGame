@@ -87,6 +87,12 @@ var basicCharacter = {
           this.canJump = false;
         }
 
+        if(this.heldKeys.right && !this.heldKeys.left){
+            this.walkRight();
+        }
+        if(this.heldKeys.left && !this.heldKeys.right){
+            this.walkLeft();
+        }
         //dampen left and right movement on floor
         if(!this.movingR && !this.movingL && this.onGround && !this.isHit){
           this.xVel = this.xVel*0.7;
@@ -222,14 +228,25 @@ var basicCharacter = {
       this.movingR = true;
       this.facingR = true;
       this.facingL = false;
-      this.xVel = this.walkSpeed;
+      //you can touch the ground to revert momentum, hurts ankles
+      // if(this.xVel < 0 && !this.isHit){
+      //     this.xVel = 0;
+      // }
+      this.xVel += this.xAccel;
+      if(this.xVel > this.maxXVel){
+          this.xVel = this.maxXVel;
+      }
       this.isHit = false;
     },
     walkLeft: function(){
       this.movingL = true;
       this.facingL = true;
       this.facingR = false;
-      this.xVel = -this.walkSpeed;
+      this.xVel -= this.xAccel;
+      if(this.xVel < -this.maxXVel){
+          this.xVel = -this.maxXVel;
+      }
+      this.isHit = false;
       this.isHit = false;
 
     },
