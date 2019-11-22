@@ -17,6 +17,10 @@ function handleKeyUp(keyEvent){
         stage.player1.heldKeys.up = false;
         stage.player1.jumping = false;
     }
+    if(keyEvent.key == "s"){
+    //jumping
+        stage.player1.heldKeys.down = false;
+    }
     if(keyEvent.key == "j"){
     //jumping
         stage.player1.heldKeys.attack1 = false;
@@ -39,6 +43,10 @@ function handleKeyUp(keyEvent){
         stage.player2.movingR = false;
     }
     if(keyEvent.key == "ArrowUp"){
+    //jumping
+        stage.player2.heldKeys.down = false;
+    }
+    if(keyEvent.key == "ArrowDown"){
     //jumping
         stage.player2.heldKeys.up = false;
         stage.player2.jumping = false;
@@ -111,7 +119,10 @@ function handleKeyDown(keyEvent){
        //jumping
        stage.player1.heldKeys.up = true;
        stage.player1.jump();
-
+     }
+     if(keyEvent.key == "s"){
+       //jumping
+       stage.player1.heldKeys.down = true;
      }
      if(keyEvent.key == "j"){
        stage.player1.heldKeys.attack1 = true;
@@ -141,6 +152,10 @@ function handleKeyDown(keyEvent){
       //jumping
       stage.player2.heldKeys.up = true;
       stage.player2.jump();
+    }
+    if(keyEvent.key == "ArrowDown"){
+      //jumping
+      stage.player2.heldKeys.down = true;
     }
     if(keyEvent.key == "1"){
         stage.player2.heldKeys.attack1 = true;

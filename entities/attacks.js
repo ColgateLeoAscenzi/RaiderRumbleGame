@@ -10,6 +10,7 @@ var S = 0; SS = 1; US = 2; DS = 3;
 var raiderBasic = {
   attackModel: createBasicAttackModel(),
   attackHitBox: createBasicAttackModel(),
+  //add knockback based on type of attack, also add
   knockback: 10,
   scaling: 0.1,
   damage: [5,5,5,5,5,5],
@@ -26,7 +27,7 @@ var pinguBasic = {
 }
 
 var raiderSpecial = {
-  attackModel: createBasicAttackModel(),
+  attackModel: createSpecialAttackModel(),
   attackHitBox: createBasicAttackModel(),
   knockback: 20,
   scaling: 0.1,
@@ -35,7 +36,7 @@ var raiderSpecial = {
 }
 
 var pinguSpecial = {
-  attackModel: createBasicAttackModel(),
+  attackModel: createSpecialAttackModel(),
   attackHitBox: createBasicAttackModel(),
   knockback: 20,
   scaling: 0.1,
