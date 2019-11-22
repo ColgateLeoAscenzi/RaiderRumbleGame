@@ -330,18 +330,18 @@ function createPinguMesh(x, y, z) {
   this.mesh.torso.rightArm.rightHand.add(this.mesh.torso.rightArm.rightHand.sword);
 
   //legs added to base of torso
-  var legBox = new THREE.BoxGeometry(2.25, 2, 1.9, 1, 1,1);
+  var legBox = new THREE.BoxGeometry(2.25, 1, 3, 1, 1,1);
   var legMat = new THREE.MeshPhongMaterial(
                              { color : Colors.pinguOrange});
 
   this.mesh.torso.rightLeg = new THREE.Mesh(legBox, legMat);
   this.mesh.torso.add(this.mesh.torso.rightLeg);
-  this.mesh.torso.rightLeg.position.set(x-1.9,y-3.25,z)
+  this.mesh.torso.rightLeg.position.set(x-1.9,y-3.6,z+2.25)
 
 
   this.mesh.torso.leftLeg = this.mesh.torso.rightLeg.clone();
   this.mesh.torso.add(this.mesh.torso.leftLeg);
-  this.mesh.torso.leftLeg.position.set(x+1.9,y-3.25,z)
+  this.mesh.torso.leftLeg.position.set(x+1.9,y-3.6,z+2.25)
 
   this.mesh.torso.position.y;
   this.mesh.head.position.y+=0.25;

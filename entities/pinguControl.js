@@ -162,18 +162,8 @@ var pingu = {
       if((this.movingR || this.movingL) && this.xVel != 0){
         //alternates legs up and down between 0.5 and -0.5 from the original place
         if(this.walkStyle1){
-          this.model.torso.rightLeg.position.y = -3 + 0.5*Math.sin(stage.timer*0.5);
-          this.model.torso.leftLeg.position.y =  -3 - 0.5*Math.sin(stage.timer*0.5);
-        }
-        else if(this.walkStyle2){
-          this.model.torso.rightLeg.rotation.x = 0.3*Math.sin(stage.timer*0.5);
-          this.model.torso.leftLeg.rotation.x = - 0.3*Math.sin(stage.timer*0.5);
-        }
-        else if(this.walkStyle3){
-          this.model.torso.rightLeg.position.y = -3 + 0.5*Math.sin(stage.timer*0.2);
-          this.model.torso.leftLeg.position.y =  -3 - 0.5*Math.sin(stage.timer*0.2);
-          this.model.rotation.z = 0.1*Math.sin(stage.timer*0.2);
-
+            this.model.torso.rightLeg.rotation.x = 0.4*Math.sin(stage.timer*0.7);
+            this.model.torso.leftLeg.rotation.x = - 0.4*Math.sin(stage.timer*0.7);
         }
 
         //arm changes
