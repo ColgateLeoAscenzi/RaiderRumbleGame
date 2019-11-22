@@ -29,8 +29,10 @@ function sunsetLights(scene) {
 
 
   var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
-  var matBox  = new THREE.MeshPhongMaterial(
-                             {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/PERSONA_20th.png')});
+  // var matBox  = new THREE.MeshPhongMaterial(
+  //                            {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/PERSONA_20th.png')});
+ var matBox  = new THREE.MeshPhongMaterial(
+                            {color : 0xf6ca97});
 
 
   var box = new THREE.Mesh(geomBox, matBox);
