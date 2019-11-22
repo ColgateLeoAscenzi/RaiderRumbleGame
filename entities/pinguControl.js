@@ -344,12 +344,12 @@ var pingu = {
         tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[FA],
             this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
     }
-    if(this.facingL && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
+    if(this.facingL && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround){
         damageToDeal = this.basicAttackObj.damage[FA];
        tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[FA],
            this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
     }
-    if(this.facingL && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround){
+    if(this.facingL && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
         damageToDeal = this.basicAttackObj.damage[BA];
         tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[BA],
             this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
