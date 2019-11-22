@@ -26,17 +26,19 @@ function noonLights(scene) {
 
 function sunsetLights(scene) {
     // Create the Skybox
-
-
   var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
-  var matBox  = new THREE.MeshPhongMaterial(
-                             {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/PERSONA_20th.png')});
+  var matBox  = new THREE.MeshLambertMaterial(
+                             {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/Persson.jpg')});
+
 
 
   var box = new THREE.Mesh(geomBox, matBox);
   box.material.side = THREE.BackSide;
   scene.add(box);
 
+
+
+  //need to add colors to object instead of having them hardcoded
   var ambientLight = new THREE.PointLight(Colors.white, 0.3);
   ambientLight.position.set(0,0,100);
   scene.add(ambientLight);
@@ -45,6 +47,9 @@ function sunsetLights(scene) {
    directLight.position.set(0, 0, -90);
    scene.add(directLight);
 
+   var directLight = new THREE.PointLight(0xdddddd, 0.6);
+   directLight.position.set(0, -50, 20);
+   scene.add(directLight);
 
    var ambientLight = new THREE.AmbientLight(0xf6ca97, 0.2);
    scene.add(ambientLight);

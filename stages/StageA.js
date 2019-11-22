@@ -42,9 +42,9 @@ var stageA = {
     createScene: function(){
         this.scene = new THREE.Scene();
 
-        //sunsetLights(this.scene);
+        sunsetLights(this.scene);
         //noonLights(this.scene);
-        nightLights(this.scene);
+        //nightLights(this.scene);
 
     },
     populateScene: function(){
