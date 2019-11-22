@@ -14,7 +14,10 @@ var raiderBasic = {
   knockback: 10,
   scaling: 0.1,
   damage: [5,5,5,5,5,5],
-  successive: 0
+  successive: 0,
+  //in degrees measured from 0, right ray
+  launchAngle: [50, 20, 20, 20, 0, 0],
+  attackFrames: [25, 25, 25, 25, 25, 25]
 }
 
 var pinguBasic = {
@@ -23,7 +26,9 @@ var pinguBasic = {
   knockback: 10,
   scaling: 0.1,
   damage: [5,5,5,5,5,5],
-  successive: 0
+  successive: 0,
+  launchAngle: [50, 20, 20, 20, 0, 0],
+  attackFrames: [25, 25, 25, 25, 25, 25]
 }
 
 var raiderSpecial = {
@@ -32,7 +37,9 @@ var raiderSpecial = {
   knockback: 20,
   scaling: 0.1,
   damage: [2,2,0,2],
-  successive: 0
+  successive: 0,
+  launchAngle: [20, 0, 30, 0],
+  attackFrames: [25, 25, 25, 25]
 }
 
 var pinguSpecial = {
@@ -41,7 +48,9 @@ var pinguSpecial = {
   knockback: 20,
   scaling: 0.1,
   damage: [2,2,0,2],
-  successive: 0
+  successive: 0,
+  launchAngle: [20, 0, 30, 0],
+  attackFrames: [25, 25, 25, 25]
 }
 
 
