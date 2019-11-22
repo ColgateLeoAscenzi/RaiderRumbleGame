@@ -250,15 +250,16 @@ function stageSelectLoop(){
 // calculate objects intersecting the picking ray
   var intersects = raycaster.intersectObjects(selectableStages);
 
-  for ( var i = 0; i < intersects.length; i++ ) {
+  if ( intersects.length > 0 ) {
       if ( HIGHLITED != intersects[ 0 ].object ) {
-          intersects[ 0 ].object.material.emissive.set(0xff0000);
-          HIGHLITED = intersects[0].object;
-        }
-        else{
-          HIGHLITED.material.emissive.set(0x000000);
-          HIGHLITED = undefined;
-        }
+          if ( HIGHLITED ) HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+          HIGHLITED = intersects[ 0 ].object;
+          HIGHLITED.currentHex = HIGHLITED.material.emissive.getHex();
+          HIGHLITED.material.emissive.setHex( 0xff0000 );
+      }
+  } else {
+      if ( HIGHLITED ) HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+      HIGHLITED = null;
   }
 
 }
@@ -277,7 +278,6 @@ function buildStageSelect(){
   selectableStages.push(planeMesh);
 
   camera.lookAt(0,0,0);
-  mapScene;
 }
 
 //creates the stage and calls the main loop
