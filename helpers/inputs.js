@@ -140,7 +140,7 @@ function handleKeyDown(keyEvent){
   if(stage.player2.canMove){
     if(keyEvent.key == "ArrowLeft"){
       //moving left
-      stage.player2.heldKeys.right = true;
+      stage.player2.heldKeys.left = true;
       stage.player2.walkLeft();
     }
     if(keyEvent.key == "ArrowRight"){

@@ -50,7 +50,7 @@ function calculateKnockback(percent, damage, weight, scaling, base){
   //the damage of the move,
   //the weight of the hit player, the scaling and base knockbacks of the move
   //to calculate the speed of knockback on the player
-  knockback = (((((percent/10 + (percent*damage)/20)*weight*1.4)+18)*scaling)+base)*0.08
+  knockback = (((((percent/10 + (percent*damage)/20)*weight*1.4)+18)*scaling)+base)*0.04
 
 
   return knockback;

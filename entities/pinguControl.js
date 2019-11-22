@@ -253,8 +253,6 @@ var pingu = {
         this.xVel = -this.maxXVel;
     }
     this.isHit = false;
-    this.isHit = false;
-
   },
   jump: function(){
     if(this.jumpCt == this.maxJumpCt){
