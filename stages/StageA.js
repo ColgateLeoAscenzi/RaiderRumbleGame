@@ -9,6 +9,7 @@ var stageA = {
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
         this.bgm = 'sounds/Katawa Shoujo OST - Afternoon.mp3';
 
+        this.omega = omegaOn;
         this.blockA = basicBox;
         this.blockB = dirtBlock;
         this.blockC = platformBlock;
@@ -26,8 +27,12 @@ var stageA = {
         this.minimumX = -300,
         this.maximumX = 300,
         this.createScene();
-        // this.populateScene();
-        this.populateOmega();
+        if(omegaOn){
+            this.populateOmega();
+        }
+        else{
+            this.populateScene();
+        }
         this.player1 = basicCharacter;
         this.player1.init();
         this.player2 = pingu;
@@ -62,7 +67,7 @@ var stageA = {
                 createBox(i*this.blockA.width, this.blockA.height*2, 0, stage.blockA);
             }
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
-                createBox(i*this.blockA.width, this.blockA.height*4, 0, stage.blockA);
+                createBox(i*this.blockC.width, this.blockC.height*8, 0, stage.blockC);
             }
             createBox(i*this.blockA.width, 0, 0, stage.blockA);
         }

@@ -14,6 +14,8 @@ var camera, fieldOfView, aspectRatio, nearPlane, farPlane,
 
 var stage;
 
+var omegaOn;
+
 var HIGHLITED;
 
 var stageSelected = false;
@@ -270,12 +272,20 @@ function buildStageSelect(){
   sunsetLights(mapScene);
 
 
-  var planeMesh = new THREE.BoxGeometry(10,10,10,1,1,1);
+  var planeGeom = new THREE.BoxGeometry(10,10,10,1,1,1);
   var planeMat = new THREE.MeshPhongMaterial({color: 0xffffff});
-  var planeMesh = new THREE.Mesh(planeMesh, planeMat);
-  planeMesh.userData = {stageData:stageA};
+  var planeMesh = new THREE.Mesh(planeGeom, planeMat);
+  planeMesh.userData = {stageData:stageA, omega: true};
   mapScene.add(planeMesh);
   selectableStages.push(planeMesh);
+
+  var planeGeom2 = new THREE.BoxGeometry(10,10,10,1,1,1);
+  var planeMat2 = new THREE.MeshPhongMaterial({color: 0x00ff00});
+  var planeMesh2 = new THREE.Mesh(planeGeom2, planeMat2);
+  planeMesh2.userData = {stageData:stageA, omega: false};
+  mapScene.add(planeMesh2);
+  planeMesh2.position.x += 20;
+  selectableStages.push(planeMesh2);
 
   camera.lookAt(0,0,0);
 }
@@ -283,7 +293,8 @@ function buildStageSelect(){
 //creates the stage and calls the main loop
 function initializeWorld(){
     contols = undefined;
-    stage = stageA;
+    stage = selectedStage.stageData;
+    omegaOn = selectedStage.omega;
     stage.init();
     console.log(stage);
 
