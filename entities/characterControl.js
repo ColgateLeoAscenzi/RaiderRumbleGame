@@ -331,47 +331,68 @@ var basicCharacter = {
       //DO ALL MOTION HEREE
       var tKnockback = 0;
       var damageToDeal = 0;
+      var angleToApply = 0;
+      var newAttackFrame = 0;
+
+      if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
+        this.recover();
+        this.canJump = false;
+      }
 
       //basic attack air
       if(this.facingR && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
           console.log("Forward Air");
           damageToDeal = this.basicAttackObj.damage[FA];
+          angleToApply = this.basicAttackObj.launchAngle[FA];
+          newAttackFrame = this.basicAttackObj.attackFrames[FA];
           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[FA],
               this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
       }
       if(this.facingL && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround){
           console.log("Forward Air");
           damageToDeal = this.basicAttackObj.damage[FA];
+          angleToApply = this.basicAttackObj.launchAngle[FA];
+          newAttackFrame = this.basicAttackObj.attackFrames[FA];
          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[FA],
              this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
       }
       if(this.facingL && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
           console.log("Back Air");
           damageToDeal = this.basicAttackObj.damage[BA];
+          angleToApply = this.basicAttackObj.launchAngle[BA];
+          newAttackFrame = this.basicAttackObj.attackFrames[BA];
           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[BA],
               this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
       }
       if(this.facingR && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround){
           console.log("Back Air");
           damageToDeal = this.basicAttackObj.damage[BA];
+          angleToApply = this.basicAttackObj.launchAngle[BA];
+          newAttackFrame = this.basicAttackObj.attackFrames[BA];
           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[BA],
               this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
       }
       if(this.heldKeys.down && this.heldKeys.attack1 && !this.onGround){
           console.log("Down Air");
           damageToDeal = this.basicAttackObj.damage[DA];
+          angleToApply = this.basicAttackObj.launchAngle[DA];
+          newAttackFrame = this.basicAttackObj.attackFrames[DA];
           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[DA],
               this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
       }
       if(this.heldKeys.up && this.heldKeys.attack1 && !this.onGround){
           console.log("Up Air");
           damageToDeal = this.basicAttackObj.damage[UA];
+          angleToApply = this.basicAttackObj.launchAngle[UA];
+          newAttackFrame = this.basicAttackObj.attackFrames[UA];
           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[UA],
               this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
       }
       if(!this.heldKeys.left && !this.heldKeys.right && !this.heldKeys.up && !this.heldKeys.down && this.heldKeys.attack1 && !this.onGround){
           console.log("Neutral Air");
          damageToDeal = this.basicAttackObj.damage[NA];
+         angleToApply = this.basicAttackObj.launchAngle[NA];
+         newAttackFrame = this.basicAttackObj.attackFrames[NA];
          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[NA],
              this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
       }
@@ -380,6 +401,8 @@ var basicCharacter = {
       if(this.heldKeys.attack1 && this.onGround){
          console.log("Basic");
          damageToDeal = this.basicAttackObj.damage[A];
+         angleToApply = this.basicAttackObj.launchAngle[A];
+         newAttackFrame = this.basicAttackObj.attackFrames[A];
          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[A],
              this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
       }
@@ -388,27 +411,37 @@ var basicCharacter = {
       if((this.heldKeys.right || this.heldKeys.left) && this.heldKeys.attack2){
          console.log("Side Special");
          damageToDeal = this.specialAttackObj.damage[SS];
+         angleToApply = this.specialAttackObj.launchAngle[SS];
+         newAttackFrame = this.specialAttackObj.attackFrames[SS];
          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[SS],
              this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
       }
       if((!this.heldKeys.down && !this.heldKeys.up && !this.heldKeys.left && !this.heldKeys.right) && this.heldKeys.attack2){
          console.log("Neutral Special");
          damageToDeal = this.specialAttackObj.damage[S];
+         angleToApply = this.specialAttackObj.launchAngle[S];
+         newAttackFrame = this.specialAttackObj.attackFrames[S];
          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[S],
              this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
       }
       if(this.heldKeys.down && this.heldKeys.attack2){
          console.log("Down Special");
          damageToDeal = this.specialAttackObj.damage[DS];
+         angleToApply = this.specialAttackObj.launchAngle[DS];
+         newAttackFrame = this.specialAttackObj.attackFrames[DS];
          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[DS],
              this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
       }
       if(this.heldKeys.up && this.heldKeys.attack2){
          console.log("Up Special");
          damageToDeal = this.specialAttackObj.damage[US];
+         angleToApply = this.specialAttackObj.launchAngle[US];
+         newAttackFrame = this.specialAttackObj.attackFrames[DS];
          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[US],
              this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
       }
+
+      this.basicAttackFrames = newAttackFrame;
 
 
       //ADDING THE KNOCKBACK
@@ -418,12 +451,24 @@ var basicCharacter = {
        knockbackVec.y = this.otherPlayer.y - this.y;
        knockbackVec= knockbackVec.normalize();
 
+       var newX, newY;
+       newX = Math.cos(radians(angleToApply)) * knockbackVec.x - Math.sin(radians(angleToApply)) * knockbackVec.y;
+       newY = Math.sin(radians(angleToApply))* knockbackVec.x + Math.cos(radians(angleToApply)) * knockbackVec.y;
+
+
+       knockbackVec.x = newX;
+       knockbackVec.y = Math.abs(newY);
+
+       knockbackVec = knockbackVec.normalize();
+
+
+
       this.otherPlayer.percentage += damageToDeal;
       this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
       this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;
 
       // console.log(tKnockback*0.5*knockbackVec.x, tKnockback*0.5*knockbackVec.y);
-      this.otherPlayer.hitFrames = damageToDeal;
+      this.otherPlayer.hitFrames = damageToDeal*2;
 
       if(this.otherPlayer.xVel > 0){
 

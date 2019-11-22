@@ -13,11 +13,11 @@ var raiderBasic = {
   //add knockback based on type of attack, also add
   knockback: 10,
   scaling: 0.1,
-  damage: [5,5,5,5,5,5],
+  damage: [2,5,5,5,5,5],
   successive: 0,
   //in degrees measured from 0, right ray
-  launchAngle: [50, 20, 20, 20, 0, 0],
-  attackFrames: [25, 25, 25, 25, 25, 25]
+  launchAngle: [10, 20, 20, 20, 0, 0],
+  attackFrames: [5, 25, 25, 25, 25, 25]
 }
 
 var pinguBasic = {
@@ -25,10 +25,10 @@ var pinguBasic = {
   attackHitBox: createBasicAttackModel(),
   knockback: 10,
   scaling: 0.1,
-  damage: [5,5,5,5,5,5],
+  damage: [2,5,5,5,5,5],
   successive: 0,
-  launchAngle: [50, 20, 20, 20, 0, 0],
-  attackFrames: [25, 25, 25, 25, 25, 25]
+  launchAngle: [10, 20, 20, 20, 0, 0],
+  attackFrames: [5, 25, 25, 25, 25, 25]
 }
 
 var raiderSpecial = {
