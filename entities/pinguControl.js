@@ -88,10 +88,10 @@ var pingu = {
           this.recover();
           this.canJump = false;
         }
-        if(this.heldKeys.right && !this.heldKeys.left){
+        if(this.heldKeys.right && !this.heldKeys.left && !this.isHit){
             this.walkRight();
         }
-        if(this.heldKeys.left && !this.heldKeys.right){
+        if(this.heldKeys.left && !this.heldKeys.right && !this.isHit){
             this.walkLeft();
         }
 
@@ -159,7 +159,7 @@ var pingu = {
 
 
       //walking changes
-      if((this.movingR || this.movingL) && this.xVel != 0){
+      if((this.movingR || this.movingL) && this.xVel != 0 && !this.isHit){
         //alternates legs up and down between 0.5 and -0.5 from the original place
         if(this.walkStyle1){
             this.model.torso.rightLeg.rotation.x = 0.4*Math.sin(stage.timer*0.7);
