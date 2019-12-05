@@ -44,5 +44,9 @@ var charProto = {
     walkStyle2: false,
     walkStyle3: false,
     canMove: false,
-    otherPlayer: undefined
+    otherPlayer: undefined,
+    grabLedgeTimer: 100,
+    isGrabLedge: false,
+    grabTimer: 100,
+    isGrab: false
 }

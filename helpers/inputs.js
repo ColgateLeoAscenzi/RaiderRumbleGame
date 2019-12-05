@@ -119,6 +119,8 @@ function handleKeyDown(keyEvent){
        //jumping
        stage.player1.heldKeys.up = true;
        stage.player1.jump();
+       this.isGrabLedge = false;
+       this.grabLedgeTimer = 100;
      }
      if(keyEvent.key == "s"){
        //jumping
@@ -126,11 +128,11 @@ function handleKeyDown(keyEvent){
      }
      if(keyEvent.key == "j"){
        stage.player1.heldKeys.attack1 = true;
-       stage.player1.basicAttack();
+       stage.player1.doAnyAttack();
      }
      if(keyEvent.key == "k"){
        stage.player1.heldKeys.attack2 = true;
-       stage.player1.specialAttack();
+       stage.player1.doAnyAttack();
      }
 
    }

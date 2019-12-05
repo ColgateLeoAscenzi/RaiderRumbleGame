@@ -33,7 +33,7 @@ var pinguBasic = {
 
 var raiderSpecial = {
   attackModel: createSpecialAttackModel(),
-  attackHitBox: createBasicAttackModel(),
+  attackHitBox: createSpecialAttackModel(),
   knockback: 20,
   scaling: 0.1,
   damage: [2,2,0,2],
@@ -44,7 +44,7 @@ var raiderSpecial = {
 
 var pinguSpecial = {
   attackModel: createSpecialAttackModel(),
-  attackHitBox: createBasicAttackModel(),
+  attackHitBox: createSpecialAttackModel(),
   knockback: 20,
   scaling: 0.1,
   damage: [2,2,0,2],

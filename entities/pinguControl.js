@@ -270,7 +270,7 @@ var pingu = {
   basicAttack: function(){
     //can only attack if attack off cooldown, they're not hitstunned and they haven't recovered
     if(this.canBasicAttack && !this.isHit && !this.isRecover){
-        var attackBox = this.basicAttackModel.clone();
+        var attackBox = this.basicAttackObj.attackModel.clone();
         if(this.facingL){
             attackBox.position.set(this.x-10, this.y, this.z);
             if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
@@ -306,7 +306,6 @@ var pingu = {
                   if(this.otherPlayer.y > this.y - this.height/2 - 5 && this.otherPlayer.y < this.y +this.height/2 + 5){
                       this.otherPlayer.isHit = true;
                       this.doAnyAttack();
-
                   }
               }
           }
