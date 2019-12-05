@@ -4,6 +4,7 @@ var basicBox = {
     model: createBasicBoxMesh(),
     hitBox: createBasicBoxBounding(),
     hitBoxEnabled: false,
+    grabbable: true,
     update: function(){
         if(this.hitBoxEnabled){
             stage.scene.add(this.hitBox);
