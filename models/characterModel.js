@@ -17,6 +17,10 @@ var Colors = {
 };
 
 function createBasicCharacterMesh(x, y, z) {
+    var raider = new Raider(x, y, z);
+}
+
+var Raider = function(x, y, z) {
   this.mesh      = new THREE.Object3D();
   this.mesh.name = "ColgateRaider";
 
@@ -162,6 +166,10 @@ function createBasicCharacterMesh(x, y, z) {
 }
 
 function createPinguMesh(x, y, z) {
+    var pingu = new Pingu(x, y, z);
+}
+
+var Pingu = function(x, y, z) {
   this.mesh      = new THREE.Object3D();
   this.mesh.name = "Pingu";
 
