@@ -9,6 +9,7 @@ var stageA = {
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
         this.bgm = 'sounds/Katawa Shoujo OST - Afternoon.mp3';
 
+
         this.omega = omegaOn;
         this.blockA = basicBox;
         this.blockB = dirtBlock;
