@@ -44,11 +44,11 @@ function handleKeyUp(keyEvent){
     }
     if(keyEvent.key == "ArrowUp"){
     //jumping
-        stage.player2.heldKeys.down = false;
+        stage.player2.heldKeys.up = false;
     }
     if(keyEvent.key == "ArrowDown"){
     //jumping
-        stage.player2.heldKeys.up = false;
+        stage.player2.heldKeys.down = false;
         stage.player2.jumping = false;
     }
     if(keyEvent.key == "1"){
@@ -159,11 +159,11 @@ function handleKeyDown(keyEvent){
     }
     if(keyEvent.key == "1"){
         stage.player2.heldKeys.attack1 = true;
-        stage.player2.basicAttack();
+        stage.player2.doAnyAttack();
     }
     if(keyEvent.key == "2"){
         stage.player2.heldKeys.attack2 = true;
-        stage.player2.specialAttack();
+        stage.player2.doAnyAttack();
     }
   }
 

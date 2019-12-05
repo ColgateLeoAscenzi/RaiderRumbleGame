@@ -22,6 +22,8 @@ var basicCharacter = {
 
     },
     update: function(){
+      console.log(this.heldKeys);
+
         // checks and sets the lowsest current point
         if(this.boxBelow != undefined){
             this.minDown = this.boxBelow.position.y + this.boxBelow.userData.height/2 + this.height/2;
@@ -410,7 +412,7 @@ var basicCharacter = {
         attackBox = this.basicAttackObj.attackHitBox.clone();
         if(this.facingL){
           attackBox.position.set(this.x-10, this.y, this.z);
-          if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
+          if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
               if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
                 this.otherPlayer.isHit = true;
               }
@@ -418,7 +420,7 @@ var basicCharacter = {
         }
         else if(this.facingR){
           attackBox.position.set(this.x+10, this.y, this.z);
-          if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
+          if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
               if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
                 this.otherPlayer.isHit = true;
               }
@@ -445,14 +447,13 @@ var basicCharacter = {
              this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
 
         attackBox = this.specialAttackObj.attackHitBox.clone();
-        attackBox.position.set(this.x+10, this.y, this.z);
         if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
             if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
               this.otherPlayer.isHit = true;
             }
         }
         if(this.facingL){
-          attackBox.position.set(this.x-5, this.y, this.z);
+          attackBox.position.set(this.x-15, this.y, this.z);
           if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 10){
               if(this.otherPlayer.y > this.y - this.height/2 - 5 && this.otherPlayer.y < this.y +this.height/2 + 5){
                   this.otherPlayer.isHit = true;
@@ -460,7 +461,7 @@ var basicCharacter = {
           }
         }
         else if(this.facingR){
-          attackBox.position.set(this.x+5, this.y, this.z);
+          attackBox.position.set(this.x+15, this.y, this.z);
           if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 10){
               if(this.otherPlayer.y > this.y - this.height/2 -5 && this.otherPlayer.y < this.y +this.height/2 + 5){
                   this.otherPlayer.isHit = true;
@@ -488,7 +489,7 @@ var basicCharacter = {
 
         attackBox = this.specialAttackObj.attackHitBox.clone();
         attackBox.position.set(this.x+10, this.y, this.z);
-        
+
         if(this.facingL){
           attackBox.position.set(this.x-5, this.y, this.z);
           if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 10){
@@ -524,9 +525,10 @@ var basicCharacter = {
              this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
 
         attackBox = this.specialAttackObj.attackHitBox.clone();
-        attackBox.position.set(this.x+10, this.y, this.z);
-        if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
-            if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
+        attackBox.position.set(this.x, this.y-10, this.z);
+        attackBox.rotation.z = -1.57;
+        if(this.otherPlayer.x > this.x - this.width/2 && this.otherPlayer.x < this.x + this.width/2){
+            if(this.otherPlayer.y > this.y - this.height/2 - 15 && this.otherPlayer.y < this.y - this.height/2){
               this.otherPlayer.isHit = true;
             }
         }
@@ -540,9 +542,10 @@ var basicCharacter = {
              this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
 
         attackBox = this.specialAttackObj.attackHitBox.clone();
-        attackBox.position.set(this.x+10, this.y, this.z);
-        if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
-            if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
+        attackBox.position.set(this.x, this.y+10, this.z);
+        attackBox.rotation.z = -1.57;
+        if(this.otherPlayer.x > this.x - this.width/2 && this.otherPlayer.x < this.x + this.width/2){
+            if(this.otherPlayer.y < this.y + this.height/2 + 15 && this.otherPlayer.y > this.y + 3*this.height/2){
               this.otherPlayer.isHit = true;
             }
         }
@@ -576,21 +579,22 @@ var basicCharacter = {
        knockbackVec = knockbackVec.normalize();
 
 
+       if(this.otherPlayer.isHit){
+         this.otherPlayer.percentage += damageToDeal;
+         this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
+         this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;
 
-      this.otherPlayer.percentage += damageToDeal;
-      this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
-      this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;
+         // console.log(tKnockback*0.5*knockbackVec.x, tKnockback*0.5*knockbackVec.y);
+         this.otherPlayer.hitFrames = damageToDeal*2;
 
-      // console.log(tKnockback*0.5*knockbackVec.x, tKnockback*0.5*knockbackVec.y);
-      this.otherPlayer.hitFrames = damageToDeal*2;
+         if(this.otherPlayer.xVel > 0){
 
-      if(this.otherPlayer.xVel > 0){
-
-        this.otherPlayer.model.rotation.z = -1.57;
-      }
-      else{
-        this.otherPlayer.model.rotation.z = 1.57;
-      }
+           this.otherPlayer.model.rotation.z = -1.57;
+         }
+         else{
+           this.otherPlayer.model.rotation.z = 1.57;
+         }
+       }
     }
 
 }
