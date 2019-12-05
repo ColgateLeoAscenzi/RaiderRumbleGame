@@ -22,7 +22,6 @@ var basicCharacter = {
 
     },
     update: function(){
-
         // checks and sets the lowsest current point
         if(this.boxBelow != undefined){
             this.minDown = this.boxBelow.position.y + this.boxBelow.userData.height/2 + this.height/2;
