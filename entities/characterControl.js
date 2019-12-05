@@ -179,7 +179,7 @@ var basicCharacter = {
 
 
         //to reset animation from attack
-        if(this.canBasicAttack){
+        if(this.canAAttack[0]){
             this.model.rotation.z = 0;
         }
       }
@@ -197,7 +197,7 @@ var basicCharacter = {
         this.model.torso.leftArm.rotation.x = - 0;
 
         //to reset animation from attack
-        if(this.canBasicAttack && !this.isHit){
+        if(this.canAAttack[0] && !this.isHit){
             this.model.rotation.z = 0;
         }
       }
@@ -214,14 +214,19 @@ var basicCharacter = {
       }
 
 
-      if(!this.canBasicAttack){
+      if(!this.canAAttack[0]){ //General
           this.basicAttackFrames-=1;
-          this.model.rotation.z -= 0.4;
+          this.model.torso.rightArm.rotation.z += 0.4;
+          this.model.torso.rightArm.rightHand.coin.position.x += 5;
+          this.model.torso.rightArm.rightHand.coin.scale.set(4,4,4);
 
 
           if(this.basicAttackFrames == 0){
               this.basicAttackFrames = 25;
-              this.canBasicAttack = true;
+              this.model.torso.rightArm.rotation.z = 0;
+              this.model.torso.rightArm.rightHand.coin.position.x = 0;
+              this.model.torso.rightArm.rightHand.coin.scale.set(1,1,1);
+              this.canAAttack[0] = true;
           }
       }
 
@@ -435,6 +440,7 @@ var basicCharacter = {
               }
           }
         }
+        this.canAAttack[0] = false;
       }
 
       //special attacks
@@ -554,7 +560,7 @@ var basicCharacter = {
       stage.scene.add(attackBox);
       setTimeout(function(){stage.scene.remove(attackBox);}, 100);
 
-      this.canBasicAttack = false;
+      //this.canAAttack[0] = false;
 
 
 

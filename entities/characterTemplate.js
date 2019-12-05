@@ -36,6 +36,8 @@ var charProto = {
     boxLeft: undefined,
     boxRight:undefined,
     canBasicAttack: true,
+    canAAttack: [true, true, true, true, true],
+    canBAttack: [true, true, true, true],
     basicAttackFrames: 25,
     isRecover: false,
     canRecover: true,
