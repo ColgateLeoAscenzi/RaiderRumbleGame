@@ -1,3 +1,9 @@
+var starColors = {
+  white: 0xffffff,
+  red: 0xffebd1,
+  blue: 0xcad8ff,
+};
+
 //noonLights and nightLights incomplete
 
 function noonLights(scene) {
@@ -61,28 +67,49 @@ function sunsetLights(scene) {
 function nightLights(scene) {
 
   var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
-  var matBox  = new THREE.MeshPhongMaterial(
-                             { color : 0xfff4f3});
+  var matBox  = new THREE.MeshLambertMaterial(
+                             { color : 0x000000});
   var box = new THREE.Mesh(geomBox, matBox);
   box.material.side = THREE.BackSide;
   scene.add(box);
 
 
+  var ambientLight = new THREE.AmbientLight(0x5d3667, 0.3);
+  scene.add(ambientLight);
 
-  // var ambientLight = new THREE.AmbientLight(0x5d3667, 0.3);
-  // //ambientLight.position.set(0,0,100);
-  // scene.add(ambientLight);
-
-  var star1 = new THREE.PointLight(0xfff4f3, 0.7);
+  var star1 = new THREE.PointLight(0xfff4f3, 1);
   star1.position.set(100, 100, -100);
-
-  var lightbulb = new THREE.Mesh(
-    new THREE.SphereGeometry( 10, 16, 8 ),
-    new THREE.MeshPhongMaterial( { color: 0xfff4f3 } )
-  );
-  lightbulb.position.set(100, 100, -0);
   scene.add(star1);
-  scene.add(lightbulb);
+
+  for (var i = 0; i < 100; i++) {
+    var starColor;
+    //var random_color_selector = Math.round(Math.random() * 3) + 1;
+
+    switch (random_color_selector = Math.round(Math.random() * 3) + 1) {
+      case 1:
+        starColor = starColors.white;
+        break;
+      case 2:
+        starColor = starColors.red;
+        break;
+      case 3:
+        starColor = starColors.blue;
+    }
+
+
+    var starShape = new THREE.Mesh(
+      new THREE.SphereGeometry( 1, 1, 1 ),
+      new THREE.MeshBasicMaterial( { color: starColor } )
+    );
+
+  var x_position = (Math.round(Math.random()) * 2 - 1) * Math.floor(Math.random() * 300);
+  var y_position = Math.floor(Math.random() * 100) + 30;
+  var z_position = -1 * (Math.floor(Math.random() * 100) + 70);
+
+    starShape.position.set(x_position, y_position, z_position);
+    scene.add(starShape);
+  }
+
 
 
   // var star2 = new THREE.PointLight(0xafc9ff, 0.7);

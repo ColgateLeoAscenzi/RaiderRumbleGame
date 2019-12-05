@@ -54,10 +54,10 @@ var stageA = {
         // this.scene.add(newLight);
 
 
-        sunsetLights(this.scene);
+        //sunsetLights(this.scene);
 
         // noonLights(this.scene);
-        // nightLights(this.scene);
+        nightLights(this.scene);
 
     },
     populateScene: function(){
