@@ -18,6 +18,7 @@ var Colors = {
 
 function createBasicCharacterMesh(x, y, z) {
     var raider = new Raider(x, y, z);
+    return raider;
 }
 
 var Raider = function(x, y, z) {
@@ -167,6 +168,7 @@ var Raider = function(x, y, z) {
 
 function createPinguMesh(x, y, z) {
     var pingu = new Pingu(x, y, z);
+    return pingu;
 }
 
 var Pingu = function(x, y, z) {
