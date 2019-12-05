@@ -5,6 +5,8 @@ var charProto = {
     height: 10,
     width: 10,
     xVel: 0,
+    xAccel: 0.9,
+    maxXVel: 1,
     yVel: 0,
     stock: 3,
     weight: 100,
@@ -42,5 +44,9 @@ var charProto = {
     walkStyle2: false,
     walkStyle3: false,
     canMove: false,
-    otherPlayer: undefined
+    otherPlayer: undefined,
+    grabLedgeTimer: 100,
+    isGrabLedge: false,
+    grabTimer: 100,
+    isGrab: false
 }

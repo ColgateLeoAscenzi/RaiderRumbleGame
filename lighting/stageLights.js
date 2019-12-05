@@ -27,8 +27,11 @@ function noonLights(scene) {
 function sunsetLights(scene) {
     // Create the Skybox
   var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
-  var matBox  = new THREE.MeshLambertMaterial(
-                             {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/Persson.jpg')});
+
+  // var matBox  = new THREE.MeshPhongMaterial(
+  //                            {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/PERSONA_20th.png')});
+ var matBox  = new THREE.MeshPhongMaterial(
+                            {color : 0xf6ca97});
 
 
 
