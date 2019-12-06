@@ -120,6 +120,7 @@ function handleWindowResize() {
 function loop() {
   doUpdates();
   renderer.render(stage.scene, camera);
+  // console.log(renderer.info.memory); 
   stats.update();
   requestAnimationFrame(loop);
   if(!gameOver){
