@@ -17,7 +17,7 @@ var raiderBasic = {
   successive: 0,
   //in degrees measured from 0, right ray
   launchAngle: [10, 20, 20, 20, 0, 0],
-  attackFrames: [5, 25, 25, 25, 25, 25]
+  attackFrames: [11, 25, 25, 25, 25, 25]
 }
 
 var pinguBasic = {
