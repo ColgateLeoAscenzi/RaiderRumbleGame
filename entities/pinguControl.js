@@ -265,7 +265,14 @@ var pingu = {
 
       if(!this.canBAttack[S]){ //General
           this.basicAttackFrames-=1;
+
+          // this.model.torso.rightArm.rotation.z += 0.95;
+
+
+
           if(this.basicAttackFrames <= 0){
+            // this.model.torso.rightArm.rotation.z = 0;
+
               this.basicAttackFrames = 25;
               this.canBAttack[S] = true;
               this.canBasicAttack = true;
