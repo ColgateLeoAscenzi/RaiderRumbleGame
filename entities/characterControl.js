@@ -2,6 +2,8 @@ var basicCharacter = {
     model: createBasicCharacterMesh(0,0,0),
     hitBox: createBasicCharacterBounding(0,0,0),
     basicAttackModel: createBasicAttackModel(),
+    canAAttack: [true, true, true, true, true],
+    canBAttack: [true, true, true, true],
     init: function(){
         var keys = Object.keys(charProto);
         for(var i = 0; i < keys.length; i++){
@@ -213,7 +215,6 @@ var basicCharacter = {
 
 
       if(!this.canAAttack[A]){ //General
-        console.log(this.basicAttackFrames);
           this.basicAttackFrames-=1;
           this.model.torso.rightArm.rotation.z += 0.15;
           this.model.torso.rightArm.rightHand.coin.position.x = 15;
@@ -238,6 +239,84 @@ var basicCharacter = {
               this.canAAttack[A] = true;
               //WE need this check for the general case of casing a spell
               //all the specific can attacks are needed for animation distinction
+              this.canBasicAttack = true;
+          }
+      }
+
+      if(!this.canAAttack[FA]){ //General
+          this.basicAttackFrames-=1;
+          if(this.basicAttackFrames <= 0){
+              this.basicAttackFrames = 25;
+              this.canAAttack[FA] = true;
+              this.canBasicAttack = true;
+          }
+      }
+
+      if(!this.canAAttack[BA]){ //General
+          this.basicAttackFrames-=1;
+          if(this.basicAttackFrames <= 0){
+              this.basicAttackFrames = 25;
+              this.canAAttack[BA] = true;
+              this.canBasicAttack = true;
+          }
+      }
+
+      if(!this.canAAttack[DA]){ //General
+          this.basicAttackFrames-=1;
+          if(this.basicAttackFrames <= 0){
+              this.basicAttackFrames = 25;
+              this.canAAttack[DA] = true;
+              this.canBasicAttack = true;
+          }
+      }
+
+      if(!this.canAAttack[UA]){ //General
+          this.basicAttackFrames-=1;
+          if(this.basicAttackFrames <= 0){
+              this.basicAttackFrames = 25;
+              this.canAAttack[UA] = true;
+              this.canBasicAttack = true;
+          }
+      }
+
+      if(!this.canAAttack[NA]){ //General
+          this.basicAttackFrames-=1;
+          if(this.basicAttackFrames <= 0){
+              this.basicAttackFrames = 25;
+              this.canAAttack[NA] = true;
+              this.canBasicAttack = true;
+          }
+      }
+
+      if(!this.canBAttack[S]){ //General
+          this.basicAttackFrames-=1;
+          if(this.basicAttackFrames <= 0){
+              this.basicAttackFrames = 25;
+              this.canBAttack[S] = true;
+              this.canBasicAttack = true;
+          }
+      }
+      if(!this.canBAttack[SS]){ //General
+          this.basicAttackFrames-=1;
+          if(this.basicAttackFrames <= 0){
+              this.basicAttackFrames = 25;
+              this.canBAttack[SS] = true;
+              this.canBasicAttack = true;
+          }
+      }
+      if(!this.canBAttack[US]){ //General
+          this.basicAttackFrames-=1;
+          if(this.basicAttackFrames <= 0){
+              this.basicAttackFrames = 25;
+              this.canBAttack[US] = true;
+              this.canBasicAttack = true;
+          }
+      }
+      if(!this.canBAttack[DS]){ //General
+          this.basicAttackFrames-=1;
+          if(this.basicAttackFrames <= 0){
+              this.basicAttackFrames = 25;
+              this.canBAttack[DS] = true;
               this.canBasicAttack = true;
           }
       }
@@ -272,23 +351,25 @@ var basicCharacter = {
         this.canJump = false;
       }
       if(this.canJump){
-        this.jumpCt+=1;
-        this.yVel = this.jumpSpeed;
-        this.onGround = false;
-        this.isHit = false;
+        if(!this.isHit){
+          this.jumpCt+=1;
+          this.yVel = this.jumpSpeed;
+          this.onGround = false;
+          this.isHit = false;
+        }
       }
     },
     drop: function(){
     },
     recover: function(){
       this.isRecover = true;
-      this.yVel = 4;
+      this.yVel = this.recoverVel;
       this.canRecover = false;
       this.isHit = false;
     },
     doAnyAttack: function(){
       //DO ALL MOTION HEREE
-      if(this.canBasicAttack){
+      if(this.canBasicAttack && !this.isHit && !this.isRecover){
         var tKnockback = 0;
         var damageToDeal = 0;
         var angleToApply = 0;
@@ -488,6 +569,7 @@ var basicCharacter = {
 
         //special attacks
         if((this.heldKeys.right || this.heldKeys.left) && this.heldKeys.attack2){
+          if(this.canBAttack[SS] == true){
            console.log("Side Special");
            damageToDeal = this.specialAttackObj.damage[SS];
            angleToApply = this.specialAttackObj.launchAngle[SS];
@@ -525,80 +607,95 @@ var basicCharacter = {
                 }
             }
           }
+          this.canBAttack[SS] = false;
+          this.canBasicAttack = false;
+        }
 
 
         }
         if((!this.heldKeys.down && !this.heldKeys.up && !this.heldKeys.left && !this.heldKeys.right) && this.heldKeys.attack2){
-           console.log("Neutral Special");
-           damageToDeal = this.specialAttackObj.damage[S];
-           angleToApply = this.specialAttackObj.launchAngle[S];
-           newAttackFrame = this.specialAttackObj.attackFrames[S];
-           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[S],
-               this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
+          if(this.canBAttack[S] == true){
+             console.log("Neutral Special");
+             damageToDeal = this.specialAttackObj.damage[S];
+             angleToApply = this.specialAttackObj.launchAngle[S];
+             newAttackFrame = this.specialAttackObj.attackFrames[S];
+             tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[S],
+                 this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
 
-          attackBox = this.specialAttackObj.attackHitBox.clone();
-          attackBox.position.set(this.x+10, this.y, this.z);
+            attackBox = this.specialAttackObj.attackHitBox.clone();
+            attackBox.position.set(this.x+10, this.y, this.z);
 
-          if(this.facingL){
-            attackBox.position.set(this.x-5, this.y, this.z);
-            if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 10){
-                if(this.otherPlayer.y > this.y - this.height/2 - 5 && this.otherPlayer.y < this.y +this.height/2 + 5){
-                    this.otherPlayer.isHit = true;
-                }
+            if(this.facingL){
+              attackBox.position.set(this.x-5, this.y, this.z);
+              if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 10){
+                  if(this.otherPlayer.y > this.y - this.height/2 - 5 && this.otherPlayer.y < this.y +this.height/2 + 5){
+                      this.otherPlayer.isHit = true;
+                  }
+              }
             }
-          }
-          else if(this.facingR){
-            attackBox.position.set(this.x+5, this.y, this.z);
-            if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 10){
-                if(this.otherPlayer.y > this.y - this.height/2 -5 && this.otherPlayer.y < this.y +this.height/2 + 5){
-                    this.otherPlayer.isHit = true;
-                }
+            else if(this.facingR){
+              attackBox.position.set(this.x+5, this.y, this.z);
+              if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 10){
+                  if(this.otherPlayer.y > this.y - this.height/2 -5 && this.otherPlayer.y < this.y +this.height/2 + 5){
+                      this.otherPlayer.isHit = true;
+                  }
+              }
             }
-          }
-          else{
-            attackBox.position.set(this.x, this.y, this.z);
-            if(this.otherPlayer.x > this.x - this.width/4 && this.otherPlayer.x < this.x + this.width/4){
-                if(this.otherPlayer.y > this.y - this.height/2 -5 && this.otherPlayer.y < this.y +this.height/2 + 5){
-                    this.otherPlayer.isHit = true;
-                }
+            else{
+              attackBox.position.set(this.x, this.y, this.z);
+              if(this.otherPlayer.x > this.x - this.width/4 && this.otherPlayer.x < this.x + this.width/4){
+                  if(this.otherPlayer.y > this.y - this.height/2 -5 && this.otherPlayer.y < this.y +this.height/2 + 5){
+                      this.otherPlayer.isHit = true;
+                  }
+              }
             }
+            this.canBAttack[S] = false;
+            this.canBasicAttack = false;
           }
 
         }
         if(this.heldKeys.down && this.heldKeys.attack2){
-           console.log("Down Special");
-           damageToDeal = this.specialAttackObj.damage[DS];
-           angleToApply = this.specialAttackObj.launchAngle[DS];
-           newAttackFrame = this.specialAttackObj.attackFrames[DS];
-           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[DS],
-               this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
+          if(this.canBAttack[DS] == true){
+             console.log("Down Special");
+             damageToDeal = this.specialAttackObj.damage[DS];
+             angleToApply = this.specialAttackObj.launchAngle[DS];
+             newAttackFrame = this.specialAttackObj.attackFrames[DS];
+             tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[DS],
+                 this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
 
-          attackBox = this.specialAttackObj.attackHitBox.clone();
-          attackBox.position.set(this.x, this.y-10, this.z);
-          attackBox.rotation.z = -1.57;
-          if(this.otherPlayer.x > this.x - this.width/2 && this.otherPlayer.x < this.x + this.width/2){
-              if(this.otherPlayer.y > this.y - this.height/2 - 15 && this.otherPlayer.y < this.y - this.height/2){
-                this.otherPlayer.isHit = true;
-              }
+            attackBox = this.specialAttackObj.attackHitBox.clone();
+            attackBox.position.set(this.x, this.y-10, this.z);
+            attackBox.rotation.z = -1.57;
+            if(this.otherPlayer.x > this.x - this.width/2 && this.otherPlayer.x < this.x + this.width/2){
+                if(this.otherPlayer.y > this.y - this.height/2 - 15 && this.otherPlayer.y < this.y - this.height/2){
+                  this.otherPlayer.isHit = true;
+                }
+            }
+            this.canBAttack[DS] = false;
+            this.canBasicAttack = false;
           }
         }
         if(this.heldKeys.up && this.heldKeys.attack2){
-           console.log("Up Special");
-           damageToDeal = this.specialAttackObj.damage[US];
-           angleToApply = this.specialAttackObj.launchAngle[US];
-           newAttackFrame = this.specialAttackObj.attackFrames[DS];
-           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[US],
-               this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
+            if(this.canBAttack[US] == true){
+             console.log("Up Special");
+             damageToDeal = this.specialAttackObj.damage[US];
+             angleToApply = this.specialAttackObj.launchAngle[US];
+             newAttackFrame = this.specialAttackObj.attackFrames[DS];
+             tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[US],
+                 this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
 
-          attackBox = this.specialAttackObj.attackHitBox.clone();
-          attackBox.position.set(this.x, this.y+10, this.z);
-          attackBox.rotation.z = -1.57;
-          if(this.otherPlayer.x > this.x - this.width/2 && this.otherPlayer.x < this.x + this.width/2){
-              if(this.otherPlayer.y < this.y + this.height/2 + 15 && this.otherPlayer.y > this.y + 3*this.height/2){
-                this.otherPlayer.isHit = true;
-              }
+            attackBox = this.specialAttackObj.attackHitBox.clone();
+            attackBox.position.set(this.x, this.y+10, this.z);
+            attackBox.rotation.z = -1.57;
+            if(this.otherPlayer.x > this.x - this.width/2 && this.otherPlayer.x < this.x + this.width/2){
+                if(this.otherPlayer.y < this.y + this.height/2 + 15 && this.otherPlayer.y > this.y + 3*this.height/2){
+                  this.otherPlayer.isHit = true;
+                }
+            }
+            this.canBAttack[US] = false;
+            this.canBasicAttack = false;
           }
-        }
+      }
 
         if(attackBox != undefined){
           stage.scene.add(attackBox);

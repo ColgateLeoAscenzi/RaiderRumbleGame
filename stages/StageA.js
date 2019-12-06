@@ -76,7 +76,13 @@ var stageA = {
     populateOmega: function(){
         //create floor out of block a
         for(var i = -10; i < 11; i++){
+          if(i == -10 || i == 10){
+              createBox(i*this.blockC.width,-this.blockA.height/4, 0, stage.blockC);
+              createBox(i*this.blockC.width, this.blockA.height/4, 0, stage.blockC);
+          }
+          else{
             createBox(i*this.blockA.width, 0, 0, stage.blockA);
+          }
         }
         //create underside out of block b
         for(var j = 1; j< 5; j++ ){

@@ -28,7 +28,7 @@ var pinguBasic = {
   damage: [2,5,5,5,5,5],
   successive: 0,
   launchAngle: [10, 20, 20, 20, 0, 0],
-  attackFrames: [5, 25, 25, 25, 25, 25]
+  attackFrames: [11, 25, 25, 25, 25, 25]
 }
 
 var raiderSpecial = {
