@@ -322,25 +322,41 @@ var pingu = {
               this.canBasicAttack = true;
           }
       }
-      if(!this.canBAttack[SS]){ //General
+      if(!this.canBAttack[SS] ){ //General
         this.basicAttackFrames-=1;
         // dabbing(ATTACK, modelClone);
-        
+
         dabbing(ATTACK, this.model);
+        if(this.basicAttackFrames == this.specialAttackObj.attackFrames[SS] - 1 && !this.isRecover){
+          if(this.facingL) {
+            this.specialAttackObj.castedRight = false;
+            this.secondary.position.set(this.x, this.y, this.z);
+          }
+          if(this.facingR) {
+            this.specialAttackObj.castedRight = true;
+            this.secondary.position.set(this.x, this.y, this.z);
+          }
+        }
+        else{
+          if(!this.specialAttackObj.castedRight) {
+            this.secondary.position.x -=2.5;
+          }
+          if(this.specialAttackObj.castedRight) {
+            this.secondary.position.x +=2.5;
+          }
+        }
+
+        dabbing(ATTACK, this.secondary);
 
           if(this.basicAttackFrames <= (this.specialAttackObj.attackFrames[SS]/2)){
 
-            var modelClone = this.model.clone();
-            stageA.scene.add(modelClone);
-            modelClone.position.x = this.x + 10;
-
-            // setTimeout(function(){dabbing(RESET, modelClone);}, 200);
             dabbing(RESET, this.model);
+            dabbing(RESET, this.secondary);
 
               this.basicAttackFrames = 25;
               this.canBAttack[SS] = true;
               this.canBasicAttack = true;
-              setTimeout(function(){stageA.scene.remove(modelClone)}, 100);
+              this.secondary.position.set(stageA.maximumX + 300,stageA.maximumY + 300,0);
           }
       }
       if(!this.canBAttack[US]){ //General
@@ -366,6 +382,7 @@ var pingu = {
       }
       if(!this.canBAttack[DS]){ //General
           this.basicAttackFrames-=1;
+
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
               this.canBAttack[DS] = true;

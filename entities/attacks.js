@@ -50,7 +50,8 @@ var pinguSpecial = {
   damage: [2,2,0,2],
   successive: 0,
   launchAngle: [20, 0, 30, 0],
-  attackFrames: [25, 25, 25, 25]
+  attackFrames: [25, 25, 25, 25],
+  castedRight: false,
 }
 
 
