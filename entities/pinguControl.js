@@ -304,15 +304,23 @@ var pingu = {
       }
 
       if(!this.canBAttack[S]){ //General
-          this.basicAttackFrames-=1;
+          this.basicAttackFrames-= 1.5;
 
-          // this.model.torso.rightArm.rotation.z += 0.95;
-
-
+          this.model.torso.rightArm.rotation.z = -1.96;
+          this.model.torso.rightArm.rightHand.sword.rotation.z = 2.75;
+          this.model.torso.leftArm.rotation.z = -1.96;
+          this.model.torso.leftArm.position.z = 2.5;
+          this.model.torso.leftArm.position.y = 3;
+          this.model.torso.leftArm.position.x = 2;
+          this.model.rotation.z = -0.39;
 
           if(this.basicAttackFrames <= 0){
-            // this.model.torso.rightArm.rotation.z = 0;
-
+            this.model.torso.rightArm.rotation.z = 0;
+            this.model.torso.rightArm.rightHand.sword.rotation.z = 0.6;
+            this.model.torso.leftArm.rotation.z = 0;
+            this.model.torso.leftArm.position.z = 0;
+            this.model.torso.leftArm.position.y = 0.5;
+            this.model.torso.leftArm.position.x = 4;
               this.basicAttackFrames = 25;
               this.canBAttack[S] = true;
               this.canBasicAttack = true;
@@ -327,8 +335,10 @@ var pingu = {
           }
       }
       if(!this.canBAttack[US]){ //General
-          this.basicAttackFrames-=1;
+          this.basicAttackFrames-=2.5;
+          this.model.rotation.y += 0.78;
           if(this.basicAttackFrames <= 0){
+              this.model.rotation.y = 0;
               this.basicAttackFrames = 25;
               this.canBAttack[US] = true;
               this.canBasicAttack = true;
@@ -705,7 +715,7 @@ var pingu = {
            console.log("Up Special");
            damageToDeal = this.specialAttackObj.damage[US];
            angleToApply = this.specialAttackObj.launchAngle[US];
-           newAttackFrame = this.specialAttackObj.attackFrames[DS];
+           newAttackFrame = this.specialAttackObj.attackFrames[US];
            tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[US],
                this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
 

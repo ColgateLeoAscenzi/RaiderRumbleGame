@@ -343,7 +343,6 @@ function createPinguMesh(x, y, z) {
   this.mesh.torso.add(this.mesh.torso.leftLeg);
   this.mesh.torso.leftLeg.position.set(x+1.9,y-3.6,z+2.25)
 
-  this.mesh.torso.position.y;
   this.mesh.head.position.y+=0.25;
   this.mesh.hat.position.y-=0.2;
   this.mesh.add(this.mesh.torso);
