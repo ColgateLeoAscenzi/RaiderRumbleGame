@@ -1,6 +1,9 @@
 //character2
+var RESET = false;
+var ATTACK = true;
 var pingu = {
     model: createPinguMesh(0,0,0),
+    secondary: createPinguMesh(0,0,0),
     hitBox: createBasicCharacterBounding(0,0,0),
     basicAttackModel: createBasicAttackModel(),
     canAAttack: [true, true, true, true, true],
@@ -13,8 +16,11 @@ var pingu = {
         //spawn location
         this.x = 10;
         this.y = 10;
-        this.name = "Pingu"
-
+        this.name = "Pingu";
+        stageA.scene.add(this.secondary);
+        this.secondary.position.set(stageA.maximumX +300,stageA.maximumY + 300,0);
+        this.recoverVel = 3.5;
+        this.jumpSpeed = 2;
         this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
         attack2: false}
 
@@ -151,10 +157,10 @@ var pingu = {
     },
     animate: function(){
       //direction changes
-      if(this.facingR){
+      if(this.facingR && this.canBAttack[US]){
         this.model.rotation.y = 0.5;
       }
-      if(this.facingL){
+      if(this.facingL && this.canBAttack[US]){
         this.model.rotation.y = -0.5;
       }
 
@@ -209,6 +215,7 @@ var pingu = {
         this.model.head.leftEye.scale.set(1,1,1);
       }
 
+      //BEGIN ATTACK ANIMATIONS
       if(!this.canAAttack[A]){ //General
         var geomHBox1 = new THREE.BoxGeometry(1.5,1.5,1.5, 1, 1, 1);
         var matHBox1  = new THREE.MeshPhongMaterial(
@@ -306,37 +313,50 @@ var pingu = {
       if(!this.canBAttack[S]){ //General
           this.basicAttackFrames-= 1.5;
 
-          this.model.torso.rightArm.rotation.z = -1.96;
-          this.model.torso.rightArm.rightHand.sword.rotation.z = 2.75;
-          this.model.torso.leftArm.rotation.z = -1.96;
-          this.model.torso.leftArm.position.z = 2.5;
-          this.model.torso.leftArm.position.y = 3;
-          this.model.torso.leftArm.position.x = 2;
-          this.model.rotation.z = -0.39;
+          dabbing(ATTACK, this.model);
 
           if(this.basicAttackFrames <= 0){
-            this.model.torso.rightArm.rotation.z = 0;
-            this.model.torso.rightArm.rightHand.sword.rotation.z = 0.6;
-            this.model.torso.leftArm.rotation.z = 0;
-            this.model.torso.leftArm.position.z = 0;
-            this.model.torso.leftArm.position.y = 0.5;
-            this.model.torso.leftArm.position.x = 4;
+            dabbing(RESET, this.model);
               this.basicAttackFrames = 25;
               this.canBAttack[S] = true;
               this.canBasicAttack = true;
           }
       }
       if(!this.canBAttack[SS]){ //General
-          this.basicAttackFrames-=1;
-          if(this.basicAttackFrames <= 0){
+        this.basicAttackFrames-=1;
+        // dabbing(ATTACK, modelClone);
+        
+        dabbing(ATTACK, this.model);
+
+          if(this.basicAttackFrames <= (this.specialAttackObj.attackFrames[SS]/2)){
+
+            var modelClone = this.model.clone();
+            stageA.scene.add(modelClone);
+            modelClone.position.x = this.x + 10;
+
+            // setTimeout(function(){dabbing(RESET, modelClone);}, 200);
+            dabbing(RESET, this.model);
+
               this.basicAttackFrames = 25;
               this.canBAttack[SS] = true;
               this.canBasicAttack = true;
+              setTimeout(function(){stageA.scene.remove(modelClone)}, 100);
           }
       }
       if(!this.canBAttack[US]){ //General
           this.basicAttackFrames-=2.5;
           this.model.rotation.y += 0.78;
+
+          var geomHBox1 = new THREE.BoxGeometry(1.5,1.5,1.5, 1, 1, 1);
+          var matHBox1  = new THREE.MeshPhongMaterial(
+                                     { emissive : 0xff0000 * Math.random(), opacity: 1, transparent: true});
+
+          var boxH1 = new THREE.Mesh(geomHBox1, matHBox1).clone();
+
+          boxH1.position.set(5+this.x-10*Math.random(),-5+this.y-8*Math.random(),this.z);
+          stageA.scene.add(boxH1);
+          setTimeout(function(){stageA.scene.remove(boxH1)}, 50);
+
           if(this.basicAttackFrames <= 0){
               this.model.rotation.y = 0;
               this.basicAttackFrames = 25;
@@ -352,7 +372,6 @@ var pingu = {
               this.canBasicAttack = true;
           }
       }
-
 
   },
   walkRight: function(){
@@ -384,7 +403,11 @@ var pingu = {
       this.canJump = false;
     }
     if(this.canJump){
+
+
+
       if(!this.isHit){
+
         this.jumpCt+=1;
         this.yVel = this.jumpSpeed;
         this.onGround = false;
@@ -776,4 +799,31 @@ var pingu = {
 
     }
   }
+}
+
+function dabbing(attackBoolean, model) {
+  if(attackBoolean) {
+
+    model.torso.rightArm.rotation.z = -1.96;
+    model.torso.rightArm.rightHand.sword.rotation.z = 2.75;
+    model.torso.leftArm.rotation.z = -1.96;
+    model.torso.leftArm.position.z = 2.5;
+    model.torso.leftArm.position.y = 3;
+    model.torso.leftArm.position.x = 2;
+    model.rotation.z = -0.39;
+
+  }
+
+  else {
+
+    model.torso.rightArm.rotation.z = 0;
+    model.torso.rightArm.rightHand.sword.rotation.z = 0.6;
+    model.torso.leftArm.rotation.z = 0;
+    model.torso.leftArm.position.z = 0;
+    model.torso.leftArm.position.y = 0.5;
+    model.torso.leftArm.position.x = 4;
+
+  }
+
+
 }
