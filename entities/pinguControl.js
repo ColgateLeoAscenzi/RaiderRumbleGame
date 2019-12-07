@@ -211,7 +211,24 @@ var pingu = {
 
       if(!this.canAAttack[A]){ //General
           this.basicAttackFrames-=1;
+          if(this.facingL){
+            this.model.torso.rightArm.scale.set(1.6,1.6,1.6);
+            this.model.torso.rightArm.rightHand.sword.scale.set(1,2,1);
+            this.model.torso.rightArm.rotation.z += 0.1;
+
+
+          }
+          if(this.facingR){
+            this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
+
+          }
+
           if(this.basicAttackFrames <= 0){
+              this.model.torso.rightArm.scale.set(1,1,1);
+              this.model.torso.leftArm.scale.set(1,1,1);
+              this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
+              this.model.torso.rightArm.rotation.z = 0;
+
               this.basicAttackFrames = 25;
               this.canAAttack[A] = true;
               this.canBasicAttack = true;
@@ -220,7 +237,20 @@ var pingu = {
 
       if(!this.canAAttack[FA]){ //General
           this.basicAttackFrames-=1;
+          if(this.facingL){
+            this.model.torso.rightArm.scale.set(1.6,1.6,1.6);
+            this.model.torso.rightArm.rightHand.sword.scale.set(1,2,1);
+            this.model.torso.rightArm.rotation.z += 0.1;
+          }
+          if(this.facingR){
+            this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
+
+          }
+
           if(this.basicAttackFrames <= 0){
+            this.model.torso.rightArm.rotation.z = 0;
+            this.model.torso.rightArm.scale.set(1,1,1);
+            this.model.torso.leftArm.scale.set(1,1,1);
               this.basicAttackFrames = 25;
               this.canAAttack[FA] = true;
               this.canBasicAttack = true;
