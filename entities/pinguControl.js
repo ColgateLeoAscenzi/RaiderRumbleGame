@@ -17,9 +17,9 @@ var pingu = {
         this.x = 10;
         this.y = 10;
         this.name = "Pingu";
-        stageA.scene.add(this.secondary);
-        this.hearts = createHearts(stageA, stageA.maximumX + 300, stageA.maximumY + 300, 0);
-        this.secondary.position.set(stageA.maximumX +300,stageA.maximumY + 300,0);
+        selectedStageDat.scene.add(this.secondary);
+        this.hearts = createHearts(selectedStageDat, selectedStageDat.maximumX + 300, selectedStageDat.maximumY + 300, 0);
+        this.secondary.position.set(selectedStageDat.maximumX +300,selectedStageDat.maximumY + 300,0);
         this.recoverVel = 3.5;
         this.jumpSpeed = 2;
         this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
@@ -212,7 +212,6 @@ var pingu = {
         this.model.head.rightEye.scale.set(1,1,1);
         this.model.head.leftEye.scale.set(1,1,1);
       }
-
       //BEGIN ATTACK ANIMATIONS
       if(!this.canAAttack[A]){ //General
         // var geomHBox1 = new THREE.BoxGeometry(1.5,1.5,1.5, 1, 1, 1);
@@ -232,21 +231,22 @@ var pingu = {
             var swordRot = this.model.torso.rightArm.rightHand.sword.getWorldRotation();
             swordParticleBox.position.set(-5+this.x-12*Math.random(),-3+this.y+15*Math.random(),this.z);
 
-            stageA.scene.add(swordParticleBox);
-            setTimeout(function(){stageA.scene.remove(swordParticleBox)}, 50);
-            var bBox = new THREE.Box3();
-            console.log("x: ",bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).max.x-this.x, "to", bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).min.x-this.x);
-            console.log("y: ",bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).max.y-this.y, " to ", bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).min.y-this.y);
-            console.log("z: ",bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).max.z-this.z, " to ", bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).min.z-this.z);
+            selectedStageDat.scene.add(swordParticleBox);
+            setTimeout(function(){selectedStageDat.scene.remove(swordParticleBox)}, 50);
 
-
+            // selectedStageDat.scene.add();
+            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000);
+            if(hitBoxesOn){
+              selectedStageDat.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  selectedStageDat.scene.remove(bbox);}, 50);
+            }
 
           }
           if(this.facingR){
             this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
 
           }
-
           if(this.basicAttackFrames <= 0){
               this.model.torso.rightArm.scale.set(1,1,1);
               this.model.torso.leftArm.scale.set(1,1,1);
@@ -363,7 +363,7 @@ var pingu = {
               this.basicAttackFrames = 25;
               this.canBAttack[SS] = true;
               this.canBasicAttack = true;
-              this.secondary.position.set(stageA.maximumX + 300,stageA.maximumY + 300,0);
+              this.secondary.position.set(selectedStageDat.maximumX + 300,selectedStageDat.maximumY + 300,0);
           }
       }
       if(!this.canBAttack[US]){ //General
@@ -377,8 +377,8 @@ var pingu = {
           var boxH1 = new THREE.Mesh(geomHBox1, matHBox1).clone();
 
           boxH1.position.set(5+this.x-10*Math.random(),-5+this.y-8*Math.random(),this.z);
-          stageA.scene.add(boxH1);
-          setTimeout(function(){stageA.scene.remove(boxH1)}, 50);
+          selectedStageDat.scene.add(boxH1);
+          setTimeout(function(){selectedStageDat.scene.remove(boxH1)}, 50);
 
           if(this.basicAttackFrames <= 0){
               this.model.rotation.y = 0;
@@ -403,7 +403,7 @@ var pingu = {
           heartHelper(this.hearts, true, this.x, this.y, this.z);
 
           if(this.basicAttackFrames <= 0){
-              heartHelper(this.hearts, false, stageA.maximumX +300, stageA.maximumY+300, 0);
+              heartHelper(this.hearts, false, selectedStageDat.maximumX +300, selectedStageDat.maximumY+300, 0);
               this.basicAttackFrames = 25;
               this.model.torso.rightArm.rotation.y = 0;
               this.model.torso.rightArm.rightHand.sword.rotation.set(0,0,0.6);

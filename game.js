@@ -35,6 +35,8 @@ var winner = -1;
 
 var mapScene;
 
+var selectedStageDat;
+
 //TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
@@ -120,7 +122,7 @@ function handleWindowResize() {
 function loop() {
   doUpdates();
   renderer.render(stage.scene, camera);
-  // console.log(renderer.info.memory);
+  console.log(renderer.info.memory);
   stats.update();
   requestAnimationFrame(loop);
   if(!gameOver){
@@ -295,6 +297,7 @@ function buildStageSelect(){
 function initializeWorld(){
     contols = undefined;
     stage = selectedStage.stageData;
+    selectedStageDat = stage;
     omegaOn = selectedStage.omega;
     stage.init();
     console.log(stage);
