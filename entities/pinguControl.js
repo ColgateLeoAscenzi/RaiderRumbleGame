@@ -18,6 +18,7 @@ var pingu = {
         this.y = 10;
         this.name = "Pingu";
         stageA.scene.add(this.secondary);
+        this.hearts = createHearts(stageA, stageA.maximumX + 300, stageA.maximumY + 300, 0);
         this.secondary.position.set(stageA.maximumX +300,stageA.maximumY + 300,0);
         this.recoverVel = 3.5;
         this.jumpSpeed = 2;
@@ -149,9 +150,6 @@ var pingu = {
           this.model.position.set(this.x, this.y, 0);
           this.hitBox.position.set(this.x, this.y, 0);
         }
-
-
-
 
 
     },
@@ -322,7 +320,7 @@ var pingu = {
               this.canBasicAttack = true;
           }
       }
-      if(!this.canBAttack[SS] ){ //General
+      if(!this.canBAttack[SS]){ //General
         this.basicAttackFrames-=1;
         // dabbing(ATTACK, modelClone);
 
@@ -382,9 +380,19 @@ var pingu = {
       }
       if(!this.canBAttack[DS]){ //General
           this.basicAttackFrames-=1;
+          this.model.torso.rightArm.rotation.x = 1.57;
+          this.model.torso.rightArm.rightHand.sword.rotation.set(2,2,1);
+          this.model.torso.rightArm.rightHand.sword.position.z = 2.5;
 
+          for(var i = 0; i < this.hearts.length; i++) {
+              showHearts(this.hearts, this.model.position.x, this.model.position.y, 0);
+          }
           if(this.basicAttackFrames <= 0){
+              showHearts(this.hearts, stageA.maximumX + 300,stageA.maximumY + 300,0);
               this.basicAttackFrames = 25;
+              this.model.torso.rightArm.rotation.y = 0;
+              this.model.torso.rightArm.rightHand.sword.rotation.set(0,0,0.6);
+              this.model.torso.rightArm.rightHand.sword.position.z = 0.7;
               this.canBAttack[DS] = true;
               this.canBasicAttack = true;
           }
@@ -841,6 +849,66 @@ function dabbing(attackBoolean, model) {
     model.torso.leftArm.position.x = 4;
 
   }
+
+
+}
+
+function createHearts(stage, x, y, z) {
+    var arrToReturn = [];
+    for(var i = 0; i < 50; i+=5) {
+
+        var geomHBox1 = new THREE.BoxGeometry(1.5,1.5,1.5, 1, 1, 1);
+        var matHBox1  = new THREE.MeshPhongMaterial(
+                                   { color : 0xff0000, opacity: 1, transparent: true});
+
+        var boxH1 = new THREE.Mesh(geomHBox1, matHBox1).clone();
+
+        if(i <= 20) {
+            if(i == 5) {
+                boxH1.position.set(x - i, y + 5, z);
+            } else {
+               boxH1.position.set(x - i, y - i, z);
+            }
+
+        } else{
+            if(i == 25) {
+                boxH1.position.set(x + i%20, y + 5, z);
+            }
+            boxH1.position.set(x + i%20, y - i%20, z);
+        }
+        arrToReturn.push(boxH1);
+        stage.scene.add(boxH1);
+
+
+    }
+
+    return arrToReturn;
+
+}
+
+function showHearts(heartsArr,x ,y, z) {
+        maxY = y + 5;
+
+        for(var i = 0; i < heartsArr.length; i++) {
+            var tempCount = i * 2;
+            if(i <= (heartsArr.length/2) - 1) {
+                if(i == 0) {
+                    heartsArr[i].position.set(x,y,z);
+                }
+                else if(i == 1) {
+                    heartsArr[i].position.set(x - tempCount,  maxY + 5, z);
+                } else {
+                    heartsArr[i].position.set(x - tempCount,  maxY - tempCount, z);
+
+                }
+            } else {
+                if(i == heartsArr.length/2) {
+                    heartsArr[i].position.set(x + tempCount%8,  maxY + 5, z);
+                } else {
+                    heartsArr[i].position.set(x + tempCount%8,  maxY - tempCount%8, z);
+                }
+            }
+        }
 
 
 }
