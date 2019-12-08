@@ -234,6 +234,12 @@ var pingu = {
 
             stageA.scene.add(swordParticleBox);
             setTimeout(function(){stageA.scene.remove(swordParticleBox)}, 50);
+            var bBox = new THREE.Box3();
+            console.log("x: ",bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).max.x-this.x, "to", bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).min.x-this.x);
+            console.log("y: ",bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).max.y-this.y, " to ", bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).min.y-this.y);
+            console.log("z: ",bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).max.z-this.z, " to ", bBox.setFromObject(this.model.torso.rightArm.rightHand.sword).min.z-this.z);
+
+
 
           }
           if(this.facingR){
