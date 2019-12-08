@@ -215,11 +215,12 @@ var pingu = {
 
       //BEGIN ATTACK ANIMATIONS
       if(!this.canAAttack[A]){ //General
-        var geomHBox1 = new THREE.BoxGeometry(1.5,1.5,1.5, 1, 1, 1);
-        var matHBox1  = new THREE.MeshPhongMaterial(
-                                   { color : 0xaaaaaa, opacity: 1, transparent: true});
-
-        var boxH1 = new THREE.Mesh(geomHBox1, matHBox1).clone();
+        // var geomHBox1 = new THREE.BoxGeometry(1.5,1.5,1.5, 1, 1, 1);
+        // var matHBox1  = new THREE.MeshPhongMaterial(
+        //                            { color : 0xaaaaaa, opacity: 1, transparent: true});
+        //
+        // var boxH1 = new THREE.Mesh(geomHBox1, matHBox1).clone();
+        var swordParticleBox = particles.particlePalette.sword;
 
           this.basicAttackFrames-=1;
           if(this.facingL){
@@ -227,9 +228,9 @@ var pingu = {
             this.model.torso.rightArm.rightHand.sword.scale.set(1,2,1);
             this.model.torso.rightArm.rotation.z += 0.1;
             // boxH1.scale.set(2,2,2);
-            boxH1.position.set(-5+this.x-15*Math.random(),-3+this.y+15*Math.random(),this.z);
-            stageA.scene.add(boxH1);
-            setTimeout(function(){stageA.scene.remove(boxH1)}, 50);
+            swordParticleBox.position.set(-5+this.x-12*Math.random(),-3+this.y+15*Math.random(),this.z);
+            stageA.scene.add(swordParticleBox);
+            setTimeout(function(){stageA.scene.remove(swordParticleBox)}, 50);
 
 
           }
