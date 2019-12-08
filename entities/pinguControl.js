@@ -227,11 +227,13 @@ var pingu = {
             this.model.torso.rightArm.scale.set(1.6,1.6,1.6);
             this.model.torso.rightArm.rightHand.sword.scale.set(1,2,1);
             this.model.torso.rightArm.rotation.z += 0.1;
-            // boxH1.scale.set(2,2,2);
+
+            var swordPos = this.model.torso.rightArm.rightHand.sword.getWorldPosition();
+            var swordRot = this.model.torso.rightArm.rightHand.sword.getWorldRotation();
             swordParticleBox.position.set(-5+this.x-12*Math.random(),-3+this.y+15*Math.random(),this.z);
+
             stageA.scene.add(swordParticleBox);
             setTimeout(function(){stageA.scene.remove(swordParticleBox)}, 50);
-
 
           }
           if(this.facingR){
@@ -381,15 +383,21 @@ var pingu = {
       }
       if(!this.canBAttack[DS]){ //General
           this.basicAttackFrames-=1;
-          this.model.torso.rightArm.rotation.x = 1.57;
-          this.model.torso.rightArm.rightHand.sword.rotation.set(2,2,1);
-          this.model.torso.rightArm.rightHand.sword.position.z = 2.5;
+          //current percentage funished
+          var c = ((this.specialAttackObj.attackFrames[DS]-this.basicAttackFrames)/this.specialAttackObj.attackFrames[DS]);
+          //a signle percetange
+          var p = 1/this.specialAttackObj.attackFrames[DS];
+          // this.model.scale.set(5,5,5);
+          this.model.torso.rightArm.rotation.x = radians(-120*c);
+          this.model.torso.rightArm.rightHand.sword.rotateOnWorldAxis(new THREE.Vector3(1,0,0), radians(90*p));
+          this.model.torso.rightArm.rightHand.sword.rotateOnWorldAxis(new THREE.Vector3(0,0,1), radians(-90*p));
 
-          for(var i = 0; i < this.hearts.length; i++) {
-              showHearts(this.hearts, this.model.position.x, this.model.position.y, 0);
-          }
+
+          // var heartPart = particles.particlePalette.heartPiece;
+          heartHelper(this.hearts, true, this.x, this.y, this.z);
+
           if(this.basicAttackFrames <= 0){
-              showHearts(this.hearts, stageA.maximumX + 300,stageA.maximumY + 300,0);
+              heartHelper(this.hearts, false, stageA.maximumX +300, stageA.maximumY+300, 0);
               this.basicAttackFrames = 25;
               this.model.torso.rightArm.rotation.y = 0;
               this.model.torso.rightArm.rightHand.sword.rotation.set(0,0,0.6);
@@ -856,60 +864,63 @@ function dabbing(attackBoolean, model) {
 
 function createHearts(stage, x, y, z) {
     var arrToReturn = [];
-    for(var i = 0; i < 50; i+=5) {
+    for(var i = 0; i < 22; i++) {
 
-        var geomHBox1 = new THREE.BoxGeometry(1.5,1.5,1.5, 1, 1, 1);
-        var matHBox1  = new THREE.MeshPhongMaterial(
-                                   { color : 0xff0000, opacity: 1, transparent: true});
+        var temp = particles.particlePalette.heartPiece.clone();
 
-        var boxH1 = new THREE.Mesh(geomHBox1, matHBox1).clone();
-
-        if(i <= 20) {
-            if(i == 5) {
-                boxH1.position.set(x - i, y + 5, z);
-            } else {
-               boxH1.position.set(x - i, y - i, z);
-            }
-
-        } else{
-            if(i == 25) {
-                boxH1.position.set(x + i%20, y + 5, z);
-            }
-            boxH1.position.set(x + i%20, y - i%20, z);
-        }
-        arrToReturn.push(boxH1);
-        stage.scene.add(boxH1);
-
-
+        arrToReturn.push(temp);
+        stage.scene.add(temp);
     }
 
     return arrToReturn;
 
 }
 
-function showHearts(heartsArr,x ,y, z) {
-        maxY = y + 5;
+function heartHelper(heartsArr, show, x, y, z) {
+        var d = 2.5;
+        z  = z+8
+        y = y-3.4;
+        var ti = pingu.basicAttackFrames;
+        var tf = pingu.specialAttackObj.attackFrames[DS];
+        var c = (tf-ti)/tf;
 
-        for(var i = 0; i < heartsArr.length; i++) {
-            var tempCount = i * 2;
-            if(i <= (heartsArr.length/2) - 1) {
-                if(i == 0) {
-                    heartsArr[i].position.set(x,y,z);
-                }
-                else if(i == 1) {
-                    heartsArr[i].position.set(x - tempCount,  maxY + 5, z);
-                } else {
-                    heartsArr[i].position.set(x - tempCount,  maxY - tempCount, z);
+        if(show){
+          //top half, up and out, down and out
 
-                }
-            } else {
-                if(i == heartsArr.length/2) {
-                    heartsArr[i].position.set(x + tempCount%8,  maxY + 5, z);
-                } else {
-                    heartsArr[i].position.set(x + tempCount%8,  maxY - tempCount%8, z);
-                }
-            }
+          heartsArr[0].position.set(x,y+10,z);
+          heartsArr[1].position.set(x+d*c,y+10+d*c,z);
+          heartsArr[2].position.set(x-d*c,y+10+d*c,z);
+          heartsArr[3].position.set(x+d*c*2,y+10+2*d*c,z);
+          heartsArr[4].position.set(x-d*c*2,y+10+2*d*c,z);
+          heartsArr[5].position.set(x+d*c*3,y+10+2*d*c,z);
+          heartsArr[6].position.set(x-d*c*3,y+10+2*d*c,z);
+          heartsArr[7].position.set(x+d*c*4,y+10+d*c,z);
+          heartsArr[8].position.set(x-d*c*4,y+10+d*c,z);
+          heartsArr[9].position.set(x+d*c*5,y+10,z);
+          heartsArr[10].position.set(x-d*c*5,y+10,z);
+
+          //middle inward slope
+          heartsArr[11].position.set(x+d*c*4.5,y+10-d*c,z);
+          heartsArr[12].position.set(x-d*c*4.5,y+10-d*c,z);
+          heartsArr[13].position.set(x+d*c*4,y+10-2*d*c,z);
+          heartsArr[14].position.set(x-d*c*4,y+10-2*d*c,z);
+          heartsArr[15].position.set(x+d*c*3,y+10-3*d*c,z);
+          heartsArr[16].position.set(x-d*c*3,y+10-3*d*c,z);
+          heartsArr[17].position.set(x+d*c*2,y+10-4*d*c,z);
+          heartsArr[18].position.set(x-d*c*2,y+10-4*d*c,z);
+          heartsArr[19].position.set(x+d*c,y+10-4.5*d*c,z);
+          heartsArr[20].position.set(x-d*c,y+10-4.5*d*c,z);
+
+          //bottom tip
+          heartsArr[21].position.set(x,y+10-5*d*c,z);
+
         }
+        else{
+          for(var i = 0; i < heartsArr.length; i++){
+              heartsArr[i].position.set(x,y,z);
+          }
+        }
+
 
 
 }
