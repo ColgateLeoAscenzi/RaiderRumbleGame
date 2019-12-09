@@ -203,7 +203,7 @@ var pingu = {
         this.model.head.leftEye.scale.set(1,1,1);
       }
       //BEGIN ATTACK ANIMATIONS
-      if(!this.canAAttack[A]){ //General
+      if(!this.canAAttack[A]){
 
         var swordParticleBox = particles.particlePalette.sword;
 
@@ -252,7 +252,7 @@ var pingu = {
           }
       }
 
-      if(!this.canAAttack[FA]){ //General
+      if(!this.canAAttack[FA]){
           this.basicAttackFrames-=1;
           if(this.facingL){
             this.model.torso.rightArm.scale.set(1.6,1.6,1.6);
@@ -275,7 +275,7 @@ var pingu = {
           }
       }
 
-      if(!this.canAAttack[BA]){ //General
+      if(!this.canAAttack[BA]){
           this.basicAttackFrames-=1;
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
@@ -285,7 +285,7 @@ var pingu = {
           }
       }
 
-      if(!this.canAAttack[DA]){ //General
+      if(!this.canAAttack[DA]){
           this.basicAttackFrames-=1;
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
@@ -295,7 +295,7 @@ var pingu = {
           }
       }
 
-      if(!this.canAAttack[UA]){ //General
+      if(!this.canAAttack[UA]){
           this.basicAttackFrames-=1;
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
@@ -305,7 +305,7 @@ var pingu = {
           }
       }
 
-      if(!this.canAAttack[NA]){ //General
+      if(!this.canAAttack[NA]){
           this.basicAttackFrames-=1;
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
@@ -315,7 +315,7 @@ var pingu = {
           }
       }
 
-      if(!this.canBAttack[S]){ //General
+      if(!this.canBAttack[S]){
           this.basicAttackFrames-= 1.5;
 
           dabbing(ATTACK, this.model);
@@ -328,7 +328,7 @@ var pingu = {
               this.otherPlayer.hitByB[S] = false;
           }
       }
-      if(!this.canBAttack[SS]){ //General
+      if(!this.canBAttack[SS]){
         this.basicAttackFrames-=1;
         // dabbing(ATTACK, modelClone);
 
@@ -366,7 +366,7 @@ var pingu = {
               this.secondary.position.set(stage.maximumX + 300,stage.maximumY + 300,0);
           }
       }
-      if(!this.canBAttack[US]){ //General
+      if(!this.canBAttack[US]){
           this.basicAttackFrames-=2.5;
           this.model.rotation.y += 0.78;
 
@@ -388,7 +388,7 @@ var pingu = {
               this.otherPlayer.hitByB[US] = false;
           }
       }
-      if(!this.canBAttack[DS]){ //General
+      if(!this.canBAttack[DS]){
           this.basicAttackFrames-=1;
           //current percentage funished
           var c = ((this.specialAttackObj.attackFrames[DS]-this.basicAttackFrames)/this.specialAttackObj.attackFrames[DS]);
