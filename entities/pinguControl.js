@@ -366,6 +366,19 @@ var pingu = {
 
           dabbing(ATTACK, this.model);
 
+          var bbox = new THREE.BoxHelper(this.model, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(S,"B");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
+
           if(this.basicAttackFrames <= 0){
             dabbing(RESET, this.model);
               this.basicAttackFrames = 25;
@@ -379,6 +392,7 @@ var pingu = {
         // dabbing(ATTACK, modelClone);
 
         dabbing(ATTACK, this.model);
+
         if(this.basicAttackFrames == this.specialAttackObj.attackFrames[SS] - 1 && !this.isRecover){
           if(this.facingL) {
             this.specialAttackObj.castedRight = false;
@@ -399,6 +413,19 @@ var pingu = {
         }
 
         dabbing(ATTACK, this.secondary);
+
+        var bbox = new THREE.BoxHelper(this.secondary, 0xff0000)
+        this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+        if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+          this.checkHit(SS,"B");
+        }
+
+        if(hitBoxesOn){
+          stage.scene.add(bbox);
+          setTimeout(function(){bbox.geometry.dispose();}, 50);
+          setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+        }
 
           if(this.basicAttackFrames <= 0){
 
@@ -425,6 +452,21 @@ var pingu = {
           boxH1.position.set(5+this.x-10*Math.random(),-5+this.y-8*Math.random(),this.z);
           stage.scene.add(boxH1);
           setTimeout(function(){stage.scene.remove(boxH1)}, 50);
+          setTimeout(function(){boxH1.geometry.dispose()}, 50);
+
+
+          var bbox = new THREE.BoxHelper(this.model, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(DS,"B");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
 
           if(this.basicAttackFrames <= 0){
               this.model.rotation.y = 0;
