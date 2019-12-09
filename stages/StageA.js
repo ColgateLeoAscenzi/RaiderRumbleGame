@@ -202,10 +202,10 @@ function createBox(x, y, z, blockType) {
     // stageA.basicBoxAMesh.material = new THREE.MeshPhongMaterial({ color : Colors.white});
     stageA.basicBoxAMesh.position.set(x, y, z);
     stageA.scene.add(stageA.basicBoxAMesh);
-    stageA.stageBlocks.push(stageA.blockA);
+    stageA.stageBlocks.push(blockType);
     stageA.blockAMeshes.push(stageA.basicBoxAMesh);
 
-    stageA.basicHitBoxAMesh = basicBox.hitBox.clone();
+    stageA.basicHitBoxAMesh = blockType.hitBox.clone();
 
     stageA.basicHitBoxAMesh.position.set(x, y, z);
 

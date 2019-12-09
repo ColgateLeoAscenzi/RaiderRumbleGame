@@ -53,15 +53,15 @@ var basicCharacter = {
           this.minUp = 100000;
         }
 
-        if(this.hitBoxEnabled){
-            this.hitBox.position.x = this.x;
-            this.hitBox.position.y = this.y;
-            this.hitBox.position.z = this.z;
-            stage.scene.add(this.hitBox);
-        }
-        else{
-            stage.scene.remove(this.hitBox);
-        }
+        // if(this.hitBoxEnabled){
+        //     this.hitBox.position.x = this.x;
+        //     this.hitBox.position.y = this.y;
+        //     this.hitBox.position.z = this.z;
+        //     stage.scene.add(this.hitBox);
+        // }
+        // else{
+        //     stage.scene.remove(this.hitBox);
+        // }
 
         if(this.isHit){
           this.hitFrames -= 1;
@@ -137,7 +137,7 @@ var basicCharacter = {
         }
         else{
           this.model.position.set(this.x, this.y, 0);
-          this.hitBox.position.set(this.x, this.y, 0);
+          this.hitBox.position.set(this.x, this.y+4, 0);
         }
 
 

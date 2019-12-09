@@ -362,7 +362,26 @@ function createBasicCharacterBounding(x,y,z){
   this.mesh.name = "basicCharacterBounding";
 
 	  // Create the Cabin
-  var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+  var geomBox = new THREE.BoxGeometry(12, 16, 10, 1, 1, 1);
+  var matBox  = new THREE.MeshPhongMaterial(
+                             { color : Colors.red,wireframe: true});
+
+  var box = new THREE.Mesh(geomBox, matBox);
+
+  this.mesh.add(box);
+  this.mesh.position.set(x,y,z);
+
+  return this.mesh;
+
+}
+
+function createPinguBounding(x,y,z){
+
+  this.mesh      = new THREE.Object3D();
+  this.mesh.name = "basicCharacterBounding";
+
+	  // Create the Cabin
+  var geomBox = new THREE.BoxGeometry(12, 12, 10, 1, 1, 1);
   var matBox  = new THREE.MeshPhongMaterial(
                              { color : Colors.red,wireframe: true});
 

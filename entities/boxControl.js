@@ -36,7 +36,7 @@ var platformBlock = {
     height: 5,
     width: 10,
     model: createPlatformMesh(),
-    hitBox: createBasicBoxBounding(),
+    hitBox: createPlatformBoxBounding(),
     hitBoxEnabled: false,
     update: function(){
         if(this.hitBoxEnabled){

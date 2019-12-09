@@ -4,7 +4,7 @@ var ATTACK = true;
 var pingu = {
     model: createPinguMesh(0,0,0),
     secondary: createPinguMesh(0,0,0),
-    hitBox: createBasicCharacterBounding(0,0,0),
+    hitBox: createPinguBounding(0,0,0),
     basicAttackModel: createBasicAttackModel(),
     canAAttack: [true, true, true, true, true],
     canBAttack: [true, true, true, true],
@@ -27,6 +27,9 @@ var pingu = {
 
         this.basicAttackObj = pinguBasic;
         this.specialAttackObj = pinguSpecial;
+
+
+
 
     },
     update: function(){
@@ -62,15 +65,14 @@ var pingu = {
         }
 
 
-        if(this.hitBoxEnabled){
-            this.hitBox.position.x = this.x;
-            this.hitBox.position.y = this.y;
-            this.hitBox.position.z = this.z;
-            stage.scene.add(this.hitBox);
-        }
-        else{
-            stage.scene.remove(this.hitBox);
-        }
+        // if(this.hitBoxEnabled){
+        //     this.hitBox.position.x = this.x;
+        //     this.hitBox.position.y = this.y;
+        //     this.hitBox.position.z = this.z;
+        // }
+        // else{
+        //     stage.scene.remove(this.hitBox);
+        // }
 
         if(this.isHit){
           this.hitFrames -= 1;
@@ -148,7 +150,7 @@ var pingu = {
         }
         else{
           this.model.position.set(this.x, this.y, 0);
-          this.hitBox.position.set(this.x, this.y, 0);
+          this.hitBox.position.set(this.x, this.y+2, 0);
         }
 
 
@@ -241,6 +243,8 @@ var pingu = {
               setTimeout(function(){bbox.geometry.dispose();}, 50);
               setTimeout(function(){  selectedStageDat.scene.remove(bbox);}, 50);
             }
+
+
 
           }
           if(this.facingR){

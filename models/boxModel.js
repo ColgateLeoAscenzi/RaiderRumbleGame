@@ -82,3 +82,19 @@ function createBasicBoxBounding(){
   return box;
 
 };
+
+function createPlatformBoxBounding(){
+
+  this.mesh      = new THREE.Object3D();
+  this.mesh.name = "basicBoxBounding";
+
+	  // Create the Cabin
+  var geomBox = new THREE.BoxGeometry(10, 5, 10, 1, 1, 1);
+  var matBox  = new THREE.MeshPhongMaterial(
+                             { color : Colors.red, wireframe: true});
+
+  var box = new THREE.Mesh(geomBox, matBox);
+
+  return box;
+
+};
