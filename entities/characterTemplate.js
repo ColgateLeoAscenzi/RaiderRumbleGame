@@ -50,5 +50,7 @@ var charProto = {
     grabLedgeTimer: 100,
     isGrabLedge: false,
     grabTimer: 100,
-    isGrab: false
+    isGrab: false,
+    attackbbox: undefined,
+    hitbbox: undefined,
 }

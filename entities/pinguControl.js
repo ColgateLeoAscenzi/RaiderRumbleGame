@@ -8,6 +8,8 @@ var pingu = {
     basicAttackModel: createBasicAttackModel(),
     canAAttack: [true, true, true, true, true],
     canBAttack: [true, true, true, true],
+    hitByA: [false, false, false, false, false],
+    hitByB: [false, false, false, false],
     init: function(){
         var keys = Object.keys(charProto);
         for(var i = 0; i < keys.length; i++){
@@ -33,6 +35,9 @@ var pingu = {
 
     },
     update: function(){
+      this.hitbbox = new THREE.Box3().setFromObject(this.hitBox);
+
+
         //this.model.children[2].position.x = this.x*2;
 
         // checks and sets the lowsest current point
@@ -237,12 +242,11 @@ var pingu = {
             setTimeout(function(){selectedStageDat.scene.remove(swordParticleBox)}, 50);
 
             // selectedStageDat.scene.add();
-            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000);
+            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
-            var bbox3 = new THREE.Box3().setFromObject(bbox);
-            var enemybbox3 = new THREE.Box3().setFromObject(this.otherPlayer.hitBox);
-            if(bbox3.intersectsBox(enemybbox3)){
-                
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit("A");
             }
 
             if(hitBoxesOn){
@@ -267,6 +271,7 @@ var pingu = {
               this.basicAttackFrames = 25;
               this.canAAttack[A] = true;
               this.canBasicAttack = true;
+              this.otherPlayer.hitByA[A] = false;
           }
       }
 
@@ -639,38 +644,8 @@ var pingu = {
       if(this.heldKeys.attack1 && this.onGround){
           if(this.canAAttack[A] == true){
            console.log("Basic");
-           damageToDeal = this.basicAttackObj.damage[A];
-           angleToApply = this.basicAttackObj.launchAngle[A];
            newAttackFrame = this.basicAttackObj.attackFrames[A];
-           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[A],
-               this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
 
-          attackBox = this.basicAttackObj.attackHitBox.clone();
-          if(this.facingL){
-            attackBox.position.set(this.x-10, this.y, this.z);
-            if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
-                if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
-                  this.otherPlayer.isHit = true;
-                }
-            }
-          }
-          else if(this.facingR){
-            attackBox.position.set(this.x+10, this.y, this.z);
-            if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
-                if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
-                  this.otherPlayer.isHit = true;
-                }
-            }
-          }
-          else{
-            attackBox.position.set(this.x, this.y, this.z);
-            attackBox.scale.set(1.5,1.5,1.5);
-            if(this.otherPlayer.x > this.x - this.height/2 && this.otherPlayer.x < this.x + this.width/2){
-                if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
-                  this.otherPlayer.isHit = true;
-                }
-            }
-          }
           this.canAAttack[A] = false;
           this.canBasicAttack = false;
         }
@@ -813,42 +788,61 @@ var pingu = {
 
       this.basicAttackFrames = newAttackFrame;
 
-      //ADDING THE KNOCKBACK
-      var knockbackVec = new THREE.Vector2();
-
-       knockbackVec.x = this.otherPlayer.x - this.x;
-       knockbackVec.y = this.otherPlayer.y - this.y;
-       knockbackVec= knockbackVec.normalize();
-
-       var newX, newY;
-       newX = Math.cos(radians(angleToApply)) * knockbackVec.x - Math.sin(radians(angleToApply)) * knockbackVec.y;
-       newY = Math.sin(radians(angleToApply))* knockbackVec.x + Math.cos(radians(angleToApply)) * knockbackVec.y;
-
-
-       knockbackVec.x = newX;
-       knockbackVec.y = Math.abs(newY);
-
-       knockbackVec = knockbackVec.normalize();
-
-
-       if(this.otherPlayer.isHit){
-         this.otherPlayer.percentage += damageToDeal;
-         this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
-         this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;
-
-         // console.log(tKnockback*0.5*knockbackVec.x, tKnockback*0.5*knockbackVec.y);
-         this.otherPlayer.hitFrames = damageToDeal*2;
-
-         if(this.otherPlayer.xVel > 0){
-
-           this.otherPlayer.model.rotation.z = -1.57;
-         }
-         else{
-           this.otherPlayer.model.rotation.z = 1.57;
-         }
        }
 
+  },
+  checkHit: function(attackType){
+    console.log(attackType);
+    //checking if it hit
+
+    console.log(this.otherPlayer.hitByA[A]);
+    if(attackType == "A" && !this.otherPlayer.hitByA[A]){
+       console.log("Basic Hit");
+       damageToDeal = this.basicAttackObj.damage[A];
+       angleToApply = this.basicAttackObj.launchAngle[A];
+       tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[A],this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
+
+       this.otherPlayer.isHit = true;
+       this.otherPlayer.hitByA[A] = true;
+       this.doKnockBack(damageToDeal, angleToApply, tKnockback);
+
     }
+
+
+
+  },
+  doKnockBack: function(damageToDeal, angleToApply, tKnockback){
+      //calculating the knockback
+        var knockbackVec = new THREE.Vector2();
+
+         knockbackVec.x = this.otherPlayer.x - this.x;
+         knockbackVec.y = this.otherPlayer.y - this.y;
+         knockbackVec= knockbackVec.normalize();
+
+         var newX, newY;
+         newX = Math.cos(radians(angleToApply)) * knockbackVec.x - Math.sin(radians(angleToApply)) * knockbackVec.y;
+         newY = Math.sin(radians(angleToApply))* knockbackVec.x + Math.cos(radians(angleToApply)) * knockbackVec.y;
+
+
+         knockbackVec.x = newX;
+         knockbackVec.y = Math.abs(newY);
+
+         knockbackVec = knockbackVec.normalize();
+         //applying the knockback
+        this.otherPlayer.percentage += damageToDeal;
+        this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
+        this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;
+
+        // console.log(tKnockback*0.5*knockbackVec.x, tKnockback*0.5*knockbackVec.y);
+        this.otherPlayer.hitFrames = damageToDeal*2;
+
+        if(this.otherPlayer.xVel > 0){
+
+          this.otherPlayer.model.rotation.z = -1.57;
+        }
+        else{
+          this.otherPlayer.model.rotation.z = 1.57;
+        }
   }
 }
 

@@ -4,6 +4,8 @@ var basicCharacter = {
     basicAttackModel: createBasicAttackModel(),
     canAAttack: [true, true, true, true, true],
     canBAttack: [true, true, true, true],
+    hitByA: [false, false, false, false, false],
+    hitByB: [false, false, false, false],
     init: function(){
         var keys = Object.keys(charProto);
         for(var i = 0; i < keys.length; i++){
@@ -25,6 +27,7 @@ var basicCharacter = {
     },
     update: function(){
         // checks and sets the lowsest current point
+        this.hitbbox = new THREE.Box3().setFromObject(this.hitBox);
         if(this.boxBelow != undefined){
             this.minDown = this.boxBelow.position.y + this.boxBelow.userData.height/2 + this.height/2;
         }

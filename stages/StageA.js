@@ -42,6 +42,9 @@ var stageA = {
         createPlayer2(0, 10, 0);
         this.player1.otherPlayer = this.player2;
         this.player2.otherPlayer = this.player1;
+        this.player1.hitbbox = new THREE.Box3().setFromObject(this.player1.hitBox);
+        this.player2.hitbbox = new THREE.Box3().setFromObject(this.player2.hitBox);
+
         this.startTimer();
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
     },
