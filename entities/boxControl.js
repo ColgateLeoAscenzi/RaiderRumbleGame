@@ -16,6 +16,42 @@ var basicBox = {
     }
 }
 
+var grassBox = {
+    height: 10,
+    width: 10,
+    model: createGrassMesh(),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    grabbable: true,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+
+    }
+}
+
+var grassBoxB = {
+    height: 10,
+    width: 10,
+    model: createGrassMeshB(),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    grabbable: true,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+
+    }
+}
+
 var dirtBlock = {
     height: 10,
     width: 10,
