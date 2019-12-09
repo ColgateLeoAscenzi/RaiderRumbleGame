@@ -208,6 +208,7 @@ var pingu = {
         var swordParticleBox = particles.particlePalette.sword;
 
           this.basicAttackFrames-=1;
+          //ANIMATIONS GO HERE
           if(this.facingL){
             this.model.torso.rightArm.scale.set(1.6,1.6,1.6);
             this.model.torso.rightArm.rightHand.sword.scale.set(1,2,1);
@@ -219,8 +220,13 @@ var pingu = {
 
             stage.scene.add(swordParticleBox);
             setTimeout(function(){stage.scene.remove(swordParticleBox)}, 50);
+          }
+          else{
+            this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
+          }
 
-            // stage.scene.add();
+          // HITBOX CHECK GOES HERE
+          if(this.facingL){
             var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
             this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
@@ -233,13 +239,24 @@ var pingu = {
               setTimeout(function(){bbox.geometry.dispose();}, 50);
               setTimeout(function(){  stage.scene.remove(bbox);}, 50);
             }
-
           }
-          if(this.facingR){
-            this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
+          else{
+            var bbox = new THREE.BoxHelper(this.model.torso.leftArm, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(A,"A");
+            }
+
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
           }
+
           if(this.basicAttackFrames <= 0){
+            //RESET GOES HERE
               this.model.torso.rightArm.scale.set(1,1,1);
               this.model.torso.leftArm.scale.set(1,1,1);
               this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
@@ -262,6 +279,35 @@ var pingu = {
           if(this.facingR){
             this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
 
+          }
+
+          if(this.facingL){
+            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(FA,"A");
+            }
+
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
+          }
+          else{
+            var bbox = new THREE.BoxHelper(this.model.torso.leftArm, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(FA,"A");
+            }
+
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
           }
 
           if(this.basicAttackFrames <= 0){
