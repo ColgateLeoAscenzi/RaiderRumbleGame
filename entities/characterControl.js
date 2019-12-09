@@ -221,11 +221,24 @@ var basicCharacter = {
           this.basicAttackFrames-=1;
 
           //ANIMATIONS GO HERE
-          if(this.facingL){
+          var c = (this.basicAttackObj.attackFrames[A]-this.basicAttackFrames)/(this.basicAttackObj.attackFrames[A]);
 
+          if(this.facingL){
+            this.model.torso.rightArm.rotation.z = radians(-120*c);
+            this.model.torso.rightArm.rightHand.coin.position.x = -10; //Tried to make it even, not too far
+            if(this.basicAttackFrames <= this.basicAttackObj.attackFrames[A]/2){
+              this.model.torso.rightArm.rightHand.coin.position.y -= 1;
+            }
+            else if (this.basicAttackFrames > this.basicAttackObj.attackFrames[A]/2 && this.basicAttackFrames <= 5.5*this.basicAttackObj.attackFrames[A]/10){
+              this.model.torso.rightArm.rightHand.coin.position.x += 1;
+              this.model.torso.rightArm.rightHand.coin.position.y -= 1;
+            }
+
+            this.model.torso.rightArm.rightHand.coin.scale.set(3.5,3.5,3.5);
           }
+
           else{
-            this.model.torso.rightArm.rotation.z += 0.15;
+            this.model.torso.rightArm.rotation.z = radians(90*c);
             this.model.torso.rightArm.rightHand.coin.position.x = 15;
             if(this.basicAttackFrames <= this.basicAttackObj.attackFrames[A]/2){
               this.model.torso.rightArm.rightHand.coin.position.y -= 1;
@@ -241,7 +254,18 @@ var basicCharacter = {
 
           //HITBOX CHECK GOES HERE
           if(this.facingL){
+            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.coin, 0xff0000) //same check
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(A,"A");
+            }
+
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
           }
           else{
             var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.coin, 0xff0000)
@@ -279,6 +303,7 @@ var basicCharacter = {
           //ANIMATIONS GO HERE
 
           //HITBOX CHECK GOES HERE
+
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
               this.canAAttack[FA] = true;
