@@ -14,7 +14,6 @@ function createBasicBoxMesh(){
   this.mesh      = new THREE.Object3D();
   this.mesh.name = "basicBox";
 
-	  // Create the Cabin
   var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
   var matBox  = new THREE.MeshPhongMaterial(
                              { color : BlockColors.grey});
@@ -51,10 +50,85 @@ function createBasicBoxMesh(){
 
     box.add(brick1);
 
+    var brick2 = new THREE.Mesh();
+
     var brick3 = new THREE.Mesh(smolBrickGeo, brickMat);
     brick3.position.set(4,-1.8,5);
 
     box.add(brick3);
+
+  box.castShadow = true;
+  box.receiveShadow = true;
+  box.userData ={type: "floor", height: 10, width:10};
+
+  return box;
+};
+
+function createGrassMesh(){
+
+  this.mesh      = new THREE.Object3D();
+  this.mesh.name = "grassBox";
+
+	  // Create the Cabin
+    var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+    var matBox  = new THREE.MeshPhongMaterial(
+                                {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/grassunedited.png')});
+
+  var box = new THREE.Mesh(geomBox, matBox);
+
+
+
+  var g0 = new THREE.BoxGeometry(10, 1.5, 10, 1, 1, 1);
+  var m0  = new THREE.MeshPhongMaterial(
+                             { color : 0x42a852});
+
+  n0 = new THREE.Mesh(g0, m0);
+  n0.position.set(0,4.2,0);
+  box.add(n0);
+
+  var g1 = new THREE.BoxGeometry(2, 2, 2, 1, 1, 1);
+  var m1  = new THREE.MeshPhongMaterial(
+                             { color : 0x42a852});
+
+  n1 = new THREE.Mesh(g1, m1);
+  n1.position.set(1,5,-1);
+  box.add(n1);
+
+  var g2 = new THREE.BoxGeometry(2, 2, 2, 1, 1, 1);
+  var m2  = new THREE.MeshPhongMaterial(
+                             { color : 0x42a852});
+
+  n2 = new THREE.Mesh(g2, m2);
+  n2.position.set(2,5,-1);
+  box.add(n2);
+
+  var g3 = new THREE.BoxGeometry(2, 2, 2, 1, 1, 1);
+  var m3  = new THREE.MeshPhongMaterial(
+                             { color : 0x42a852});
+
+  n3 = new THREE.Mesh(g3, m3);
+  n3.position.set(0,5,2);
+  box.add(n3);
+
+
+  box.castShadow = true;
+  box.receiveShadow = true;
+  box.userData ={type: "floor", height: 10, width:10};
+
+  return box;
+};
+
+function createGrassMeshB(){
+
+  this.mesh      = new THREE.Object3D();
+  this.mesh.name = "grassBox";
+
+	  // Create the Cabin
+  var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+  var matBox  = new THREE.MeshPhongMaterial(
+                              {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/grassTexture.jpg')});
+
+  var box = new THREE.Mesh(geomBox, matBox);
 
   box.castShadow = true;
   box.receiveShadow = true;
