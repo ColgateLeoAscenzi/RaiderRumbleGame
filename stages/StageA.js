@@ -7,11 +7,8 @@ var stageA = {
 
         //THESE VARIABLES NEED TO BE INIT FIRST FOR SOME REASON/
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
-<<<<<<< HEAD
-        this.bgm = 'Katawa Shoujo OST - Afternoon.mp3';
-=======
         this.bgm = '.sounds/My happy song Nicholas w lott.mp3';
->>>>>>> 6b8e60e162bdf73cfdadc45dd37e602af538f1c7
+
 
 
         this.omega = omegaOn;
