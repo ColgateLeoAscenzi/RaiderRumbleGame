@@ -19,9 +19,9 @@ var pingu = {
         this.x = 10;
         this.y = 10;
         this.name = "Pingu";
-        selectedStageDat.scene.add(this.secondary);
-        this.hearts = createHearts(selectedStageDat, selectedStageDat.maximumX + 300, selectedStageDat.maximumY + 300, 0);
-        this.secondary.position.set(selectedStageDat.maximumX +300,selectedStageDat.maximumY + 300,0);
+        stage.scene.add(this.secondary);
+        this.hearts = createHearts(stage, stage.maximumX + 300, stage.maximumY + 300, 0);
+        this.secondary.position.set(stage.maximumX +300,stage.maximumY + 300,0);
         this.recoverVel = 3.5;
         this.jumpSpeed = 2;
         this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
@@ -68,17 +68,6 @@ var pingu = {
         else{
           this.minUp = 100000;
         }
-
-
-        // if(this.hitBoxEnabled){
-        //     this.hitBox.position.x = this.x;
-        //     this.hitBox.position.y = this.y;
-        //     this.hitBox.position.z = this.z;
-        // }
-        // else{
-        //     stage.scene.remove(this.hitBox);
-        // }
-
         if(this.isHit){
           this.hitFrames -= 1;
         }
@@ -169,8 +158,6 @@ var pingu = {
         this.model.rotation.y = -0.5;
       }
 
-
-
       //walking changes
       if((this.movingR || this.movingL) && this.xVel != 0 && !this.isHit){
         //alternates legs up and down between 0.5 and -0.5 from the original place
@@ -200,10 +187,6 @@ var pingu = {
         this.model.torso.rightArm.rotation.x = 0;
         this.model.torso.leftArm.rotation.x = - 0;
 
-
-        // //head reset
-        // this.model.head.rotation.z = 0;
-        // this.model.head.rotation.y = 0;
         //body reset
         if(this.canBasicAttack && !this.isHit){
             this.model.rotation.z = 0;
@@ -221,11 +204,7 @@ var pingu = {
       }
       //BEGIN ATTACK ANIMATIONS
       if(!this.canAAttack[A]){ //General
-        // var geomHBox1 = new THREE.BoxGeometry(1.5,1.5,1.5, 1, 1, 1);
-        // var matHBox1  = new THREE.MeshPhongMaterial(
-        //                            { color : 0xaaaaaa, opacity: 1, transparent: true});
-        //
-        // var boxH1 = new THREE.Mesh(geomHBox1, matHBox1).clone();
+
         var swordParticleBox = particles.particlePalette.sword;
 
           this.basicAttackFrames-=1;
@@ -238,10 +217,10 @@ var pingu = {
             var swordRot = this.model.torso.rightArm.rightHand.sword.getWorldRotation();
             swordParticleBox.position.set(-5+this.x-12*Math.random(),-3+this.y+15*Math.random(),this.z);
 
-            selectedStageDat.scene.add(swordParticleBox);
-            setTimeout(function(){selectedStageDat.scene.remove(swordParticleBox)}, 50);
+            stage.scene.add(swordParticleBox);
+            setTimeout(function(){stage.scene.remove(swordParticleBox)}, 50);
 
-            // selectedStageDat.scene.add();
+            // stage.scene.add();
             var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
             this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
@@ -250,12 +229,10 @@ var pingu = {
             }
 
             if(hitBoxesOn){
-              selectedStageDat.scene.add(bbox);
+              stage.scene.add(bbox);
               setTimeout(function(){bbox.geometry.dispose();}, 50);
-              setTimeout(function(){  selectedStageDat.scene.remove(bbox);}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
             }
-
-
 
           }
           if(this.facingR){
@@ -386,7 +363,7 @@ var pingu = {
               this.canBAttack[SS] = true;
               this.canBasicAttack = true;
               this.otherPlayer.hitByB[SS] = false;
-              this.secondary.position.set(selectedStageDat.maximumX + 300,selectedStageDat.maximumY + 300,0);
+              this.secondary.position.set(stage.maximumX + 300,stage.maximumY + 300,0);
           }
       }
       if(!this.canBAttack[US]){ //General
@@ -400,8 +377,8 @@ var pingu = {
           var boxH1 = new THREE.Mesh(geomHBox1, matHBox1).clone();
 
           boxH1.position.set(5+this.x-10*Math.random(),-5+this.y-8*Math.random(),this.z);
-          selectedStageDat.scene.add(boxH1);
-          setTimeout(function(){selectedStageDat.scene.remove(boxH1)}, 50);
+          stage.scene.add(boxH1);
+          setTimeout(function(){stage.scene.remove(boxH1)}, 50);
 
           if(this.basicAttackFrames <= 0){
               this.model.rotation.y = 0;
@@ -427,7 +404,7 @@ var pingu = {
           heartHelper(this.hearts, true, this.x, this.y, this.z);
 
           if(this.basicAttackFrames <= 0){
-              heartHelper(this.hearts, false, selectedStageDat.maximumX +300, selectedStageDat.maximumY+300, 0);
+              heartHelper(this.hearts, false, stage.maximumX +300, stage.maximumY+300, 0);
               this.basicAttackFrames = 25;
               this.model.torso.rightArm.rotation.y = 0;
               this.model.torso.rightArm.rightHand.sword.rotation.set(0,0,0.6);
@@ -491,11 +468,9 @@ var pingu = {
     }
   },
   doAnyAttack: function(){
-    //DO ALL MOTION HEREE
+    //A function that checks the key inputs and assigns the appropriate booleans,
+    //and frame counts to the arrays
     if(this.canBasicAttack && !this.isHit && !this.isRecover){
-      var tKnockback = 0;
-      var damageToDeal = 0;
-      var angleToApply = 0;
       var newAttackFrame = 0;
 
       if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
@@ -503,13 +478,11 @@ var pingu = {
         this.canJump = false;
       }
 
-      var attackBox = undefined;
-      // attackBox.position.set(this.x+5, this.y, this.z);
-
       //basic attack air
       if(this.facingR && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
           if(this.canAAttack[FA]){
             console.log("Forward Air");
+            newAttackFrame = this.basicAttackObj.attackFrames[FA];
             this.canAAttack[FA] = false;
             this.canBasicAttack = false;
           }
@@ -517,19 +490,7 @@ var pingu = {
       if(this.facingL && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround){
         if(this.canAAttack[FA] == true){
             console.log("Forward Air");
-            damageToDeal = this.basicAttackObj.damage[FA];
-            angleToApply = this.basicAttackObj.launchAngle[FA];
             newAttackFrame = this.basicAttackObj.attackFrames[FA];
-           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[FA],
-               this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
-
-            attackBox = this.basicAttackObj.attackHitBox.clone();
-            attackBox.position.set(this.x-10, this.y, this.z);
-            if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
-                if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
-                  this.otherPlayer.isHit = true;
-                }
-            }
             this.canAAttack[FA] = false;
             this.canBasicAttack = false;
           }
@@ -537,19 +498,7 @@ var pingu = {
       if(this.facingL && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
         if(this.canAAttack[BA] == true){
           console.log("Back Air");
-          damageToDeal = this.basicAttackObj.damage[BA];
-          angleToApply = this.basicAttackObj.launchAngle[BA];
           newAttackFrame = this.basicAttackObj.attackFrames[BA];
-          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[BA],
-              this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
-
-          attackBox = this.basicAttackObj.attackHitBox.clone();
-          attackBox.position.set(this.x+10, this.y, this.z);
-          if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
-              if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
-                this.otherPlayer.isHit = true;
-              }
-          }
           this.canAAttack[BA] = false;
           this.canBasicAttack = false;
         }
@@ -557,19 +506,7 @@ var pingu = {
       if(this.facingR && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround){
         if(this.canAAttack[BA] == true){
           console.log("Back Air");
-          damageToDeal = this.basicAttackObj.damage[BA];
-          angleToApply = this.basicAttackObj.launchAngle[BA];
           newAttackFrame = this.basicAttackObj.attackFrames[BA];
-          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[BA],
-              this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
-
-          attackBox = this.basicAttackObj.attackHitBox.clone();
-          attackBox.position.set(this.x-10, this.y, this.z);
-          if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 20){
-              if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
-                this.otherPlayer.isHit = true;
-              }
-          }
           this.canAAttack[BA] = false;
           this.canBasicAttack = false;
         }
@@ -577,19 +514,7 @@ var pingu = {
       if(this.heldKeys.down && this.heldKeys.attack1 && !this.onGround){
         if(this.canAAttack[DA] == true){
           console.log("Down Air");
-          damageToDeal = this.basicAttackObj.damage[DA];
-          angleToApply = this.basicAttackObj.launchAngle[DA];
           newAttackFrame = this.basicAttackObj.attackFrames[DA];
-          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[DA],
-              this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
-
-          attackBox = this.basicAttackObj.attackHitBox.clone();
-          attackBox.position.set(this.x, this.y-10, this.z);
-          if(this.otherPlayer.x > this.x - this.width/2 && this.otherPlayer.x < this.x + this.width/2){
-              if(this.otherPlayer.y < this.y - this.height/2 && this.otherPlayer.y > this.y - 20){
-                this.otherPlayer.isHit = true;
-              }
-          }
           this.canAAttack[DA] = false;
           this.canBasicAttack = false;
         }
@@ -597,19 +522,7 @@ var pingu = {
       if(this.heldKeys.up && this.heldKeys.attack1 && !this.onGround){
         if(this.canAAttack[UA] == true){
           console.log("Up Air");
-          damageToDeal = this.basicAttackObj.damage[UA];
-          angleToApply = this.basicAttackObj.launchAngle[UA];
           newAttackFrame = this.basicAttackObj.attackFrames[UA];
-          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[UA],
-              this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
-
-          attackBox = this.basicAttackObj.attackHitBox.clone();
-          attackBox.position.set(this.x, this.y+10, this.z);
-          if(this.otherPlayer.x > this.x - this.width/2 && this.otherPlayer.x < this.x + this.width/2){
-              if(this.otherPlayer.y > this.y + this.height/2 && this.otherPlayer.y < this.y + 20){
-                this.otherPlayer.isHit = true;
-              }
-          }
           this.canAAttack[UA] = false;
           this.canBasicAttack = false;
         }
@@ -617,22 +530,9 @@ var pingu = {
       if(!this.heldKeys.left && !this.heldKeys.right && !this.heldKeys.up && !this.heldKeys.down && this.heldKeys.attack1 && !this.onGround){
           if(this.canAAttack[NA] == true){
             console.log("Neutral Air");
-           damageToDeal = this.basicAttackObj.damage[NA];
-           angleToApply = this.basicAttackObj.launchAngle[NA];
-           newAttackFrame = this.basicAttackObj.attackFrames[NA];
-           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[NA],
-               this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
-
-          attackBox = this.basicAttackObj.attackHitBox.clone();
-          attackBox.position.set(this.x, this.y, this.z);
-          attackBox.scale.set(1.5,1.5,1.5);
-          if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x){
-              if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +this.height/2){
-                this.otherPlayer.isHit = true;
-              }
-          }
-          this.canAAttack[NA] = false;
-          this.canBasicAttack = false;
+            newAttackFrame = this.basicAttackObj.attackFrames[NA];
+            this.canAAttack[NA] = false;
+            this.canBasicAttack = false;
         }
       }
 
@@ -641,9 +541,8 @@ var pingu = {
           if(this.canAAttack[A] == true){
            console.log("Basic");
            newAttackFrame = this.basicAttackObj.attackFrames[A];
-
-          this.canAAttack[A] = false;
-          this.canBasicAttack = false;
+           this.canAAttack[A] = false;
+           this.canBasicAttack = false;
         }
       }
 
@@ -651,44 +550,9 @@ var pingu = {
       if((this.heldKeys.right || this.heldKeys.left) && this.heldKeys.attack2){
         if(this.canBAttack[SS] == true){
          console.log("Side Special");
-         damageToDeal = this.specialAttackObj.damage[SS];
-         angleToApply = this.specialAttackObj.launchAngle[SS];
          newAttackFrame = this.specialAttackObj.attackFrames[SS];
-         tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[SS],
-             this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
-
-        attackBox = this.specialAttackObj.attackHitBox.clone();
-        if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 20){
-            if(this.otherPlayer.y > this.y - this.height/2 && this.otherPlayer.y < this.y +7*this.height/10){
-              this.otherPlayer.isHit = true;
-            }
-        }
-        if(this.facingL){
-          attackBox.position.set(this.x-15, this.y, this.z);
-          if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 10){
-              if(this.otherPlayer.y > this.y - this.height/2 - 5 && this.otherPlayer.y < this.y +this.height/2 + 5){
-                  this.otherPlayer.isHit = true;
-              }
-          }
-        }
-        else if(this.facingR){
-          attackBox.position.set(this.x+15, this.y, this.z);
-          if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 10){
-              if(this.otherPlayer.y > this.y - this.height/2 -5 && this.otherPlayer.y < this.y +this.height/2 + 5){
-                  this.otherPlayer.isHit = true;
-              }
-          }
-        }
-        else{
-          attackBox.position.set(this.x, this.y, this.z);
-          if(this.otherPlayer.x > this.x - this.width/4 && this.otherPlayer.x < this.x + this.width/4){
-              if(this.otherPlayer.y > this.y - this.height/2 -5 && this.otherPlayer.y < this.y +this.height/2 + 5){
-                  this.otherPlayer.isHit = true;
-              }
-          }
-        }
-        this.canBAttack[SS] = false;
-        this.canBasicAttack = false;
+         this.canBAttack[SS] = false;
+         this.canBasicAttack = false;
       }
 
 
@@ -696,99 +560,38 @@ var pingu = {
       if((!this.heldKeys.down && !this.heldKeys.up && !this.heldKeys.left && !this.heldKeys.right) && this.heldKeys.attack2){
         if(this.canBAttack[S] == true){
            console.log("Neutral Special");
-           damageToDeal = this.specialAttackObj.damage[S];
-           angleToApply = this.specialAttackObj.launchAngle[S];
            newAttackFrame = this.specialAttackObj.attackFrames[S];
-           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[S],
-               this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
-
-          attackBox = this.specialAttackObj.attackHitBox.clone();
-          attackBox.position.set(this.x+10, this.y, this.z);
-
-          if(this.facingL){
-            attackBox.position.set(this.x-5, this.y, this.z);
-            if(this.otherPlayer.x < this.x && this.otherPlayer.x > this.x - 10){
-                if(this.otherPlayer.y > this.y - this.height/2 - 5 && this.otherPlayer.y < this.y +this.height/2 + 5){
-                    this.otherPlayer.isHit = true;
-                }
-            }
-          }
-          else if(this.facingR){
-            attackBox.position.set(this.x+5, this.y, this.z);
-            if(this.otherPlayer.x > this.x && this.otherPlayer.x < this.x + 10){
-                if(this.otherPlayer.y > this.y - this.height/2 -5 && this.otherPlayer.y < this.y +this.height/2 + 5){
-                    this.otherPlayer.isHit = true;
-                }
-            }
-          }
-          else{
-            attackBox.position.set(this.x, this.y, this.z);
-            if(this.otherPlayer.x > this.x - this.width/4 && this.otherPlayer.x < this.x + this.width/4){
-                if(this.otherPlayer.y > this.y - this.height/2 -5 && this.otherPlayer.y < this.y +this.height/2 + 5){
-                    this.otherPlayer.isHit = true;
-                }
-            }
-          }
-          this.canBAttack[S] = false;
-          this.canBasicAttack = false;
+           this.canBAttack[S] = false;
+           this.canBasicAttack = false;
         }
 
       }
       if(this.heldKeys.down && this.heldKeys.attack2){
         if(this.canBAttack[DS] == true){
            console.log("Down Special");
-           damageToDeal = this.specialAttackObj.damage[DS];
-           angleToApply = this.specialAttackObj.launchAngle[DS];
            newAttackFrame = this.specialAttackObj.attackFrames[DS];
-           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[DS],
-               this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
-
-          attackBox = this.specialAttackObj.attackHitBox.clone();
-          attackBox.position.set(this.x, this.y-10, this.z);
-          attackBox.rotation.z = -1.57;
-          if(this.otherPlayer.x > this.x - this.width/2 && this.otherPlayer.x < this.x + this.width/2){
-              if(this.otherPlayer.y > this.y - this.height/2 - 15 && this.otherPlayer.y < this.y - this.height/2){
-                this.otherPlayer.isHit = true;
-              }
-          }
-          this.canBAttack[DS] = false;
-          this.canBasicAttack = false;
+           this.canBAttack[DS] = false;
+           this.canBasicAttack = false;
         }
       }
       if(this.heldKeys.up && this.heldKeys.attack2){
           if(this.canBAttack[US] == true){
            console.log("Up Special");
-           damageToDeal = this.specialAttackObj.damage[US];
-           angleToApply = this.specialAttackObj.launchAngle[US];
            newAttackFrame = this.specialAttackObj.attackFrames[US];
-           tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[US],
-               this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
-
-          attackBox = this.specialAttackObj.attackHitBox.clone();
-          attackBox.position.set(this.x, this.y+10, this.z);
-          attackBox.rotation.z = -1.57;
-          if(this.otherPlayer.x > this.x - this.width/2 && this.otherPlayer.x < this.x + this.width/2){
-              if(this.otherPlayer.y < this.y + this.height/2 + 15 && this.otherPlayer.y > this.y + 3*this.height/2){
-                this.otherPlayer.isHit = true;
-              }
-          }
-          this.canBAttack[US] = false;
-          this.canBasicAttack = false;
+           this.canBAttack[US] = false;
+           this.canBasicAttack = false;
         }
     }
 
-      if(attackBox != undefined){
-        stage.scene.add(attackBox);
-        setTimeout(function(){stage.scene.remove(attackBox);}, 100);
-      }
+    this.basicAttackFrames = newAttackFrame;
 
-      this.basicAttackFrames = newAttackFrame;
-
-       }
+     }
 
   },
   checkHit: function(attackType, moveType){
-
+    //recieves the call from the animation code and the hitbox produced during,
+    //animation, checks what type of move it's hit by, calculates damage and then
+    //ccalls the function that does knockback
     if(moveType == "A"){
       if(!this.otherPlayer.hitByA[attackType]){
         damageToDeal = this.basicAttackObj.damage[attackType];
@@ -799,7 +602,6 @@ var pingu = {
         this.otherPlayer.hitByA[attackType] = true;
         this.doKnockBack(damageToDeal, angleToApply, tKnockback);
       }
-
     }
     else{
       if(!this.otherPlayer.hitByB[attackType]){
@@ -811,9 +613,7 @@ var pingu = {
         this.otherPlayer.hitByB[attackType] = true;
         this.doKnockBack(damageToDeal, angleToApply, tKnockback);
       }
-
     }
-
   },
   doKnockBack: function(damageToDeal, angleToApply, tKnockback){
       //calculating the knockback
@@ -826,7 +626,6 @@ var pingu = {
          var newX, newY;
          newX = Math.cos(radians(angleToApply)) * knockbackVec.x - Math.sin(radians(angleToApply)) * knockbackVec.y;
          newY = Math.sin(radians(angleToApply))* knockbackVec.x + Math.cos(radians(angleToApply)) * knockbackVec.y;
-
 
          knockbackVec.x = newX;
          knockbackVec.y = Math.abs(newY);
