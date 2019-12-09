@@ -238,6 +238,13 @@ var pingu = {
 
             // selectedStageDat.scene.add();
             var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000);
+
+            var bbox3 = new THREE.Box3().setFromObject(bbox);
+            var enemybbox3 = new THREE.Box3().setFromObject(this.otherPlayer.hitBox);
+            if(bbox3.intersectsBox(enemybbox3)){
+                
+            }
+
             if(hitBoxesOn){
               selectedStageDat.scene.add(bbox);
               setTimeout(function(){bbox.geometry.dispose();}, 50);
