@@ -20,6 +20,7 @@ var charProto = {
     facingR: false,
     facingL: false,
     hitBoxEnabled: false,
+    addedHitBox: false,
     canJump: true,
     jumpCt: 0,
     maxJumpCt: 2,

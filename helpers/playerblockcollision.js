@@ -255,5 +255,6 @@ function drawRay(pointA, pointB, color){
       var intLT = new THREE.Line(geometry, material);
       stage.scene.add(intLT);
       setTimeout(function(){stage.scene.remove(intLT)}, 25);
+      setTimeout(function(){intLT.geometry.dispose();}, 25);
  }
 }

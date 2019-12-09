@@ -185,6 +185,11 @@ function toggleHitBoxes(objArr, enable){
         }
     }
 
+    stage.player1.addedHitBox = true;
+    stage.player2.addedHitBox = true;
+    stage.player1.hitBoxEnabled = true;
+    stage.player2.hitBoxEnabled = true;
+
 }
 
 
