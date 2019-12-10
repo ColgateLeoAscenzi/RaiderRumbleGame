@@ -23,6 +23,7 @@ var basicCharacter = {
     },
     update: function(){
       console.log(this.heldKeys);
+      //stage.p1spot.position.set(this.x,this.y+50, 10);
 
         // checks and sets the lowsest current point
         if(this.boxBelow != undefined){

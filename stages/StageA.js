@@ -43,6 +43,7 @@ var stageA = {
         this.player1.otherPlayer = this.player2;
         this.player2.otherPlayer = this.player1;
         this.startTimer();
+        createFollowSpotlights();
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
     },
     createScene: function(){
