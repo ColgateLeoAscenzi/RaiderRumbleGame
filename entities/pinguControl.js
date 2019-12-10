@@ -282,7 +282,7 @@ var pingu = {
           }
 
           if(this.facingL){
-            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
+            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000);
             this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
             if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
@@ -460,7 +460,7 @@ var pingu = {
           this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
           if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
-            this.checkHit(DS,"B");
+            this.checkHit(US,"B");
           }
 
           if(hitBoxesOn){
@@ -491,6 +491,24 @@ var pingu = {
 
           // var heartPart = particles.particlePalette.heartPiece;
           heartHelper(this.hearts, true, this.x, this.y, this.z);
+
+          this.model.scale.set(c*2.5,c*2.5,1);
+          var bbox = new THREE.BoxHelper(this.model, 0xff0000);
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+          this.model.scale.set(1,1,1);
+
+          // this.attackbbox.min.x-=50;
+          // this.attackbbox.max.x+=50;
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(DS,"B");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
 
           if(this.basicAttackFrames <= 0){
               heartHelper(this.hearts, false, stage.maximumX +300, stage.maximumY+300, 0);
