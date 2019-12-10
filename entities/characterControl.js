@@ -225,7 +225,7 @@ var basicCharacter = {
 
           if(this.facingL){
             this.model.torso.rightArm.rotation.z = radians(-120*c);
-            this.model.torso.rightArm.rightHand.coin.position.x = -10; //Tried to make it even, not too far
+            this.model.torso.rightArm.rightHand.coin.position.x = c*-10; //Tried to make it even, not too far
             if(this.basicAttackFrames <= this.basicAttackObj.attackFrames[A]/2){
               this.model.torso.rightArm.rightHand.coin.position.y -= 1;
             }
@@ -234,21 +234,30 @@ var basicCharacter = {
               this.model.torso.rightArm.rightHand.coin.position.y -= 1;
             }
 
-            this.model.torso.rightArm.rightHand.coin.scale.set(3.5,3.5,3.5);
+            this.model.torso.rightArm.rightHand.coin.scale.set(c*3.5,c*3.5,c*3.5);
           }
 
           else{
-            this.model.torso.rightArm.rotation.z = radians(90*c);
-            this.model.torso.rightArm.rightHand.coin.position.x = 15;
-            if(this.basicAttackFrames <= this.basicAttackObj.attackFrames[A]/2){
-              this.model.torso.rightArm.rightHand.coin.position.y -= 1;
-            }
-            else if (this.basicAttackFrames > this.basicAttackObj.attackFrames[A]/2 && this.basicAttackFrames <= 5.5*this.basicAttackObj.attackFrames[A]/10){
-              this.model.torso.rightArm.rightHand.coin.position.x += 1;
-              this.model.torso.rightArm.rightHand.coin.position.y -= 1;
-            }
 
-            this.model.torso.rightArm.rightHand.coin.scale.set(3.5,3.5,3.5);
+
+                this.model.torso.leftArm.rotation.set(-1.57,0,0);
+                this.model.torso.leftArm.position.z = 1;
+                this.model.torso.leftArm.scale.set(1.5,1.5,1.5);
+
+
+
+
+            // this.model.torso.rightArm.rotation.z = radians(90*c);
+            // this.model.torso.rightArm.rightHand.coin.position.x = c*15;
+            // if(this.basicAttackFrames <= this.basicAttackObj.attackFrames[A]/2){
+            //   this.model.torso.rightArm.rightHand.coin.position.y -= 1;
+            // }
+            // else if (this.basicAttackFrames > this.basicAttackObj.attackFrames[A]/2 && this.basicAttackFrames <= 5.5*this.basicAttackObj.attackFrames[A]/10){
+            //   this.model.torso.rightArm.rightHand.coin.position.x += 1;
+            //   this.model.torso.rightArm.rightHand.coin.position.y -= 1;
+            // }
+            //
+            // this.model.torso.rightArm.rightHand.coin.scale.set(c*3.5,c*3.5,c*3.5);
           }
 
 
@@ -268,7 +277,7 @@ var basicCharacter = {
             }
           }
           else{
-            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.coin, 0xff0000)
+            var bbox = new THREE.BoxHelper(this.model.torso.leftArm, 0xff0000)
             this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
             if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
@@ -290,6 +299,10 @@ var basicCharacter = {
               this.model.torso.rightArm.rightHand.coin.position.x = 0;
               this.model.torso.rightArm.rightHand.coin.position.y = 0;
               this.model.torso.rightArm.rightHand.coin.scale.set(1,1,1);
+              this.model.torso.leftArm.rotation.set(0,0,0);
+              this.model.torso.leftArm.position.z = 0;
+              this.model.torso.leftArm.scale.set(1,1,1);
+
               this.canAAttack[A] = true;
               //WE need this check for the general case of casing a spell
               //all the specific can attacks are needed for animation distinction

@@ -822,7 +822,4 @@ function heartHelper(heartsArr, show, x, y, z) {
               heartsArr[i].position.set(x,y,z);
           }
         }
-
-
-
 }

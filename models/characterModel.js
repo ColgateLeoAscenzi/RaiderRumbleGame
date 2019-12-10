@@ -138,6 +138,16 @@ function createBasicCharacterMesh(x, y, z) {
   this.mesh.torso.rightArm.rightHand.coin.position.set(-1.0,-0.5,1);
   this.mesh.torso.rightArm.rightHand.add(this.mesh.torso.rightArm.rightHand.coin);
 
+  // this.mesh.torso.rightArm.rightHand.backupCoin = new THREE.Object3D();
+  // var bcoinBox = new THREE.CylinderGeometry(2,2,1, 19);
+  // var bcoinMat = new THREE.MeshPhongMaterial({ color: Colors.coinColor});
+  //
+  // var bcoinBase = new THREE.Mesh(bcoinBox, bcoinMat);
+  // this.mesh.torso.rightArm.rightHand.backupCoin.add(bcoinBase);
+  // this.mesh.torso.rightArm.rightHand.backupCoin.rotation.set(1.57,0,0);
+  // this.mesh.torso.rightArm.rightHand.backupCoin.position.set(-1.0,-0.5,1);
+  // this.mesh.torso.rightArm.rightHand.add(this.mesh.torso.rightArm.rightHand.backupCoin);
+
   //legs added to base of torso
   var legBox = new THREE.BoxGeometry(2.25, 2.75, 1.9, 1, 1,1);
   var legMat = new THREE.MeshPhongMaterial(
