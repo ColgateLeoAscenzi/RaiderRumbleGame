@@ -12,7 +12,7 @@ var stageA = {
 
 
         this.omega = omegaOn;
-        this.blockA = grassBox;
+        this.blockA = basicBox;
         this.blockB = dirtBlock;
         this.blockC = platformBlock;
         this.blockD = grassBox;
@@ -78,7 +78,7 @@ var stageA = {
             }
             createBox(i*this.blockA.width, 0, 0, stage.blockA);
         }
-        createBox(0, 50, 0, stage.blockE);
+        //createBox(0, 50, 0, stage.blockE);
     },
     populateOmega: function(){
         //create floor out of block a
