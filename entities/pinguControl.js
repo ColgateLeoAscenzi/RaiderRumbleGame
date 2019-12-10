@@ -314,6 +314,7 @@ var pingu = {
             this.model.torso.rightArm.rotation.z = 0;
             this.model.torso.rightArm.scale.set(1,1,1);
             this.model.torso.leftArm.scale.set(1,1,1);
+            this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
               this.basicAttackFrames = 25;
               this.canAAttack[FA] = true;
               this.canBasicAttack = true;
