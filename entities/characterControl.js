@@ -460,7 +460,7 @@ var basicCharacter = {
         }
 
         //basic attack air
-        if(this.facingR && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
+        if(this.facingR && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
             if(this.canAAttack[FA]){
               console.log("Forward Air");
               newAttackFrame = this.basicAttackObj.attackFrames[FA];
@@ -468,7 +468,7 @@ var basicCharacter = {
               this.canBasicAttack = false;
             }
         }
-        if(this.facingL && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround){
+        if(this.facingL && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
           if(this.canAAttack[FA] == true){
               console.log("Forward Air");
               newAttackFrame = this.basicAttackObj.attackFrames[FA];
@@ -476,7 +476,7 @@ var basicCharacter = {
               this.canBasicAttack = false;
             }
         }
-        if(this.facingL && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
+        if(this.facingL && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
           if(this.canAAttack[BA] == true){
             console.log("Back Air");
             newAttackFrame = this.basicAttackObj.attackFrames[BA];
@@ -484,7 +484,7 @@ var basicCharacter = {
             this.canBasicAttack = false;
           }
         }
-        if(this.facingR && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround){
+        if(this.facingR && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
           if(this.canAAttack[BA] == true){
             console.log("Back Air");
             newAttackFrame = this.basicAttackObj.attackFrames[BA];
@@ -492,7 +492,7 @@ var basicCharacter = {
             this.canBasicAttack = false;
           }
         }
-        if(this.heldKeys.down && this.heldKeys.attack1 && !this.onGround){
+        if(this.heldKeys.down && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
           if(this.canAAttack[DA] == true){
             console.log("Down Air");
             newAttackFrame = this.basicAttackObj.attackFrames[DA];
@@ -500,7 +500,7 @@ var basicCharacter = {
             this.canBasicAttack = false;
           }
         }
-        if(this.heldKeys.up && this.heldKeys.attack1 && !this.onGround){
+        if(this.heldKeys.up && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
           if(this.canAAttack[UA] == true){
             console.log("Up Air");
             newAttackFrame = this.basicAttackObj.attackFrames[UA];
@@ -508,7 +508,7 @@ var basicCharacter = {
             this.canBasicAttack = false;
           }
         }
-        if(!this.heldKeys.left && !this.heldKeys.right && !this.heldKeys.up && !this.heldKeys.down && this.heldKeys.attack1 && !this.onGround){
+        if(!this.heldKeys.left && !this.heldKeys.right && !this.heldKeys.up && !this.heldKeys.down && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
             if(this.canAAttack[NA] == true){
               console.log("Neutral Air");
               newAttackFrame = this.basicAttackObj.attackFrames[NA];
@@ -518,7 +518,7 @@ var basicCharacter = {
         }
 
         //basic attack ground
-        if(this.heldKeys.attack1 && this.onGround){
+        if(this.heldKeys.attack1 && this.onGround && this.canBasicAttack){
             if(this.canAAttack[A] == true){
              console.log("Basic");
              newAttackFrame = this.basicAttackObj.attackFrames[A];
@@ -528,7 +528,7 @@ var basicCharacter = {
         }
 
         //special attacks
-        if((this.heldKeys.right || this.heldKeys.left) && this.heldKeys.attack2){
+        if((this.heldKeys.right || this.heldKeys.left) && this.heldKeys.attack2 && this.canBasicAttack){
           if(this.canBAttack[SS] == true){
            console.log("Side Special");
            newAttackFrame = this.specialAttackObj.attackFrames[SS];
@@ -538,7 +538,7 @@ var basicCharacter = {
 
 
         }
-        if((!this.heldKeys.down && !this.heldKeys.up && !this.heldKeys.left && !this.heldKeys.right) && this.heldKeys.attack2){
+        if((!this.heldKeys.down && !this.heldKeys.up && !this.heldKeys.left && !this.heldKeys.right) && this.heldKeys.attack2 && this.canBasicAttack){
           if(this.canBAttack[S] == true){
              console.log("Neutral Special");
              newAttackFrame = this.specialAttackObj.attackFrames[S];
@@ -547,7 +547,7 @@ var basicCharacter = {
           }
 
         }
-        if(this.heldKeys.down && this.heldKeys.attack2){
+        if(this.heldKeys.down && this.heldKeys.attack2 && this.canBasicAttack){
           if(this.canBAttack[DS] == true){
              console.log("Down Special");
              newAttackFrame = this.specialAttackObj.attackFrames[DS];
@@ -555,7 +555,7 @@ var basicCharacter = {
              this.canBasicAttack = false;
           }
         }
-        if(this.heldKeys.up && this.heldKeys.attack2){
+        if(this.heldKeys.up && this.heldKeys.attack2 && this.canBasicAttack){
             if(this.canBAttack[US] == true){
              console.log("Up Special");
              newAttackFrame = this.specialAttackObj.attackFrames[US];

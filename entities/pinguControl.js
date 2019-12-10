@@ -271,46 +271,51 @@ var pingu = {
 
       if(!this.canAAttack[FA]){
           this.basicAttackFrames-=1;
+
+          var c = ((this.basicAttackObj.attackFrames[FA]-this.basicAttackFrames)/this.basicAttackObj.attackFrames[FA]);
           if(this.facingL){
-            this.model.torso.rightArm.scale.set(1.6,1.6,1.6);
-            this.model.torso.rightArm.rightHand.sword.scale.set(1,2,1);
-            this.model.torso.rightArm.rotation.z += 0.1;
-          }
-          if(this.facingR){
-            this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
-
-          }
-
-          if(this.facingL){
-            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000);
-            this.attackbbox = new THREE.Box3().setFromObject(bbox);
-
-            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
-              this.checkHit(FA,"A");
+            if(c< 0.25){
+              this.model.rotation.z = 4*c*1.57;
+              this.model.torso.rightArm.scale.set(1.6,1.6,1.6);
+              this.model.torso.rightArm.rightHand.sword.scale.set(1,2.2,1);
+              this.model.torso.rightArm.rotation.z -= 0.1;
+            }
+            else{
+              this.model.rotation.x = 3*c*3.14;
             }
 
-            if(hitBoxesOn){
-              stage.scene.add(bbox);
-              setTimeout(function(){bbox.geometry.dispose();}, 50);
-              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
-            }
+            this.x-=1.8
           }
           else{
-            var bbox = new THREE.BoxHelper(this.model.torso.leftArm, 0xff0000)
-            this.attackbbox = new THREE.Box3().setFromObject(bbox);
-
-            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
-              this.checkHit(FA,"A");
+            if(c< 0.25){
+              this.model.rotation.z = -4*c*1.57;
+              this.model.torso.rightArm.scale.set(1.6,1.6,1.6);
+              this.model.torso.rightArm.rightHand.sword.scale.set(1,2.2,1);
+              this.model.torso.rightArm.rotation.z -= 0.1;
             }
-
-            if(hitBoxesOn){
-              stage.scene.add(bbox);
-              setTimeout(function(){bbox.geometry.dispose();}, 50);
-              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            else{
+              this.model.rotation.x = 3*c*3.14;
             }
+            this.x+=1.8
           }
 
+          var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000);
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(FA,"A");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
+
+
           if(this.basicAttackFrames <= 0){
+            this.model.rotation.z = 0;
+            this.model.rotation.x = 0;
             this.model.torso.rightArm.rotation.z = 0;
             this.model.torso.rightArm.scale.set(1,1,1);
             this.model.torso.leftArm.scale.set(1,1,1);
@@ -344,7 +349,24 @@ var pingu = {
 
       if(!this.canAAttack[UA]){
           this.basicAttackFrames-=1;
+          var c = ((this.basicAttackObj.attackFrames[UA]-this.basicAttackFrames)/this.basicAttackObj.attackFrames[UA]);
+
+          this.model.torso.rightArm.scale.set(1+c*0.6,1+c*0.6,1+c*0.6);
+          this.model.torso.rightArm.rightHand.sword.scale.set(1,2,1);
+
+          if(c < 0.25){
+            this.model.torso.rightArm.rotation.z = -8*c*1.57;
+            this.model.torso.rightArm.rightHand.sword.rotation.z = -4*c*1.57;
+          }
+          else{
+            this.model.torso.rightArm.rotation.z = 4*c*1.57;
+          }
+
           if(this.basicAttackFrames <= 0){
+
+            this.model.torso.rightArm.scale.set(1,1,1);
+            this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
+            this.model.torso.rightArm.rotation.z = 0;
               this.basicAttackFrames = 25;
               this.canAAttack[UA] = true;
               this.canBasicAttack = true;
@@ -354,7 +376,35 @@ var pingu = {
 
       if(!this.canAAttack[NA]){
           this.basicAttackFrames-=1;
+
+          var c = ((this.basicAttackObj.attackFrames[NA]-this.basicAttackFrames)/this.basicAttackObj.attackFrames[NA]);
+
+          this.model.rotation.z =  2*c*Math.PI;
+          this.model.torso.rightArm.scale.set(1+c*0.6,1+c*0.6,1+c*0.6);
+          this.model.torso.rightArm.rightHand.sword.scale.set(1,2,1);
+          this.model.torso.rightArm.rotation.z += 0.1;
+
+
+          var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(NA,"A");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
+
           if(this.basicAttackFrames <= 0){
+
+            this.model.rotation.z =  0
+            this.model.torso.rightArm.scale.set(1,1,1);
+            this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
+            this.model.torso.rightArm.rotation.z = 0.1;
+
               this.basicAttackFrames = 25;
               this.canAAttack[NA] = true;
               this.canBasicAttack = true;
@@ -586,7 +636,7 @@ var pingu = {
       }
 
       //basic attack air
-      if(this.facingR && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
+      if(this.facingR && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
           if(this.canAAttack[FA]){
             console.log("Forward Air");
             newAttackFrame = this.basicAttackObj.attackFrames[FA];
@@ -594,7 +644,7 @@ var pingu = {
             this.canBasicAttack = false;
           }
       }
-      if(this.facingL && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround){
+      if(this.facingL && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
         if(this.canAAttack[FA] == true){
             console.log("Forward Air");
             newAttackFrame = this.basicAttackObj.attackFrames[FA];
@@ -602,7 +652,7 @@ var pingu = {
             this.canBasicAttack = false;
           }
       }
-      if(this.facingL && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround){
+      if(this.facingL && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
         if(this.canAAttack[BA] == true){
           console.log("Back Air");
           newAttackFrame = this.basicAttackObj.attackFrames[BA];
@@ -610,7 +660,7 @@ var pingu = {
           this.canBasicAttack = false;
         }
       }
-      if(this.facingR && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround){
+      if(this.facingR && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
         if(this.canAAttack[BA] == true){
           console.log("Back Air");
           newAttackFrame = this.basicAttackObj.attackFrames[BA];
@@ -618,7 +668,7 @@ var pingu = {
           this.canBasicAttack = false;
         }
       }
-      if(this.heldKeys.down && this.heldKeys.attack1 && !this.onGround){
+      if(this.heldKeys.down && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
         if(this.canAAttack[DA] == true){
           console.log("Down Air");
           newAttackFrame = this.basicAttackObj.attackFrames[DA];
@@ -626,7 +676,7 @@ var pingu = {
           this.canBasicAttack = false;
         }
       }
-      if(this.heldKeys.up && this.heldKeys.attack1 && !this.onGround){
+      if(this.heldKeys.up && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
         if(this.canAAttack[UA] == true){
           console.log("Up Air");
           newAttackFrame = this.basicAttackObj.attackFrames[UA];
@@ -634,7 +684,7 @@ var pingu = {
           this.canBasicAttack = false;
         }
       }
-      if(!this.heldKeys.left && !this.heldKeys.right && !this.heldKeys.up && !this.heldKeys.down && this.heldKeys.attack1 && !this.onGround){
+      if(!this.heldKeys.left && !this.heldKeys.right && !this.heldKeys.up && !this.heldKeys.down && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
           if(this.canAAttack[NA] == true){
             console.log("Neutral Air");
             newAttackFrame = this.basicAttackObj.attackFrames[NA];
@@ -644,7 +694,7 @@ var pingu = {
       }
 
       //basic attack ground
-      if(this.heldKeys.attack1 && this.onGround){
+      if(this.heldKeys.attack1 && this.onGround && this.canBasicAttack){
           if(this.canAAttack[A] == true){
            console.log("Basic");
            newAttackFrame = this.basicAttackObj.attackFrames[A];
@@ -654,7 +704,7 @@ var pingu = {
       }
 
       //special attacks
-      if((this.heldKeys.right || this.heldKeys.left) && this.heldKeys.attack2){
+      if((this.heldKeys.right || this.heldKeys.left) && this.heldKeys.attack2 && this.canBasicAttack){
         if(this.canBAttack[SS] == true){
          console.log("Side Special");
          newAttackFrame = this.specialAttackObj.attackFrames[SS];
@@ -664,7 +714,7 @@ var pingu = {
 
 
       }
-      if((!this.heldKeys.down && !this.heldKeys.up && !this.heldKeys.left && !this.heldKeys.right) && this.heldKeys.attack2){
+      if((!this.heldKeys.down && !this.heldKeys.up && !this.heldKeys.left && !this.heldKeys.right) && this.heldKeys.attack2 && this.canBasicAttack){
         if(this.canBAttack[S] == true){
            console.log("Neutral Special");
            newAttackFrame = this.specialAttackObj.attackFrames[S];
@@ -673,7 +723,7 @@ var pingu = {
         }
 
       }
-      if(this.heldKeys.down && this.heldKeys.attack2){
+      if(this.heldKeys.down && this.heldKeys.attack2 && this.canBasicAttack){
         if(this.canBAttack[DS] == true){
            console.log("Down Special");
            newAttackFrame = this.specialAttackObj.attackFrames[DS];
@@ -681,7 +731,7 @@ var pingu = {
            this.canBasicAttack = false;
         }
       }
-      if(this.heldKeys.up && this.heldKeys.attack2){
+      if(this.heldKeys.up && this.heldKeys.attack2 && this.canBasicAttack){
           if(this.canBAttack[US] == true){
            console.log("Up Special");
            newAttackFrame = this.specialAttackObj.attackFrames[US];
