@@ -247,14 +247,14 @@ function determineClosest(arr1, arr2){
 }
 
 function drawRay(pointA, pointB, color){
-  if(drawRays){
-      var geometry = new THREE.Geometry();
-      geometry.vertices.push( pointA );
-      geometry.vertices.push( pointB );
-      var material = new THREE.LineBasicMaterial( { color : color } );
-      var intLT = new THREE.Line(geometry, material);
-      stage.scene.add(intLT);
-      setTimeout(function(){stage.scene.remove(intLT)}, 25);
-      setTimeout(function(){intLT.geometry.dispose();}, 25);
- }
+ //  if(drawRays){
+ //      var geometry = new THREE.Geometry();
+ //      geometry.vertices.push( pointA );
+ //      geometry.vertices.push( pointB );
+ //      var material = new THREE.LineBasicMaterial( { color : color } );
+ //      var intLT = new THREE.Line(geometry, material);
+ //      stage.scene.add(intLT);
+ //      setTimeout(function(){stage.scene.remove(intLT)}, 25);
+ //      setTimeout(function(){intLT.geometry.dispose();}, 25);
+ // }
 }

@@ -229,7 +229,12 @@ var pingu = {
                 this.model.torso.rightArm.rotation.z += 0.1;
             }
             else{
-              this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
+                if(c< 0.25){
+                    this.model.torso.leftArm.scale.set(1.6,2,1.6);
+                }
+                else{
+                    this.model.torso.leftArm.rotation.z = c*radians(180);
+                }
             }
           }
           else{
@@ -241,6 +246,7 @@ var pingu = {
             }
             else{
               this.model.torso.leftArm.scale.set(1+c*d*0.6,1+c*d*0.6,1+c*d*0.6);
+              this.model.torso.leftArm.rotation.z = d*this.model.torso.leftArm.rotation.z;
             }
 
           }
@@ -282,6 +288,7 @@ var pingu = {
               this.model.torso.leftArm.scale.set(1,1,1);
               this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
               this.model.torso.rightArm.rotation.z = 0;
+              this.model.torso.leftArm.rotation.z = 0;
 
               this.basicAttackFrames = 25;
               this.canAAttack[A] = true;
@@ -353,8 +360,68 @@ var pingu = {
       }
 
       if(!this.canAAttack[BA]){
-          this.basicAttackFrames-=1;
+
+        var d = 1 - ((this.recoilFrameDefault-this.recoilFrames)/this.recoilFrameDefault);
+        var c = ((this.basicAttackObj.attackFrames[BA]-this.basicAttackFrames)/this.basicAttackObj.attackFrames[BA]);
+
+        this.basicAttackFrames-=1;
+
+        if(this.facingL){
+            if(c< 0.25){
+                this.model.torso.rightArm.scale.set(1+c*0.6*4,1+c*0.6*4,1+c*0.6*4);
+                this.model.torso.rightArm.rightHand.sword.scale.set(1,1+1*c*4,1);
+            }
+            this.model.torso.rightArm.rotation.z += 0.1;
+        }
+        else{
+            if(c< 0.25){
+                this.model.torso.leftArm.scale.set(1.6,2,1.6);
+            }
+            else{
+                this.model.torso.leftArm.rotation.z = c*radians(180);
+            }
+        }
+
+
+
+          // HITBOX CHECK GOES HERE
+          if(this.facingL){
+            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(BA,"A");
+            }
+
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
+          }
+          else{
+            var bbox = new THREE.BoxHelper(this.model.torso.leftArm, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(BA,"A");
+            }
+
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
+          }
+
           if(this.basicAttackFrames <= 0){
+            //normal reset goes here
+              this.model.torso.rightArm.scale.set(1,1,1);
+              this.model.torso.leftArm.scale.set(1,1,1);
+              this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
+              this.model.torso.rightArm.rotation.z = 0;
+              this.model.torso.leftArm.rotation.z = 0;
+
               this.basicAttackFrames = 25;
               this.canAAttack[BA] = true;
               this.canBasicAttack = true;
