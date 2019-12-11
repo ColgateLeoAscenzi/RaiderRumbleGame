@@ -287,7 +287,7 @@ function buildStageSelect(){
   var planeMesh2 = new THREE.Mesh(planeGeom2, planeMat2);
   planeMesh2.userData = {stageData:stageA, omega: false};
   mapScene.add(planeMesh2);
-  planeMesh2.position.y += 20;
+  planeMesh2.position.y += 10;
   selectableStages.push(planeMesh2);
 
   var planeGeom3 = new THREE.BoxGeometry(10,10,10,1,1,1);
@@ -304,7 +304,7 @@ function buildStageSelect(){
   planeMesh4.userData = {stageData:stageB, omega: true};
   mapScene.add(planeMesh4);
   planeMesh4.position.x += 20;
-  planeMesh4.position.y += 20;
+  planeMesh4.position.y += 10;
   selectableStages.push(planeMesh4);
 
   camera.lookAt(0,0,0);
