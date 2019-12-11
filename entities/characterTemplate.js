@@ -53,4 +53,7 @@ var charProto = {
     isGrab: false,
     attackbbox: undefined,
     hitbbox: undefined,
+    isRecoiling : false,
+    recoilFrameDefault : 12,
+    recoilFrames : 0
 }
