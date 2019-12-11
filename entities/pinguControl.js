@@ -222,10 +222,11 @@ var pingu = {
             this.basicAttackFrames-=1;
             //ANIMATIONS GO HERE
             if(this.facingL){
-              this.model.torso.rightArm.scale.set(1+c*0.6,1+c*0.6,1+c*0.6);
-              this.model.torso.rightArm.rightHand.sword.scale.set(1,1+1*c,1);
-              this.model.torso.rightArm.rotation.z += 0.1;
-
+                if(c< 0.25){
+                    this.model.torso.rightArm.scale.set(1+c*0.6*4,1+c*0.6*4,1+c*0.6*4);
+                    this.model.torso.rightArm.rightHand.sword.scale.set(1,1+1*c*4,1);
+                }
+                this.model.torso.rightArm.rotation.z += 0.1;
             }
             else{
               this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
@@ -234,12 +235,12 @@ var pingu = {
           else{
             //recoil reset
             if(this.facingL){
-              this.model.torso.rightArm.scale.set(1+d*0.6,1+d*0.6,1+d*0.6);
-              this.model.torso.rightArm.rightHand.sword.scale.set(1,1+d*1,1);
+              this.model.torso.rightArm.scale.set(1+c*d*0.6,1+c*d*0.6,1+c*d*0.6);
+              this.model.torso.rightArm.rightHand.sword.scale.set(1,1+c*d*1,1);
               this.model.torso.rightArm.rotation.z = d*this.model.torso.rightArm.rotation.z;
             }
             else{
-              this.model.torso.leftArm.scale.set(1+d*0.6,1+d*0.6,1+d*0.6);
+              this.model.torso.leftArm.scale.set(1+c*d*0.6,1+c*d*0.6,1+c*d*0.6);
             }
 
           }
@@ -828,9 +829,9 @@ var pingu = {
         this.otherPlayer.isHit = true;
         this.otherPlayer.hitByA[attackType] = true;
         this.doKnockBack(damageToDeal, angleToApply, tKnockback);
-        this.isRecoiling = true;
-        this.recoilFrames = this.recoilFrameDefault;
-        this.basicAttackFrames = 1;
+        // this.isRecoiling = true;
+        // this.recoilFrames = this.basicAttackObj.attackFrames[attackType] - this.basicAttackFrames +this.basicAttackObj.attackFrames[attackType]/2;
+        // this.basicAttackFrames = 1;
       }
     }
     else{
@@ -842,9 +843,9 @@ var pingu = {
         this.otherPlayer.isHit = true;
         this.otherPlayer.hitByB[attackType] = true;
         this.doKnockBack(damageToDeal, angleToApply, tKnockback);
-        this.isRecoiling = true;
-        this.recoilFrames = this.recoilFrameDefault;
-        this.basicAttackFrames = 1;
+        // this.isRecoiling = true;
+        // this.recoilFrames = this.specialAttackObj.attackFrames[attackType] - this.basicAttackFrames + this.specialAttackObj.attackFrames[attackType]/2;
+        // this.basicAttackFrames = 1;
       }
     }
   },
