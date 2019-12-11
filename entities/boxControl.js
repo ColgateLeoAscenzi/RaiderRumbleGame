@@ -82,7 +82,7 @@ var dirtBlock2 = {
         }
     }
 }
-var dirtBlock2 = {
+var dirtBlock3 = {
     height: 10,
     width: 10,
     model: createDirtBlockMesh(3),
@@ -97,7 +97,7 @@ var dirtBlock2 = {
         }
     }
 }
-var dirtBlock2 = {
+var dirtBlock4 = {
     height: 10,
     width: 10,
     model: createDirtBlockMesh(4),
