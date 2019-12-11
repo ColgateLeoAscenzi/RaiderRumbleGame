@@ -215,7 +215,6 @@ var pingu = {
       //BEGIN ATTACK ANIMATIONS
       if(!this.canAAttack[A]){
 
-        var swordParticleBox = particles.particlePalette.sword;
         var d = 1 - ((this.recoilFrameDefault-this.recoilFrames)/this.recoilFrameDefault);
         var c = ((this.basicAttackObj.attackFrames[A]-this.basicAttackFrames)/this.basicAttackObj.attackFrames[A]);
 
@@ -227,22 +226,21 @@ var pingu = {
               this.model.torso.rightArm.rightHand.sword.scale.set(1,1+1*c,1);
               this.model.torso.rightArm.rotation.z += 0.1;
 
-              var swordPos = this.model.torso.rightArm.rightHand.sword.getWorldPosition();
-              var swordRot = this.model.torso.rightArm.rightHand.sword.getWorldRotation();
-              swordParticleBox.position.set(-5+this.x-12*Math.random(),-3+this.y+15*Math.random(),this.z);
-
-              stage.scene.add(swordParticleBox);
-              setTimeout(function(){stage.scene.remove(swordParticleBox)}, 50);
             }
             else{
               this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
             }
-
           }
           else{
-            this.model.torso.rightArm.scale.set(1+d*0.6,1+d*0.6,1+d*0.6);
-            this.model.torso.rightArm.rightHand.sword.scale.set(1,1+d*1,1);
-            this.model.torso.rightArm.rotation.z = d*this.model.torso.rightArm.rotation.z;
+            //recoil reset
+            if(this.facingL){
+              this.model.torso.rightArm.scale.set(1+d*0.6,1+d*0.6,1+d*0.6);
+              this.model.torso.rightArm.rightHand.sword.scale.set(1,1+d*1,1);
+              this.model.torso.rightArm.rotation.z = d*this.model.torso.rightArm.rotation.z;
+            }
+            else{
+              this.model.torso.leftArm.scale.set(1+d*0.6,1+d*0.6,1+d*0.6);
+            }
 
           }
 
@@ -278,7 +276,7 @@ var pingu = {
           }
 
           if(this.basicAttackFrames <= 0){
-            //RESET GOES HERE
+            //normal reset goes here
               this.model.torso.rightArm.scale.set(1,1,1);
               this.model.torso.leftArm.scale.set(1,1,1);
               this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
@@ -306,7 +304,9 @@ var pingu = {
               this.model.rotation.x = 3*c*3.14;
             }
 
-            this.x-=1.8
+            if(this.x - 1.8 >= this.minLeft){
+              this.x-=1.8
+            }
           }
           else{
             if(c< 0.25){
@@ -318,7 +318,9 @@ var pingu = {
             else{
               this.model.rotation.x = 3*c*3.14;
             }
-            this.x+=1.8
+            if(this.x + 1.8 <= this.minRight){
+              this.x+=1.8
+            }
           }
 
           var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000);

@@ -150,6 +150,13 @@ var basicCharacter = {
 
     },
     animate: function(){
+      if(this.isRecoiling){
+        this.recoilFrames -= 1;
+        if(this.recoilFrames <= 0){
+          this.recoilFrames = this.recoilFrameDefault;
+          this.isRecoiling = false;
+        }
+      }
       //direction changes
       if(this.facingR){
         this.model.rotation.y = 0.5;
@@ -584,6 +591,9 @@ var basicCharacter = {
           this.otherPlayer.isHit = true;
           this.otherPlayer.hitByA[attackType] = true;
           this.doKnockBack(damageToDeal, angleToApply, tKnockback);
+          this.isRecoiling = true;
+          this.recoilFrames = this.recoilFrameDefault;
+          this.basicAttackFrames = 1;
         }
       }
       else{
@@ -595,6 +605,9 @@ var basicCharacter = {
           this.otherPlayer.isHit = true;
           this.otherPlayer.hitByB[attackType] = true;
           this.doKnockBack(damageToDeal, angleToApply, tKnockback);
+          this.isRecoiling = true;
+          this.recoilFrames = this.recoilFrameDefault;
+          this.basicAttackFrames = 1;
         }
       }
     },
