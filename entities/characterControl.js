@@ -143,7 +143,9 @@ var basicCharacter = {
           this.hitBox.position.set(this.x, this.y+4, 0);
         }
 
-
+        if(this.y > this.minDown){
+          this.onGround = false;
+        }
 
 
     },

@@ -6,7 +6,7 @@ var pingu = {
     secondary: createPinguMesh(0,0,0),
     hitBox: createPinguBounding(0,0,0),
     basicAttackModel: createBasicAttackModel(),
-    canAAttack: [true, true, true, true, true],
+    canAAttack: [true, true, true, true, true, true],
     canBAttack: [true, true, true, true],
     hitByA: [false, false, false, false, false],
     hitByB: [false, false, false, false],
@@ -29,7 +29,6 @@ var pingu = {
 
         this.basicAttackObj = pinguBasic;
         this.specialAttackObj = pinguSpecial;
-
 
 
 
@@ -124,8 +123,8 @@ var pingu = {
           this.onGround = true;
           this.canRecover = true;
           this.isRecover = false;
-
         }
+
         if(this.y > this.minUp){
           this.y = this.minUp;
           this.yVel = 0;
@@ -147,9 +146,20 @@ var pingu = {
           this.hitBox.position.set(this.x, this.y+2, 0);
         }
 
+        if(this.y > this.minDown){
+          this.onGround = false;
+        }
+
 
     },
     animate: function(){
+      if(this.isRecoiling){
+        this.recoilFrames -= 1;
+        if(this.recoilFrames <= 0){
+          this.recoilFrames = this.recoilFrameDefault;
+          this.isRecoiling = false;
+        }
+      }
       //direction changes
       if(this.facingR && this.canBAttack[US]){
         this.model.rotation.y = 0.5;
@@ -206,24 +216,36 @@ var pingu = {
       if(!this.canAAttack[A]){
 
         var swordParticleBox = particles.particlePalette.sword;
+        var d = 1 - ((this.recoilFrameDefault-this.recoilFrames)/this.recoilFrameDefault);
+        var c = ((this.basicAttackObj.attackFrames[A]-this.basicAttackFrames)/this.basicAttackObj.attackFrames[A]);
 
-          this.basicAttackFrames-=1;
-          //ANIMATIONS GO HERE
-          if(this.facingL){
-            this.model.torso.rightArm.scale.set(1.6,1.6,1.6);
-            this.model.torso.rightArm.rightHand.sword.scale.set(1,2,1);
-            this.model.torso.rightArm.rotation.z += 0.1;
+          if(!this.isRecoiling){
+            this.basicAttackFrames-=1;
+            //ANIMATIONS GO HERE
+            if(this.facingL){
+              this.model.torso.rightArm.scale.set(1+c*0.6,1+c*0.6,1+c*0.6);
+              this.model.torso.rightArm.rightHand.sword.scale.set(1,1+1*c,1);
+              this.model.torso.rightArm.rotation.z += 0.1;
 
-            var swordPos = this.model.torso.rightArm.rightHand.sword.getWorldPosition();
-            var swordRot = this.model.torso.rightArm.rightHand.sword.getWorldRotation();
-            swordParticleBox.position.set(-5+this.x-12*Math.random(),-3+this.y+15*Math.random(),this.z);
+              var swordPos = this.model.torso.rightArm.rightHand.sword.getWorldPosition();
+              var swordRot = this.model.torso.rightArm.rightHand.sword.getWorldRotation();
+              swordParticleBox.position.set(-5+this.x-12*Math.random(),-3+this.y+15*Math.random(),this.z);
 
-            stage.scene.add(swordParticleBox);
-            setTimeout(function(){stage.scene.remove(swordParticleBox)}, 50);
+              stage.scene.add(swordParticleBox);
+              setTimeout(function(){stage.scene.remove(swordParticleBox)}, 50);
+            }
+            else{
+              this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
+            }
+
           }
           else{
-            this.model.torso.leftArm.scale.set(1.6,1.6,1.6);
+            this.model.torso.rightArm.scale.set(1+d*0.6,1+d*0.6,1+d*0.6);
+            this.model.torso.rightArm.rightHand.sword.scale.set(1,1+d*1,1);
+            this.model.torso.rightArm.rotation.z = d*this.model.torso.rightArm.rotation.z;
+
           }
+
 
           // HITBOX CHECK GOES HERE
           if(this.facingL){
@@ -339,7 +361,35 @@ var pingu = {
 
       if(!this.canAAttack[DA]){
           this.basicAttackFrames-=1;
+
+          var c = ((this.basicAttackObj.attackFrames[DA]-this.basicAttackFrames)/this.basicAttackObj.attackFrames[DA]);
+
+          this.model.torso.rightLeg.scale.set(1.1,1,3);
+          this.model.torso.leftLeg.scale.set(1.1,1,3);
+
+          this.model.torso.rightLeg.rotation.y = c*Math.sin(this.basicAttackFrames);
+          this.model.torso.leftLeg.rotation.y = c*Math.sin(this.basicAttackFrames);
+
+
           if(this.basicAttackFrames <= 0){
+
+            this.model.torso.rightLeg.scale.set(1,1,1);
+            this.model.torso.leftLeg.scale.set(1,1,1);
+
+
+            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(UA,"A");
+            }
+
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
+
               this.basicAttackFrames = 25;
               this.canAAttack[DA] = true;
               this.canBasicAttack = true;
@@ -356,17 +406,35 @@ var pingu = {
 
           if(c < 0.25){
             this.model.torso.rightArm.rotation.z = -8*c*1.57;
-            this.model.torso.rightArm.rightHand.sword.rotation.z = -4*c*1.57;
+            this.model.torso.rightArm.rightHand.sword.rotation.z = 7.8*c*1.57;
+            this.model.torso.rightArm.rightHand.sword.position.x += 0.01;
+            this.model.torso.rightArm.rightHand.sword.position.y -= 0.05;
+            this.model.torso.rightArm.rightHand.sword.position.z -= 0.2;
           }
-          else{
-            this.model.torso.rightArm.rotation.z = 4*c*1.57;
-          }
+
 
           if(this.basicAttackFrames <= 0){
 
             this.model.torso.rightArm.scale.set(1,1,1);
+            this.model.torso.leftArm.scale.set(1,1,1);
             this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
+            this.model.torso.rightArm.rightHand.sword.position.set(-0.4,1,0.7);
+            this.model.torso.rightArm.rightHand.sword.rotation.set(0,0,0.6);
             this.model.torso.rightArm.rotation.z = 0;
+
+            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(UA,"A");
+            }
+
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
+
               this.basicAttackFrames = 25;
               this.canAAttack[UA] = true;
               this.canBasicAttack = true;
@@ -758,6 +826,9 @@ var pingu = {
         this.otherPlayer.isHit = true;
         this.otherPlayer.hitByA[attackType] = true;
         this.doKnockBack(damageToDeal, angleToApply, tKnockback);
+        this.isRecoiling = true;
+        this.recoilFrames = this.recoilFrameDefault;
+        this.basicAttackFrames = 1;
       }
     }
     else{
@@ -769,6 +840,9 @@ var pingu = {
         this.otherPlayer.isHit = true;
         this.otherPlayer.hitByB[attackType] = true;
         this.doKnockBack(damageToDeal, angleToApply, tKnockback);
+        this.isRecoiling = true;
+        this.recoilFrames = this.recoilFrameDefault;
+        this.basicAttackFrames = 1;
       }
     }
   },
