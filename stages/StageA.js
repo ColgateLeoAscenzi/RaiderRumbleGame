@@ -109,7 +109,6 @@ var stageA = {
               else{
                   this.blockB = dirtBlock4;
               }
-              console.log(this.blockB)
                 createBox(i*this.blockA.width, -j*this.blockB.height, 0, this.blockB, this);
             }
         }
