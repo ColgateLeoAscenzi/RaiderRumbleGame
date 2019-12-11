@@ -278,14 +278,14 @@ function buildStageSelect(){
   var planeGeom = new THREE.BoxGeometry(10,10,10,1,1,1);
   var planeMat = new THREE.MeshPhongMaterial({color: 0xffffff});
   var planeMesh = new THREE.Mesh(planeGeom, planeMat);
-  planeMesh.userData = {stageData:stageA, omega: true};
+  planeMesh.userData = {stageData:stageA, omega: false};
   mapScene.add(planeMesh);
   selectableStages.push(planeMesh);
 
   var planeGeom2 = new THREE.BoxGeometry(10,10,10,1,1,1);
   var planeMat2 = new THREE.MeshPhongMaterial({color: 0x00ff00});
   var planeMesh2 = new THREE.Mesh(planeGeom2, planeMat2);
-  planeMesh2.userData = {stageData:stageA, omega: false};
+  planeMesh2.userData = {stageData:stageA, omega: true};
   mapScene.add(planeMesh2);
   planeMesh2.position.y += 10;
   selectableStages.push(planeMesh2);
