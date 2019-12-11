@@ -52,10 +52,55 @@ var grassBoxB = {
     }
 }
 
-var dirtBlock = {
+var dirtBlock1 = {
     height: 10,
     width: 10,
-    model: createDirtBlockMesh(),
+    model: createDirtBlockMesh(1),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+    }
+}
+var dirtBlock2 = {
+    height: 10,
+    width: 10,
+    model: createDirtBlockMesh(2),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+    }
+}
+var dirtBlock2 = {
+    height: 10,
+    width: 10,
+    model: createDirtBlockMesh(3),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+    }
+}
+var dirtBlock2 = {
+    height: 10,
+    width: 10,
+    model: createDirtBlockMesh(4),
     hitBox: createBasicBoxBounding(),
     hitBoxEnabled: false,
     update: function(){

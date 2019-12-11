@@ -13,7 +13,7 @@ var stageA = {
 
         this.omega = omegaOn;
         this.blockA = basicBox;
-        this.blockB = dirtBlock;
+        this.blockB = dirtBlock1;
         this.blockC = platformBlock;
         this.blockD = grassBox;
         this.blockE = grassBoxB;
@@ -84,6 +84,7 @@ var stageA = {
         //create floor out of block a
         for(var i = -10; i < 11; i++){
           if(i == -10 || i == 10){
+
               createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC, this);
               createBox(i*this.blockC.width, this.blockA.height/4, 0, this.blockC, this);
           }
@@ -94,6 +95,13 @@ var stageA = {
         //create underside out of block b
         for(var j = 1; j< 5; j++ ){
             for(var i = -10+j; i < 11-j; i++){
+              if(Math.random() > 0.5){
+                this.blockB = dirtBlock1;
+              }
+              else{
+                this.blockB = dirtBlock2;
+              }
+              console.log(this.blockB)
                 createBox(i*this.blockA.width, -j*this.blockB.height, 0, this.blockB, this);
             }
         }
