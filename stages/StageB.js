@@ -1,4 +1,4 @@
-var stageA = {
+var stageB = {
     init: function(){
         var keys = Object.keys(stageProto);
         for(var i = 0; i < keys.length; i++){
@@ -12,11 +12,9 @@ var stageA = {
 
 
         this.omega = omegaOn;
-        this.blockA = basicBox;
+        this.blockA = grassBox;
         this.blockB = dirtBlock;
         this.blockC = platformBlock;
-        this.blockD = grassBox;
-        this.blockE = grassBoxB;
 
         this.stageBlocks = [];
         this.blockAMeshes = [];
@@ -69,14 +67,14 @@ var stageA = {
     populateScene: function(){
         //replace the block with blockA
         for(var i = -10; i < 11; i++){
-            if(i == -10 || i == 10){
+            if(i == -8 || i == 8){
                 createBox(i*this.blockA.width,this.blockA.height, 0, this.blockA);
                 createBox(i*this.blockA.width, this.blockA.height*2, 0, this.blockA);
             }
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
                 createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC);
             }
-            createBox(i*this.blockA.width, 0, 0, stage.blockA);
+            createBox(i*this.blockA.width, 0, 0, this.blockA);
         }
         //createBox(0, 50, 0, stage.blockE);
     },
@@ -205,39 +203,39 @@ var stageA = {
 
 function createBox(x, y, z, blockType) {
 
-    stageA.basicBoxAMesh = blockType.model.clone();
-    // stageA.basicBoxAMesh.material = new THREE.MeshPhongMaterial({ color : Colors.white});
-    stageA.basicBoxAMesh.position.set(x, y, z);
-    stageA.scene.add(stageA.basicBoxAMesh);
-    stageA.stageBlocks.push(blockType);
-    stageA.blockAMeshes.push(stageA.basicBoxAMesh);
+    stageB.basicBoxAMesh = blockType.model.clone();
+    // stageB.basicBoxAMesh.material = new THREE.MeshPhongMaterial({ color : Colors.white});
+    stageB.basicBoxAMesh.position.set(x, y, z);
+    stageB.scene.add(stageB.basicBoxAMesh);
+    stageB.stageBlocks.push(blockType);
+    stageB.blockAMeshes.push(stageB.basicBoxAMesh);
 
-    stageA.basicHitBoxAMesh = blockType.hitBox.clone();
+    stageB.basicHitBoxAMesh = blockType.hitBox.clone();
 
-    stageA.basicHitBoxAMesh.position.set(x, y, z);
+    stageB.basicHitBoxAMesh.position.set(x, y, z);
 
-    stageA.stageHitBoxes.push(stageA.basicHitBoxAMesh);
+    stageB.stageHitBoxes.push(stageB.basicHitBoxAMesh);
 
 }
 
 function createPlayer1(x, y, z){
-  stageA.players.push(stageA.player1);
-  stageA.player1Mesh = stageA.player1.model;
+  stageB.players.push(stageB.player1);
+  stageB.player1Mesh = stageB.player1.model;
   // player1Mesh.position.set(x, y, z);
-  stageA.player1HitBoxMesh = stageA.player1.hitBox;
-  stageA.player1HitBoxMesh.position.set(x, y, z)
-  stageA.stageHitBoxes.push(stageA.player1HitBoxMesh);
+  stageB.player1HitBoxMesh = stageB.player1.hitBox;
+  stageB.player1HitBoxMesh.position.set(x, y, z)
+  stageB.stageHitBoxes.push(stageB.player1HitBoxMesh);
 
-  stageA.scene.add(stageA.player1Mesh);
+  stageB.scene.add(stageB.player1Mesh);
 }
 
 function createPlayer2(x, y, z){
-  stageA.players.push(stageA.player2);
-  stageA.player2Mesh = stageA.player2.model;
+  stageB.players.push(stageB.player2);
+  stageB.player2Mesh = stageB.player2.model;
   // player1Mesh.position.set(x, y, z);
-  stageA.player2HitBoxMesh = stageA.player2.hitBox;
-  stageA.player2HitBoxMesh.position.set(x, y, z)
-  stageA.stageHitBoxes.push(stageA.player2HitBoxMesh);
+  stageB.player2HitBoxMesh = stageB.player2.hitBox;
+  stageB.player2HitBoxMesh.position.set(x, y, z)
+  stageB.stageHitBoxes.push(stageB.player2HitBoxMesh);
 
-  stageA.scene.add(stageA.player2Mesh);
+  stageB.scene.add(stageB.player2Mesh);
 }
