@@ -370,8 +370,31 @@ var pingu = {
           this.model.torso.rightLeg.scale.set(1.1,1,3);
           this.model.torso.leftLeg.scale.set(1.1,1,3);
 
-          this.model.torso.rightLeg.rotation.y = c*Math.sin(this.basicAttackFrames);
-          this.model.torso.leftLeg.rotation.y = c*Math.sin(this.basicAttackFrames);
+          this.model.torso.rightLeg.rotation.x = -c*Math.sin(0.5*this.basicAttackFrames);
+          this.model.torso.leftLeg.rotation.x = c*Math.sin(0.5*this.basicAttackFrames);
+
+
+          var bbox1 = new THREE.BoxHelper(this.model.torso.rightLeg, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox1);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(DA,"A");
+          }
+          var bbox2 = new THREE.BoxHelper(this.model.torso.leftLeg, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox2);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(DA,"A");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox1);
+            setTimeout(function(){bbox1.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox1);}, 50);
+            stage.scene.add(bbox2);
+            setTimeout(function(){bbox2.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox2);}, 50);
+          }
 
 
           if(this.basicAttackFrames <= 0){
@@ -380,18 +403,6 @@ var pingu = {
             this.model.torso.leftLeg.scale.set(1,1,1);
 
 
-            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
-            this.attackbbox = new THREE.Box3().setFromObject(bbox);
-
-            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
-              this.checkHit(UA,"A");
-            }
-
-            if(hitBoxesOn){
-              stage.scene.add(bbox);
-              setTimeout(function(){bbox.geometry.dispose();}, 50);
-              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
-            }
 
               this.basicAttackFrames = 25;
               this.canAAttack[DA] = true;
@@ -414,29 +425,37 @@ var pingu = {
             this.model.torso.rightArm.rightHand.sword.position.y -= 0.05;
             this.model.torso.rightArm.rightHand.sword.position.z -= 0.2;
           }
+          else{
+              this.model.rotation.y = c*radians(720);
+          }
+
+
+
+
+          var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(UA,"A");
+          }
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
 
 
           if(this.basicAttackFrames <= 0){
 
-            this.model.torso.rightArm.scale.set(1,1,1);
-            this.model.torso.leftArm.scale.set(1,1,1);
-            this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
-            this.model.torso.rightArm.rightHand.sword.position.set(-0.4,1,0.7);
-            this.model.torso.rightArm.rightHand.sword.rotation.set(0,0,0.6);
-            this.model.torso.rightArm.rotation.z = 0;
+              this.model.torso.rightArm.scale.set(1,1,1);
+              this.model.torso.leftArm.scale.set(1,1,1);
+              this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
+              this.model.torso.rightArm.rightHand.sword.position.set(-0.4,1,0.7);
+              this.model.torso.rightArm.rightHand.sword.rotation.set(0,0,0.6);
+              this.model.torso.rightArm.rotation.z = 0;
+              this.model.rotation.y = 0;
 
-            var bbox = new THREE.BoxHelper(this.model.torso.rightArm.rightHand.sword, 0xff0000)
-            this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
-            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
-              this.checkHit(UA,"A");
-            }
-
-            if(hitBoxesOn){
-              stage.scene.add(bbox);
-              setTimeout(function(){bbox.geometry.dispose();}, 50);
-              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
-            }
 
               this.basicAttackFrames = 25;
               this.canAAttack[UA] = true;
