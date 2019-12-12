@@ -386,14 +386,46 @@ var basicCharacter = {
           }
       }
       if(!this.canBAttack[US]){
-          this.basicAttackFrames-=1;
+          this.basicAttackFrames-=2.5;
+          this.model.hat.scale.set(1.5,2,1.5)
+          this.model.hat.rotation.y += .82;
+
+
+          var geomHBox1 = new THREE.BoxGeometry(1.5,1.5,1.5, 1, 1, 1);
+          var matHBox1  = new THREE.MeshPhongMaterial(
+                                     { emissive : 0xff0000 * Math.random(), opacity: 1, transparent: true});
+
+          var boxH1 = new THREE.Mesh(geomHBox1, matHBox1).clone();
+
+          boxH1.position.set(5+this.x-10*Math.random(),-5+this.y-8*Math.random(),this.z);
+          stage.scene.add(boxH1);
+          setTimeout(function(){stage.scene.remove(boxH1)}, 50);
+          setTimeout(function(){boxH1.geometry.dispose()}, 50);
+
+
+          var bbox = new THREE.BoxHelper(this.model, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(US,"B");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
+
           if(this.basicAttackFrames <= 0){
+              this.model.hat.scale.set(1,1,1)
+              this.model.hat.rotation.y = 0;
               this.basicAttackFrames = 25;
               this.canBAttack[US] = true;
               this.canBasicAttack = true;
               this.otherPlayer.hitByB[US] = false;
           }
       }
+
       if(!this.canBAttack[DS]){
           this.basicAttackFrames-=1;
           if(this.basicAttackFrames <= 0){

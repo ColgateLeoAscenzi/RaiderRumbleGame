@@ -93,7 +93,7 @@ function createGrassMesh(){
                              { color : 0x42a852});
 
   n1 = new THREE.Mesh(g1, m1);
-  n1.position.set(1,5,-3);
+  n1.position.set(1,5.5,-3);
   box.add(n1);
 
   rY = Math.floor(Math.random()*8);
@@ -103,7 +103,7 @@ function createGrassMesh(){
                              { color : 0x42a852});
 
   n2 = new THREE.Mesh(g2, m2);
-  n2.position.set(2,5,-1);
+  n2.position.set(2,5.5,-1);
   box.add(n2);
 
   rY = Math.floor(Math.random()*6);
@@ -113,7 +113,7 @@ function createGrassMesh(){
                              { color : 0x42a852});
 
   n3 = new THREE.Mesh(g3, m3);
-  n3.position.set(0,5,2);
+  n3.position.set(0,5.5,2);
   box.add(n3);
 
   ry = Math.floor(Math.random()*6);
@@ -123,7 +123,7 @@ function createGrassMesh(){
                              { color : 0x42a852});
 
   n4 = new THREE.Mesh(g4, m4);
-  n4.position.set(0,5,3);
+  n4.position.set(0,5.5,3);
   box.add(n4);
 
   ry = Math.floor(Math.random()*4);
@@ -133,7 +133,7 @@ function createGrassMesh(){
                              { color : 0x42a852});
 
   n5 = new THREE.Mesh(g4, m4);
-  n5.position.set(4.4,5,4.2);
+  n5.position.set(4.4,5.5,4.2);
   box.add(n5);
 
   ry = Math.floor(Math.random()*4);
@@ -143,7 +143,7 @@ function createGrassMesh(){
                              { color : 0x42a852});
 
   n5 = new THREE.Mesh(g4, m4);
-  n5.position.set(3,5,3);
+  n5.position.set(3,5.5,3);
   box.add(n5);
 
 
