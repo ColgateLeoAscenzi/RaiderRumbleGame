@@ -36,5 +36,14 @@ function buildStageSelect(){
   planeMesh4.position.y += 10;
   selectableStages.push(planeMesh4);
 
+  var mapGeom = new THREE.BoxGeometry(500,10,500,1,1,1);
+  var mapMat  = new THREE.MeshPhongMaterial(
+                              {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/overviewmap2x.png')});
+  var mapMesh = new THREE.Mesh(mapGeom, mapMat);
+
+  mapMesh.position.y -= 10;
+
+  mapScene.add(mapMesh);
+
   camera.lookAt(0,0,0);
 }

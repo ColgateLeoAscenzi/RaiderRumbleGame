@@ -254,7 +254,7 @@ function initGame() {
 //continues to display the stage select until stage selected is true, then renders that
 function stageSelectLoop(){
     controls.target = selectableStages[0];
-    controls.autoRotate = true;
+    // controls.autoRotate = true;
     if(!stageSelected){
       requestAnimationFrame(stageSelectLoop);
     }
