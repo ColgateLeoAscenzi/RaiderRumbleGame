@@ -72,7 +72,7 @@ function createGrassMesh(){
 	  // Create the Cabin
     var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
     var matBox  = new THREE.MeshPhongMaterial(
-                                {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/grassunedited.png')});
+                                {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/fieldDirtTexture.png')});
 
   var box = new THREE.Mesh(geomBox, matBox);
 
@@ -121,7 +121,7 @@ function createGrassMesh(){
 function createGrassMeshB(){
 
   this.mesh      = new THREE.Object3D();
-  this.mesh.name = "grassBox";
+  this.mesh.name = "grassBoxB";
 
 	  // Create the Cabin
   var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
@@ -136,6 +136,26 @@ function createGrassMeshB(){
 
   return box;
 };
+
+function createCloudMesh(){
+
+  this.mesh      = new THREE.Object3D();
+  this.mesh.name = "cloudIco";
+
+	  // Create the Cabin
+  var icoGeo = new THREE.IcosahedronGeometry(5.5,1);
+  var icoMat = new THREE.MeshPhongMaterial(( { color:0xffffff, transparent:true, opacity:.64, emissive: 0x555555,
+              map: new THREE.TextureLoader().load('images/whiteNoise.jpg')} ));
+
+  var cloud = new THREE.Mesh(icoGeo, icoMat);
+
+  cloud.castShadow = true;
+  cloud.receiveShadow = true;
+  cloud.userData ={type: "floor", height: 10, width:10};
+
+  return cloud;
+};
+
 
 function createDirtBlockMesh(){
 
@@ -187,6 +207,25 @@ function createDirtBlockMesh(){
   box.receiveShadow = true;
   box.userData ={type: "floor", height: 10, width:10};
 
+
+  return box;
+};
+
+function createDirtBlockMeshB(){
+
+  this.mesh      = new THREE.Object3D();
+  this.mesh.name = "dirtBlockB";
+
+	  // Create the Cabin
+  var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+  var matBox  = new THREE.MeshPhongMaterial(
+                              {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/dirtUnder.png')});
+
+  var box = new THREE.Mesh(geomBox, matBox);
+
+  box.castShadow = true;
+  box.receiveShadow = true;
+  box.userData ={type: "floor", height: 10, width:10};
 
   return box;
 };

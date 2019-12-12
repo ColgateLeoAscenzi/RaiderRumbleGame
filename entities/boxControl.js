@@ -67,6 +67,38 @@ var dirtBlock = {
         }
     }
 }
+var dirtBlockB = {
+    height: 10,
+    width: 10,
+    model: createDirtBlockMeshB(),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+    }
+}
+
+var cloudIco = {
+    height: 10,
+    width: 10,
+    model: createCloudMesh(),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+    }
+}
+
 
 var platformBlock = {
     height: 5,

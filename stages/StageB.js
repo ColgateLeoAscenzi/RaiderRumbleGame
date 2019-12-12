@@ -13,8 +13,8 @@ var stageB = {
 
         this.omega = omegaOn;
         this.blockA = grassBox;
-        this.blockB = dirtBlock;
-        this.blockC = platformBlock;
+        this.blockB = dirtBlockB;
+        this.blockC = cloudIco;
 
         this.stageBlocks = [];
         this.blockAMeshes = [];
@@ -72,7 +72,11 @@ var stageB = {
                 createBox(i*this.blockA.width, this.blockA.height*2, 0, this.blockA);
             }
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
+<<<<<<< Updated upstream
                 createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC);
+=======
+                createBox(i*this.blockC.width, this.blockC.height*7, -12, this.blockC, stageB);
+>>>>>>> Stashed changes
             }
             createBox(i*this.blockA.width, 0, 0, this.blockA);
         }
@@ -97,7 +101,11 @@ var stageB = {
         }
         for(var i = -10+j; i < 11-j; i++){
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
+<<<<<<< Updated upstream
                 createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockC);
+=======
+                createBox(i*this.blockA.width, this.blockA.height*7, -12, this.blockC, stageB);
+>>>>>>> Stashed changes
             }
         }
         //create platforms out of block C
