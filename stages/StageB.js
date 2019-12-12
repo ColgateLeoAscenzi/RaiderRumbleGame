@@ -73,8 +73,6 @@ var stageB= {
             }
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
 
-                createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC, stageB);
-
                 createBox(i*this.blockC.width, this.blockC.height*7, -12, this.blockC, stageB);
             }
             createBox(i*this.blockA.width, 0, 0, this.blockA, stageB);

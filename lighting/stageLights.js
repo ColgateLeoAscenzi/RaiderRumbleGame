@@ -28,19 +28,22 @@ function sunsetLights(scene) {
 
 
  var matBox  = new THREE.MeshPhongMaterial(
-                            {color : 0xf6ca97});
+                            {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/Persson_sunset.png'),
+                            opacity: 0.8, transparent: true,});
 
 
 
   var box = new THREE.Mesh(geomBox, matBox);
   box.material.side = THREE.BackSide;
+  box.rotation.x = -.22;
+
   scene.add(box);
 
 
 
   //need to add colors to object instead of having them hardcoded
   var ambientLight = new THREE.PointLight(Colors.white, 0.3);
-  ambientLight.position.set(0,0,100);
+  ambientLight.position.set(0,100,100);
   scene.add(ambientLight);
 
    var directLight = new THREE.PointLight(0xfbe8c9, 0.8);
