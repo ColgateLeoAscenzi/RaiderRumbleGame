@@ -107,29 +107,33 @@ function createGrassMesh(){
 	  // Create the Cabin
     var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
     var matBox  = new THREE.MeshPhongMaterial(
-                                {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/grassunedited.png')});
+                                {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/fieldDirtTexture.png')});
 
   var box = new THREE.Mesh(geomBox, matBox);
 
 
 
-  var g0 = new THREE.BoxGeometry(10, 1.5, 10, 1, 1, 1);
+  var g0 = new THREE.BoxGeometry(10, 1, 10, 1, 1, 1);
   var m0  = new THREE.MeshPhongMaterial(
                              { color : 0x42a852});
 
   n0 = new THREE.Mesh(g0, m0);
-  n0.position.set(0,4.2,0);
+  n0.position.set(0,5.5,0);
   box.add(n0);
 
-  var g1 = new THREE.BoxGeometry(2, 2, 2, 1, 1, 1);
+  var rY = Math.floor(Math.random()*9); //Random Y
+
+  var g1 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
   var m1  = new THREE.MeshPhongMaterial(
                              { color : 0x42a852});
 
   n1 = new THREE.Mesh(g1, m1);
-  n1.position.set(1,5,-1);
+  n1.position.set(1,5,-3);
   box.add(n1);
 
-  var g2 = new THREE.BoxGeometry(2, 2, 2, 1, 1, 1);
+  rY = Math.floor(Math.random()*8);
+
+  var g2 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
   var m2  = new THREE.MeshPhongMaterial(
                              { color : 0x42a852});
 
@@ -137,13 +141,45 @@ function createGrassMesh(){
   n2.position.set(2,5,-1);
   box.add(n2);
 
-  var g3 = new THREE.BoxGeometry(2, 2, 2, 1, 1, 1);
+  rY = Math.floor(Math.random()*6);
+
+  var g3 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
   var m3  = new THREE.MeshPhongMaterial(
                              { color : 0x42a852});
 
   n3 = new THREE.Mesh(g3, m3);
   n3.position.set(0,5,2);
   box.add(n3);
+
+  ry = Math.floor(Math.random()*6);
+
+  var g4 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
+  var m4  = new THREE.MeshPhongMaterial(
+                             { color : 0x42a852});
+
+  n4 = new THREE.Mesh(g4, m4);
+  n4.position.set(0,5,3);
+  box.add(n4);
+
+  ry = Math.floor(Math.random()*4);
+
+  var g5 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
+  var m5  = new THREE.MeshPhongMaterial(
+                             { color : 0x42a852});
+
+  n5 = new THREE.Mesh(g4, m4);
+  n5.position.set(4.4,5,4.2);
+  box.add(n5);
+
+  ry = Math.floor(Math.random()*4);
+
+  var g5 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
+  var m5  = new THREE.MeshPhongMaterial(
+                             { color : 0x42a852});
+
+  n5 = new THREE.Mesh(g4, m4);
+  n5.position.set(3,5,3);
+  box.add(n5);
 
 
   box.castShadow = true;
@@ -156,7 +192,7 @@ function createGrassMesh(){
 function createGrassMeshB(){
 
   this.mesh      = new THREE.Object3D();
-  this.mesh.name = "grassBox";
+  this.mesh.name = "grassBoxB";
 
 	  // Create the Cabin
   var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
@@ -171,6 +207,26 @@ function createGrassMeshB(){
 
   return box;
 };
+
+function createCloudMesh(){
+
+  this.mesh      = new THREE.Object3D();
+  this.mesh.name = "cloudIco";
+
+	  // Create the Cabin
+  var icoGeo = new THREE.IcosahedronGeometry(5.5,1);
+  var icoMat = new THREE.MeshPhongMaterial(( { color:0xffffff, transparent:true, opacity:.64, emissive: 0x555555,
+              map: new THREE.TextureLoader().load('images/whiteNoise.jpg')} ));
+
+  var cloud = new THREE.Mesh(icoGeo, icoMat);
+
+  cloud.castShadow = true;
+  cloud.receiveShadow = true;
+  cloud.userData ={type: "floor", height: 10, width:10};
+
+  return cloud;
+};
+
 
 function createDirtBlockMesh(num){
 
@@ -312,6 +368,25 @@ function createDirtBlockMesh(num){
   box.receiveShadow = true;
   box.userData ={type: "floor", height: 10, width:10};
 
+
+  return box;
+};
+
+function createDirtBlockMeshB(){
+
+  this.mesh      = new THREE.Object3D();
+  this.mesh.name = "dirtBlockB";
+
+	  // Create the Cabin
+  var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+  var matBox  = new THREE.MeshPhongMaterial(
+                              {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/dirtUnder.png')});
+
+  var box = new THREE.Mesh(geomBox, matBox);
+
+  box.castShadow = true;
+  box.receiveShadow = true;
+  box.userData ={type: "floor", height: 10, width:10};
 
   return box;
 };

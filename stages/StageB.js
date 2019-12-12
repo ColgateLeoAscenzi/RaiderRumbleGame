@@ -13,8 +13,8 @@ var stageB= {
 
         this.omega = omegaOn;
         this.blockA = grassBox;
-        this.blockB = dirtBlock;
-        this.blockC = platformBlock;
+        this.blockB = dirtBlockB;
+        this.blockC = cloudIco;
 
         this.stageBlocks = [];
         this.blockAMeshes = [];
@@ -72,7 +72,10 @@ var stageB= {
                 createBox(i*this.blockA.width, this.blockA.height*2, 0, this.blockA, stageB);
             }
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
-                createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC, stageB);
+
+                createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC);
+
+                createBox(i*this.blockC.width, this.blockC.height*7, -12, this.blockC, stageB);
             }
             createBox(i*this.blockA.width, 0, 0, this.blockA, stageB);
         }
@@ -80,6 +83,7 @@ var stageB= {
     },
     populateOmega: function(){
         //create floor out of block a
+
         for(var i = -10; i < 11; i++){
           if(i == -10 || i == 10){
               createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC, stageB);
@@ -97,7 +101,10 @@ var stageB= {
         }
         for(var i = -10+j; i < 11-j; i++){
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
-                createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockC, stageB);
+
+                createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockC);
+
+                createBox(i*this.blockA.width, this.blockA.height*7, -12, this.blockC, stageB);
             }
         }
         //create platforms out of block C

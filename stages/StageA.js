@@ -85,7 +85,6 @@ var stageA = {
         //create floor out of block a
         for(var i = -10; i < 11; i++){
           if(i == -10 || i == 10){
-
               createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC, this);
               createBox(i*this.blockC.width, this.blockA.height/4, 0, this.blockC, this);
           }
@@ -96,19 +95,6 @@ var stageA = {
         //create underside out of block b
         for(var j = 1; j< 5; j++ ){
             for(var i = -10+j; i < 11-j; i++){
-              var choice = Math.random();
-              if(choice > 0 && choice<= 0.25){
-                this.blockB = dirtBlock1;
-              }
-              else if (choice >0.25 && choice <= 0.50){
-                this.blockB = dirtBlock2;
-              }
-              else if (choice > 0.50 && choice <= 0.75){
-                  this.blockB = dirtBlock3;
-              }
-              else{
-                  this.blockB = dirtBlock4;
-              }
                 createBox(i*this.blockA.width, -j*this.blockB.height, 0, this.blockB, this);
             }
         }
