@@ -50,6 +50,7 @@ var stageA = {
         this.player2.hitbbox = new THREE.Box3().setFromObject(this.player2.hitBox);
 
         this.startTimer();
+        createFollowSpotlights();
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
     },
     createScene: function(){
@@ -61,10 +62,10 @@ var stageA = {
         // this.scene.add(newLight);
 
 
-        sunsetLights(this.scene);
+        //sunsetLights(this.scene);
 
         // noonLights(this.scene);
-        // nightLights(this.scene);
+        nightLights(this.scene);
 
     },
     populateScene: function(){
@@ -106,6 +107,7 @@ var stageA = {
         //create platforms out of block C
     },
     update: function(){
+      //console.log(this.player1Spot);
         if(countDown){
             document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/75));
             this.timer+= this.timerIncrement;
