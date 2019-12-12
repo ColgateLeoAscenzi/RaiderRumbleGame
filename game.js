@@ -226,6 +226,21 @@ function initGame() {
   controls = new THREE.OrbitControls(camera, renderer.domElement );
   THREEx.FullScreen.bindKey({ charCode : 'l'.charCodeAt(0) });
 
+  // How far you can orbit vertically, upper and lower limits.
+    // Range is 0 to Math.PI radians.
+    controls.minPolarAngle = 0; // radians
+    controls.maxPolarAngle = Math.PI/4; // radians
+
+    // How far you can orbit horizontally, upper and lower limits.
+    // If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
+    controls.minAzimuthAngle = 0; // radians
+    controls.maxAzimuthAngle = 0; // radians
+
+    controls.minDistance = 150;
+    controls.maxDistance = 200;
+
+    controls.enabled = false;
+    controls.autoRotateSpeed = 3;
   buildStageSelect();
   stageSelectLoop();
   stats.end();
@@ -238,7 +253,8 @@ function initGame() {
 
 //continues to display the stage select until stage selected is true, then renders that
 function stageSelectLoop(){
-
+    controls.target = selectableStages[0];
+    controls.autoRotate = true;
     if(!stageSelected){
       requestAnimationFrame(stageSelectLoop);
     }

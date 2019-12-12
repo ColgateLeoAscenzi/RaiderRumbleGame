@@ -102,8 +102,6 @@ function handleKeyDown(keyEvent){
      }
    }
 
-
-
    //player 1 control
    if(stage.player1.canMove){
      if(keyEvent.key == "a"){
