@@ -593,9 +593,9 @@ var basicCharacter = {
           this.otherPlayer.isHit = true;
           this.otherPlayer.hitByA[attackType] = true;
           this.doKnockBack(damageToDeal, angleToApply, tKnockback);
-          this.isRecoiling = true;
-          this.recoilFrames = this.recoilFrameDefault;
-          this.basicAttackFrames = 1;
+          // this.isRecoiling = true;
+          // this.recoilFrames = this.recoilFrameDefault;
+          // this.basicAttackFrames = 1;
         }
       }
       else{
@@ -607,9 +607,9 @@ var basicCharacter = {
           this.otherPlayer.isHit = true;
           this.otherPlayer.hitByB[attackType] = true;
           this.doKnockBack(damageToDeal, angleToApply, tKnockback);
-          this.isRecoiling = true;
-          this.recoilFrames = this.recoilFrameDefault;
-          this.basicAttackFrames = 1;
+          // this.isRecoiling = true;
+          // this.recoilFrames = this.recoilFrameDefault;
+          // this.basicAttackFrames = 1;
         }
       }
     },
