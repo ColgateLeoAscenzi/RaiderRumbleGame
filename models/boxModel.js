@@ -8,7 +8,8 @@ var BlockColors = {
     brickGlue: 0xDDD5C2,
     perssonLightBrown: 0x81715A,
     perssonDarkBrown: 0x4D423D,
-    perssonTan:0x997749
+    perssonTan:0x997749,
+    perssonGrey: 0x909090
 };
 function createBasicBoxMesh(){
 
@@ -26,6 +27,8 @@ function createBasicBoxMesh(){
 
     var beegBrickGeo = new THREE.BoxGeometry(5,2.5,2, 1, 1, 1);
 
+    var smolBeegBrickGeo = new THREE.BoxGeometry(4.5,2.5,2, 1, 1, 1);
+
     var medBrickGeo = new THREE.BoxGeometry(2.75,2.5,2, 1, 1, 1);
 
     var smolBrickGeo = new THREE.BoxGeometry(1.75,2.5,2, 1, 1, 1);
@@ -38,24 +41,56 @@ function createBasicBoxMesh(){
 
     var brick2Mat  = new THREE.MeshPhongMaterial(
                                { color : BlockColors.perssonLightBrown});
+    var brick3Mat = new THREE.MeshPhongMaterial(
+                               { color : BlockColors.perssonTan});
 
-    var brick = new THREE.Mesh(beegBrickGeo, brick1Mat);
+   var brick4Mat = new THREE.MeshPhongMaterial(
+                              { color : BlockColors.perssonGrey});
 
-    box.add(brick);
+    var brick5Mat = new THREE.MeshPhongMaterial(
+                               { color : BlockColors.perssonGrey});
 
-    brick.position.set(-2.4,1.4,4.3);
+   //the middle row
+   var brick = new THREE.Mesh(beegBrickGeo, brick1Mat);
 
-    var brick1 = new THREE.Mesh(medBrickGeo, brick2Mat);
-    brick1.position.set(2.3,2.3,4.3);
+   box.add(brick);
 
-    box.add(brick1);
+   brick.position.set(-2.4,0.8,4.3);
+   brick.scale.set(1.1,1.1,1);
 
-    var brick2 = new THREE.Mesh();
+   var brick1 = new THREE.Mesh(medBrickGeo, brick2Mat);
+   brick1.position.set(2.5,0.8,4.3);
+   brick1.scale.set(1.1,1.1,1);
 
-    var brick3 = new THREE.Mesh(smolBrickGeo, brickMat);
-    brick3.position.set(4,-1.8,4.3);
+   box.add(brick1);
 
-    box.add(brick3);
+ //the borrom row
+   var brick3 = new THREE.Mesh(smolBrickGeo, brickMat);
+   brick3.position.set(-3.7,-2.4,4.3);
+   brick3.scale.set(1.3,1.1,1);
+
+   box.add(brick3);
+
+   var brick4 = new THREE.Mesh(beegBrickGeo, brick3Mat);
+   brick4.position.set(1.2,-2.4,4.3);
+   brick4.scale.set(1.2,1.1,1);
+
+   box.add(brick4);
+
+
+   //the very top row
+   var brick5 = new THREE.Mesh(smolBeegBrickGeo, brick5Mat);
+   brick5.position.set(2.2,3.8,4.3);
+
+   box.add(brick5);
+
+   var brick6 = new THREE.Mesh(smolBeegBrickGeo, brick3Mat);
+   brick6.position.set(-2.8,3.8,4.3);
+
+   box.add(brick6);
+
+
+
 
   box.castShadow = true;
   box.receiveShadow = true;
@@ -164,7 +199,7 @@ function createDirtBlockMesh(num){
                                { color : BlockColors.perssonBrown});
 
     var brick1Mat  = new THREE.MeshPhongMaterial(
-                               { color : BlockColors.perssonDarkBrown});
+                               { color : BlockColors.perssonGrey});
 
     var brick2Mat  = new THREE.MeshPhongMaterial(
                                { color : BlockColors.perssonLightBrown});
@@ -172,10 +207,10 @@ function createDirtBlockMesh(num){
                                { color : BlockColors.perssonTan});
 
    var brick4Mat = new THREE.MeshPhongMaterial(
-                              { color : BlockColors.brickGlue});
+                              { color : BlockColors.perssonGrey});
 
     var brick5Mat = new THREE.MeshPhongMaterial(
-                               { color : BlockColors.brown});
+                               { color : BlockColors.perssonGrey});
 
   }
   else if(num == 2){
@@ -191,7 +226,7 @@ function createDirtBlockMesh(num){
                                { color : BlockColors.perssonTan});
 
    var brick5Mat = new THREE.MeshPhongMaterial(
-                              { color : BlockColors.brickGlue});
+                              { color : BlockColors.perssonGrey});
 
     var brick4Mat = new THREE.MeshPhongMaterial(
                                { color : BlockColors.brown});
@@ -209,7 +244,7 @@ function createDirtBlockMesh(num){
                                { color : BlockColors.perssonTan});
 
    var brick2Mat = new THREE.MeshPhongMaterial(
-                              { color : BlockColors.brickGlue});
+                              { color : BlockColors.perssonGrey});
 
     var brick4Mat = new THREE.MeshPhongMaterial(
                                { color : BlockColors.brown});
@@ -227,45 +262,49 @@ function createDirtBlockMesh(num){
                                { color : BlockColors.perssonTan});
 
    var brick5Mat = new THREE.MeshPhongMaterial(
-                              { color : BlockColors.brickGlue});
+                              { color : BlockColors.perssonGrey});
 
     var brick4Mat = new THREE.MeshPhongMaterial(
                                { color : BlockColors.brown});
   }
 
 
+  //the middle row
   var brick = new THREE.Mesh(beegBrickGeo, brick1Mat);
 
   box.add(brick);
 
-  brick.position.set(-2.4,1.4,4.3);
+  brick.position.set(-2.4,1.0,4.3);
   brick.scale.set(1.1,1.1,1);
 
   var brick1 = new THREE.Mesh(medBrickGeo, brick2Mat);
-  brick1.position.set(2.3,1.4,4.3);
+  brick1.position.set(2.5,1.0,4.3);
   brick1.scale.set(1.1,1.1,1);
 
   box.add(brick1);
 
+//the borrom row
   var brick3 = new THREE.Mesh(smolBrickGeo, brickMat);
-  brick3.position.set(-3.5,-1.8,4.3);
-  brick3.scale.set(1.1,1.1,1);
+  brick3.position.set(-3.7,-2.2,4.3);
+  brick3.scale.set(1.3,1.1,1);
 
   box.add(brick3);
 
   var brick4 = new THREE.Mesh(beegBrickGeo, brick3Mat);
-  brick4.position.set(1,-1.8,4.3);
+  brick4.position.set(1.2,-2.2,4.3);
   brick4.scale.set(1.2,1.1,1);
 
   box.add(brick4);
 
+
+  //the very top row
   var brick5 = new THREE.Mesh(smolBeegBrickGeo, brick5Mat);
-  brick5.position.set(2,4.4,4.3);
+  brick5.position.set(2.2,4.4,4.3);
 
   box.add(brick5);
 
   var brick6 = new THREE.Mesh(smolBeegBrickGeo, brick3Mat);
-  brick6.position.set(-3,4.4,4.3);
+  brick6.position.set(-2.8,4.4,4.3);
 
   box.add(brick6);
 
