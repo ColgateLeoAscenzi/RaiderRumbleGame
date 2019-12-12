@@ -241,7 +241,8 @@ var basicCharacter = {
 
 
                 this.model.torso.leftArm.rotation.set(-1.57,0,0);
-                this.model.torso.leftArm.position.z = 1;
+                this.model.torso.leftArm.position.x = 4.5;
+                this.model.torso.leftArm.position.z = 1.5;
                 this.model.torso.leftArm.scale.set(1.5,1.5,1.5);
 
 
@@ -296,6 +297,7 @@ var basicCharacter = {
             //RESET GOES HERE
               this.basicAttackFrames = 25;
               this.model.torso.rightArm.rotation.z = 0;
+              this.model.torso.leftArm.position.x = 4;
               this.model.torso.rightArm.rightHand.coin.position.x = 0;
               this.model.torso.rightArm.rightHand.coin.position.y = 0;
               this.model.torso.rightArm.rightHand.coin.scale.set(1,1,1);
