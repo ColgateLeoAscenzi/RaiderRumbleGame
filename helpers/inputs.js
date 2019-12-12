@@ -102,6 +102,8 @@ function handleKeyDown(keyEvent){
      }
    }
 
+
+
    //player 1 control
    if(stage.player1.canMove){
      if(keyEvent.key == "a"){
@@ -201,4 +203,33 @@ function onMouseDown(event){
     selectedStage = HIGHLITED.userData;
     stageSelected = true;
   }
+}
+
+function handleMapKeyUp(keyEvent){
+
+}
+
+function handleMapKeyDown(keyEvent){
+
+  if(keyEvent.key == "ArrowUp"){
+
+    isDay = true;
+
+  }
+
+  if(keyEvent.key == "ArrowDown"){
+    isDay = false;
+
+  }
+
+  if(keyEvent.key == "ArrowLeft"){
+    omegaOn = true;
+
+  }
+
+  if(keyEvent.key == "ArrowRight"){
+    omegaOn = false;
+
+  }
+
 }

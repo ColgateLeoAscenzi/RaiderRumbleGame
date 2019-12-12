@@ -15,6 +15,7 @@ var camera, fieldOfView, aspectRatio, nearPlane, farPlane,
 var stage;
 
 var omegaOn;
+var isDay;
 
 var HIGHLITED;
 
@@ -69,8 +70,8 @@ var HEIGHT, WIDTH
 
 function createCameraRender() {
 
-  HEIGHT = window.innerHeight;
-  WIDTH = window.innerWidth;
+  HEIGHT = window.innerHeight-20;
+  WIDTH = window.innerWidth-20;
 
   aspectRatio = WIDTH / HEIGHT;
   fieldOfView = 60;
@@ -87,6 +88,17 @@ function createCameraRender() {
   camera.position.z = 120;
   camera.position.y = 40;
 
+  stageSelectCamera = new THREE.PerspectiveCamera(
+      30,
+      aspectRatio,
+      nearPlane,
+      farPlane
+    );
+
+  stageSelectCamera.position.x = 0;
+  stageSelectCamera.position.z = 120;
+  stageSelectCamera.position.y = 40;
+
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(WIDTH, HEIGHT);
   renderer.shadowMap.enabled = true;
@@ -94,6 +106,7 @@ function createCameraRender() {
 
   container = document.getElementById('glcanvas');
   container.appendChild(renderer.domElement);
+
 
   window.addEventListener('resize', handleWindowResize, false);
   window.addEventListener('mousemove', onMouseMove, false);
@@ -110,11 +123,13 @@ function createCameraRender() {
 // HANDLE SCREEN EVENTS
 
 function handleWindowResize() {
-  HEIGHT = window.innerHeight;
-  WIDTH = window.innerWidth;
+  HEIGHT = window.innerHeight-20;
+  WIDTH = window.innerWidth-20;
   renderer.setSize(WIDTH, HEIGHT);
   camera.aspect = WIDTH / HEIGHT;
   camera.updateProjectionMatrix();
+  stageSelectCamera.aspect = WIDTH / HEIGHT;
+  stageSelectCamera.updateProjectionMatrix();
 }
 
 
@@ -244,6 +259,9 @@ function initGame() {
 
     controls.enabled = false;
     controls.autoRotateSpeed = 3;
+
+  document.onkeydown = handleMapKeyDown;
+  document.onkeyup = handleMapKeyUp;
   buildStageSelect();
   stageSelectLoop();
   stats.end();
@@ -256,7 +274,10 @@ function initGame() {
 
 //continues to display the stage select until stage selected is true, then renders that
 function stageSelectLoop(){
-    controls.target = selectableStages[0];
+  // console.log(selectableStages[0].position.x,selectableStages[0].position.y,selectableStages[0].position.z);
+   stageSelectCamera.lookAt(selectableStages[0].position.x,selectableStages[0].position.y,selectableStages[0].position.z);
+    stageSelectCamera.position.set(0,800,0);
+    // controls.target = selectableStages[0];
     // controls.autoRotate = true;
     if(!stageSelected){
       requestAnimationFrame(stageSelectLoop);
@@ -267,9 +288,9 @@ function stageSelectLoop(){
 
   controls.update();
 
-  renderer.render(mapScene, camera);
+  renderer.render(mapScene, stageSelectCamera);
 
-  raycaster.setFromCamera( mouse, camera );
+  raycaster.setFromCamera( mouse, stageSelectCamera );
 
 // calculate objects intersecting the picking ray
   var intersects = raycaster.intersectObjects(selectableStages);
@@ -293,7 +314,8 @@ function initializeWorld(){
     contols = undefined;
     stage = selectedStage.stageData;
     selectedStageDat = stage;
-    omegaOn = selectedStage.omega;
+    //omegaOn = selectedStage.omega;
+    //isDay = selectedStage.daytime;
     stage.init();
     console.log(stage);
 

@@ -55,6 +55,17 @@ function sunsetLights(scene) {
    scene.add(ambientLight);
 }
 
+function stageSelectLights(scene) {
+
+
+   var directLight = new THREE.PointLight(0xfbe8c9, 0.8);
+   directLight.position.set(0, 10, 0);
+   scene.add(directLight);
+
+
+
+}
+
 function nightLights(scene) {
 
   var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
