@@ -9,8 +9,8 @@ var starColors = {
 function noonLights(scene) {
     // Create the Skybox
   var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
-  var matBox  = new THREE.MeshPhongMaterial(
-                             { color : 0xafc5ff});
+  var matBox  = new THREE.MeshBasicMaterial(
+                             { color : 0x87ceeb});
   var box = new THREE.Mesh(geomBox, matBox);
   box.material.side = THREE.BackSide;
   scene.add(box);
@@ -55,7 +55,14 @@ function sunsetLights(scene) {
    scene.add(ambientLight);
 }
 
+
+
+
+
+
 function nightLights(scene) {
+
+  stage.night = true;
 
   var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
   var matBox  = new THREE.MeshLambertMaterial(

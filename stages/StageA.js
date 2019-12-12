@@ -18,6 +18,8 @@ var stageA = {
         this.blockD = grassBox;
         this.blockE = grassBoxB;
 
+        this.night = false;
+
 
         this.stageBlocks = [];
         this.blockAMeshes = [];
@@ -49,8 +51,10 @@ var stageA = {
         this.player1.hitbbox = new THREE.Box3().setFromObject(this.player1.hitBox);
         this.player2.hitbbox = new THREE.Box3().setFromObject(this.player2.hitBox);
 
+        this.createSpotLights();
+
         this.startTimer();
-        createFollowSpotlights();
+        // createFollowSpotlights();
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
     },
     createScene: function(){
@@ -64,8 +68,8 @@ var stageA = {
 
         //sunsetLights(this.scene);
 
-        // noonLights(this.scene);
-        nightLights(this.scene);
+        noonLights(this.scene);
+        //nightLights(this.scene);
 
     },
     populateScene: function(){
@@ -201,5 +205,9 @@ var stageA = {
         player2Box.innerHTML = "Stock: "+this.player2.stock+"<br>Percent: "+this.player2.percentage;
         container.appendChild(player2Box);
 
+    },
+
+    createSpotLights: function(){
+      if (this.night) createFollowSpotlights();
     }
 }
