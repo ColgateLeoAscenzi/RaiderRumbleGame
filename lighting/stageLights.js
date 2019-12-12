@@ -18,14 +18,6 @@ function noonLights(scene) {
   var ambientLight = new THREE.PointLight(Colors.white, 1);
   ambientLight.position.set(0,50,-20);
   scene.add(ambientLight);
-  //
-  //  var directLight = new THREE.PointLight(0xfbe8c9, 1.0);
-  //  directLight.position.set(0, 0, -90);
-  //  scene.add(directLight);
-  //
-  //
-   // var ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
-   // scene.add(ambientLight);
 
 }
 
@@ -34,8 +26,7 @@ function sunsetLights(scene) {
     // Create the Skybox
   var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
 
-  // var matBox  = new THREE.MeshPhongMaterial(
-  //                            {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/PERSONA_20th.png')});
+
  var matBox  = new THREE.MeshPhongMaterial(
                             {color : 0xf6ca97});
 
@@ -110,22 +101,6 @@ function nightLights(scene) {
     stage.scene.add(starShape);
   }
 
-  // var player1_spotlight = new THREE.SpotLight(0xffffff);
-  // player1_spotlight.position.set(0,0, 10);
-  // player1_spotlight.castShadow = true;
-  // player1_spotlight.angle = 0.35;
-  // //player1_spotlight.distance = 16;
-  // //player1_spotlight.decay = 2;
-  // player1_spotlight.penumbra = 0.7;
-  //
-  // scene.add(player1_spotlight);
-
-
-
-  // var star2 = new THREE.PointLight(0xafc9ff, 0.7);
-  // star2.position.set(50, 50, 0);
-  // scene.add(star1);
-
 }
 
 
@@ -150,10 +125,10 @@ function createFollowSpotlights() {
   player1_spotlight_target.position.set(stage.player1.x, stage.player1.y+10, -10);
   stage.scene.add(player1_spotlight_target);
 
-  var player1_spotlight = new THREE.SpotLight(0xffffff);
+  var player1_spotlight = new THREE.SpotLight(0xcccccc);
   player1_spotlight.position.set(stage.player1.x + 10, stage.player1.y-10, 40);
   player1_spotlight.castShadow = true;
-  player1_spotlight.angle = 0.4;
+  player1_spotlight.angle = 0.5;
   //player1_spotlight.distance = 16;
   //player1_spotlight.decay = 2;
   player1_spotlight.penumbra = 0;
