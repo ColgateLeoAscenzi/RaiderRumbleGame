@@ -41,8 +41,8 @@ var stageA = {
         this.player1.init();
         this.player2 = pingu;
         this.player2.init();
-        createPlayer1(0, 10, 0);
-        createPlayer2(0, 10, 0);
+        createPlayer1(0, 10, 0, this);
+        createPlayer2(0, 10, 0, this);
         this.player1.otherPlayer = this.player2;
         this.player2.otherPlayer = this.player1;
         this.player1.hitbbox = new THREE.Box3().setFromObject(this.player1.hitBox);
@@ -70,13 +70,13 @@ var stageA = {
         //replace the block with blockA
         for(var i = -10; i < 11; i++){
             if(i == -10 || i == 10){
-                createBox(i*this.blockA.width,this.blockA.height, 0, this.blockA);
-                createBox(i*this.blockA.width, this.blockA.height*2, 0, this.blockA);
+                createBox(i*this.blockA.width,this.blockA.height, 0, this.blockA, this);
+                createBox(i*this.blockA.width, this.blockA.height*2, 0, this.blockA, this);
             }
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
-                createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC);
+                createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC, this);
             }
-            createBox(i*this.blockA.width, 0, 0, stage.blockA);
+            createBox(i*this.blockA.width, 0, 0, stage.blockA, this);
         }
         //createBox(0, 50, 0, stage.blockE);
     },
@@ -84,22 +84,22 @@ var stageA = {
         //create floor out of block a
         for(var i = -10; i < 11; i++){
           if(i == -10 || i == 10){
-              createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC);
-              createBox(i*this.blockC.width, this.blockA.height/4, 0, this.blockC);
+              createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC, this);
+              createBox(i*this.blockC.width, this.blockA.height/4, 0, this.blockC, this);
           }
           else{
-            createBox(i*this.blockA.width, 0, 0, this.blockA);
+            createBox(i*this.blockA.width, 0, 0, this.blockA, this);
           }
         }
         //create underside out of block b
         for(var j = 1; j< 5; j++ ){
             for(var i = -10+j; i < 11-j; i++){
-                createBox(i*this.blockA.width, -j*this.blockB.height, 0, this.blockB);
+                createBox(i*this.blockA.width, -j*this.blockB.height, 0, this.blockB, this);
             }
         }
         for(var i = -10+j; i < 11-j; i++){
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
-                createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockC);
+                createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockC, this);
             }
         }
         //create platforms out of block C
@@ -199,45 +199,4 @@ var stageA = {
         container.appendChild(player2Box);
 
     }
-}
-
-
-
-function createBox(x, y, z, blockType) {
-
-    stageA.basicBoxAMesh = blockType.model.clone();
-    // stageA.basicBoxAMesh.material = new THREE.MeshPhongMaterial({ color : Colors.white});
-    stageA.basicBoxAMesh.position.set(x, y, z);
-    stageA.scene.add(stageA.basicBoxAMesh);
-    stageA.stageBlocks.push(blockType);
-    stageA.blockAMeshes.push(stageA.basicBoxAMesh);
-
-    stageA.basicHitBoxAMesh = blockType.hitBox.clone();
-
-    stageA.basicHitBoxAMesh.position.set(x, y, z);
-
-    stageA.stageHitBoxes.push(stageA.basicHitBoxAMesh);
-
-}
-
-function createPlayer1(x, y, z){
-  stageA.players.push(stageA.player1);
-  stageA.player1Mesh = stageA.player1.model;
-  // player1Mesh.position.set(x, y, z);
-  stageA.player1HitBoxMesh = stageA.player1.hitBox;
-  stageA.player1HitBoxMesh.position.set(x, y, z)
-  stageA.stageHitBoxes.push(stageA.player1HitBoxMesh);
-
-  stageA.scene.add(stageA.player1Mesh);
-}
-
-function createPlayer2(x, y, z){
-  stageA.players.push(stageA.player2);
-  stageA.player2Mesh = stageA.player2.model;
-  // player1Mesh.position.set(x, y, z);
-  stageA.player2HitBoxMesh = stageA.player2.hitBox;
-  stageA.player2HitBoxMesh.position.set(x, y, z)
-  stageA.stageHitBoxes.push(stageA.player2HitBoxMesh);
-
-  stageA.scene.add(stageA.player2Mesh);
 }
