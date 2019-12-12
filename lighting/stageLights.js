@@ -132,31 +132,46 @@ function nightLights(scene) {
 
 function createFollowSpotlights() {
 
+  var stageCover = new THREE.Mesh(
+    new THREE.PlaneGeometry( 1000, 1000),
+    new THREE.MeshPhongMaterial( { color: 0xdddddd, opacity: 0.1, transparent: true,
+    side: THREE.DoubleSide } )
+  );
+  stageCover.position.set(0, 0, 10);
+  stage.scene.add(stageCover);
+
+
+  var player1_spotlight_target = new THREE.Mesh(
+    new THREE.PlaneGeometry( 1, 1),
+    new THREE.MeshLambertMaterial( { color: 0xdddddd, opacity: 0.01, transparent: true,
+    side: THREE.DoubleSide } )
+  );
+
+  player1_spotlight_target.position.set(stage.player1.x, stage.player1.y+10, -10);
+  stage.scene.add(player1_spotlight_target);
+
   var player1_spotlight = new THREE.SpotLight(0xffffff);
-  player1_spotlight.position.set(stage.player1.x - 10 , stage.player1.y, 10);
+  player1_spotlight.position.set(stage.player1.x + 10, stage.player1.y-10, 40);
   player1_spotlight.castShadow = true;
-  player1_spotlight.angle = 0.35;
+  player1_spotlight.angle = 0.4;
   //player1_spotlight.distance = 16;
   //player1_spotlight.decay = 2;
   player1_spotlight.penumbra = 0;
-  //player1_spotlight.target = stage.player1;
-  var player1Target = new THREE.Mesh(
-    new THREE.SphereGeometry( 0, 0, 0 ),
-    new THREE.MeshBasicMaterial( { color: 0x000000 } )
-  );
-  player1Target.position.set(stage.player1.x, stage.player1.y, -1);
-  stage.scene.add(player1Target);
-  player1_spotlight.target = player1Target;
-  stage.scene.add(player1_spotlight);
+  player1_spotlight.target = player1_spotlight_target;
+  //stage.scene.add(player1_spotlight);
+  player1_spotlight_target.add(player1_spotlight);
+  //
+  stage.player1Spot = player1_spotlight;
+  stage.player1SpotTarget = player1_spotlight_target;
 
-  var player2_spotlight = new THREE.SpotLight(0xffffff);
-  player2_spotlight.position.set(stage.player2.x + 10, stage.player2.y, 10);
-  player2_spotlight.castShadow = true;
-  player2_spotlight.angle = 0.35;
-  //player1_spotlight.distance = 16;
-  //player1_spotlight.decay = 2;
-  player2_spotlight.penumbra = 0;
-
-  stage.scene.add(player2_spotlight);
+  // var player2_spotlight = new THREE.SpotLight(0xffffff);
+  // player2_spotlight.position.set(stage.player2.x + 10, stage.player2.y, 10);
+  // player2_spotlight.castShadow = true;
+  // player2_spotlight.angle = 0.35;
+  // //player1_spotlight.distance = 16;
+  // //player1_spotlight.decay = 2;
+  // player2_spotlight.penumbra = 0;
+  //
+  // stage.scene.add(player2_spotlight);
 
 }

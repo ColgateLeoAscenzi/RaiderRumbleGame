@@ -93,6 +93,7 @@ var stageA = {
         //create platforms out of block C
     },
     update: function(){
+      //console.log(this.player1Spot);
         if(countDown){
             document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/75));
             this.timer+= this.timerIncrement;
