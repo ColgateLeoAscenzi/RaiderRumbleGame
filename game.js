@@ -14,8 +14,8 @@ var camera, fieldOfView, aspectRatio, nearPlane, farPlane,
 
 var stage;
 
-var omegaOn;
-var isDay;
+var omegaOn = false;
+var isDay = true;
 
 var HIGHLITED;
 
@@ -37,6 +37,8 @@ var winner = -1;
 var mapScene;
 
 var selectedStageDat;
+
+var currentLights = [];
 
 //TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
@@ -275,7 +277,7 @@ function initGame() {
 //continues to display the stage select until stage selected is true, then renders that
 function stageSelectLoop(){
   // console.log(selectableStages[0].position.x,selectableStages[0].position.y,selectableStages[0].position.z);
-   stageSelectCamera.lookAt(selectableStages[0].position.x,selectableStages[0].position.y,selectableStages[0].position.z);
+   stageSelectCamera.lookAt(0,0,0);
     stageSelectCamera.position.set(0,800,0);
     // controls.target = selectableStages[0];
     // controls.autoRotate = true;
@@ -297,13 +299,19 @@ function stageSelectLoop(){
 
   if ( intersects.length > 0 ) {
       if ( HIGHLITED != intersects[ 0 ].object ) {
-          if ( HIGHLITED ) HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+          if ( HIGHLITED ) {
+            HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+          }
           HIGHLITED = intersects[ 0 ].object;
           HIGHLITED.currentHex = HIGHLITED.material.emissive.getHex();
-          HIGHLITED.material.emissive.setHex( 0xff0000 );
+          HIGHLITED.material.emissive.setHex(0xff0000);
+          HIGHLITED.material.opacity = 0.7;
       }
   } else {
-      if ( HIGHLITED ) HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+      if ( HIGHLITED ){
+        HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+        HIGHLITED.material.opacity = 0.5;
+      }
       HIGHLITED = null;
   }
 

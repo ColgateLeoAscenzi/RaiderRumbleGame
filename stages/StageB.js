@@ -52,13 +52,12 @@ var stageB= {
     createScene: function(){
         this.scene = new THREE.Scene();
 
-        //cindy model testing white light
-        // var newLight = new THREE.PointLight(0xffffff,1);
-        // newLight.position.set(0,50,50);
-        // this.scene.add(newLight);
-
-
-        sunsetLights(this.scene);
+        if(isDay){
+          sunsetLights(this.scene);
+        }
+        else{
+          nightLights(this.scene);
+        }
 
         // noonLights(this.scene);
         // nightLights(this.scene);

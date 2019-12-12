@@ -55,14 +55,23 @@ function sunsetLights(scene) {
    scene.add(ambientLight);
 }
 
-function stageSelectLights(scene) {
+function stageSelectLightsDay(scene) {
 
-
-   var directLight = new THREE.PointLight(0xfbe8c9, 0.8);
-   directLight.position.set(0, 10, 0);
+   var directLight = new THREE.PointLight(0xffffff, 1);
+   directLight.position.set(0, 500, 0);
    scene.add(directLight);
+   currentLights.push(directLight);
 
+}
 
+function stageSelectLightsNight(scene) {
+
+  for(var i = 0; i < selectableStages.length; i++){
+    var directLight = new THREE.PointLight(0xffffff, 1);
+    directLight.position.set(selectableStages[i].position.x, 10, selectableStages[i].position.z);
+    scene.add(directLight);
+    currentLights.push(directLight);
+  }
 
 }
 
@@ -115,7 +124,6 @@ function nightLights(scene) {
 }
 
 
-
 function createFollowSpotlights() {
 
   var stageCover = new THREE.Mesh(
@@ -160,4 +168,12 @@ function createFollowSpotlights() {
   //
   // stage.scene.add(player2_spotlight);
 
+}
+
+function removeLights(scene){
+  for(var i = 0; i < currentLights.length;i++){
+    scene.remove(currentLights[i]);
+  }
+
+  currentLights = [];
 }
