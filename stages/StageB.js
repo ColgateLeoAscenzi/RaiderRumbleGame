@@ -158,7 +158,9 @@ var stageB= {
         for(var i = 0; i < this.player2.stock; i++){
           stockString2+="<i class='fas fa-heart'></i> "
         }
-        player1Box.innerHTML = this.player1.name+"<br>"+stockString1+"<br>Percent: "+this.player1.percentage;
+        player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ + "</div>" + "<div id = 'player1Stock'"+
+                                stockString1+"</div>" + "<div id ='player1Percent'" + "Percent: "+this.player1.percentage +"</div>";
+
         player2Box.innerHTML =  this.player2.name+"<br>"+stockString2+"<br>Percent: "+this.player2.percentage;
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
@@ -196,12 +198,12 @@ var stageB= {
 
         var player1Box = document.createElement("div");
         player1Box.id = "player1Box";
-        player1Box.innerHTML = "Stock: "+this.player1.stock+"<br>Percent: "+this.player1.percentage;
+        player1Box.innerHTML = "<div id='player1Stock'>Stock: "+this.player1.stock+ "</div>"+"<div id='player1Percent'>Percent: "+this.player1.percentage +"</div>";
         container.appendChild(player1Box);
 
         var player2Box = document.createElement("div");
         player2Box.id = "player2Box";
-        player2Box.innerHTML = "Stock: "+this.player2.stock+"<br>Percent: "+this.player2.percentage;
+        player2Box.innerHTML = "<div id ='player2Stock'> Stock: "+this.player2.stock+"</div>" +"<div id ='player2Percent'>Percent: "+this.player2.percentage+"</div>";
         container.appendChild(player2Box);
 
     }
