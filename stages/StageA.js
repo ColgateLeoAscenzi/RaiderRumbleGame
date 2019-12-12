@@ -155,11 +155,32 @@ var stageA = {
         for(var i = 0; i < this.player2.stock; i++){
           stockString2+="<i class='fas fa-heart'></i> "
         }
-        player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ + "</div>" + "<div id = 'player1Stock'"+
-                                stockString1+"</div>" + "<div id ='player1Percent'" + "Percent: "+this.player1.percentage +"</div>";
 
-                                
-        player2Box.innerHTML =  this.player2.name+"<br>"+stockString2+"<br>Percent: "+this.player2.percentage;
+        if(this.player1.percentage >= 80) {
+
+          player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ "</div>" + "<div id = 'player1Stock'"+
+                                  stockString1+"</div>" + "<div id ='player1Percent' style = 'color: red;'> Percent: "+this.player1.percentage +"</div>";
+
+        } else {
+
+          player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ "</div>" + "<div id = 'player1Stock'"+
+                                  stockString1+"</div>" + "<div id ='player1Percent'> Percent: "+this.player1.percentage +"</div>";
+
+        }
+
+        if(this.player2.percentage >= 80) {
+
+          player2Box.innerHTML =  "<div id = 'player2Name'>"+ this.player2.name+"</div>"+ "<div id = 'player2Stock'" +
+                                  stockString2+"</div>"+ "<div id= 'player2Percent' style = 'color: red;'> Percent: " +this.player2.percentage + "</div>";
+
+        } else {
+
+          player2Box.innerHTML =  "<div id = 'player2Name'>"+ this.player2.name+"</div>"+ "<div id = 'player2Stock'" +
+                                  stockString2+"</div>"+ "<div id= 'player2Percent'> Percent: " +this.player2.percentage + "</div>";
+
+        }
+
+
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
             gameOver = true;
@@ -196,7 +217,7 @@ var stageA = {
 
         var player1Box = document.createElement("div");
         player1Box.id = "player1Box";
-        player1Box.innerHTML = "<div id='player1Stock'>Stock: "+this.player1.stock+ "</div>"+"<div id='player1Percent'>Percent: "+this.player1.percentage +"</div>";
+        player1Box.innerHTML = "Stock: "+this.player1.stock+ "<br>Percent: "+this.player1.percentage;
         container.appendChild(player1Box);
 
         var player2Box = document.createElement("div");
