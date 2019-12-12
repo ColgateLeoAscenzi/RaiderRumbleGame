@@ -83,6 +83,7 @@ var stageB = {
     },
     populateOmega: function(){
         //create floor out of block a
+        
         for(var i = -10; i < 11; i++){
           if(i == -10 || i == 10){
               createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC);

@@ -221,7 +221,7 @@ var basicCharacter = {
           this.basicAttackFrames-=1;
 
           //ANIMATIONS GO HERE
-          var c = (this.basicAttackObj.attackFrames[A]-this.basicAttackFrames)/(this.basicAttackObj.attackFrames[A]);
+          var c = (this.basicAttackObj.attackFrames[A]-this.basicAttackFrames)/(this.basicAttackObj.attackFrames[A]); //Make this a global?
 
           if(this.facingL){
             this.model.torso.rightArm.rotation.z = radians(-120*c);
