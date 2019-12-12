@@ -57,10 +57,20 @@ function sunsetLights(scene) {
 
 function stageSelectLightsDay(scene) {
 
-   var directLight = new THREE.PointLight(0xffffff, 1);
+   var directLight = new THREE.PointLight(0xffffff, 1.0);
    directLight.position.set(0, 500, 0);
    scene.add(directLight);
    currentLights.push(directLight);
+
+   for(var i = 0; i < selectableStages.length; i++){
+     var blockspotter = new THREE.SpotLight(0xffffff, 0.2);
+     blockspotter.angle = radians(30);
+     blockspotter.target = selectableStages[i];
+
+     blockspotter.position.set(selectableStages[i].position.x, 40, selectableStages[i].position.z);
+     mapScene.add(blockspotter);
+     currentLights.push(blockspotter);
+   }
 
 }
 
@@ -68,7 +78,7 @@ function stageSelectLightsNight(scene) {
 
   for(var i = 0; i < selectableStages.length; i++){
     var directLight = new THREE.PointLight(0xffffff, 1);
-    directLight.position.set(selectableStages[i].position.x, 10, selectableStages[i].position.z);
+    directLight.position.set(selectableStages[i].position.x, 20, selectableStages[i].position.z);
     scene.add(directLight);
     currentLights.push(directLight);
   }

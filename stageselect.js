@@ -28,7 +28,7 @@ function buildStageSelect(){
   //each clickable block
 
   var perssonGeom = new THREE.BoxGeometry(35,10,20,1,1,1);
-  var perssonMat = new THREE.MeshPhongMaterial({color: 0xffffff, opacity: 0.5, transparent: true});
+  var perssonMat = new THREE.MeshPhongMaterial({color: 0xffffff, opacity: 0, transparent: true});
   var perssonBlock = new THREE.Mesh(perssonGeom, perssonMat);
   perssonBlock.userData = {stageData:stageA};
   mapScene.add(perssonBlock);
@@ -38,13 +38,13 @@ function buildStageSelect(){
   selectableStages.push(perssonBlock);
 
 
-  var fieldOfDreamsGeom = new THREE.BoxGeometry(10,10,10,1,1,1);
-  var fieldOfDreamsMat = new THREE.MeshPhongMaterial({color: 0xffffff, opacity: 0.5, transparent: true});
+  var fieldOfDreamsGeom = new THREE.BoxGeometry(200,20,50,1,1,1);
+  var fieldOfDreamsMat = new THREE.MeshPhongMaterial({color: 0xffffff, opacity: 0, transparent: true});
   var fieldOfDreamsBlock = new THREE.Mesh(fieldOfDreamsGeom, fieldOfDreamsMat);
   fieldOfDreamsBlock.userData = {stageData:stageB};
   mapScene.add(fieldOfDreamsBlock);
-  fieldOfDreamsBlock.position.set(20,10,0);
-  fieldOfDreamsBlock.rotation.set(radians(0),radians(0),radians(0));
+  fieldOfDreamsBlock.position.set(50,20,140);
+  fieldOfDreamsBlock.rotation.set(radians(-10),radians(35),radians(0));
   selectableStages.push(fieldOfDreamsBlock);
 
 

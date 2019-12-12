@@ -39,6 +39,7 @@ var mapScene;
 var selectedStageDat;
 
 var currentLights = [];
+var currentSpotLight = undefined;
 
 //TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
@@ -305,12 +306,20 @@ function stageSelectLoop(){
           HIGHLITED = intersects[ 0 ].object;
           HIGHLITED.currentHex = HIGHLITED.material.emissive.getHex();
           HIGHLITED.material.emissive.setHex(0xff0000);
-          HIGHLITED.material.opacity = 0.7;
+          HIGHLITED.material.opacity = 0;
+          currentSpotLight = new THREE.SpotLight(0xff00ff, 0.4);
+          currentSpotLight.angle = radians(30);
+          currentSpotLight.target = HIGHLITED;
+
+          currentSpotLight.position.set(HIGHLITED.position.x, 40, HIGHLITED.position.z);
+          mapScene.add(currentSpotLight);
+          currentLights.push(currentSpotLight);
       }
   } else {
       if ( HIGHLITED ){
         HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
-        HIGHLITED.material.opacity = 0.5;
+        HIGHLITED.material.opacity = 0;
+        mapScene.remove(currentSpotLight);
       }
       HIGHLITED = null;
   }
