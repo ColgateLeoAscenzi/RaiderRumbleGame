@@ -51,6 +51,9 @@ var selectableStages = [];
 // document.body.appendChild(stats.dom);
 var stats;
 
+//var player1_spotlight = new THREE.SpotLight(0xffffff);
+
+
 // stats = new Stats();
 // stats.domElement.style.position = 'absolute';
 // stats.domElement.style.bottom = '0px';

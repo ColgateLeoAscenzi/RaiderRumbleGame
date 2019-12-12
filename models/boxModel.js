@@ -121,64 +121,64 @@ function createGrassMesh(){
   n0.position.set(0,5.5,0);
   box.add(n0);
 
-  var rY = Math.floor(Math.random()*9); //Random Y
+  var rY = 1+Math.floor(Math.random()*5); //Random Y
 
   var g1 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
   var m1  = new THREE.MeshPhongMaterial(
                              { color : 0x42a852});
 
   n1 = new THREE.Mesh(g1, m1);
-  n1.position.set(1,5,-3);
+  n1.position.set(1,5.5,-3);
   box.add(n1);
 
-  rY = Math.floor(Math.random()*8);
+  rY = 1+Math.random()*7;
 
   var g2 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
   var m2  = new THREE.MeshPhongMaterial(
                              { color : 0x42a852});
 
   n2 = new THREE.Mesh(g2, m2);
-  n2.position.set(2,5,-1);
+  n2.position.set(2,5.5,-1);
   box.add(n2);
 
-  rY = Math.floor(Math.random()*6);
+  rY = 1+Math.random()*6;
 
   var g3 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
   var m3  = new THREE.MeshPhongMaterial(
                              { color : 0x42a852});
 
   n3 = new THREE.Mesh(g3, m3);
-  n3.position.set(0,5,2);
+  n3.position.set(0,5.5,2);
   box.add(n3);
 
-  ry = Math.floor(Math.random()*6);
+  ry = 1+Math.random()*6;
 
   var g4 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
   var m4  = new THREE.MeshPhongMaterial(
                              { color : 0x42a852});
 
   n4 = new THREE.Mesh(g4, m4);
-  n4.position.set(0,5,3);
+  n4.position.set(0,5.5,3);
   box.add(n4);
 
-  ry = Math.floor(Math.random()*4);
+  ry = 1+Math.random()*4;
 
   var g5 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
   var m5  = new THREE.MeshPhongMaterial(
                              { color : 0x42a852});
 
   n5 = new THREE.Mesh(g4, m4);
-  n5.position.set(4.4,5,4.2);
+  n5.position.set(4.4,5.5,4.2);
   box.add(n5);
 
-  ry = Math.floor(Math.random()*4);
+  ry = 1+Math.random()*4;
 
   var g5 = new THREE.BoxGeometry(.5, rY, .5, 1, 1, 1);
   var m5  = new THREE.MeshPhongMaterial(
                              { color : 0x42a852});
 
   n5 = new THREE.Mesh(g4, m4);
-  n5.position.set(3,5,3);
+  n5.position.set(3,5.5,3);
   box.add(n5);
 
 
