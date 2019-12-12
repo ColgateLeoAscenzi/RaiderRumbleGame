@@ -35,6 +35,8 @@ var winner = -1;
 
 var mapScene;
 
+var selectedStageDat;
+
 //TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
@@ -123,6 +125,7 @@ function handleWindowResize() {
 function loop() {
   doUpdates();
   renderer.render(stage.scene, camera);
+  // console.log(renderer.info.memory);
   stats.update();
   requestAnimationFrame(loop);
   if(!gameOver){
@@ -269,34 +272,11 @@ function stageSelectLoop(){
 
 }
 
-//builds the colgate map with locations to play on
-function buildStageSelect(){
-  mapScene = new THREE.Scene();
-  sunsetLights(mapScene);
-
-
-  var planeGeom = new THREE.BoxGeometry(10,10,10,1,1,1);
-  var planeMat = new THREE.MeshPhongMaterial({color: 0xffffff});
-  var planeMesh = new THREE.Mesh(planeGeom, planeMat);
-  planeMesh.userData = {stageData:stageA, omega: true};
-  mapScene.add(planeMesh);
-  selectableStages.push(planeMesh);
-
-  var planeGeom2 = new THREE.BoxGeometry(10,10,10,1,1,1);
-  var planeMat2 = new THREE.MeshPhongMaterial({color: 0x00ff00});
-  var planeMesh2 = new THREE.Mesh(planeGeom2, planeMat2);
-  planeMesh2.userData = {stageData:stageA, omega: false};
-  mapScene.add(planeMesh2);
-  planeMesh2.position.x += 20;
-  selectableStages.push(planeMesh2);
-
-  camera.lookAt(0,0,0);
-}
-
 //creates the stage and calls the main loop
 function initializeWorld(){
     contols = undefined;
     stage = selectedStage.stageData;
+    selectedStageDat = stage;
     omegaOn = selectedStage.omega;
     stage.init();
     console.log(stage);

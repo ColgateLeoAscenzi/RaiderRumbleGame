@@ -23,6 +23,7 @@ function handleKeyUp(keyEvent){
     }
     if(keyEvent.key == "j"){
     //jumping
+
         stage.player1.heldKeys.attack1 = false;
     }
     if(keyEvent.key == "k"){
@@ -127,12 +128,13 @@ function handleKeyDown(keyEvent){
        stage.player1.heldKeys.down = true;
      }
      if(keyEvent.key == "j"){
-       stage.player1.heldKeys.attack1 = true;
-       stage.player1.doAnyAttack();
+         stage.player1.heldKeys.attack1 = true;
+         stage.player1.doAnyAttack();
+
      }
      if(keyEvent.key == "k"){
-       stage.player1.heldKeys.attack2 = true;
-       stage.player1.doAnyAttack();
+         stage.player1.heldKeys.attack2 = true;
+         stage.player1.doAnyAttack();
      }
 
    }
@@ -182,6 +184,11 @@ function toggleHitBoxes(objArr, enable){
             stage.scene.remove(objArr[i]);
         }
     }
+
+    stage.player1.addedHitBox = true;
+    stage.player2.addedHitBox = true;
+    stage.player1.hitBoxEnabled = true;
+    stage.player2.hitBoxEnabled = true;
 
 }
 

@@ -1,4 +1,4 @@
-var stageA = {
+var stageB= {
     init: function(){
         var keys = Object.keys(stageProto);
         for(var i = 0; i < keys.length; i++){
@@ -12,12 +12,9 @@ var stageA = {
 
 
         this.omega = omegaOn;
-        this.blockA = basicBox;
-        this.blockB = dirtBlock1;
-        this.blockC = platformBlock;
-        this.blockD = grassBox;
-        this.blockE = grassBoxB;
-
+        this.blockA = grassBox;
+        this.blockB = dirtBlockB;
+        this.blockC = cloudIco;
 
         this.stageBlocks = [];
         this.blockAMeshes = [];
@@ -42,15 +39,14 @@ var stageA = {
         this.player1.init();
         this.player2 = pingu;
         this.player2.init();
-        createPlayer1(0, 10, 0, this);
-        createPlayer2(0, 10, 0, this);
+        createPlayer1(0, 10, 0, stageB);
+        createPlayer2(0, 10, 0, stageB);
         this.player1.otherPlayer = this.player2;
         this.player2.otherPlayer = this.player1;
         this.player1.hitbbox = new THREE.Box3().setFromObject(this.player1.hitBox);
         this.player2.hitbbox = new THREE.Box3().setFromObject(this.player2.hitBox);
 
         this.startTimer();
-        createFollowSpotlights();
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
     },
     createScene: function(){
@@ -62,52 +58,59 @@ var stageA = {
         // this.scene.add(newLight);
 
 
-        //sunsetLights(this.scene);
+        sunsetLights(this.scene);
 
         // noonLights(this.scene);
-        nightLights(this.scene);
+        // nightLights(this.scene);
 
     },
     populateScene: function(){
         //replace the block with blockA
         for(var i = -10; i < 11; i++){
-            if(i == -10 || i == 10){
-                createBox(i*this.blockA.width,this.blockA.height, 0, this.blockA, this);
-                createBox(i*this.blockA.width, this.blockA.height*2, 0, this.blockA, this);
+            if(i == -8 || i == 8){
+                createBox(i*this.blockA.width,this.blockA.height, 0, this.blockA, stageB);
+                createBox(i*this.blockA.width, this.blockA.height*2, 0, this.blockA, stageB);
             }
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
-                createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC, this);
+
+                createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC, stageB);
+
+                createBox(i*this.blockC.width, this.blockC.height*7, -12, this.blockC, stageB);
             }
-            createBox(i*this.blockA.width, 0, 0, stage.blockA, this);
+            createBox(i*this.blockA.width, 0, 0, this.blockA, stageB);
         }
         //createBox(0, 50, 0, stage.blockE);
     },
     populateOmega: function(){
         //create floor out of block a
+
         for(var i = -10; i < 11; i++){
           if(i == -10 || i == 10){
-              createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC, this);
-              createBox(i*this.blockC.width, this.blockA.height/4, 0, this.blockC, this);
+              createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC, stageB);
+              createBox(i*this.blockC.width, this.blockA.height/4, 0, this.blockC, stageB);
           }
           else{
-            createBox(i*this.blockA.width, 0, 0, this.blockA, this);
+            createBox(i*this.blockA.width, 0, 0, this.blockA, stageB);
           }
         }
         //create underside out of block b
         for(var j = 1; j< 5; j++ ){
             for(var i = -10+j; i < 11-j; i++){
-                createBox(i*this.blockA.width, -j*this.blockB.height, 0, this.blockB, this);
+                var choice = Math.random();
+                createBox(i*this.blockA.width, -j*this.blockB.height, 0, this.blockB, stageB);
             }
         }
         for(var i = -10+j; i < 11-j; i++){
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
-                createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockC, this);
+
+                createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockC, stageB);
+
+                createBox(i*this.blockA.width, this.blockA.height*7, -12, this.blockC, stageB);
             }
         }
         //create platforms out of block C
     },
     update: function(){
-      //console.log(this.player1Spot);
         if(countDown){
             document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/75));
             this.timer+= this.timerIncrement;

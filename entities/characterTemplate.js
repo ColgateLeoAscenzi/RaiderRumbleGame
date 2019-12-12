@@ -20,6 +20,7 @@ var charProto = {
     facingR: false,
     facingL: false,
     hitBoxEnabled: false,
+    addedHitBox: false,
     canJump: true,
     jumpCt: 0,
     maxJumpCt: 2,
@@ -40,6 +41,7 @@ var charProto = {
     isRecover: false,
     canRecover: true,
     recoverFrames: 25,
+    recoverVel: 3.3,
     walkStyle1: true,
     walkStyle2: false,
     walkStyle3: false,
@@ -48,5 +50,10 @@ var charProto = {
     grabLedgeTimer: 100,
     isGrabLedge: false,
     grabTimer: 100,
-    isGrab: false
+    isGrab: false,
+    attackbbox: undefined,
+    hitbbox: undefined,
+    isRecoiling : false,
+    recoilFrameDefault : 12,
+    recoilFrames : 0
 }

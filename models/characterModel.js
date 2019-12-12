@@ -138,6 +138,16 @@ function createBasicCharacterMesh(x, y, z) {
   this.mesh.torso.rightArm.rightHand.coin.position.set(-1.0,-0.5,1);
   this.mesh.torso.rightArm.rightHand.add(this.mesh.torso.rightArm.rightHand.coin);
 
+  // this.mesh.torso.rightArm.rightHand.backupCoin = new THREE.Object3D();
+  // var bcoinBox = new THREE.CylinderGeometry(2,2,1, 19);
+  // var bcoinMat = new THREE.MeshPhongMaterial({ color: Colors.coinColor});
+  //
+  // var bcoinBase = new THREE.Mesh(bcoinBox, bcoinMat);
+  // this.mesh.torso.rightArm.rightHand.backupCoin.add(bcoinBase);
+  // this.mesh.torso.rightArm.rightHand.backupCoin.rotation.set(1.57,0,0);
+  // this.mesh.torso.rightArm.rightHand.backupCoin.position.set(-1.0,-0.5,1);
+  // this.mesh.torso.rightArm.rightHand.add(this.mesh.torso.rightArm.rightHand.backupCoin);
+
   //legs added to base of torso
   var legBox = new THREE.BoxGeometry(2.25, 2.75, 1.9, 1, 1,1);
   var legMat = new THREE.MeshPhongMaterial(
@@ -343,7 +353,6 @@ function createPinguMesh(x, y, z) {
   this.mesh.torso.add(this.mesh.torso.leftLeg);
   this.mesh.torso.leftLeg.position.set(x+1.9,y-3.6,z+2.25)
 
-  this.mesh.torso.position.y;
   this.mesh.head.position.y+=0.25;
   this.mesh.hat.position.y-=0.2;
   this.mesh.add(this.mesh.torso);
@@ -363,7 +372,26 @@ function createBasicCharacterBounding(x,y,z){
   this.mesh.name = "basicCharacterBounding";
 
 	  // Create the Cabin
-  var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+  var geomBox = new THREE.BoxGeometry(12, 16, 10, 1, 1, 1);
+  var matBox  = new THREE.MeshPhongMaterial(
+                             { color : Colors.red,wireframe: true});
+
+  var box = new THREE.Mesh(geomBox, matBox);
+
+  this.mesh.add(box);
+  this.mesh.position.set(x,y,z);
+
+  return this.mesh;
+
+}
+
+function createPinguBounding(x,y,z){
+
+  this.mesh      = new THREE.Object3D();
+  this.mesh.name = "basicCharacterBounding";
+
+	  // Create the Cabin
+  var geomBox = new THREE.BoxGeometry(12, 12, 10, 1, 1, 1);
   var matBox  = new THREE.MeshPhongMaterial(
                              { color : Colors.red,wireframe: true});
 
@@ -383,7 +411,7 @@ function createBasicAttackModel(){
         // Create the Cabin
     var geomHBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
     var matHBox  = new THREE.MeshPhongMaterial(
-                               { color : Colors.red, opacity: 1, transparent: true});
+                               { color : Colors.red, opacity: 0, transparent: true});
 
     var boxH = new THREE.Mesh(geomHBox, matHBox);
 
@@ -399,7 +427,7 @@ function createSpecialAttackModel(){
         // Create the Cabin
     var geomHBox = new THREE.BoxGeometry(5, 18, 10, 1, 1, 1);
     var matHBox  = new THREE.MeshPhongMaterial(
-                               { color : 0x0000ff, opacity: 1, transparent: true});
+                               { color : 0x0000ff, opacity: 0, transparent: true});
 
     var boxH = new THREE.Mesh(geomHBox, matHBox);
 
