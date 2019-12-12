@@ -73,7 +73,7 @@ var stageB= {
             }
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
 
-                createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC);
+                createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC, stageB);
 
                 createBox(i*this.blockC.width, this.blockC.height*7, -12, this.blockC, stageB);
             }
@@ -96,13 +96,14 @@ var stageB= {
         //create underside out of block b
         for(var j = 1; j< 5; j++ ){
             for(var i = -10+j; i < 11-j; i++){
+                var choice = Math.random();
                 createBox(i*this.blockA.width, -j*this.blockB.height, 0, this.blockB, stageB);
             }
         }
         for(var i = -10+j; i < 11-j; i++){
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
 
-                createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockC);
+                createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockC, stageB);
 
                 createBox(i*this.blockA.width, this.blockA.height*7, -12, this.blockC, stageB);
             }
