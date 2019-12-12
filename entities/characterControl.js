@@ -29,8 +29,10 @@ var basicCharacter = {
       //stage.p1spot.position.set(this.x,this.y+50, 10);
       //console.log(stage.player1Spot);
        //stage.player1Spot.position.set(this.x,this.y+50, 10);
-       stage.player1SpotTarget.position.set(this.x, this.y + 10, -10);
-       stage.player1Spot.target = stage.player1SpotTarget;
+       if(stage == stageA){
+         stage.player1SpotTarget.position.set(this.x, this.y + 10, -10);
+         stage.player1Spot.target = stage.player1SpotTarget;
+       }
        //stage.player1Spot.copy(stage.player1SpotTarget.position);
        // stage.player1SpotTarget.position.set(stage.player1Spot.position.x, stage.player1Spot.position.y + 10, 40);
 
