@@ -10,7 +10,6 @@ var stageA = {
         this.bgm = './sounds/My happy song Nicholas w lott.mp3';
 
 
-
         this.omega = omegaOn;
         this.blockA = basicBox;
         this.blockB = dirtBlock1;
@@ -63,9 +62,11 @@ var stageA = {
 
         if(isDay){
           sunsetLights(this.scene);
+          document.getElementById.css("color","black");
         }
         else{
           nightLights(this.scene);
+          document.getElementById("theBody").css("color","white");
         }
         //sunsetLights(this.scene);
 
@@ -153,11 +154,11 @@ var stageA = {
 
         var stockString1 = ""
         for(var i = 0; i < this.player1.stock; i++){
-          stockString1+="<i class='fas fa-heart'></i> "
+          stockString1+="<i class='fas fa-heart' style='color:violet'></i> "
         }
         var stockString2 = ""
         for(var i = 0; i < this.player2.stock; i++){
-          stockString2+="<i class='fas fa-heart'></i> "
+          stockString2+="<i class='fas fa-heart' style='color:violet'></i> "
         }
 
         if(this.player1.percentage >= 80) {

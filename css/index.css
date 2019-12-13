@@ -18,7 +18,6 @@ body{
     left: 40%;
     width: 20%;
     height: 10%;
-    color: white;
 }
 #player1Box{
     position: absolute;
@@ -29,7 +28,6 @@ body{
     left: 10%;
     width: 20%;
     height: 10%;
-    color: white;
 
 }
 
@@ -42,7 +40,6 @@ body{
     left: 70%;
     width: 20%;
     height: 10%;
-    color:white;
 }
 
 
