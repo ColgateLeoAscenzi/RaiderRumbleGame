@@ -203,6 +203,11 @@ function onMouseDown(event){
     selectedStage = HIGHLITED.userData;
     stageSelected = true;
   }
+  if(SELECTEDMODE){
+      if(SELECTEDMODE.userData.mode == "playGame"){
+          modeSelected = true;
+      }
+  }
 }
 
 function handleMapKeyUp(keyEvent){

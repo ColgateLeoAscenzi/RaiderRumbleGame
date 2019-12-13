@@ -19,7 +19,10 @@ var isDay = true;
 
 var HIGHLITED;
 
+var mainmenuClicked = false;
+var modeSelected = false;
 var stageSelected = false;
+var charactersSelected = false;
 var selectedStage;
 
 var mediaElement;
@@ -54,6 +57,12 @@ var selectableStages = [];
 // stats.showPanel(1);
 // document.body.appendChild(stats.dom);
 var stats;
+
+var SELECTEDMODE;
+var modeScene;
+
+var modes = ["normal", "options"];
+var modeBlocks = [];
 
 //var player1_spotlight = new THREE.SpotLight(0xffffff);
 
@@ -101,6 +110,15 @@ function createCameraRender() {
   stageSelectCamera.position.x = 0;
   stageSelectCamera.position.z = 120;
   stageSelectCamera.position.y = 40;
+
+  modeSelectCamera = new THREE.PerspectiveCamera(
+      fieldOfView,
+      aspectRatio,
+      nearPlane,
+      farPlane
+    );
+
+
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(WIDTH, HEIGHT);
@@ -215,29 +233,9 @@ function initGame() {
   createCameraRender();
   stats.begin();
 
-  controls = new THREE.OrbitControls(camera, renderer.domElement );
   THREEx.FullScreen.bindKey({ charCode : 'l'.charCodeAt(0) });
 
-  // How far you can orbit vertically, upper and lower limits.
-    // Range is 0 to Math.PI radians.
-    controls.minPolarAngle = 0; // radians
-    controls.maxPolarAngle = Math.PI/4; // radians
-
-    // How far you can orbit horizontally, upper and lower limits.
-    // If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
-    controls.minAzimuthAngle = 0; // radians
-    controls.maxAzimuthAngle = 0; // radians
-
-    controls.minDistance = 150;
-    controls.maxDistance = 200;
-
-    controls.enabled = false;
-    controls.autoRotateSpeed = 3;
-
-  document.onkeydown = handleMapKeyDown;
-  document.onkeyup = handleMapKeyUp;
-  buildStageSelect();
-  stageSelectLoop();
+  buildModeSelect();
   stats.end();
   //make a camera and renderer
   // createCameraRender();

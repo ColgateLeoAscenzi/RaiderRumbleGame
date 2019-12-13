@@ -1,4 +1,3 @@
-//builds the colgate map with locations to play on
 
 //THIS IS THE STAGE SELECT LOOP
 function stageSelectLoop(){
@@ -13,8 +12,6 @@ function stageSelectLoop(){
     else{
       initializeWorld();
     }
-
-  controls.update();
 
   renderer.render(mapScene, stageSelectCamera);
 
