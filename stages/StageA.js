@@ -133,6 +133,7 @@ var stageA = {
             for(var i = 0; i < this.stageBlocks.length; i++){
                 this.stageBlocks[i].update();
             }
+            rotateSnow();
             if(this.maxTime - Math.floor(this.timer/75) == 0){
                 gameOver = true;
             }
@@ -160,6 +161,8 @@ var stageA = {
         for(var i = 0; i < this.player2.stock; i++){
           stockString2+="<3  "
         }
+
+
         player1Box.innerHTML = this.player1.name+"<br>"+stockString1+"<br>Percent: "+this.player1.percentage;
         player2Box.innerHTML =  this.player2.name+"<br>"+stockString2+"<br>Percent: "+this.player2.percentage;
 

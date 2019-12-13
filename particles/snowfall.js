@@ -1,31 +1,34 @@
-var SPEED = 0.05
+var SPEED = 0.01
 
 function generateSnow() {
 
   stage.snow = new THREE.Group();
 
-  for (var i = 0; i < 100; i++) {
+  for (var i = 0; i < 300; i++) {
     var snowColor;
 
     var snowShape = new THREE.Mesh(
-      new THREE.SphereGeometry( 1, 1, 1 ),
+      new THREE.SphereBufferGeometry( 1, 1, 1 ),
       new THREE.MeshBasicMaterial( { color: 0xffffff } )
     );
 
-  var x_position = (Math.round(Math.random()) * 2 - 1) * Math.floor(Math.random() * 300);
-  var y_position = Math.floor(Math.random() * 100) + 30;
+  var x_position = (Math.round(Math.random()) * 2 - 1) * Math.floor(Math.random() * 400);
+  var y_position = (Math.round(Math.random()) * 2 - 1) * Math.floor(Math.random() * 400);
   var z_position = (Math.round(Math.random()) * 2 - 1) * (Math.floor(Math.random() * 100) + 30);
 
     snowShape.position.set(x_position, y_position, z_position);
-    stage.scene.add(snowShape);
+    stage.snow.add(snowShape);
   }
+
+  stage.scene.add(stage.snow);
 
 
  }
 
  function rotateSnow() {
-    stage.snow.rotateX = SPEED * 2;
-    stage.snow.rotateY = SPEED * 2;
-    stage.snow.rotateZ = SPEED * 2;
-    console.log("rotating");
+    //stage.snow.rotation.x += SPEED;
+    stage.snow.translateY(-1);
+    // stage.snow.rotation.y += SPEED * 2;
+    // stage.snow.rotation.z += SPEED* 10;
+    // // console.log("rotating");
  }

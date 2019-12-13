@@ -193,7 +193,6 @@ function doUpdates(){
 
     stage.update();
 
-    rotateSnow();
 }
 
 
