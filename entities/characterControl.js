@@ -1,5 +1,8 @@
+var RESET = false;
+var ATTACK = true;
 var basicCharacter = {
     model: createBasicCharacterMesh(0,0,0),
+    secondRaider: createBasicCharacterMesh(0,0,0).torso.rightArm.rightHand.coin,
     hitBox: createBasicCharacterBounding(0,0,0),
     basicAttackModel: createBasicAttackModel(),
     canAAttack: [true, true, true, true, true],
@@ -15,6 +18,9 @@ var basicCharacter = {
         this.x = -10;
         this.y = 10;
         this.name = "Raider"
+
+        stage.scene.add(this.secondRaider);
+        this.secondRaider.position.set(stage.maximumX +300,stage.maximumY + 300,0);
 
         this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
         attack2: false}
@@ -396,15 +402,86 @@ var basicCharacter = {
               this.otherPlayer.hitByB[S] = false;
           }
       }
+
+
       if(!this.canBAttack[SS]){
-          this.basicAttackFrames-=1;
+        this.basicAttackFrames-=1;
+        // coinToss(ATTACK, modelClone);
+
+        //secondRaider(ATTACK, this.model);
+
+        // if(this.basicAttackFrames == this.specialAttackObj.attackFrames[SS] - 1 && !this.isRecover){
+        //   var coinX = this.model.torso.rightArm.rightHand.coin.position.x;
+        //   var coinY = this.model.torso.rightArm.rightHand.coin.position.y;
+        //   var coinZ = this.model.torso.rightArm.rightHand.coin.position.z;
+        //   if(this.facingL) {
+        //     this.specialAttackObj.castedRight = false;
+        //     this.secondRaider.torso.rightArm.rightHand.coin.position.set(coinX, coinY, coinZ);
+        //   }
+        //   if(this.facingR) {
+        //     this.specialAttackObj.castedRight = true;
+        //     this.secondRaider.torso.rightArm.rightHand.coin.position.set(coinX, coinY, coinZ);
+        //   }
+        // }
+
+        if(this.basicAttackFrames == this.specialAttackObj.attackFrames[SS] - 1 && !this.isRecover){
+          if(this.facingL) {
+            this.specialAttackObj.castedRight = false;
+            this.secondRaider.position.set(this.x, this.y, this.z);
+          }
+          if(this.facingR) {
+            this.specialAttackObj.castedRight = true;
+            this.secondRaider.position.set(this.x, this.y, this.z);
+          }
+        }
+
+        else{
+          if(!this.specialAttackObj.castedRight) {
+            if(this.basicAttackFrames > 12.5){
+              this.secondRaider.position.x -=2.5;
+            }
+            if(this.basicAttackFrames < 12.5){
+              this.secondRaider.position.x +=2.5;
+            }
+          }
+          if(this.specialAttackObj.castedRight) {
+            if(this.basicAttackFrames > 12.5){
+              this.secondRaider.position.x +=2.5;
+            }
+            if(this.basicAttackFrames < 12.5){
+              this.secondRaider.position.x -=2.5;
+            }
+          }
+        }
+
+        coinToss(ATTACK, this.secondRaider);
+
+        var bbox = new THREE.BoxHelper(this.secondRaider, 0xff0000)
+        this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+        if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+          this.checkHit(SS,"B");
+        }
+
+        if(hitBoxesOn){
+          stage.scene.add(bbox);
+          setTimeout(function(){bbox.geometry.dispose();}, 50);
+          setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+        }
+
           if(this.basicAttackFrames <= 0){
+
+            //coinToss(RESET, this.model);
+            coinToss(RESET, this.secondRaider);
+
               this.basicAttackFrames = 25;
               this.canBAttack[SS] = true;
               this.canBasicAttack = true;
               this.otherPlayer.hitByB[SS] = false;
+              this.secondRaider.position.set(stage.maximumX + 300,stage.maximumY + 300,0);
           }
       }
+
       if(!this.canBAttack[US]){
           this.basicAttackFrames-=1;
           if(this.basicAttackFrames <= 0){
@@ -656,5 +733,22 @@ var basicCharacter = {
             this.otherPlayer.model.rotation.z = 1.57;
           }
     }
+
+}
+
+function coinToss(attackBoolean, model) {
+  if(attackBoolean) {
+
+    model.scale.set(2.5,2.5,2.5);
+
+  }
+
+  else {
+
+    model.scale.set(1,1,1);
+    model.position.x = 0;
+
+  }
+
 
 }
