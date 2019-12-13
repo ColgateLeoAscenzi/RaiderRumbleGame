@@ -203,6 +203,15 @@ function onMouseDown(event){
     selectedStage = HIGHLITED.userData;
     stageSelected = true;
   }
+  if(SELECTEDMODE){
+      if(SELECTEDMODE.userData.mode == "playGame"){
+          modeSelected = true;
+      }
+  }
+  if(selectingTitle){
+      selectingTitle = false;
+      titleClicked = true;
+  }
 }
 
 function handleMapKeyUp(keyEvent){
@@ -215,6 +224,7 @@ function handleMapKeyDown(keyEvent){
     isDay = true;
     removeLights(mapScene);
     stageSelectLightsDay(mapScene);
+    
   }
 
   if(keyEvent.key == "ArrowDown"){
