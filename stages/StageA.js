@@ -10,7 +10,6 @@ var stageA = {
         this.bgm = './sounds/My happy song Nicholas w lott.mp3';
 
 
-
         this.omega = omegaOn;
         this.blockA = basicBox;
         this.blockB = dirtBlock1;
@@ -63,9 +62,11 @@ var stageA = {
 
         if(isDay){
           sunsetLights(this.scene);
+          $(document.getElementById("theBody")).css("color","black");
         }
         else{
           nightLights(this.scene);
+          $(document.getElementById("theBody")).css("color","white");
         }
         //sunsetLights(this.scene);
 
@@ -153,14 +154,45 @@ var stageA = {
 
         var stockString1 = ""
         for(var i = 0; i < this.player1.stock; i++){
-          stockString1+="<3  "
+          stockString1+="<i class='fas fa-heart' style='color:violet'></i> "
         }
         var stockString2 = ""
         for(var i = 0; i < this.player2.stock; i++){
-          stockString2+="<3  "
+          stockString2+="<i class='fas fa-heart' style='color:violet'></i> "
         }
-        player1Box.innerHTML = this.player1.name+"<br>"+stockString1+"<br>Percent: "+this.player1.percentage;
-        player2Box.innerHTML =  this.player2.name+"<br>"+stockString2+"<br>Percent: "+this.player2.percentage;
+
+        for(var i = 0; i < this.players.length; i++){
+          if(this.players[i].percentage < 40){
+            if(isDay){
+              color = "black:"
+            }
+            else{
+              color = "white";
+            }
+          }
+          else if(this.players[i].percentage < 60){
+            color = "yellow";
+          }
+          else if(this.players[i].percentage < 80){
+            color = "orange";
+          }
+          else{
+            color = "red"
+          }
+
+
+          if(i == 0){
+            player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ "</div>" + "<div id = 'player1Stock'"+
+                                      stockString1+"</div>" + "<div id ='player1Percent' style = 'color: "+color+";'>"+this.player1.percentage +"%</div>";
+          }
+          else{
+            player2Box.innerHTML = "<div id = 'player2Name'>"+this.player1.name+ "</div>" + "<div id = 'player2Stock'"+
+                                      stockString2+"</div>" + "<div id ='player2Percent' style = 'color: "+color+";'>"+this.player2.percentage +"%</div>";
+          }
+
+        }
+
+
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
             gameOver = true;
@@ -197,7 +229,7 @@ var stageA = {
 
         var player1Box = document.createElement("div");
         player1Box.id = "player1Box";
-        player1Box.innerHTML = "Stock: "+this.player1.stock+"<br>Percent: "+this.player1.percentage;
+        player1Box.innerHTML = "Stock: "+this.player1.stock+ "<br>Percent: "+this.player1.percentage;
         container.appendChild(player1Box);
 
         var player2Box = document.createElement("div");
