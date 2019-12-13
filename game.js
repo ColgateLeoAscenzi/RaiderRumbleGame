@@ -14,7 +14,8 @@ var camera, fieldOfView, aspectRatio, nearPlane, farPlane,
 
 var stage;
 
-var omegaOn;
+var omegaOn = false;
+var isDay = true;
 
 var HIGHLITED;
 
@@ -36,6 +37,9 @@ var winner = -1;
 var mapScene;
 
 var selectedStageDat;
+
+var currentLights = [];
+var currentSpotLight = undefined;
 
 //TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
@@ -69,8 +73,8 @@ var HEIGHT, WIDTH
 
 function createCameraRender() {
 
-  HEIGHT = window.innerHeight;
-  WIDTH = window.innerWidth;
+  HEIGHT = window.innerHeight-20;
+  WIDTH = window.innerWidth-20;
 
   aspectRatio = WIDTH / HEIGHT;
   fieldOfView = 60;
@@ -87,6 +91,17 @@ function createCameraRender() {
   camera.position.z = 120;
   camera.position.y = 40;
 
+  stageSelectCamera = new THREE.PerspectiveCamera(
+      30,
+      aspectRatio,
+      nearPlane,
+      farPlane
+    );
+
+  stageSelectCamera.position.x = 0;
+  stageSelectCamera.position.z = 120;
+  stageSelectCamera.position.y = 40;
+
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(WIDTH, HEIGHT);
   renderer.shadowMap.enabled = true;
@@ -94,6 +109,7 @@ function createCameraRender() {
 
   container = document.getElementById('glcanvas');
   container.appendChild(renderer.domElement);
+
 
   window.addEventListener('resize', handleWindowResize, false);
   window.addEventListener('mousemove', onMouseMove, false);
@@ -110,11 +126,13 @@ function createCameraRender() {
 // HANDLE SCREEN EVENTS
 
 function handleWindowResize() {
-  HEIGHT = window.innerHeight;
-  WIDTH = window.innerWidth;
+  HEIGHT = window.innerHeight-20;
+  WIDTH = window.innerWidth-20;
   renderer.setSize(WIDTH, HEIGHT);
   camera.aspect = WIDTH / HEIGHT;
   camera.updateProjectionMatrix();
+  stageSelectCamera.aspect = WIDTH / HEIGHT;
+  stageSelectCamera.updateProjectionMatrix();
 }
 
 
@@ -229,6 +247,24 @@ function initGame() {
   controls = new THREE.OrbitControls(camera, renderer.domElement );
   THREEx.FullScreen.bindKey({ charCode : 'l'.charCodeAt(0) });
 
+  // How far you can orbit vertically, upper and lower limits.
+    // Range is 0 to Math.PI radians.
+    controls.minPolarAngle = 0; // radians
+    controls.maxPolarAngle = Math.PI/4; // radians
+
+    // How far you can orbit horizontally, upper and lower limits.
+    // If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
+    controls.minAzimuthAngle = 0; // radians
+    controls.maxAzimuthAngle = 0; // radians
+
+    controls.minDistance = 150;
+    controls.maxDistance = 200;
+
+    controls.enabled = false;
+    controls.autoRotateSpeed = 3;
+
+  document.onkeydown = handleMapKeyDown;
+  document.onkeyup = handleMapKeyUp;
   buildStageSelect();
   stageSelectLoop();
   stats.end();
@@ -241,7 +277,11 @@ function initGame() {
 
 //continues to display the stage select until stage selected is true, then renders that
 function stageSelectLoop(){
-
+  // console.log(selectableStages[0].position.x,selectableStages[0].position.y,selectableStages[0].position.z);
+   stageSelectCamera.lookAt(0,0,0);
+    stageSelectCamera.position.set(0,800,0);
+    // controls.target = selectableStages[0];
+    // controls.autoRotate = true;
     if(!stageSelected){
       requestAnimationFrame(stageSelectLoop);
     }
@@ -251,22 +291,36 @@ function stageSelectLoop(){
 
   controls.update();
 
-  renderer.render(mapScene, camera);
+  renderer.render(mapScene, stageSelectCamera);
 
-  raycaster.setFromCamera( mouse, camera );
+  raycaster.setFromCamera( mouse, stageSelectCamera );
 
 // calculate objects intersecting the picking ray
   var intersects = raycaster.intersectObjects(selectableStages);
 
   if ( intersects.length > 0 ) {
       if ( HIGHLITED != intersects[ 0 ].object ) {
-          if ( HIGHLITED ) HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+          if ( HIGHLITED ) {
+            HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+          }
           HIGHLITED = intersects[ 0 ].object;
           HIGHLITED.currentHex = HIGHLITED.material.emissive.getHex();
-          HIGHLITED.material.emissive.setHex( 0xff0000 );
+          HIGHLITED.material.emissive.setHex(0xff0000);
+          HIGHLITED.material.opacity = 0;
+          currentSpotLight = new THREE.SpotLight(0xff00ff, 0.4);
+          currentSpotLight.angle = radians(30);
+          currentSpotLight.target = HIGHLITED;
+
+          currentSpotLight.position.set(HIGHLITED.position.x, 40, HIGHLITED.position.z);
+          mapScene.add(currentSpotLight);
+          currentLights.push(currentSpotLight);
       }
   } else {
-      if ( HIGHLITED ) HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+      if ( HIGHLITED ){
+        HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+        HIGHLITED.material.opacity = 0;
+        mapScene.remove(currentSpotLight);
+      }
       HIGHLITED = null;
   }
 
@@ -277,7 +331,8 @@ function initializeWorld(){
     contols = undefined;
     stage = selectedStage.stageData;
     selectedStageDat = stage;
-    omegaOn = selectedStage.omega;
+    //omegaOn = selectedStage.omega;
+    //isDay = selectedStage.daytime;
     stage.init();
     console.log(stage);
 
