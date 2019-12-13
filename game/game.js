@@ -27,8 +27,9 @@ var stageSelected = false;
 var charactersSelected = false;
 var selectedStage;
 
-var selectedPlayer1 = basicCharacter;
-var selectedPlayer2 = pingu;
+var selectedPlayer1, selectedPlayer2;
+var p1InPosition = false
+var p2InPosition = false;
 
 var selectingTitle = true;
 
