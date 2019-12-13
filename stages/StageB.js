@@ -9,7 +9,7 @@ var stageB= {
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
         this.bgm = './sounds/My happy song Nicholas w lott.mp3';
 
-
+        this.skyBoxURL = './images/testbeach1.jpg'
 
         this.omega = omegaOn;
         this.blockA = grassBox;
@@ -53,7 +53,7 @@ var stageB= {
         this.scene = new THREE.Scene();
 
         if(isDay){
-          sunsetLights(this.scene);
+          sunsetLights(this.scene, this.skyBoxURL);
           $(document.getElementById("theBody")).css("color","black");
 
         }

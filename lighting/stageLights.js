@@ -22,15 +22,20 @@ function noonLights(scene) {
 }
 
 
-function sunsetLights(scene) {
+function sunsetLights(scene, skyboxTexture) {
     // Create the Skybox
   var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
 
 
- var matBox  = new THREE.MeshPhongMaterial(
-                            {color : 0xf6ca97, map: new THREE.TextureLoader().load('images/Persson_sunset.png'),
-                            opacity: 0.8, transparent: true,});
-
+  if(skyboxTexture == ""){
+    var matBox  = new THREE.MeshPhongMaterial(
+                               {color : 0xf6ca97,
+                               opacity: 0.8, transparent: true,});
+  }else{
+    var matBox  = new THREE.MeshPhongMaterial(
+                               {color : 0xf6ca97, map: new THREE.TextureLoader().load(skyboxTexture),
+                               opacity: 0.8, transparent: true,});
+  }
 
 
   var box = new THREE.Mesh(geomBox, matBox);
