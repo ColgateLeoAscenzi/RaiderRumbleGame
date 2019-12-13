@@ -62,7 +62,7 @@ var stageA = {
 
         if(isDay){
           sunsetLights(this.scene);
-          document.getElementById.css("color","black");
+          document.getElementById("theBody").css("color","black");
         }
         else{
           nightLights(this.scene);

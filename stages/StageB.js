@@ -54,9 +54,13 @@ var stageB= {
 
         if(isDay){
           sunsetLights(this.scene);
+          document.getElementById("theBody").css("color","black");
+
         }
         else{
           nightLights(this.scene);
+          document.getElementById("theBody").css("color","white");
+
         }
 
         // noonLights(this.scene);
