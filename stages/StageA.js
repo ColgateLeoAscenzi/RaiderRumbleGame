@@ -69,6 +69,7 @@ var stageA = {
         //sunsetLights(this.scene);
 
         noonLights(this.scene);
+        generateSnow();
         //nightLights(this.scene);
 
     },
