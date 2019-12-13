@@ -39,9 +39,9 @@ var stageA = {
         else{
             this.populateScene();
         }
-        this.player1 = basicCharacter;
+        this.player1 = selectedPlayer1;
         this.player1.init();
-        this.player2 = pingu;
+        this.player2 = selectedPlayer2;
         this.player2.init();
         createPlayer1(0, 10, 0, this);
         createPlayer2(0, 10, 0, this);

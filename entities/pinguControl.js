@@ -2,6 +2,7 @@
 var RESET = false;
 var ATTACK = true;
 var pingu = {
+    name: "Pingu",
     model: createPinguMesh(0,0,0),
     secondary: createPinguMesh(0,0,0),
     hitBox: createPinguBounding(0,0,0),

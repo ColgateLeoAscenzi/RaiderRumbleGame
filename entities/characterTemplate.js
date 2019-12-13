@@ -55,5 +55,6 @@ var charProto = {
     hitbbox: undefined,
     isRecoiling : false,
     recoilFrameDefault : 12,
-    recoilFrames : 0
+    recoilFrames : 0,
+    name: ""
 }

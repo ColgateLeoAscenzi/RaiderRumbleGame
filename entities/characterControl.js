@@ -1,6 +1,7 @@
 var RESET = false;
 var ATTACK = true;
 var basicCharacter = {
+    name: "Raider",
     model: createBasicCharacterMesh(0,0,0),
     secondRaider: createBasicCharacterMesh(0,0,0).torso.rightArm.rightHand.coin,
     hitBox: createBasicCharacterBounding(0,0,0),

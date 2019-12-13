@@ -5,7 +5,7 @@ function modeSelectLoop(){
     else{
         document.onkeydown = handleMapKeyDown;
         document.onkeyup = handleMapKeyUp;
-        buildStageSelect();
+        buildCharacterSelect();
     }
 
   renderer.render(modeScene, modeSelectCamera);
@@ -57,6 +57,7 @@ function buildModeSelect(){
   controlsMesh.userData = {mode:"controls"}
   modeScene.add(controlsMesh);
   modeBlocks.push(controlsMesh);
+
 
   controlsMesh.position.x += 10;
 
