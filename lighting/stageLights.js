@@ -4,7 +4,7 @@ var starColors = {
   blue: 0xcad8ff,
 };
 
-//noonLights and nightLights incomplete
+//noonLights incomplete
 
 function noonLights(scene) {
     // Create the Skybox
@@ -15,9 +15,9 @@ function noonLights(scene) {
   box.material.side = THREE.BackSide;
   scene.add(box);
   //
-  var ambientLight = new THREE.PointLight(Colors.white, 1);
-  ambientLight.position.set(0,50,-20);
+  var ambientLight = new THREE.AmbientLight(Colors.white, 1);
   scene.add(ambientLight);
+
 
 }
 
