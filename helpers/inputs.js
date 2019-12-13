@@ -204,3 +204,33 @@ function onMouseDown(event){
     stageSelected = true;
   }
 }
+
+function handleMapKeyUp(keyEvent){
+
+}
+
+function handleMapKeyDown(keyEvent){
+
+  if(keyEvent.key == "ArrowUp"){
+    isDay = true;
+    removeLights(mapScene);
+    stageSelectLightsDay(mapScene);
+  }
+
+  if(keyEvent.key == "ArrowDown"){
+    isDay = false;
+    removeLights(mapScene);
+    stageSelectLightsNight(mapScene);
+  }
+
+  if(keyEvent.key == "ArrowLeft"){
+    omegaOn = true;
+
+  }
+
+  if(keyEvent.key == "ArrowRight"){
+    omegaOn = false;
+
+  }
+
+}

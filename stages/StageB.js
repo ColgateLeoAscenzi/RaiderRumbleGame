@@ -52,13 +52,16 @@ var stageB= {
     createScene: function(){
         this.scene = new THREE.Scene();
 
-        //cindy model testing white light
-        // var newLight = new THREE.PointLight(0xffffff,1);
-        // newLight.position.set(0,50,50);
-        // this.scene.add(newLight);
+        if(isDay){
+          sunsetLights(this.scene);
+          $(document.getElementById("theBody")).css("color","black");
 
+        }
+        else{
+          nightLights(this.scene);
+          $(document.getElementById("theBody")).css("color","white");
 
-        sunsetLights(this.scene);
+        }
 
         // noonLights(this.scene);
         // nightLights(this.scene);
@@ -152,14 +155,35 @@ var stageB= {
 
         var stockString1 = ""
         for(var i = 0; i < this.player1.stock; i++){
-          stockString1+="<3  "
+          stockString1+="<i class='fas fa-heart' style='color:violet'></i> "
         }
         var stockString2 = ""
         for(var i = 0; i < this.player2.stock; i++){
-          stockString2+="<3  "
+          stockString2+="<i class='fas fa-heart' style='color:violet'></i> "
         }
-        player1Box.innerHTML = this.player1.name+"<br>"+stockString1+"<br>Percent: "+this.player1.percentage;
-        player2Box.innerHTML =  this.player2.name+"<br>"+stockString2+"<br>Percent: "+this.player2.percentage;
+        if(this.player1.percentage >= 80) {
+
+          player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ "</div>" + "<div id = 'player1Stock'"+
+                                  stockString1+"</div>" + "<div id ='player1Percent' style = 'color: red;'> Percent: "+this.player1.percentage +"</div>";
+
+        } else {
+
+          player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ "</div>" + "<div id = 'player1Stock'"+
+                                  stockString1+"</div>" + "<div id ='player1Percent'> Percent: "+this.player1.percentage +"</div>";
+
+        }
+
+        if(this.player2.percentage >= 80) {
+
+          player2Box.innerHTML =  "<div id = 'player2Name'>"+ this.player2.name+"</div>"+ "<div id = 'player2Stock'" +
+                                  stockString2+"</div>"+ "<div id= 'player2Percent' style = 'color: red;'> Percent: " +this.player2.percentage + "</div>";
+
+        } else {
+
+          player2Box.innerHTML =  "<div id = 'player2Name'>"+ this.player2.name+"</div>"+ "<div id = 'player2Stock'" +
+                                  stockString2+"</div>"+ "<div id= 'player2Percent'> Percent: " +this.player2.percentage + "</div>";
+
+        }
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
             gameOver = true;
@@ -196,12 +220,12 @@ var stageB= {
 
         var player1Box = document.createElement("div");
         player1Box.id = "player1Box";
-        player1Box.innerHTML = "Stock: "+this.player1.stock+"<br>Percent: "+this.player1.percentage;
+        player1Box.innerHTML = "<div id='player1Stock'>Stock: "+this.player1.stock+ "</div>"+"<div id='player1Percent'>Percent: "+this.player1.percentage +"</div>";
         container.appendChild(player1Box);
 
         var player2Box = document.createElement("div");
         player2Box.id = "player2Box";
-        player2Box.innerHTML = "Stock: "+this.player2.stock+"<br>Percent: "+this.player2.percentage;
+        player2Box.innerHTML = "<div id ='player2Stock'> Stock: "+this.player2.stock+"</div>" +"<div id ='player2Percent'>Percent: "+this.player2.percentage+"</div>";
         container.appendChild(player2Box);
 
     }

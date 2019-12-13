@@ -13,7 +13,6 @@ var Colors = {
     pinguOrange: 0xd26617,
     pinguBlack: 0x19181e,
     coinColor: 0xf2be75,
-
 };
 
 function createBasicCharacterMesh(x, y, z) {
