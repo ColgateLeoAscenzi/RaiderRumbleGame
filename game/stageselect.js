@@ -1,16 +1,28 @@
 
 //THIS IS THE STAGE SELECT LOOP
 function stageSelectLoop(){
-  // console.log(selectableStages[0].position.x,selectableStages[0].position.y,selectableStages[0].position.z);
    stageSelectCamera.lookAt(0,0,0);
     stageSelectCamera.position.set(0,800,0);
-    // controls.target = selectableStages[0];
-    // controls.autoRotate = true;
+    if(isDay && omegaOn){
+        document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Day<br>Mode: Omega";
+    }
+    else if(isDay && !omegaOn){
+        document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Day<br>Mode: Normal";
+    }
+    else if(!isDay && omegaOn){
+        document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Night<br>Mode: Omega";
+    }
+    else{
+        document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Night<br>Mode: Normal";
+    }
+
     if(!stageSelected){
       requestAnimationFrame(stageSelectLoop);
     }
     else{
       initializeWorld();
+      var boxVar = document.getElementById("stageSelectBox");
+      boxVar.parentNode.removeChild(boxVar);
     }
 
   renderer.render(mapScene, stageSelectCamera);
@@ -98,6 +110,12 @@ function buildStageSelect(){
   selectableStages.push(fieldOfDreamsBlock);
 
 
+  var container = document.getElementById("container");
+  var stageModeBox = document.createElement("div");
+  stageModeBox.id = "stageSelectBox";
+  stageModeBox.innerHTML = "Time of Day: Day<br>Mode: Normal";
+  container.appendChild(stageModeBox);
 
-  camera.lookAt(0,0,0);
+  stageSelectLoop();
+
 }

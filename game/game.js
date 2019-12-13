@@ -19,11 +19,13 @@ var isDay = true;
 
 var HIGHLITED;
 
-var mainmenuClicked = false;
+var titleClicked = false;
 var modeSelected = false;
 var stageSelected = false;
 var charactersSelected = false;
 var selectedStage;
+
+var selectingTitle = true;
 
 var mediaElement;
 var playingM = false;
@@ -60,6 +62,7 @@ var stats;
 
 var SELECTEDMODE;
 var modeScene;
+var titleScene;
 
 var modes = ["normal", "options"];
 var modeBlocks = [];
@@ -235,7 +238,7 @@ function initGame() {
 
   THREEx.FullScreen.bindKey({ charCode : 'l'.charCodeAt(0) });
 
-  buildModeSelect();
+  buildTitleScreen();
   stats.end();
   //make a camera and renderer
   // createCameraRender();

@@ -1,5 +1,3 @@
-
-
 function modeSelectLoop(){
     if(!modeSelected){
       requestAnimationFrame(modeSelectLoop);
@@ -8,7 +6,6 @@ function modeSelectLoop(){
         document.onkeydown = handleMapKeyDown;
         document.onkeyup = handleMapKeyUp;
         buildStageSelect();
-        stageSelectLoop();
     }
 
   renderer.render(modeScene, modeSelectCamera);
@@ -25,9 +22,7 @@ function modeSelectLoop(){
           }
           SELECTEDMODE = intersects[ 0 ].object;
           SELECTEDMODE.currentHex = SELECTEDMODE.material.emissive.getHex();
-          SELECTEDMODE.material.emissive.setHex(0xff0000);
-
-
+          SELECTEDMODE.material.emissive.setHex(0x333333);
       }
   } else {
       if ( SELECTEDMODE ){

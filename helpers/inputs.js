@@ -208,6 +208,10 @@ function onMouseDown(event){
           modeSelected = true;
       }
   }
+  if(selectingTitle){
+      selectingTitle = false;
+      titleClicked = true;
+  }
 }
 
 function handleMapKeyUp(keyEvent){
@@ -220,6 +224,7 @@ function handleMapKeyDown(keyEvent){
     isDay = true;
     removeLights(mapScene);
     stageSelectLightsDay(mapScene);
+    
   }
 
   if(keyEvent.key == "ArrowDown"){
