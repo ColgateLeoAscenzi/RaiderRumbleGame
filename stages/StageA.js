@@ -268,7 +268,6 @@ var stageA = {
         container.appendChild(player2Box);
 
     },
-
     createSpotLights: function(){
       if (this.night) createFollowSpotlights();
     }

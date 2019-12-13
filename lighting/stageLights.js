@@ -139,10 +139,10 @@ function nightLights(scene) {
 
     starShape.position.set(x_position, y_position, z_position);
     stage.scene.add(starShape);
+
+
   }
-
 }
-
 
 function createFollowSpotlights() {
 

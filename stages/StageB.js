@@ -226,5 +226,8 @@ var stageB= {
         player2Box.innerHTML = "<div id ='player2Stock'> Stock: "+this.player2.stock+"</div>" +"<div id ='player2Percent'>Percent: "+this.player2.percentage+"</div>";
         container.appendChild(player2Box);
 
+    },
+    createSpotLights: function(){
+      if (this.night) createFollowSpotlights();
     }
 }
