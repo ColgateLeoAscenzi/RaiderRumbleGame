@@ -1,7 +1,61 @@
-var basicBox = {
+var basicBox1 = {
     height: 10,
     width: 10,
-    model: createBasicBoxMesh(),
+    model: createBasicBoxMesh(1),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    grabbable: true,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+
+    }
+}
+
+var basicBox2 = {
+    height: 10,
+    width: 10,
+    model: createBasicBoxMesh(2),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    grabbable: true,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+
+    }
+}
+
+var basicBox3 = {
+    height: 10,
+    width: 10,
+    model: createBasicBoxMesh(3),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    grabbable: true,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+
+    }
+}
+
+var basicBox4 = {
+    height: 10,
+    width: 10,
+    model: createBasicBoxMesh(4),
     hitBox: createBasicBoxBounding(),
     hitBoxEnabled: false,
     grabbable: true,

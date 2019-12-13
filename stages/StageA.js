@@ -11,7 +11,7 @@ var stageA = {
 
 
         this.omega = omegaOn;
-        this.blockA = basicBox;
+        this.blockA = basicBox1;
         this.blockB = dirtBlock1;
         this.blockC = platformBlock;
         this.blockD = grassBox;
@@ -99,13 +99,39 @@ var stageA = {
               createBox(i*this.blockC.width, this.blockA.height/4, 0, this.blockC, this);
           }
           else{
+            var decide = Math.random();
+            if(decide < 0.25){
+              this.blockA = basicBox1;
+            }
+            else if(decide < 0.50){
+              this.blockA = basicBox2;
+            }
+            else if(decide < 0.75){
+              this.blockA = basicBox3;
+            }
+            else{
+              this.blockA = basicBox4;
+            }
             createBox(i*this.blockA.width, 0, 0, this.blockA, this);
           }
         }
         //create underside out of block b
         for(var j = 1; j< 5; j++ ){
             for(var i = -10+j; i < 11-j; i++){
-                createBox(i*this.blockA.width, -j*this.blockB.height, 0, this.blockB, this);
+                var decide = Math.random();
+                if(decide < 0.25){
+                  this.blockB = dirtBlock1;
+                }
+                else if(decide < 0.50){
+                  this.blockB = dirtBlock2;
+                }
+                else if(decide < 0.75){
+                  this.blockB = dirtBlock3;
+                }
+                else{
+                  this.blockB = dirtBlock4;
+                }
+                createBox(i*this.blockB.width, -j*this.blockB.height, 0, this.blockB, this);
             }
         }
         for(var i = -10+j; i < 11-j; i++){
