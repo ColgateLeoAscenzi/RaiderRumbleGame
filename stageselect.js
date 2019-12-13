@@ -1,4 +1,57 @@
 //builds the colgate map with locations to play on
+
+//THIS IS THE STAGE SELECT LOOP
+function stageSelectLoop(){
+  // console.log(selectableStages[0].position.x,selectableStages[0].position.y,selectableStages[0].position.z);
+   stageSelectCamera.lookAt(0,0,0);
+    stageSelectCamera.position.set(0,800,0);
+    // controls.target = selectableStages[0];
+    // controls.autoRotate = true;
+    if(!stageSelected){
+      requestAnimationFrame(stageSelectLoop);
+    }
+    else{
+      initializeWorld();
+    }
+
+  controls.update();
+
+  renderer.render(mapScene, stageSelectCamera);
+
+  raycaster.setFromCamera( mouse, stageSelectCamera );
+
+// calculate objects intersecting the picking ray
+  var intersects = raycaster.intersectObjects(selectableStages);
+
+  if ( intersects.length > 0 ) {
+      if ( HIGHLITED != intersects[ 0 ].object ) {
+          if ( HIGHLITED ) {
+            HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+          }
+          HIGHLITED = intersects[ 0 ].object;
+          HIGHLITED.currentHex = HIGHLITED.material.emissive.getHex();
+          HIGHLITED.material.emissive.setHex(0xff0000);
+          HIGHLITED.material.opacity = 0;
+          currentSpotLight = new THREE.SpotLight(0xff00ff, 0.4);
+          currentSpotLight.angle = radians(30);
+          currentSpotLight.target = HIGHLITED;
+
+          currentSpotLight.position.set(HIGHLITED.position.x, 40, HIGHLITED.position.z);
+          mapScene.add(currentSpotLight);
+          currentLights.push(currentSpotLight);
+      }
+  } else {
+      if ( HIGHLITED ){
+        HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
+        HIGHLITED.material.opacity = 0;
+        mapScene.remove(currentSpotLight);
+      }
+      HIGHLITED = null;
+  }
+
+}
+
+
 function buildStageSelect(){
   mapScene = new THREE.Scene();
   stageSelectLightsDay(mapScene);
