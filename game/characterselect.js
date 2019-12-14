@@ -278,10 +278,11 @@ function updateGrabbedPlayers(){
             if(p1Model.position.y < -25){
                 var p1SelectBox = document.getElementById("p1Select");
                 p1SelectBox.innerHTML = "<div id = 'p1SelectName'>Player 1: "+p1Model.userData.name+"</div>"
-                var player1Img = document.getElementById("player1Img");
-                console.log(player1Img);
-                player1Img.src = "./images/characters/"+p1Model.userData.name+"Small.png"
-                p1SelectBox.appendChild(player1Img);
+                var player1ImgBox = document.createElement("img");
+                player1ImgBox.id = "player1Img";
+                player1ImgBox.src = "./images/characters/"+p1Model.userData.name+"Small.png"
+                player1ImgBox.style.height = "90%";
+                p1SelectBox.appendChild(player1ImgBox);
                 characterSelectScene.remove(p1Model);
                 p1Model = undefined;
             }
@@ -299,10 +300,11 @@ function updateGrabbedPlayers(){
             if(p2Model.position.y < -25){
                 var p2SelectBox = document.getElementById("p2Select");
                 p2SelectBox.innerHTML = "<div id = 'p2SelectName'>Player 2: "+p2Model.userData.name+"</div>"
-                var player2Img = document.getElementById("player2Img");
-                player2Img.src = "./images/characters/"+p2Model.userData.name+"Small.png"
-                player2Img.style.height = "90%";
-                p2SelectBox.appendChild(player2Img);
+                var player2ImgBox = document.createElement("img");
+                player2ImgBox.id = "player2Img";
+                player2ImgBox.src = "./images/characters/"+p2Model.userData.name+"Small.png"
+                player2ImgBox.style.height = "90%";
+                p2SelectBox.appendChild(player2ImgBox);
                 characterSelectScene.remove(p2Model);
                 p2Model = undefined;
             }
