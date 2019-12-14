@@ -3,61 +3,44 @@ function modeSelectLoop(){
       requestAnimationFrame(modeSelectLoop);
     }
     else{
+        var boxVar = document.getElementById("modeContainer");
+        boxVar.parentNode.removeChild(boxVar);
+
+        var container = document.getElementById("container");
+        var webglwindow = document.createElement("div");
+        webglwindow.id = "glcanvas";
+        container.appendChild(webglwindow);
+        
+        createCameraRender();
         buildCharacterSelect();
     }
-
-  renderer.render(modeScene, modeSelectCamera);
-
-  raycaster.setFromCamera( mouse, modeSelectCamera );
-
-// calculate objects intersecting the picking ray
-  var intersects = raycaster.intersectObjects(modeBlocks);
-  if ( intersects.length > 0 ) {
-
-      if ( SELECTEDMODE != intersects[ 0 ].object ) {
-          if ( SELECTEDMODE ) {
-            SELECTEDMODE.material.emissive.setHex( SELECTEDMODE.currentHex );
-          }
-          SELECTEDMODE = intersects[ 0 ].object;
-          SELECTEDMODE.currentHex = SELECTEDMODE.material.emissive.getHex();
-          SELECTEDMODE.material.emissive.setHex(0x333333);
-      }
-  } else {
-      if ( SELECTEDMODE ){
-        SELECTEDMODE.material.emissive.setHex( SELECTEDMODE.currentHex );
-
-      }
-      SELECTEDMODE = null;
-  }
 
 }
 
 function buildModeSelect(){
-  modeScene = new THREE.Scene();
-  modeSelectCamera.position.set(0,0,22);
-  modeSelectCamera.lookAt(0,0,0);
-  sunsetLights(modeScene);
 
-  // //BACKGROUND of map
-  var playGameGeom = new THREE.BoxGeometry(20,20,10,1,1,1);
-  var playGameMat  = new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/menu/playgameButton.png')});
-  var playGameMesh = new THREE.Mesh(playGameGeom, playGameMat);
-  playGameMesh.userData = {mode:"playGame"}
-  modeScene.add(playGameMesh);
-  modeBlocks.push(playGameMesh);
+    var container = document.getElementById("container");
+    var modeCont = document.createElement("div");
+    modeCont.id = "modeContainer";
+    modeCont.innerHTML = "<div id='options'>Options</div>"
+    +"<div id='line'> </div>"
+    +"<div id='play-game'>"
+    +"<div id='play' style='bottom:35%; left:15%;'>Play</div>"
+    +"<div id='game'style='bottom:20%; left:15%;'>Game</div>"
+    +"<div>"
 
-  playGameMesh.position.x -=10;
+    document.body.style.overflow = "hidden";
 
-  var controlsGeom = new THREE.BoxGeometry(20,20,10,1,1,1);
-  var controlsMap  = new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/menu/controlsButton.png')});
-  var controlsMesh = new THREE.Mesh(controlsGeom, controlsMap);
-
-  controlsMesh.userData = {mode:"controls"}
-  modeScene.add(controlsMesh);
-  modeBlocks.push(controlsMesh);
+    container.appendChild(modeCont);
 
 
-  controlsMesh.position.x += 10;
+    var playGame = document.getElementById("play-game");
+    playGame.addEventListener('mousedown', startGame, false);
+
 
   modeSelectLoop();
+}
+
+function startGame(){
+    modeSelected = true;
 }

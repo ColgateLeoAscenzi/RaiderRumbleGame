@@ -9,6 +9,34 @@ body{
 *{
     font-family: "dpcomic";
 }
+#line {
+    width: 200%;
+    height: 100%;
+    left: 0px;
+    bottom:0px;
+    border-bottom: 2px solid black;
+    -webkit-transform:
+        translateY(-20px)
+        translateX(5px)
+        rotate(27deg);
+    position: absolute;
+    background-color: #821019;
+}
+
+#play, #game{
+  font-family: dpcomic;
+  position:absolute;
+  font-size: 150px;
+}
+#options {
+  font-family:dpcomic;
+  font-color:white;
+  font-size:150px;
+  z-index:100;
+  position:absolute;
+  left: 50%;
+  top:20%;
+}
 #timerBox{
     position: absolute;
     text-align: center;

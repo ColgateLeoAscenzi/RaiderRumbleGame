@@ -61,6 +61,8 @@ var controls;
 var selectableStages = [];
 
 var p1SelectorMesh, p2SelectorMesh;
+
+var statsOn;
 //DEBUGGING
 // var stats = new Stats();
 // stats.showPanel(1);
@@ -147,11 +149,6 @@ function createCameraRender() {
   window.addEventListener('mousemove', onMouseMove, false);
   window.addEventListener('mousedown', onMouseDown, false);
 
-  stats = new Stats();
-  stats.domElement.style.position = 'absolute';
-  stats.domElement.style.bottom = '0px';
-  stats.domElement.style.zIndex = 100;
-  container.appendChild(stats.domElement);
 
 }
 
@@ -178,7 +175,9 @@ function loop() {
   doUpdates();
   renderer.render(stage.scene, camera);
   // console.log(renderer.info.memory);
-  stats.update();
+  if(statsOn){
+      stats.update();
+  }
   requestAnimationFrame(loop);
   if(!gameOver){
     if(trackPlayer){
@@ -250,18 +249,8 @@ function doUpdates(){
 
 function initGame() {
 
-  // document.onload = onMouseMove();
-  createCameraRender();
-  stats.begin();
-
   THREEx.FullScreen.bindKey({ charCode : 'l'.charCodeAt(0) });
-
   buildTitleScreen();
-  stats.end();
-  //make a camera and renderer
-  // createCameraRender();
-  //selected a stage!!
-  // initializeWorld();
 
 }
 

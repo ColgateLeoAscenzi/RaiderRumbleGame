@@ -1,19 +1,17 @@
 function titleScreenLoop(){
+
     if(!titleClicked){
       requestAnimationFrame(titleScreenLoop);
     }
     else{
         var boxVar = document.getElementById("mainMenuContainer");
         boxVar.parentNode.removeChild(boxVar);
-        titleScene.dispose();
         buildModeSelect();
     }
 
-      renderer.render(titleScene, camera);
 }
 
 function buildTitleScreen(){
-    titleScene = new THREE.Scene();
 
     var container = document.getElementById("container");
     var mainMenuCont = document.createElement("div");
@@ -39,6 +37,12 @@ function buildTitleScreen(){
      +"</div>"
     container.appendChild(mainMenuCont);
 
-
+    document.onkeydown = handleTitleKeyDown;
   titleScreenLoop();
+}
+
+function handleTitleKeyDown(keyEvent){
+    if(keyEvent.key){
+        titleClicked= true;
+    }
 }
