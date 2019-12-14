@@ -5,15 +5,20 @@ function stageSelectLoop(){
     stageSelectCamera.position.set(0,800,0);
     if(isDay && omegaOn){
         document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Day<br>Mode: Omega";
+        document.getElementById("stageSelectBox").style.color = "black";
     }
     else if(isDay && !omegaOn){
         document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Day<br>Mode: Normal";
+        document.getElementById("stageSelectBox").style.color = "black";
+
     }
     else if(!isDay && omegaOn){
         document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Night<br>Mode: Omega";
+        document.getElementById("stageSelectBox").style.color = "white";
     }
     else{
         document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Night<br>Mode: Normal";
+        document.getElementById("stageSelectBox").style.color = "white";
     }
 
     if(!stageSelected){
