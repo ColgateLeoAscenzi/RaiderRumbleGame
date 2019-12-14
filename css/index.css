@@ -42,13 +42,43 @@ body{
     height: 10%;
 }
 
-#stageSelectBox{
+
+
+
+
+
+
+
+
+
+
+
+/* mobile */
+
+#leftButton{
     position: absolute;
     text-align: center;
-    font-size: 2.5em;
-    background-color: rgba(20,20,20, 0);
-    top: 5%;
-    left: 5%;
-    width: 20%;
-    height: 10%;
+    background-color: rgba(190, 20, 80, 0.2);
+    left: 0px;
+    bottom: 0px;
+    width: 34%;
+    height: 34%;
+}
+#rightButton{
+    position: absolute;
+    text-align: center;
+    background-color: rgba(76, 100, 20, 0.2);
+    right: 0px;
+    bottom: 0px;
+    width: 34%;
+    height: 34%;
+}
+
+#topButton{
+    position: absolute;
+    text-align: center;
+    background-color: rgba(76, 175, 80, 0.2);
+    top: 0px;
+    width: 100%;
+    height: 45%;
 }

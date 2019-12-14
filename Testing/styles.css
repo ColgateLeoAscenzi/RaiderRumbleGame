@@ -10,8 +10,14 @@ body {
 		2px -2px 0 #000,
 		-2px 2px 0 #000,
 		2px 2px 0 #000;
+    overflow: hidden;
+    display:inline;
 }
 
 #title-container{
   background-color: #D2D4D6;
+}
+#raider-rumble{
+  position:absolute;
+  z-index:100;
 }
