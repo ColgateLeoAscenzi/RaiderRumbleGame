@@ -328,17 +328,37 @@ var basicCharacter = {
       if(!this.canAAttack[FA]){
           this.basicAttackFrames-=1;
           //ANIMATIONS GO HERE
+          var c = ((this.basicAttackObj.attackFrames[FA]-this.basicAttackFrames)/this.basicAttackObj.attackFrames[FA]);
+
+          if(!this.facingL){
+            //this.model.position.x =c*2; Camera follws player movements, currently impossible.
+            this.model.torso.leftArm.rotation.z = -45;
+            this.model.torso.rightArm.rotation.z = -45;
+          }
+
+          else{
+            //this.model.position.x = c*2;
+            this.model.torso.rightArm.rotation.z = 45;
+            this.model.torso.leftArm.rotation.z = 45;
+          }
+
 
 
 
           //HITBOX CHECK GOES HERE
-
           if(this.basicAttackFrames <= 0){
+            this.model.torso.leftArm.rotation.z = 0;
+            this.model.torso.rightArm.rotation.z = 0;
+
+            this.model.torso.rightArm.scale.set(1,1,1);
+            this.model.torso.leftArm.scale.set(1,1,1);
+
               this.basicAttackFrames = 25;
               this.canAAttack[FA] = true;
               this.canBasicAttack = true;
               this.otherPlayer.hitByA[FA] = false;
           }
+
       }
 
       if(!this.canAAttack[BA]){
