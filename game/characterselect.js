@@ -70,8 +70,14 @@ function buildCharacterSelect(){
     //add p1 select images
     var charSelect = document.createElement("div");
     charSelect.id = "p"+(i+1)+"Select";
-    charSelect.innerHTML = "Player "+(i+1)+": ?";
+    charSelect.innerHTML = "<div id = 'p1SelectBox'>Player "+(i+1)+": ?</div>";
     charSelectCont.appendChild(charSelect);
+
+    var playerImg = document.createElement("img");
+    playerImg.id = "player"+(i+1)+"Img";
+    playerImg.src = "./images/characters/unselected.png";
+    playerImg.style.height = "90%";
+    charSelect.appendChild(playerImg);
   }
 
   buildSelectors();
@@ -141,7 +147,7 @@ function checkCollision(selector, hitboxArray){
         selector.position.z += 12;
         characterSelectScene.add(p1Model);
         p1Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
-        p1Model.userData = {heldBy: "player1", selected: true, velocity: 0}
+        p1Model.userData = {heldBy: "player1", selected: true, velocity: 0, name:selectedPlayer1.name}
         selector.userData.grabbing = true;
       }
       if(selector.userData.name == "player2"){
@@ -150,7 +156,7 @@ function checkCollision(selector, hitboxArray){
         selector.position.z += 12;
         characterSelectScene.add(p2Model);
         p2Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
-        p2Model.userData = {heldBy: "player2", selected: true, velocity: 0}
+        p2Model.userData = {heldBy: "player2", selected: true, velocity: 0, name:selectedPlayer2.name}
         selector.userData.grabbing = true;
       }
     }
@@ -270,6 +276,12 @@ function updateGrabbedPlayers(){
     if(p1Model != undefined){
         if(p1Model.userData.selected == false){
             if(p1Model.position.y < -25){
+                var p1SelectBox = document.getElementById("p1Select");
+                p1SelectBox.innerHTML = "<div id = 'p1SelectName'>Player 1: "+p1Model.userData.name+"</div>"
+                var player1Img = document.getElementById("player1Img");
+                console.log(player1Img);
+                player1Img.src = "./images/characters/"+p1Model.userData.name+"Small.png"
+                p1SelectBox.appendChild(player1Img);
                 characterSelectScene.remove(p1Model);
                 p1Model = undefined;
             }
@@ -285,6 +297,12 @@ function updateGrabbedPlayers(){
     if(p2Model != undefined){
         if(p2Model.userData.selected == false){
             if(p2Model.position.y < -25){
+                var p2SelectBox = document.getElementById("p2Select");
+                p2SelectBox.innerHTML = "<div id = 'p2SelectName'>Player 2: "+p2Model.userData.name+"</div>"
+                var player2Img = document.getElementById("player2Img");
+                player2Img.src = "./images/characters/"+p2Model.userData.name+"Small.png"
+                player2Img.style.height = "90%";
+                p2SelectBox.appendChild(player2Img);
                 characterSelectScene.remove(p2Model);
                 p2Model = undefined;
             }
