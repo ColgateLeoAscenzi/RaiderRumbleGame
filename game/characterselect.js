@@ -126,13 +126,18 @@ function checkCollision(selector, hitboxArray){
       if(selector.userData.name == "player1"){
         selectedPlayer1 = hitboxArray[i].userData.character;
         p1Model = selectedPlayer1.model.clone();
-        selector.position.z += 10;
+        selector.position.z += 12;
         characterSelectScene.add(p1Model);
-        p1Model.position.set(selector.position.x, selector.position.y, selector.position.z-2);
+        p1Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
+        p1Model.userData = {heldBy: "player1", selected: true}
       }
       if(selector.userData.name == "player2"){
         selectedPlayer2 = hitboxArray[i].userData.character;
         p2Model = selectedPlayer2.model.clone();
+        selector.position.z += 12;
+        characterSelectScene.add(p2Model);
+        p2Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
+        p2Model.userData = {heldBy: "player2", selected: true}
       }
     }
 
@@ -179,21 +184,33 @@ function updatePositions(){
   if(heldDown2.left){
     if(p2SelectorMesh.position.x -1 > -112){
       p2SelectorMesh.position.x -=1;
+      if(p2Model != undefined){
+        p2Model.position.x-=1;
+      }
     }
   }
   if(heldDown2.right){
     if(p2SelectorMesh.position.x + 1 < 112){
       p2SelectorMesh.position.x +=1;
+      if(p2Model != undefined){
+        p2Model.position.x+=1;
+      }
     }
   }
   if(heldDown2.up){
     if(p2SelectorMesh.position.y + 1 < 55){
       p2SelectorMesh.position.y +=1;
+      if(p2Model != undefined){
+        p2Model.position.y+=1;
+      }
     }
   }
   if(heldDown2.down){
     if(p2SelectorMesh.position.y - 1 > -21){
       p2SelectorMesh.position.y -=1;
+      if(p2Model != undefined){
+        p2Model.position.y-=1;
+      }
     }
   }
 
