@@ -328,7 +328,6 @@ var basicCharacter = {
       if(!this.canAAttack[FA]){
           this.basicAttackFrames-=1;
           //ANIMATIONS GO HERE
-          this.model.torso.rightArm
 
           //HITBOX CHECK GOES HERE
 
@@ -362,8 +361,15 @@ var basicCharacter = {
 
       if(!this.canAAttack[UA]){
           this.basicAttackFrames-=1;
+          var c = (this.basicAttackObj.attackFrames[UA]-this.basicAttackFrames)/(this.basicAttackObj.attackFrames[UA])
+
+          this.model.hat.position.y += 1;
+          this.model.hat.rotation.y = c*8;
+
           if(this.basicAttackFrames <= 0){
-              this.basicAttackFrames = 25;
+              this.basicAttackFrames = 25; //def change length.
+              this.model.hat.position.y = 8;
+              this.model.hat.rotation.y = 0;
               this.canAAttack[UA] = true;
               this.canBasicAttack = true;
               this.otherPlayer.hitByA[UA] = false;
@@ -393,7 +399,6 @@ var basicCharacter = {
 
       if(!this.canBAttack[SS]){
         this.basicAttackFrames-=1;
-
         if(this.basicAttackFrames == this.specialAttackObj.attackFrames[SS] - 1 && !this.isRecover){
           if(this.facingL) {
             this.specialAttackObj.castedRight = false;
