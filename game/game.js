@@ -14,6 +14,7 @@ var camera, fieldOfView, aspectRatio, nearPlane, farPlane,
 var characterSelectCamera;
 var stage;
 
+var numPlayers = 2;
 var omegaOn = false;
 var isDay = true;
 

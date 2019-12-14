@@ -5,14 +5,24 @@ var charSelectHitboxes = [];
 var selectableChars = [];
 var p1Model, p2Model;
 
+var gravity = 2;
+
 function characterSelectLoop(){
 
     updatePositions();
+
+    updateGrabbedPlayers()
 
     if(!charactersSelected){
       requestAnimationFrame(characterSelectLoop);
     }
     else{
+        document.onkeydown = handleMapKeyDown;
+        document.onkeyup = handleMapKeyUp;
+
+        var boxVar = document.getElementById("pSelectContainer");
+        boxVar.parentNode.removeChild(boxVar);
+
         buildStageSelect();
     }
 
@@ -20,10 +30,10 @@ function characterSelectLoop(){
 }
 
 function buildCharacterSelect(){
-  var characters = [basicCharacter, pingu];
+  var characters = [raider, pingu];
 
   characterSelectScene = new THREE.Scene();
-  characterSelectCamera.position.set(0,50,250);
+  characterSelectCamera.position.set(0,55,250);
   characterSelectCamera.lookAt(0,0,0);
   noonLights(characterSelectScene);
 
@@ -60,7 +70,7 @@ function buildCharacterSelect(){
     //add p1 select images
     var charSelect = document.createElement("div");
     charSelect.id = "p"+(i+1)+"Select";
-    charSelect.innerHTML = "Player "+(i+1)+": "+characters[i].name;
+    charSelect.innerHTML = "Player "+(i+1)+": ?";
     charSelectCont.appendChild(charSelect);
   }
 
@@ -76,7 +86,7 @@ function buildSelectors(){
     var p1SelectorGeom = new THREE.CylinderGeometry(3,3,1, 19);
     var p1SelectorMat = new THREE.MeshPhongMaterial({ map: new THREE.TextureLoader().load('images/menu/player1Selector.jpg')});
     p1SelectorMesh = new THREE.Mesh(p1SelectorGeom,p1SelectorMat);
-    p1SelectorMesh.userData = {name:  "player1"}
+    p1SelectorMesh.userData = {name:  "player1", grabbing: false}
     characterSelectScene.add(p1SelectorMesh);
 
     p1SelectorMesh.position.set(-93,40,7);
@@ -85,7 +95,7 @@ function buildSelectors(){
     var p2SelectorGeom = new THREE.CylinderGeometry(3,3,1, 19);
     var p2SelectorMat = new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/menu/player2Selector.jpg')});
     p2SelectorMesh = new THREE.Mesh(p2SelectorGeom,p2SelectorMat);
-    p2SelectorMesh.userData = {name:  "player2"}
+    p2SelectorMesh.userData = {name:  "player2", grabbing: false}
     characterSelectScene.add(p2SelectorMesh);
 
     p2SelectorMesh.position.set(-63,40,6);
@@ -98,15 +108,14 @@ function buildCapture(){
   var p1CaptureMesh = new THREE.Mesh(p1CaptureGeom,p1CaptureMat);
 
   characterSelectScene.add(p1CaptureMesh);
-  p1CaptureMesh.position.set(-53,-20,0);
+  p1CaptureMesh.position.set(-53,-20,10);
 
   var p2CaptureGeom = new THREE.BoxGeometry(100,5,10);
   var p2CaptureMat = new THREE.MeshPhongMaterial({color:0xb60e16});
   var p2CaptureMesh = new THREE.Mesh(p2CaptureGeom,p2CaptureMat);
 
   characterSelectScene.add(p2CaptureMesh);
-  p2CaptureMesh.position.set(56,-20,0);
-
+  p2CaptureMesh.position.set(56,-20,10);
 
 }
 
@@ -118,7 +127,10 @@ function checkCollision(selector, hitboxArray){
   var bbox = new THREE.BoxHelper(selector, 0xff0000);
   var selectorHit = new THREE.Box3().setFromObject(bbox);
 
+  console.log(bbox);
+  console.log(selectorHit);
   for(var i = 0; i < hitboxArray.length; i++){
+
     var bboxHit = new THREE.BoxHelper(hitboxArray[i], 0xff0000);
     var hitBoxHit = new THREE.Box3().setFromObject(bboxHit);
 
@@ -129,7 +141,8 @@ function checkCollision(selector, hitboxArray){
         selector.position.z += 12;
         characterSelectScene.add(p1Model);
         p1Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
-        p1Model.userData = {heldBy: "player1", selected: true}
+        p1Model.userData = {heldBy: "player1", selected: true, velocity: 0}
+        selector.userData.grabbing = true;
       }
       if(selector.userData.name == "player2"){
         selectedPlayer2 = hitboxArray[i].userData.character;
@@ -137,11 +150,32 @@ function checkCollision(selector, hitboxArray){
         selector.position.z += 12;
         characterSelectScene.add(p2Model);
         p2Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
-        p2Model.userData = {heldBy: "player2", selected: true}
+        p2Model.userData = {heldBy: "player2", selected: true, velocity: 0}
+        selector.userData.grabbing = true;
       }
     }
 
+
   }
+
+}
+
+function dropPlayer(selector, playerClone){
+    selector.userData.grabbing = false;
+    playerClone.userData.heldBy = "";
+    playerClone.userData.selected = false;
+
+    if(selector.userData.name == "player1"){
+        if(playerClone.position.x < 0){
+            p1InPosition = true;
+        }
+    }
+    else{
+        if(playerClone.position.x > 0){
+            p2InPosition = true;
+        }
+    }
+    selector.position.z -= 12;
 
 }
 
@@ -152,7 +186,9 @@ function updatePositions(){
     if(p1SelectorMesh.position.x -1 > -112){
       p1SelectorMesh.position.x -=1;
       if(p1Model != undefined){
-        p1Model.position.x-=1;
+          if(p1Model.userData.heldBy != ""){
+              p1Model.position.x-=1;
+          }
       }
     }
   }
@@ -160,7 +196,9 @@ function updatePositions(){
     if(p1SelectorMesh.position.x + 1 < 112){
       p1SelectorMesh.position.x +=1;
       if(p1Model != undefined){
-        p1Model.position.x+=1;
+          if(p1Model.userData.heldBy != ""){
+              p1Model.position.x+=1;
+          }
       }
     }
   }
@@ -168,7 +206,9 @@ function updatePositions(){
     if(p1SelectorMesh.position.y + 1 < 55){
       p1SelectorMesh.position.y +=1;
       if(p1Model != undefined){
-        p1Model.position.y+=1;
+          if(p1Model.userData.heldBy != ""){
+              p1Model.position.y+=1;
+          }
       }
     }
   }
@@ -176,7 +216,9 @@ function updatePositions(){
     if(p1SelectorMesh.position.y - 1 > -21){
       p1SelectorMesh.position.y -=1;
       if(p1Model != undefined){
-        p1Model.position.y-=1;
+          if(p1Model.userData.heldBy != ""){
+              p1Model.position.y-=1;
+          }
       }
     }
   }
@@ -185,7 +227,9 @@ function updatePositions(){
     if(p2SelectorMesh.position.x -1 > -112){
       p2SelectorMesh.position.x -=1;
       if(p2Model != undefined){
-        p2Model.position.x-=1;
+          if(p2Model.userData.heldBy != ""){
+              p2Model.position.x-=1;
+          }
       }
     }
   }
@@ -193,7 +237,9 @@ function updatePositions(){
     if(p2SelectorMesh.position.x + 1 < 112){
       p2SelectorMesh.position.x +=1;
       if(p2Model != undefined){
-        p2Model.position.x+=1;
+          if(p2Model.userData.heldBy != ""){
+              p2Model.position.x+=1;
+          }
       }
     }
   }
@@ -201,7 +247,9 @@ function updatePositions(){
     if(p2SelectorMesh.position.y + 1 < 55){
       p2SelectorMesh.position.y +=1;
       if(p2Model != undefined){
-        p2Model.position.y+=1;
+          if(p2Model.userData.heldBy != ""){
+              p2Model.position.y+=1;
+          }
       }
     }
   }
@@ -209,11 +257,45 @@ function updatePositions(){
     if(p2SelectorMesh.position.y - 1 > -21){
       p2SelectorMesh.position.y -=1;
       if(p2Model != undefined){
-        p2Model.position.y-=1;
+          if(p2Model.userData.heldBy != ""){
+              p2Model.position.y-=1;
+          }
       }
     }
   }
 
+}
+
+function updateGrabbedPlayers(){
+    if(p1Model != undefined){
+        if(p1Model.userData.selected == false){
+            if(p1Model.position.y < -25){
+                characterSelectScene.remove(p1Model);
+                p1Model = undefined;
+            }
+            else{
+                p1Model.position.y -= p1Model.userData.velocity;
+                if(p1Model.userData.velocity < gravity){
+                    p1Model.userData.velocity += 0.1;
+                }
+            }
+        }
+    }
+
+    if(p2Model != undefined){
+        if(p2Model.userData.selected == false){
+            if(p2Model.position.y < -25){
+                characterSelectScene.remove(p2Model);
+                p2Model = undefined;
+            }
+            else{
+                p2Model.position.y -= p2Model.userData.velocity;
+                if(p2Model.userData.velocity < gravity){
+                    p2Model.userData.velocity += 0.1;
+                }
+            }
+        }
+    }
 }
 
 function handleCharSelKeyDown(keyEvent){
@@ -230,7 +312,12 @@ function handleCharSelKeyDown(keyEvent){
     heldDown1.up = true;
   }
   if(keyEvent.key == "j"){
-    checkCollision(p1SelectorMesh, charSelectHitboxes);
+      if(!p1SelectorMesh.userData.grabbing){
+          checkCollision(p1SelectorMesh, charSelectHitboxes);
+      }
+      else{
+          dropPlayer(p1SelectorMesh, p1Model);
+      }
   }
 
   if(keyEvent.key == "ArrowLeft"){
@@ -246,12 +333,18 @@ function handleCharSelKeyDown(keyEvent){
     heldDown2.up = true;
   }
   if(keyEvent.key == "1"){
-    checkCollision(p2SelectorMesh, charSelectHitboxes);
+      if(!p2SelectorMesh.userData.grabbing){
+          checkCollision(p2SelectorMesh, charSelectHitboxes);
+      }
+      else{
+          dropPlayer(p2SelectorMesh, p2Model);
+      }
   }
 
   if(keyEvent.key == " "){
     if(selectedPlayer1!= undefined && selectedPlayer2 !=undefined){
       if(p1InPosition && p2InPosition){
+          charactersSelected = true;
       }
     }
   }

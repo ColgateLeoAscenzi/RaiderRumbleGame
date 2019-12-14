@@ -3,8 +3,7 @@ function modeSelectLoop(){
       requestAnimationFrame(modeSelectLoop);
     }
     else{
-        document.onkeydown = handleMapKeyDown;
-        document.onkeyup = handleMapKeyUp;
+
         buildCharacterSelect();
     }
 

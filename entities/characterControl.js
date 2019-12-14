@@ -1,6 +1,6 @@
 var RESET = false;
 var ATTACK = true;
-var basicCharacter = {
+var raider = {
     name: "Raider",
     model: createBasicCharacterMesh(0,0,0),
     secondRaider: createBasicCharacterMesh(0,0,0).torso.rightArm.rightHand.coin,
@@ -16,8 +16,6 @@ var basicCharacter = {
             this[keys[i]] = charProto[keys[i]];
         }
         //spawn location
-        this.x = -10;
-        this.y = 10;
         this.name = "Raider"
 
         stage.scene.add(this.secondRaider);
@@ -29,6 +27,17 @@ var basicCharacter = {
         this.basicAttackObj = raiderBasic;
         this.specialAttackObj = raiderSpecial;
         this.damageDeal = 0;
+
+        if(this.isPlayer1){
+            this.x = stage.player1SpawnX;
+            this.y = stage.player1SpawnY;
+            this.z = stage.player1SpawnZ;
+        }
+        else{
+            this.x = stage.player2SpawnX;
+            this.y = stage.player2SpawnY;
+            this.z = stage.player2SpawnZ;
+        }
 
 
     },

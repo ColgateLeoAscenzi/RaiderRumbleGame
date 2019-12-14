@@ -16,9 +16,7 @@ var pingu = {
         for(var i = 0; i < keys.length; i++){
             this[keys[i]] = charProto[keys[i]];
         }
-        //spawn location
-        this.x = 10;
-        this.y = 10;
+
         this.name = "Pingu";
         stage.scene.add(this.secondary);
         this.hearts = createHearts(stage, stage.maximumX + 300, stage.maximumY + 300, 0);
@@ -30,6 +28,17 @@ var pingu = {
 
         this.basicAttackObj = pinguBasic;
         this.specialAttackObj = pinguSpecial;
+
+        if(this.isPlayer1){
+            this.x = stage.player1SpawnX;
+            this.y = stage.player1SpawnY;
+            this.z = stage.player1SpawnZ;
+        }
+        else{
+            this.x = stage.player2SpawnX;
+            this.y = stage.player2SpawnY;
+            this.z = stage.player2SpawnZ;
+        }
 
 
 
@@ -147,8 +156,8 @@ var pingu = {
           this.hitBox.position.set(1000,1000,0);
         }
         else{
-          this.model.position.set(this.x, this.y, 0);
-          this.hitBox.position.set(this.x, this.y+2, 0);
+          this.model.position.set(this.x, this.y, this.z);
+          this.hitBox.position.set(this.x, this.y+2, this.z);
         }
 
         if(this.y > this.minDown){
