@@ -9,6 +9,12 @@ body{
 *{
     font-family: "dpcomic";
 }
+
+#start{
+  animation:fading 2s infinite;}
+@keyframes
+fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+
 #line {
     width: 200%;
     height: 100%;
