@@ -29,6 +29,9 @@ var pingu = {
         this.basicAttackObj = pinguBasic;
         this.specialAttackObj = pinguSpecial;
 
+
+    },
+    setSpawn: function(){
         if(this.isPlayer1){
             this.x = stage.player1SpawnX;
             this.y = stage.player1SpawnY;
@@ -39,9 +42,6 @@ var pingu = {
             this.y = stage.player2SpawnY;
             this.z = stage.player2SpawnZ;
         }
-
-
-
     },
     update: function(){
       this.hitbbox = new THREE.Box3().setFromObject(this.hitBox);

@@ -28,6 +28,10 @@ var raider = {
         this.specialAttackObj = raiderSpecial;
         this.damageDeal = 0;
 
+
+
+    },
+    setSpawn: function(){
         if(this.isPlayer1){
             this.x = stage.player1SpawnX;
             this.y = stage.player1SpawnY;
@@ -38,8 +42,6 @@ var raider = {
             this.y = stage.player2SpawnY;
             this.z = stage.player2SpawnZ;
         }
-
-
     },
     update: function(){
       //stage.p1spot.position.set(this.x,this.y+50, 10);

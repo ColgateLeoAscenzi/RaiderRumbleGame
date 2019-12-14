@@ -42,11 +42,13 @@ var stageB= {
             this.populateScene();
         }
         this.player1 = selectedPlayer1;
-        this.player1.isPlayer1 = true;
         this.player1.init();
+        this.player1.isPlayer1 = true;
+        this.player1.setSpawn();
         this.player2 = selectedPlayer2;
-        this.player2.isPlayer1 = false;
         this.player2.init();
+        this.player2.setSpawn();
+        this.player2.isPlayer1 = false;
         createPlayer1(this.player1SpawnX, this.player1SpawnY, this.player1SpawnZ, this);
         createPlayer2(this.player2SpawnX, this.player2SpawnX, this.player2SpawnZ, this);
 
