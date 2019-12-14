@@ -32,6 +32,12 @@ var stageA = {
         this.maximumY = 280,
         this.minimumX = -300,
         this.maximumX = 300,
+        this.player1SpawnX = -10;
+        this.player1SpawnY = 10;
+        this.player1SpawnZ = 0;
+        this.player2SpawnX = 10;
+        this.player2SpawnY = 10;
+        this.player2SpawnZ = 0;
         this.createScene();
         if(omegaOn){
             this.populateOmega();
@@ -39,12 +45,16 @@ var stageA = {
         else{
             this.populateScene();
         }
-        this.player1 = basicCharacter;
+        this.player1 = selectedPlayer1;
+        this.player1.isPlayer1 = true;
         this.player1.init();
-        this.player2 = pingu;
+        this.player2 = selectedPlayer2;
+        this.player2.isPlayer1 = false;
         this.player2.init();
-        createPlayer1(0, 10, 0, this);
-        createPlayer2(0, 10, 0, this);
+        createPlayer1(this.player1SpawnX, this.player1SpawnY, this.player1SpawnZ, this);
+        createPlayer2(this.player2SpawnX, this.player2SpawnX, this.player2SpawnZ, this);
+
+
         this.player1.otherPlayer = this.player2;
         this.player2.otherPlayer = this.player1;
         this.player1.hitbbox = new THREE.Box3().setFromObject(this.player1.hitBox);
@@ -219,7 +229,7 @@ var stageA = {
                                       stockString1+"</div>" + "<div id ='player1Percent' style = 'color: "+color+";'>"+this.player1.percentage +"%</div>";
           }
           else{
-            player2Box.innerHTML = "<div id = 'player2Name'>"+this.player1.name+ "</div>" + "<div id = 'player2Stock'"+
+            player2Box.innerHTML = "<div id = 'player2Name'>"+this.player2.name+ "</div>" + "<div id = 'player2Stock'"+
                                       stockString2+"</div>" + "<div id ='player2Percent' style = 'color: "+color+";'>"+this.player2.percentage +"%</div>";
           }
 
