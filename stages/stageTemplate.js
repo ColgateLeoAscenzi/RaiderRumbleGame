@@ -24,7 +24,13 @@ var stageProto = {
     timer: 0,
     timerIncrement: 0,
     maxTime: 120,
-    skyBoxURL: ""
+    skyBoxURL: "",
+    player1SpawnX: -10,
+    player1SpawnY: 20,
+    player1SpawnZ: 0,
+    player2SpawnX: 10,
+    player2SpawnY: 20,
+    player2SpawnZ: 0
 }
 
 function createBox(x, y, z, blockType, stageRef) {

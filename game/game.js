@@ -11,19 +11,26 @@ var Colors = {
 
 var camera, fieldOfView, aspectRatio, nearPlane, farPlane,
     renderer, container;
-
+var characterSelectCamera;
 var stage;
 
+var numPlayers = 2;
 var omegaOn = false;
 var isDay = true;
 
 var HIGHLITED;
+var SELECTEDMODE;
+var CURRENTCHAR;
 
 var titleClicked = false;
 var modeSelected = false;
 var stageSelected = false;
 var charactersSelected = false;
 var selectedStage;
+
+var selectedPlayer1, selectedPlayer2;
+var p1InPosition = false
+var p2InPosition = false;
 
 var selectingTitle = true;
 
@@ -39,7 +46,7 @@ var gameStarted = false;
 var countDown = false;
 var winner = -1;
 
-var mapScene;
+var titleScene,modeScene, characterSelectScene, mapScene;
 
 var selectedStageDat;
 
@@ -53,16 +60,13 @@ var controls;
 
 var selectableStages = [];
 
-
+var p1SelectorMesh, p2SelectorMesh;
 //DEBUGGING
 // var stats = new Stats();
 // stats.showPanel(1);
 // document.body.appendChild(stats.dom);
 var stats;
 
-var SELECTEDMODE;
-var modeScene;
-var titleScene;
 
 var modes = ["normal", "options"];
 var modeBlocks = [];
@@ -121,6 +125,13 @@ function createCameraRender() {
       farPlane
     );
 
+  characterSelectCamera = new THREE.PerspectiveCamera(
+      25,
+      aspectRatio,
+      nearPlane,
+      farPlane
+    );
+
 
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -149,11 +160,16 @@ function createCameraRender() {
 function handleWindowResize() {
   HEIGHT = window.innerHeight-20;
   WIDTH = window.innerWidth-20;
+
   renderer.setSize(WIDTH, HEIGHT);
   camera.aspect = WIDTH / HEIGHT;
   camera.updateProjectionMatrix();
+
   stageSelectCamera.aspect = WIDTH / HEIGHT;
   stageSelectCamera.updateProjectionMatrix();
+
+  characterSelectCamera.aspect = WIDTH / HEIGHT;
+  characterSelectCamera.updateProjectionMatrix();
 }
 
 
