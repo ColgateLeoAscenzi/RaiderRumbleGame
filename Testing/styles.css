@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'dpcomic';
-  src: url('./font-awesome/fonts/dpcomic.ttf');
+  src: url('../font-awesome/fonts/dpcomic.ttf');
 }
 
 body {
