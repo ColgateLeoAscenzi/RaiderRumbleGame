@@ -329,6 +329,8 @@ var basicCharacter = {
           this.basicAttackFrames-=1;
           //ANIMATIONS GO HERE
 
+
+
           //HITBOX CHECK GOES HERE
 
           if(this.basicAttackFrames <= 0){
@@ -351,8 +353,16 @@ var basicCharacter = {
 
       if(!this.canAAttack[DA]){
           this.basicAttackFrames-=1;
+
+          var cD = (this.basicAttackObj.attackFrames[DA]-this.basicAttackFrames)/(this.basicAttackObj.attackFrames[DA]);
+
+          this.model.rotation.x = 90;
+          this.model.rotation.y = cD*12;
+
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
+              this.model.rotation.x = 0;
+              this.model.rotation.y = 0;
               this.canAAttack[DA] = true;
               this.canBasicAttack = true;
               this.otherPlayer.hitByA[DA] = false;
@@ -361,7 +371,7 @@ var basicCharacter = {
 
       if(!this.canAAttack[UA]){
           this.basicAttackFrames-=1;
-          var c = (this.basicAttackObj.attackFrames[UA]-this.basicAttackFrames)/(this.basicAttackObj.attackFrames[UA])
+          var c = (this.basicAttackObj.attackFrames[UA]-this.basicAttackFrames)/(this.basicAttackObj.attackFrames[UA]);
 
           this.model.hat.position.y += 1;
           this.model.hat.rotation.y = c*8;
