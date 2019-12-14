@@ -8,7 +8,7 @@ var starColors = {
 
 function noonLights(scene) {
     // Create the Skybox
-  var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
+  var geomBox = new THREE.BoxBufferGeometry(10000, 10000, 10000, 10, 10, 10);
   var matBox  = new THREE.MeshBasicMaterial(
                              { color : 0x87ceeb});
   var box = new THREE.Mesh(geomBox, matBox);
@@ -24,7 +24,7 @@ function noonLights(scene) {
 
 function sunsetLights(scene, skyboxTexture) {
     // Create the Skybox
-  var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
+  var geomBox = new THREE.BoxBufferGeometry(10000, 10000, 10000, 10, 10, 10);
 
 
   if(skyboxTexture == ""){
@@ -97,7 +97,7 @@ function nightLights(scene) {
 
   stage.night = true;
 
-  var geomBox = new THREE.BoxGeometry(10000, 10000, 10000, 10, 10, 10);
+  var geomBox = new THREE.BoxBufferGeometry(10000, 10000, 10000, 10, 10, 10);
   var matBox  = new THREE.MeshLambertMaterial(
                              { color : 0x000000});
   var box = new THREE.Mesh(geomBox, matBox);
@@ -129,7 +129,7 @@ function nightLights(scene) {
 
 
     var starShape = new THREE.Mesh(
-      new THREE.SphereGeometry( 1, 1, 1 ),
+      new THREE.SphereBufferGeometry( 1, 1, 1 ),
       new THREE.MeshBasicMaterial( { color: starColor } )
     );
 
@@ -147,7 +147,7 @@ function nightLights(scene) {
 function createFollowSpotlights() {
 
   var stageCover = new THREE.Mesh(
-    new THREE.PlaneGeometry( 1000, 1000),
+    new THREE.PlaneBufferGeometry( 1000, 1000),
     new THREE.MeshPhongMaterial( { color: 0xdddddd, opacity: 0.1, transparent: true,
     side: THREE.DoubleSide } )
   );
@@ -156,7 +156,7 @@ function createFollowSpotlights() {
 
 
   var player1_spotlight_target = new THREE.Mesh(
-    new THREE.PlaneGeometry( 1, 1),
+    new THREE.PlaneBufferGeometry( 1, 1),
     new THREE.MeshLambertMaterial( { color: 0xdddddd, opacity: 0.01, transparent: true,
     side: THREE.DoubleSide } )
   );
@@ -181,7 +181,7 @@ function createFollowSpotlights() {
 
 
   var player2_spotlight_target = new THREE.Mesh(
-    new THREE.PlaneGeometry( 1, 1),
+    new THREE.PlaneBufferGeometry( 1, 1),
     new THREE.MeshLambertMaterial( { color: 0xdddddd, opacity: 0.01, transparent: true,
     side: THREE.DoubleSide } )
   );

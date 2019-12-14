@@ -191,6 +191,7 @@ function loop() {
       if(camera.position.y > 100){
           camera.position.y = 100;
       }
+
     }
   }
   else{
@@ -227,6 +228,7 @@ function doUpdates(){
       stage.player2.animate();
 
     stage.update();
+
 }
 
 

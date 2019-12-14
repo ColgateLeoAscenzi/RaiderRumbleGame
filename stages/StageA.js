@@ -75,6 +75,8 @@ var stageA = {
         //sunsetLights(this.scene);
 
         // noonLights(this.scene);
+        // generateSnow();
+        //nightLights(this.scene);
 
     },
     populateScene: function(){
@@ -163,6 +165,7 @@ var stageA = {
             for(var i = 0; i < this.stageBlocks.length; i++){
                 this.stageBlocks[i].update();
             }
+            //rotateSnow();
             if(this.maxTime - Math.floor(this.timer/75) == 0){
                 gameOver = true;
             }
