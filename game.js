@@ -37,6 +37,7 @@ var mapScene;
 
 var selectedStageDat;
 
+var statsOn = false;
 //TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
@@ -99,11 +100,7 @@ function createCameraRender() {
   window.addEventListener('mousemove', onMouseMove, false);
   window.addEventListener('mousedown', onMouseDown, false);
 
-  stats = new Stats();
-  stats.domElement.style.position = 'absolute';
-  stats.domElement.style.bottom = '0px';
-  stats.domElement.style.zIndex = 100;
-  container.appendChild(stats.domElement);
+
 
 }
 
@@ -126,7 +123,9 @@ function loop() {
   doUpdates();
   renderer.render(stage.scene, camera);
   // console.log(renderer.info.memory);
-  stats.update();
+  if(statsOn){
+      stats.update();
+  }
   requestAnimationFrame(loop);
   if(!gameOver){
     if(trackPlayer){
@@ -224,14 +223,12 @@ function initGame() {
 
   // document.onload = onMouseMove();
   createCameraRender();
-  stats.begin();
 
   controls = new THREE.OrbitControls(camera, renderer.domElement );
   THREEx.FullScreen.bindKey({ charCode : 'l'.charCodeAt(0) });
 
   buildStageSelect();
   stageSelectLoop();
-  stats.end();
   //make a camera and renderer
   // createCameraRender();
   //selected a stage!!

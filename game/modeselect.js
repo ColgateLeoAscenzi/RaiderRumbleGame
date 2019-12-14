@@ -3,7 +3,6 @@ function modeSelectLoop(){
       requestAnimationFrame(modeSelectLoop);
     }
     else{
-
         buildCharacterSelect();
     }
 

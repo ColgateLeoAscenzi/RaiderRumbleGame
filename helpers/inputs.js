@@ -81,6 +81,24 @@ function handleKeyDown(keyEvent){
        }
    }
 
+   if(keyEvent.key == "."){
+       if(statsOn){
+           var boxVar = document.getElementById("stats");
+           boxVar.parentNode.removeChild(boxVar);
+           stats.end();
+       }
+       else{
+           stats = new Stats();
+           stats.domElement.style.position = 'absolute';
+           stats.domElement.style.bottom = '0px';
+           stats.domElement.style.zIndex = 100;
+           stats.domElement.id = "stats";
+           container.appendChild(stats.domElement);
+           stats.begin();
+       }
+       statsOn = !statsOn;
+   }
+
    if(keyEvent.key == "p"){
      if(trackPlayer){
        trackPlayer = false;
@@ -224,7 +242,7 @@ function handleMapKeyDown(keyEvent){
     isDay = true;
     removeLights(mapScene);
     stageSelectLightsDay(mapScene);
-    
+
   }
 
   if(keyEvent.key == "ArrowDown"){
