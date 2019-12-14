@@ -8,11 +8,10 @@ var stageA = {
         //THESE VARIABLES NEED TO BE INIT FIRST FOR SOME REASON/
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
         this.bgm = './sounds/My happy song Nicholas w lott.mp3';
-
-
+        this.skyBoxURL = './images/Persson_sunset.png'
 
         this.omega = omegaOn;
-        this.blockA = basicBox;
+        this.blockA = basicBox1;
         this.blockB = dirtBlock1;
         this.blockC = platformBlock;
         this.blockD = grassBox;
@@ -65,7 +64,14 @@ var stageA = {
         // newLight.position.set(0,50,50);
         // this.scene.add(newLight);
 
-
+        if(isDay){
+          sunsetLights(this.scene, this.skyBoxURL);
+          $(document.getElementById("theBody")).css("color","black");
+        }
+        else{
+          nightLights(this.scene);
+          $(document.getElementById("theBody")).css("color","white");
+        }
         //sunsetLights(this.scene);
 
         noonLights(this.scene);
@@ -95,13 +101,39 @@ var stageA = {
               createBox(i*this.blockC.width, this.blockA.height/4, 0, this.blockC, this);
           }
           else{
+            var decide = Math.random();
+            if(decide < 0.25){
+              this.blockA = basicBox1;
+            }
+            else if(decide < 0.50){
+              this.blockA = basicBox2;
+            }
+            else if(decide < 0.75){
+              this.blockA = basicBox3;
+            }
+            else{
+              this.blockA = basicBox4;
+            }
             createBox(i*this.blockA.width, 0, 0, this.blockA, this);
           }
         }
         //create underside out of block b
         for(var j = 1; j< 5; j++ ){
             for(var i = -10+j; i < 11-j; i++){
-                createBox(i*this.blockA.width, -j*this.blockB.height, 0, this.blockB, this);
+                var decide = Math.random();
+                if(decide < 0.25){
+                  this.blockB = dirtBlock1;
+                }
+                else if(decide < 0.50){
+                  this.blockB = dirtBlock2;
+                }
+                else if(decide < 0.75){
+                  this.blockB = dirtBlock3;
+                }
+                else{
+                  this.blockB = dirtBlock4;
+                }
+                createBox(i*this.blockB.width, -j*this.blockB.height, 0, this.blockB, this);
             }
         }
         for(var i = -10+j; i < 11-j; i++){
@@ -155,16 +187,45 @@ var stageA = {
 
         var stockString1 = ""
         for(var i = 0; i < this.player1.stock; i++){
-          stockString1+="<3  "
+          stockString1+="<i class='fas fa-heart' style='color:violet'></i> "
         }
         var stockString2 = ""
         for(var i = 0; i < this.player2.stock; i++){
-          stockString2+="<3  "
+          stockString2+="<i class='fas fa-heart' style='color:violet'></i> "
+        }
+
+        for(var i = 0; i < this.players.length; i++){
+          if(this.players[i].percentage < 40){
+            if(isDay){
+              color = "black:"
+            }
+            else{
+              color = "white";
+            }
+          }
+          else if(this.players[i].percentage < 60){
+            color = "yellow";
+          }
+          else if(this.players[i].percentage < 80){
+            color = "orange";
+          }
+          else{
+            color = "red"
+          }
+
+
+          if(i == 0){
+            player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ "</div>" + "<div id = 'player1Stock'"+
+                                      stockString1+"</div>" + "<div id ='player1Percent' style = 'color: "+color+";'>"+this.player1.percentage +"%</div>";
+          }
+          else{
+            player2Box.innerHTML = "<div id = 'player2Name'>"+this.player1.name+ "</div>" + "<div id = 'player2Stock'"+
+                                      stockString2+"</div>" + "<div id ='player2Percent' style = 'color: "+color+";'>"+this.player2.percentage +"%</div>";
+          }
+
         }
 
 
-        player1Box.innerHTML = this.player1.name+"<br>"+stockString1+"<br>Percent: "+this.player1.percentage;
-        player2Box.innerHTML =  this.player2.name+"<br>"+stockString2+"<br>Percent: "+this.player2.percentage;
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
             gameOver = true;
@@ -201,7 +262,7 @@ var stageA = {
 
         var player1Box = document.createElement("div");
         player1Box.id = "player1Box";
-        player1Box.innerHTML = "Stock: "+this.player1.stock+"<br>Percent: "+this.player1.percentage;
+        player1Box.innerHTML = "Stock: "+this.player1.stock+ "<br>Percent: "+this.player1.percentage;
         container.appendChild(player1Box);
 
         var player2Box = document.createElement("div");
@@ -210,7 +271,6 @@ var stageA = {
         container.appendChild(player2Box);
 
     },
-
     createSpotLights: function(){
       if (this.night) createFollowSpotlights();
     }

@@ -9,7 +9,7 @@ var stageB= {
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
         this.bgm = './sounds/My happy song Nicholas w lott.mp3';
 
-
+        this.skyBoxURL = './images/testbeach1.jpg'
 
         this.omega = omegaOn;
         this.blockA = grassBox;
@@ -46,19 +46,23 @@ var stageB= {
         this.player1.hitbbox = new THREE.Box3().setFromObject(this.player1.hitBox);
         this.player2.hitbbox = new THREE.Box3().setFromObject(this.player2.hitBox);
 
+        this.createSpotLights();
         this.startTimer();
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
     },
     createScene: function(){
         this.scene = new THREE.Scene();
 
-        //cindy model testing white light
-        // var newLight = new THREE.PointLight(0xffffff,1);
-        // newLight.position.set(0,50,50);
-        // this.scene.add(newLight);
+        if(isDay){
+          sunsetLights(this.scene, this.skyBoxURL);
+          $(document.getElementById("theBody")).css("color","black");
 
+        }
+        else{
+          nightLights(this.scene);
+          $(document.getElementById("theBody")).css("color","white");
 
-        sunsetLights(this.scene);
+        }
 
         // noonLights(this.scene);
         // nightLights(this.scene);
@@ -73,8 +77,6 @@ var stageB= {
             }
             if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
 
-                createBox(i*this.blockC.width, this.blockC.height*8, 0, this.blockC, stageB);
-
                 createBox(i*this.blockC.width, this.blockC.height*7, -12, this.blockC, stageB);
             }
             createBox(i*this.blockA.width, 0, 0, this.blockA, stageB);
@@ -86,8 +88,8 @@ var stageB= {
 
         for(var i = -10; i < 11; i++){
           if(i == -10 || i == 10){
-              createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC, stageB);
-              createBox(i*this.blockC.width, this.blockA.height/4, 0, this.blockC, stageB);
+              // createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC, stageB);
+              createBox(i*this.blockC.width, this.blockA.height/4, -12, this.blockC, stageB);
           }
           else{
             createBox(i*this.blockA.width, 0, 0, this.blockA, stageB);
@@ -152,14 +154,35 @@ var stageB= {
 
         var stockString1 = ""
         for(var i = 0; i < this.player1.stock; i++){
-          stockString1+="<3  "
+          stockString1+="<i class='fas fa-heart' style='color:violet'></i> "
         }
         var stockString2 = ""
         for(var i = 0; i < this.player2.stock; i++){
-          stockString2+="<3  "
+          stockString2+="<i class='fas fa-heart' style='color:violet'></i> "
         }
-        player1Box.innerHTML = this.player1.name+"<br>"+stockString1+"<br>Percent: "+this.player1.percentage;
-        player2Box.innerHTML =  this.player2.name+"<br>"+stockString2+"<br>Percent: "+this.player2.percentage;
+        if(this.player1.percentage >= 80) {
+
+          player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ "</div>" + "<div id = 'player1Stock'"+
+                                  stockString1+"</div>" + "<div id ='player1Percent' style = 'color: red;'> Percent: "+this.player1.percentage +"</div>";
+
+        } else {
+
+          player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ "</div>" + "<div id = 'player1Stock'"+
+                                  stockString1+"</div>" + "<div id ='player1Percent'> Percent: "+this.player1.percentage +"</div>";
+
+        }
+
+        if(this.player2.percentage >= 80) {
+
+          player2Box.innerHTML =  "<div id = 'player2Name'>"+ this.player2.name+"</div>"+ "<div id = 'player2Stock'" +
+                                  stockString2+"</div>"+ "<div id= 'player2Percent' style = 'color: red;'> Percent: " +this.player2.percentage + "</div>";
+
+        } else {
+
+          player2Box.innerHTML =  "<div id = 'player2Name'>"+ this.player2.name+"</div>"+ "<div id = 'player2Stock'" +
+                                  stockString2+"</div>"+ "<div id= 'player2Percent'> Percent: " +this.player2.percentage + "</div>";
+
+        }
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
             gameOver = true;
@@ -196,13 +219,16 @@ var stageB= {
 
         var player1Box = document.createElement("div");
         player1Box.id = "player1Box";
-        player1Box.innerHTML = "Stock: "+this.player1.stock+"<br>Percent: "+this.player1.percentage;
+        player1Box.innerHTML = "<div id='player1Stock'>Stock: "+this.player1.stock+ "</div>"+"<div id='player1Percent'>Percent: "+this.player1.percentage +"</div>";
         container.appendChild(player1Box);
 
         var player2Box = document.createElement("div");
         player2Box.id = "player2Box";
-        player2Box.innerHTML = "Stock: "+this.player2.stock+"<br>Percent: "+this.player2.percentage;
+        player2Box.innerHTML = "<div id ='player2Stock'> Stock: "+this.player2.stock+"</div>" +"<div id ='player2Percent'>Percent: "+this.player2.percentage+"</div>";
         container.appendChild(player2Box);
 
+    },
+    createSpotLights: function(){
+      if (this.night) createFollowSpotlights();
     }
 }

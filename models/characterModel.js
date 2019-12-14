@@ -13,7 +13,6 @@ var Colors = {
     pinguOrange: 0xd26617,
     pinguBlack: 0x19181e,
     coinColor: 0xf2be75,
-
 };
 
 function createBasicCharacterMesh(x, y, z) {
@@ -130,7 +129,7 @@ function createBasicCharacterMesh(x, y, z) {
   //create the coin in his hand
   this.mesh.torso.rightArm.rightHand.coin = new THREE.Object3D();
   var coinBox = new THREE.CylinderGeometry(2,2,1, 19);
-  var coinMat = new THREE.MeshPhongMaterial({ color: Colors.coinColor});
+  var coinMat = new THREE.MeshPhongMaterial({ color: Colors.coinColor, map: new THREE.TextureLoader().load('images/slicesToken.jpg')});//load('images/slicesToken.jpg')});'images/flourSaltLogo.png'
 
   var coinBase = new THREE.Mesh(coinBox, coinMat);
   this.mesh.torso.rightArm.rightHand.coin.add(coinBase);
@@ -171,6 +170,22 @@ function createBasicCharacterMesh(x, y, z) {
 
 }
 
+function createCoinMesh(x, y, z, model){
+  this.mesh      = new THREE.Object3D();
+  this.mesh.name = "CoinB";
+
+
+  this.mesh.torso.rightArm.rightHand.coin = new THREE.Object3D();
+  var coinBox = new THREE.CylinderGeometry(2,2,1, 19);
+  var coinMat = new THREE.MeshPhongMaterial({ color: Colors.coinColor});
+
+  var coinBase = new THREE.Mesh(coinBox, coinMat);
+  this.mesh.torso.rightArm.rightHand.coin.add(coinBase);
+  this.mesh.torso.rightArm.rightHand.coin.rotation.set(1.57,0,0);
+  this.mesh.torso.rightArm.rightHand.coin.position.set(-1.0,-0.5,1);
+  this.mesh.torso.rightArm.rightHand.add(this.mesh.torso.rightArm.rightHand.coin);
+}
+
 function createPinguMesh(x, y, z) {
   this.mesh      = new THREE.Object3D();
   this.mesh.name = "Pingu";
@@ -179,6 +194,7 @@ function createPinguMesh(x, y, z) {
   var geomBox = new THREE.BoxGeometry(10, 10, 0.2, 1, 1, 1);
   var matBox  = new THREE.MeshPhongMaterial(
                              { color : Colors.grey})
+
 
   var box = new THREE.Mesh(geomBox, matBox);
 

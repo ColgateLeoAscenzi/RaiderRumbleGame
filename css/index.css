@@ -1,0 +1,54 @@
+body{
+  color: #000000;
+}
+@font-face {
+  font-family: 'dpcomic';
+  src: url('../font-awesome/fonts/dpcomic.ttf');
+}
+
+*{
+    font-family: "dpcomic";
+}
+#timerBox{
+    position: absolute;
+    text-align: center;
+    font-size: 2.5em;
+    background-color: rgba(20,20,20, 0);
+    top: 20%;
+    left: 40%;
+    width: 20%;
+    height: 10%;
+}
+#player1Box{
+    position: absolute;
+    text-align: center;
+    font-size: 2.5em;
+    background-color: rgba(20,20,20, 0);
+    bottom: 20%;
+    left: 10%;
+    width: 20%;
+    height: 10%;
+
+}
+
+#player2Box{
+    position: absolute;
+    text-align: center;
+    font-size: 2.5em;
+    background-color: rgba(20,20,20, 0);
+    bottom: 20%;
+    left: 70%;
+    width: 20%;
+    height: 10%;
+}
+
+#stageSelectBox{
+    position: absolute;
+    text-align: center;
+    font-size: 2.5em;
+    background-color: rgba(20,20,20, 0);
+    top: 5%;
+    left: 5%;
+    width: 20%;
+    height: 10%;
+}

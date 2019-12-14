@@ -1,7 +1,13 @@
 <html>
 <head>
 <title>Raider Rumble</title>
-<link rel=stylesheet href="index.css"/>
+
+<link href="font-awesome/css/fontawesome.css" rel="stylesheet">
+<link href="font-awesome/css/brands.css" rel="stylesheet">
+<link href="font-awesome/css/solid.css" rel="stylesheet">
+<link rel=stylesheet href="css/index.css"/>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="lib/Three.js"></script>
 <script src="lib/three.min.js"></script>
 <script src="lib/jquery-1.9.1.js"></script>
@@ -11,11 +17,12 @@
 <script src="lib/THREEx.WindowResize.js"></script>
 <script src="lib/OrbitControls.js"></script>
 
-<script src="stageselect.js"></script>
-
+<script src="game/mainmenu.js"></script>
+<script src="game/modeselect.js"></script>
+<script src="game/characterselect.js"></script>
+<script src="game/stageselect.js"></script>
 
 <script src="helpers/playerblockcollision.js"></script>
-<script src="helpers/playerplayercollision.js"></script>
 <script src="helpers/maths.js"></script>
 
 <script src="helpers/particles.js"></script>
@@ -43,15 +50,38 @@
 <script src="debugging_tools/stats.min.js"></script>
 
 
-<script src="game.js"></script>
+<script src="game/game.js"></script>
 
 
 
 </head>
-<body onload = "initGame()">
+<body onload = "initGame()" id="theBody">
+
+<!-- <div id="start-screen">
+  <div id="start-title">Raider Rumble</div>
+  <div id="start-click">Click to Play!</div>
+</div>
+
+<div id="instructions-screen">
+  <div id="instructions-text-player1">
+    Player 1 Controls:
+    <br/>
+    The W, A, S, and D keys are used for movement.
+    The J (normal) and K (special) keys are used to attack.
+  </div>
+  <div id="instructions-text-player2">
+    Player 2 Controls:
+    <br/>
+    The <i class="fas fa-arrow-up"></i>, <i class="fas fa-arrow-down"></i>, <i class="fas fa-arrow-left"></i>, and <i class="fas fa-arrow-right"></i> keys are used for movement.
+    The 1 (normal) and 2 (special) keys are used to attack.
+  </div>
+</div> -->
+
+  <!-- <div id="continue">Click To Continue! </div>
+  <div> -->
 
 <div id = container>
-<div  height = 900 width = 1440  id="glcanvas"></div>
+<div id="glcanvas"></div>
 </div>
 
 

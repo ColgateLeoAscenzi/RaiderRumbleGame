@@ -22,25 +22,33 @@ function noonLights(scene) {
 }
 
 
-function sunsetLights(scene) {
+function sunsetLights(scene, skyboxTexture) {
     // Create the Skybox
   var geomBox = new THREE.BoxBufferGeometry(10000, 10000, 10000, 10, 10, 10);
 
 
- var matBox  = new THREE.MeshLambertMaterial(
-                            {color : 0xf6ca97});
-
+  if(skyboxTexture == ""){
+    var matBox  = new THREE.MeshPhongMaterial(
+                               {color : 0xf6ca97,
+                               opacity: 0.8, transparent: true,});
+  }else{
+    var matBox  = new THREE.MeshPhongMaterial(
+                               {color : 0xf6ca97, map: new THREE.TextureLoader().load(skyboxTexture),
+                               opacity: 0.8, transparent: true,});
+  }
 
 
   var box = new THREE.Mesh(geomBox, matBox);
   box.material.side = THREE.BackSide;
+  box.rotation.x = -.22;
+
   scene.add(box);
 
 
 
   //need to add colors to object instead of having them hardcoded
   var ambientLight = new THREE.PointLight(Colors.white, 0.3);
-  ambientLight.position.set(0,0,100);
+  ambientLight.position.set(0,100,100);
   scene.add(ambientLight);
 
    var directLight = new THREE.PointLight(0xfbe8c9, 0.8);
@@ -55,10 +63,35 @@ function sunsetLights(scene) {
    scene.add(ambientLight);
 }
 
+function stageSelectLightsDay(scene) {
 
+   var directLight = new THREE.PointLight(0xffffff, 1.0);
+   directLight.position.set(0, 500, 0);
+   scene.add(directLight);
+   currentLights.push(directLight);
 
+   for(var i = 0; i < selectableStages.length; i++){
+     var blockspotter = new THREE.SpotLight(0xffffff, 0.2);
+     blockspotter.angle = radians(30);
+     blockspotter.target = selectableStages[i];
 
+     blockspotter.position.set(selectableStages[i].position.x, 40, selectableStages[i].position.z);
+     mapScene.add(blockspotter);
+     currentLights.push(blockspotter);
+   }
 
+}
+
+function stageSelectLightsNight(scene) {
+
+  for(var i = 0; i < selectableStages.length; i++){
+    var directLight = new THREE.PointLight(0xffffff, 1);
+    directLight.position.set(selectableStages[i].position.x, 20, selectableStages[i].position.z);
+    scene.add(directLight);
+    currentLights.push(directLight);
+  }
+
+}
 
 function nightLights(scene) {
 
@@ -106,11 +139,10 @@ function nightLights(scene) {
 
     starShape.position.set(x_position, y_position, z_position);
     stage.scene.add(starShape);
+
+
   }
-
 }
-
-
 
 function createFollowSpotlights() {
 
@@ -172,4 +204,12 @@ function createFollowSpotlights() {
   stage.player2SpotTarget = player2_spotlight_target;
 
 
+}
+
+function removeLights(scene){
+  for(var i = 0; i < currentLights.length;i++){
+    scene.remove(currentLights[i]);
+  }
+
+  currentLights = [];
 }
