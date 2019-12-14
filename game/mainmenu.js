@@ -33,7 +33,7 @@ function buildTitleScreen(){
      +"</div>"
      +"<div style='background-color:black; display:block; height: 20%; width: 1000%; position:absolute; bottom:0%;'>"
        +"<div style='color:white; position:relative; bottom: -10%; left: 3%; font-size:50px'> Press any button to start!</div>"
-       +"<div style='color:white; position:relative; bottom: -50%; left:0%;font-size:20px'> Presented by Merge Conflicts Studios</div>"
+       +"<div style='color:white; position:relative; bottom: -50%; left:0%;font-size:20px'> Presented by Merge Conflict Studios</div>"
      +"</div>"
     container.appendChild(mainMenuCont);
 
