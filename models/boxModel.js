@@ -9,7 +9,9 @@ var BlockColors = {
     perssonLightBrown: 0x81715A,
     perssonDarkBrown: 0x4D423D,
     perssonTan:0x997749,
-    perssonGrey: 0x909090
+    perssonGrey: 0x909090,
+    iceBlue: 0xd4f1f9,
+    waterBlue: 0x0077be,
 };
 function createBasicBoxMesh(num){
 
@@ -368,3 +370,39 @@ function createPlatformBoxBounding(){
   return box;
 
 };
+
+function createIceBlockMesh() {
+
+  this.mesh = new THREE.Object3D();
+  this.mesh.name = "iceBlockMesh"
+
+  //Create the ice block
+  var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+  var matBox = new THREE.MeshPhongMaterial({color: BlockColors.iceBlue});
+
+  var box = new THREE.Mesh(geomBox, matBox);
+
+  box.castShadow = true;
+  box.receiveShadow = true;
+  box.userData ={type: "floor", height: 10, width:10};
+
+  return box;
+}
+
+function createWaterBlockMesh() {
+
+  this.mesh = new THREE.Object3D();
+  this.mesh.name = "waterBlockMesh"
+
+  //Create the ice block
+  var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+  var matBox = new THREE.MeshPhongMaterial({color: BlockColors.waterBlue, transparent: true, opacity:0.95});
+
+  var box = new THREE.Mesh(geomBox, matBox);
+
+  box.castShadow = true;
+  box.receiveShadow = true;
+  box.userData ={type: "floor", height: 10, width:10};
+
+  return box;
+}

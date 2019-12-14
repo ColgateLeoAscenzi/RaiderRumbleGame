@@ -18,6 +18,7 @@ function noonLights(scene) {
   var ambientLight = new THREE.AmbientLight(Colors.white, 1);
   scene.add(ambientLight);
 
+
 }
 
 
