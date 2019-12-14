@@ -271,20 +271,6 @@ var basicCharacter = {
                 this.model.torso.leftArm.position.z = 1.5;
                 this.model.torso.leftArm.scale.set(1.5,1.5,1.5);
 
-
-
-
-            // this.model.torso.rightArm.rotation.z = radians(90*c);
-            // this.model.torso.rightArm.rightHand.coin.position.x = c*15;
-            // if(this.basicAttackFrames <= this.basicAttackObj.attackFrames[A]/2){
-            //   this.model.torso.rightArm.rightHand.coin.position.y -= 1;
-            // }
-            // else if (this.basicAttackFrames > this.basicAttackObj.attackFrames[A]/2 && this.basicAttackFrames <= 5.5*this.basicAttackObj.attackFrames[A]/10){
-            //   this.model.torso.rightArm.rightHand.coin.position.x += 1;
-            //   this.model.torso.rightArm.rightHand.coin.position.y -= 1;
-            // }
-            //
-            // this.model.torso.rightArm.rightHand.coin.scale.set(c*3.5,c*3.5,c*3.5);
           }
 
 
@@ -342,6 +328,7 @@ var basicCharacter = {
       if(!this.canAAttack[FA]){
           this.basicAttackFrames-=1;
           //ANIMATIONS GO HERE
+          this.model.torso.rightArm
 
           //HITBOX CHECK GOES HERE
 
