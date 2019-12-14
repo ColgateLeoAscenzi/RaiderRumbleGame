@@ -21,3 +21,8 @@ body {
   position:absolute;
   z-index:100;
 }
+
+#start{
+  animation:fading 2s infinite;}
+@keyframes
+fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
