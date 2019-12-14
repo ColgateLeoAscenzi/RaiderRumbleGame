@@ -393,23 +393,6 @@ var basicCharacter = {
 
       if(!this.canBAttack[SS]){
         this.basicAttackFrames-=1;
-        // coinToss(ATTACK, modelClone);
-
-        //secondRaider(ATTACK, this.model);
-
-        // if(this.basicAttackFrames == this.specialAttackObj.attackFrames[SS] - 1 && !this.isRecover){
-        //   var coinX = this.model.torso.rightArm.rightHand.coin.position.x;
-        //   var coinY = this.model.torso.rightArm.rightHand.coin.position.y;
-        //   var coinZ = this.model.torso.rightArm.rightHand.coin.position.z;
-        //   if(this.facingL) {
-        //     this.specialAttackObj.castedRight = false;
-        //     this.secondRaider.torso.rightArm.rightHand.coin.position.set(coinX, coinY, coinZ);
-        //   }
-        //   if(this.facingR) {
-        //     this.specialAttackObj.castedRight = true;
-        //     this.secondRaider.torso.rightArm.rightHand.coin.position.set(coinX, coinY, coinZ);
-        //   }
-        // }
 
         if(this.basicAttackFrames == this.specialAttackObj.attackFrames[SS] - 1 && !this.isRecover){
           if(this.facingL) {
@@ -471,8 +454,40 @@ var basicCharacter = {
 
       if(!this.canBAttack[US]){
           this.basicAttackFrames-=1;
+
+          this.model.hat.scale.set(1.5,1.5,1.5);
+          this.model.hat.rotation.y += 0.78;
+
+          var geomHBox1 = new THREE.BoxGeometry(8,8,8, 1, 1, 1);
+          var matHBox1  = new THREE.MeshPhongMaterial(
+                                     { emissive : 0x000000, opacity: 1, transparent: true
+                                     ,map: new THREE.TextureLoader().load('images/gateLogo.png')});
+
+          var boxH1 = new THREE.Mesh(geomHBox1, matHBox1).clone();
+
+          boxH1.position.set(this.x,this.y,this.z);
+          stage.scene.add(boxH1);
+          setTimeout(function(){stage.scene.remove(boxH1)}, 28);
+          setTimeout(function(){boxH1.geometry.dispose()}, 28);
+
+
+          var bbox = new THREE.BoxHelper(this.model.hat, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(US,"B");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
+
           if(this.basicAttackFrames <= 0){
+              this.model.hat.scale.set(1,1,1);
               this.basicAttackFrames = 25;
+              this.model.hat.rotation.y = 0;
               this.canBAttack[US] = true;
               this.canBasicAttack = true;
               this.otherPlayer.hitByB[US] = false;
