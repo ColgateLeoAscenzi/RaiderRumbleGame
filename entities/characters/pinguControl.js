@@ -6,7 +6,6 @@ var pingu = {
     model: createPinguMesh(0,0,0),
     secondary: createPinguMesh(0,0,0),
     hitBox: createPinguBounding(0,0,0),
-    basicAttackModel: createBasicAttackModel(),
     canAAttack: [true, true, true, true, true, true],
     canBAttack: [true, true, true, true],
     hitByA: [false, false, false, false, false],

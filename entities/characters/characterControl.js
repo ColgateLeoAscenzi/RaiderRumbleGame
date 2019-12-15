@@ -5,7 +5,6 @@ var raider = {
     model: createBasicCharacterMesh(0,0,0),
     secondRaider: createBasicCharacterMesh(0,0,0).torso.rightArm.rightHand.coin,
     hitBox: createBasicCharacterBounding(0,0,0),
-    basicAttackModel: createBasicAttackModel(),
     canAAttack: [true, true, true, true, true],
     canBAttack: [true, true, true, true],
     hitByA: [false, false, false, false, false],
