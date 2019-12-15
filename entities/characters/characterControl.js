@@ -475,11 +475,11 @@ var raider = {
           // this.secondHat.rotation.z = na*12;
           // this.secondHat.position.y -= 2;
 
-          this.model.hat.scale.set(10,10,5);  //Hitboxes wrong. Also TODO, up b has no damage
+          this.model.scale.set(.5,.5,.5);
+          this.model.hat.scale.set(3.5,3.5,2);  //Hitboxes weird. Can see legs
           this.model.hat.rotation.z = na*12;
-          this.model.hat.position.y -= .2;
+          this.model.hat.position.y -= .34;
 
-          this.model.scale.set(.2,.2,.2);
 
           var bbox = new THREE.BoxHelper(this.model.hat, 0xff0000)
           this.attackbbox = new THREE.Box3().setFromObject(bbox);
