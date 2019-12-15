@@ -29,6 +29,13 @@ fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
     background-color: #821019;
 }
 
+#play-game{
+  height: 100%;
+  width: 100%;
+}
+#play-game:hover{
+  background-color: white;
+}
 #play, #game{
   font-family: dpcomic;
   position:absolute;
