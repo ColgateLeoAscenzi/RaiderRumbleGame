@@ -9,6 +9,18 @@ var gravity = 2;
 
 var lockInMessage = false;
 
+function cleanUpDivs(){
+
+        var boxVar = document.getElementById("lockInReady");
+        boxVar.parentNode.removeChild(boxVar);
+
+        boxVar = document.getElementById("characterSelectBanner");
+        boxVar.parentNode.removeChild(boxVar);
+
+        boxVar = document.getElementById("pSelectContainer");
+        boxVar.parentNode.removeChild(boxVar);
+}
+
 function characterSelectLoop(){
 
     updatePositions();
@@ -38,11 +50,7 @@ function characterSelectLoop(){
         document.onkeydown = handleMapKeyDown;
         document.onkeyup = handleMapKeyUp;
 
-        var boxVar = document.getElementById("lockInReady");
-        boxVar.parentNode.removeChild(boxVar);
-
-        var boxVar = document.getElementById("pSelectContainer");
-        boxVar.parentNode.removeChild(boxVar);
+        cleanUpDivs();
 
         buildStageSelect();
     }
@@ -64,18 +72,23 @@ function buildCharacterSelect(){
   charSelectCont.id = "pSelectContainer";
   container.appendChild(charSelectCont);
 
+  var charSelBan = document.createElement("div");
+  charSelBan.id = "characterSelectBanner";
+  charSelBan.innerHTML = "Choose a Character!"
+  container.appendChild(charSelBan)
+
   //character selection platforms, 2 characters
   for(var i = 0; i < characters.length; i++){
     var playerStandMesh = createBasicBoxMesh(1+Math.random()*3);
     characterSelectScene.add(playerStandMesh);
     playerStandMesh.position.x += i*30-90;
-    playerStandMesh.position.y = 30;
+    playerStandMesh.position.y = 28;
 
     var newChar = characters[i].model.clone();
     characterSelectScene.add(newChar);
     selectableChars.push(newChar);
     newChar.position.x += i*30-90;
-    newChar.position.y = 40.5;
+    newChar.position.y = 38.5;
 
     var charSelectHitGeom = new THREE.BoxGeometry(10,15,10,1,1,1);
     var charSelectHitMat = new THREE.MeshPhongMaterial({color: 0xff0000, transparent: true, opacity:0});
@@ -87,7 +100,6 @@ function buildCharacterSelect(){
     charSelectHitMesh.position.x += i*30-90;
     charSelectHitMesh.position.y = 44;
     charSelectHitMesh.position.z += 10;
-
 
   }
 

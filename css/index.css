@@ -49,6 +49,18 @@ fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
 @keyframes
 fading{0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2}}
 
+#characterSelectBanner{
+    position: absolute;
+    /* based on the text size */
+    height: 4.3%;
+    width: 100%;
+    top: 0%;
+    background-color: rgba(0,0,0,1);
+    color:white;
+    text-align: center;
+    font-size: 2.5em;
+}
+
 
 #play-game{
   height: 100%;
@@ -112,7 +124,7 @@ fading{0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2}}
     top: 0%;
     left: 0%;
     width: 100%;
-    height: 5%;
+    height: 10%;
 }
 
 .stageSelectInfo{
