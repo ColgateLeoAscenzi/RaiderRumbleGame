@@ -9,7 +9,7 @@ var stageB= {
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
         this.bgm = './sounds/My happy song Nicholas w lott.mp3';
 
-        this.skyBoxURL = './images/testbeach1.jpg'
+        this.skyBoxURL = './images/foggyBottom.png'
 
         this.omega = omegaOn;
         this.blockA = grassBox;
