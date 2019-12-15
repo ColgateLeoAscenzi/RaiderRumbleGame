@@ -43,7 +43,7 @@ function buildTitleScreen(){
     var container = document.getElementById("container");
     var mainMenuCont = document.createElement("div");
     mainMenuCont.id = "mainMenuContainer";
-    mainMenuCont.innerHTML = "<div id='raider-rumble'>"
+    mainMenuCont.innerHTML = "<div id='raider-rumble' style = 'overflow:hidden'>"
      +"<div style='position:relative; top:12%; left:10%; font-size:300px; color:#821019; display:inline;'> R </div>"
      +"<div style='position:relative; top:12%; left:10%; font-size:300px; color:#821019;display:inline;'> A </div>"
      +"<div style='position:relative; top:12%; left:10%; font-size:300px; color:#821019;display:inline;'> I </div>"
@@ -58,8 +58,8 @@ function buildTitleScreen(){
      +"<div style='position:relative; top:15%; left:10%; font-size:300px; color:white;display:inline;'> L </div>"
      +"<div style='position:relative; top:15%; left:10%; font-size:300px; color:white;display:inline;'> E </div>"
      +"</div>"
-     +"<div style='background-color:black; display:block; height: 20%; width: 1000%; position:absolute; bottom:0%;'>"
-       +"<div id='start' style='color:white; position:relative; bottom: -10%; left: 3%; font-size:50px'> Press any button to start!</div>"
+     +"<div style='background-color:black; display:block; height: 20%; width: 100%; position:absolute; bottom:0%;'>"
+       +"<div id='start' style='color:white; position:relative; bottom: -10%; left: 3%; font-size:50px; width:50%'> Press any button to start!</div>"
        +"<div style='color:white; position:relative; bottom: -50%; left:0%;font-size:20px'> Presented by Merge Conflict Studios</div>"
      +"</div>"
     container.appendChild(mainMenuCont);
