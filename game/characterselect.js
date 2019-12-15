@@ -30,7 +30,7 @@ function characterSelectLoop(){
 }
 
 function buildCharacterSelect(){
-  var characters = [raider, pingu];
+  var characters = [raider, pingu, anh];
 
   characterSelectScene = new THREE.Scene();
   characterSelectCamera.position.set(0,55,250);
@@ -44,7 +44,7 @@ function buildCharacterSelect(){
   container.appendChild(charSelectCont);
 
   //character selection platforms, 2 characters
-  for(var i = 0; i < 2; i++){
+  for(var i = 0; i < characters.length; i++){
     var playerStandMesh = createBasicBoxMesh(1+Math.random()*3);
     characterSelectScene.add(playerStandMesh);
     playerStandMesh.position.x += i*30-90;

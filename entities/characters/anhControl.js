@@ -1,6 +1,6 @@
 var RESET = false;
 var ATTACK = true;
-var raider = {
+var anh = {
     name: "Anh",
     model: createAnhMesh(0,0,0),
     hitBox: createBasicCharacterBounding(0,0,0),
