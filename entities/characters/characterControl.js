@@ -359,15 +359,36 @@ var raider = {
                   //this.model.position.x =c*2; Camera follws player movements, currently impossible.
                   this.model.torso.leftArm.rotation.z = -45;
                   this.model.torso.rightArm.rotation.z = -45;
+
+                  if(this.x + 1.8 <= this.minRight){
+                    this.x+=1.8
+                  }
+
                 }
 
                 else{
                   //this.model.position.x = c*2;
                   this.model.torso.rightArm.rotation.z = 45;
                   this.model.torso.leftArm.rotation.z = 45;
+                  if(this.x - 1.8 >= this.minLeft){
+                    this.x-=1.8
+                  }
                 }
 
 
+
+                var bbox = new THREE.BoxHelper(this.model, 0xff0000)
+                this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+                if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+                  this.checkHit(FA,"A");
+                }
+
+                if(hitBoxesOn){
+                  stage.scene.add(bbox);
+                  setTimeout(function(){bbox.geometry.dispose();}, 50);
+                  setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+                }
 
 
                 //HITBOX CHECK GOES HERE
@@ -404,6 +425,21 @@ var raider = {
           this.model.rotation.x = 90;
           this.model.rotation.y = cD*12;
 
+
+          var bbox = new THREE.BoxHelper(this.model.torso, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(DA,"A");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
+
+
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
               this.model.rotation.x = 0;
@@ -420,6 +456,20 @@ var raider = {
 
           this.model.hat.position.y += 1;
           this.model.hat.rotation.y = c*8;
+
+
+          var bbox = new THREE.BoxHelper(this.model.hat, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(UA,"A");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
 
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25; //def change length.
