@@ -15,7 +15,7 @@ function titleScreenLoop(){
         else{
             var boxVar = document.getElementById("gui");
             boxVar.parentNode.removeChild(boxVar);
-            
+
             var container = document.getElementById("container");
             var webglwindow = document.createElement("div");
             webglwindow.id = "glcanvas";
@@ -87,12 +87,12 @@ function handleTitleKeyDown(keyEvent){
             folder.add(params,"submit");
             devMode = true;
         }
-        else{
-            devMode = false;
-            params = undefined;
-            var boxVar = document.getElementById("gui");
-            boxVar.parentNode.removeChild(boxVar);
-        }
+        // else{
+        //     devMode = false;
+        //     params = undefined;
+        //     var boxVar = document.getElementById("gui");
+        //     boxVar.parentNode.removeChild(boxVar);
+        // }
 
     }
 }
