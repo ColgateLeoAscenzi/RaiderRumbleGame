@@ -59,7 +59,7 @@ function buildTitleScreen(){
      +"<div style='position:relative; top:15%; left:10%; font-size:300px; color:white;display:inline;'> E </div>"
      +"</div>"
      +"<div style='background-color:black; display:block; height: 20%; width: 100%; position:absolute; bottom:0%;'>"
-       +"<div id='start' style='color:white; position:relative; bottom: -10%; left: 3%; font-size:50px; width:50%'> Press any button to start!</div>"
+       +"<div id='start' style='color:white; position:relative; bottom: -10%; left: 30%; font-size:50px; width:50%'> Press any button to start!</div>"
        +"<div style='color:white; position:relative; bottom: -50%; left:0%;font-size:20px'> Presented by Merge Conflict Studios</div>"
      +"</div>"
     container.appendChild(mainMenuCont);
