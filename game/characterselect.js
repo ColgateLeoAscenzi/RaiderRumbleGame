@@ -29,7 +29,7 @@ function characterSelectLoop(){
 
 
     //checks to see if it shoudld display message
-    if(p1InPosition && p2InPosition && !lockInMessage){
+    if(p1InPosition && p2InPosition && !lockInMessage && (p1Model == undefined && p2Model == undefined)){
         var container = document.getElementById("container");
         var lockInDiv = document.createElement("div");
         lockInDiv.id = "lockInReady";

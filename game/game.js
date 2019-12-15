@@ -46,6 +46,8 @@ var gameStarted = false;
 var countDown = false;
 var winner = -1;
 
+var roundOver = false;
+
 var titleScene,modeScene, characterSelectScene, mapScene;
 
 var selectedStageDat;
@@ -180,56 +182,66 @@ function loop() {
   if(statsOn){
       stats.update();
   }
-  requestAnimationFrame(loop);
-  if(!gameOver){
-    if(trackPlayer){
-      camera.position.set(stage.player1.model.position.x,stage.player1.model.position.y+50,stage.player1.model.position.z+120);
-      if(stage.player1.model.position.x < 0){
-        camera.lookAt(stage.player1.model.position.x*+stage.player1.model.position.x*-0.005,stage.player1.model.position.y,stage.player1.model.position.z);
-      }
-      else{
-        camera.lookAt(stage.player1.model.position.x*+stage.player1.model.position.x*0.005,stage.player1.model.position.y,stage.player1.model.position.z);
 
+  if(!roundOver){
+      requestAnimationFrame(loop);
+      if(!gameOver){
+        if(trackPlayer){
+          camera.position.set(stage.player1.model.position.x,stage.player1.model.position.y+50,stage.player1.model.position.z+120);
+          if(stage.player1.model.position.x < 0){
+            camera.lookAt(stage.player1.model.position.x*+stage.player1.model.position.x*-0.005,stage.player1.model.position.y,stage.player1.model.position.z);
+          }
+          else{
+            camera.lookAt(stage.player1.model.position.x*+stage.player1.model.position.x*0.005,stage.player1.model.position.y,stage.player1.model.position.z);
+
+          }
+
+        }
+        else{
+          camera.position.set((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2+50,stage.player1.model.position.z+120+Math.abs(stage.player1.model.position.x-stage.player2.model.position.x)*0.1);
+          camera.lookAt((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2,stage.stageBlocks[0].model.position.z);
+          if(camera.position.x < -90){
+              camera.position.x = -90;
+          }
+          if(camera.position.x > 90){
+              camera.position.x = 90;
+          }
+          if(camera.position.y < -40){
+              camera.position.y = -40;
+          }
+          if(camera.position.y > 100){
+              camera.position.y = 100;
+          }
+
+        }
       }
 
-    }
-    else{
-      camera.position.set((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2+50,stage.player1.model.position.z+120+Math.abs(stage.player1.model.position.x-stage.player2.model.position.x)*0.1);
-      camera.lookAt((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2,stage.stageBlocks[0].model.position.z);
-      if(camera.position.x < -90){
-          camera.position.x = -90;
-      }
-      if(camera.position.x > 90){
-          camera.position.x = 90;
-      }
-      if(camera.position.y < -40){
-          camera.position.y = -40;
-      }
-      if(camera.position.y > 100){
-          camera.position.y = 100;
-      }
 
-    }
+
+      lookDirection([1,0,0]);
+      lookDirection([-1,0,0]);
+      lookDirection([0,1,0]);
+      lookDirection([0,-1,0]);
+
   }
   else{
-    if(winner == -1){
-      camera.position.set((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2+50,stage.player1.model.position.z+120);
-      camera.lookAt((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2,stage.stageBlocks[0].model.position.z);
-    }
-    else if(winner == 1){
-      camera.position.set(stage.player1.model.position.x,stage.player1.model.position.y+0,stage.player1.model.position.z+50);
-      camera.lookAt(stage.player1.model.position.x,stage.player1.model.position.y,stage.player1.model.position.z);
-    }
-    else if(winner == 2){
-      camera.position.set(stage.player2.model.position.x,stage.player2.model.position.y+0,stage.player2.model.position.z+50);
-      camera.lookAt(stage.player2.model.position.x,stage.player2.model.position.y,stage.player2.model.position.z);
-    }
+      buildPostGame();
   }
 
-  lookDirection([1,0,0]);
-  lookDirection([-1,0,0]);
-  lookDirection([0,1,0]);
-  lookDirection([0,-1,0]);
+
+  // if(winner == -1){
+  //   camera.position.set((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2+50,stage.player1.model.position.z+120);
+  //   camera.lookAt((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2,stage.stageBlocks[0].model.position.z);
+  // }
+  // else if(winner == 1){
+  //   camera.position.set(stage.player1.model.position.x,stage.player1.model.position.y+0,stage.player1.model.position.z+50);
+  //   camera.lookAt(stage.player1.model.position.x,stage.player1.model.position.y,stage.player1.model.position.z);
+  // }
+  // else if(winner == 2){
+  //   camera.position.set(stage.player2.model.position.x,stage.player2.model.position.y+0,stage.player2.model.position.z+50);
+  //   camera.lookAt(stage.player2.model.position.x,stage.player2.model.position.y,stage.player2.model.position.z);
+  // }
+
 
 }
 

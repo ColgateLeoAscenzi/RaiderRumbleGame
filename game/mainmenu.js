@@ -69,7 +69,7 @@ function buildTitleScreen(){
 }
 
 function handleTitleKeyDown(keyEvent){
-    if(keyEvent.key != "Alt" && keyEvent.key != "Shift" && keyEvent.key != "Tab"){
+    if(keyEvent.key != "Alt" && keyEvent.key != "Shift" && keyEvent.key != "Tab" && keyEvent.key != "l"){
         if(keyEvent.key != "." && !devMode){
             titleClicked= true;
         }

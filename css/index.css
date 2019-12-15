@@ -32,6 +32,10 @@ fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
     background-color: #821019;
 }
 
+#glcanvas{
+    background-color: rgba(255,255,255,1);
+}
+
 
 #lockInReady{
     position: absolute;
