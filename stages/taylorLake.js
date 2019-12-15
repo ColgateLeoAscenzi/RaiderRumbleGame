@@ -14,7 +14,7 @@ var taylorLake= {
         this.omega = omegaOn;
         this.blockA = iceBlock;
         this.blockB = waterBlock;
-        this.blockC = cloudIco;
+        this.blockC = woodBlock;
 
         this.stageBlocks = [];
         this.blockAMeshes = [];
@@ -101,14 +101,15 @@ var taylorLake= {
         //create floor out of block a
 
         for(var i = -10; i < 11; i++){
-          if(i == -10 || i == 10){
-              // createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC, taylorLake);
-              createBox(i*this.blockC.width, this.blockA.height/4, -12, this.blockA, taylorLake);
-          }
-          else{
             createBox(i*this.blockA.width, 0, 0, this.blockA, taylorLake);
-          }
+            createBox(i*this.blockA.width, 0, -2*this.blockA.width, this.blockA, taylorLake);
         }
+
+        for (var i = -40; i < 40; i++) {
+          createBox(x*this.blockA.width, -1*this.blockA.width, -1*this.blockA.width, this.blockA, taylorLake);
+        }
+
+
         //create underside out of block b
         for(var j = 1; j< 5; j++ ){
             for(var i = -10+j; i < 11-j; i++){
@@ -155,6 +156,17 @@ var taylorLake= {
               createBox(-x*this.blockB.width, y*this.blockB.height, 0, this.blockB, taylorLake);
           }
         }
+
+
+
+        //trees
+
+        for (var x = -9; x < 10; x+=3) {
+          for (var y= 1; y < 6; y++) {
+              createBox(x*this.blockC.height, y*this.blockC.height, -2*this.blockC.width, this.blockC, taylorLake);
+          }
+        }
+
 
 
         generateSnow();
