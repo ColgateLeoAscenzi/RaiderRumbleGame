@@ -67,17 +67,20 @@ function buildCharacterSelect(){
     charSelectHitMesh.position.y = 44;
     charSelectHitMesh.position.z += 10;
 
-    //add p1 select images
-    var charSelect = document.createElement("div");
-    charSelect.id = "p"+(i+1)+"Select";
-    charSelect.innerHTML = "<div id = 'p1SelectBox'>Player "+(i+1)+": ?</div>";
-    charSelectCont.appendChild(charSelect);
 
-    var playerImg = document.createElement("img");
-    playerImg.id = "player"+(i+1)+"Img";
-    playerImg.src = "./images/characters/unselected.png";
-    playerImg.style.height = "90%";
-    charSelect.appendChild(playerImg);
+  }
+
+  for(var i = 0; i < numPlayers; i++){
+      var charSelect = document.createElement("div");
+      charSelect.id = "p"+(i+1)+"Select";
+      charSelect.innerHTML = "<div id = 'p1SelectBox'>Player "+(i+1)+": ?</div>";
+      charSelectCont.appendChild(charSelect);
+
+      var playerImg = document.createElement("img");
+      playerImg.id = "player"+(i+1)+"Img";
+      playerImg.src = "./images/characters/unselected.png";
+      playerImg.style.height = "90%";
+      charSelect.appendChild(playerImg);
   }
 
   buildSelectors();
@@ -109,19 +112,19 @@ function buildSelectors(){
 }
 
 function buildCapture(){
-  var p1CaptureGeom = new THREE.BoxGeometry(100,5,10);
+  var p1CaptureGeom = new THREE.BoxGeometry(300,5,10);
   var p1CaptureMat = new THREE.MeshPhongMaterial({color:0x272e92});
   var p1CaptureMesh = new THREE.Mesh(p1CaptureGeom,p1CaptureMat);
 
   characterSelectScene.add(p1CaptureMesh);
-  p1CaptureMesh.position.set(-53,-20,10);
+  p1CaptureMesh.position.set(150,-20,10);
 
-  var p2CaptureGeom = new THREE.BoxGeometry(100,5,10);
+  var p2CaptureGeom = new THREE.BoxGeometry(300,5,10);
   var p2CaptureMat = new THREE.MeshPhongMaterial({color:0xb60e16});
   var p2CaptureMesh = new THREE.Mesh(p2CaptureGeom,p2CaptureMat);
 
   characterSelectScene.add(p2CaptureMesh);
-  p2CaptureMesh.position.set(56,-20,10);
+  p2CaptureMesh.position.set(-150,-20,10);
 
 }
 
@@ -140,21 +143,21 @@ function checkCollision(selector, hitboxArray){
 
     if(selectorHit.intersectsBox(hitBoxHit)){
       if(selector.userData.name == "player1"){
-        selectedPlayer1 = hitboxArray[i].userData.character;
-        p1Model = selectedPlayer1.model.clone();
+        grabbedPlayer1 = hitboxArray[i].userData.character;
+        p1Model = grabbedPlayer1.model.clone();
         selector.position.z += 12;
         characterSelectScene.add(p1Model);
         p1Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
-        p1Model.userData = {heldBy: "player1", selected: true, velocity: 0, name:selectedPlayer1.name}
+        p1Model.userData = {heldBy: "player1", selected: true, velocity: 0, name:grabbedPlayer1.name}
         selector.userData.grabbing = true;
       }
       if(selector.userData.name == "player2"){
-        selectedPlayer2 = hitboxArray[i].userData.character;
-        p2Model = selectedPlayer2.model.clone();
+        grabbedPlayer2 = hitboxArray[i].userData.character;
+        p2Model = grabbedPlayer2.model.clone();
         selector.position.z += 12;
         characterSelectScene.add(p2Model);
         p2Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
-        p2Model.userData = {heldBy: "player2", selected: true, velocity: 0, name:selectedPlayer2.name}
+        p2Model.userData = {heldBy: "player2", selected: true, velocity: 0, name:grabbedPlayer2.name}
         selector.userData.grabbing = true;
       }
     }
@@ -273,13 +276,14 @@ function updatePositions(){
 function updateGrabbedPlayers(){
     if(p1Model != undefined){
         if(p1Model.userData.selected == false){
-            if(p1Model.position.y < -25){
+            if(p1Model.position.y < -25 && p1Model.position.x < 0){
                 var p1SelectBox = document.getElementById("p1Select");
                 p1SelectBox.innerHTML = "<div id = 'p1SelectName'>Player 1: "+p1Model.userData.name+"</div>"
                 var player1ImgBox = document.createElement("img");
                 player1ImgBox.id = "player1Img";
                 player1ImgBox.src = "./images/characters/"+p1Model.userData.name+"Small.png"
                 player1ImgBox.style.height = "90%";
+                selectedPlayer1 = grabbedPlayer1;
                 p1SelectBox.appendChild(player1ImgBox);
                 characterSelectScene.remove(p1Model);
                 p1Model = undefined;
@@ -295,13 +299,14 @@ function updateGrabbedPlayers(){
 
     if(p2Model != undefined){
         if(p2Model.userData.selected == false){
-            if(p2Model.position.y < -25){
+            if(p2Model.position.y < -25 && p2Model.position.x > 0){
                 var p2SelectBox = document.getElementById("p2Select");
                 p2SelectBox.innerHTML = "<div id = 'p2SelectName'>Player 2: "+p2Model.userData.name+"</div>"
                 var player2ImgBox = document.createElement("img");
                 player2ImgBox.id = "player2Img";
                 player2ImgBox.src = "./images/characters/"+p2Model.userData.name+"Small.png"
                 player2ImgBox.style.height = "90%";
+                selectedPlayer2 = grabbedPlayer2;
                 p2SelectBox.appendChild(player2ImgBox);
                 characterSelectScene.remove(p2Model);
                 p2Model = undefined;
