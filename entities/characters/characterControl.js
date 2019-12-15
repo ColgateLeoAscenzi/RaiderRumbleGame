@@ -490,18 +490,21 @@ var raider = {
           this.model.hat.position.y -= .34;
 
 
-          var bbox = new THREE.BoxHelper(this.model.hat, 0xff0000)
-          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+          if(this.basicAttackFrames < this.basicAttackObj.attackFrames[NA] - 2){
+            var bbox = new THREE.BoxHelper(this.model.hat, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
-          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
-            this.checkHit(NA,"A");
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(NA,"A");
+            }
+
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
           }
 
-          if(hitBoxesOn){
-            stage.scene.add(bbox);
-            setTimeout(function(){bbox.geometry.dispose();}, 50);
-            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
-          }
 
 
           if(this.basicAttackFrames <= 0){
