@@ -85,7 +85,10 @@ var anh = {
 
         if(this.isHit){
           this.hitFrames -= 1;
-          this.sleeping = false;
+          if(this.sleeping){
+              this.sleeping = false;
+              this.basicAttackFrames = 0;
+          }
         }
         if(this.hitFrames < 0){
           this.isHit = false;
@@ -210,7 +213,7 @@ var anh = {
 
 
         //to reset animation from attack
-        if(this.canAAttack[A]  && !this.sleeping && !this.isHit){
+        if(this.canBasicAttack && !this.sleeping){
             this.model.rotation.z = 0;
         }
       }
@@ -228,7 +231,7 @@ var anh = {
         this.model.torso.leftArm.rotation.x = - 0;
 
         //to reset animation from attack
-        if(this.canAAttack[A] && !this.sleeping && !this.isHit){
+        if(this.canBasicAttack && !this.sleeping){
             this.model.rotation.z = 0;
         }
       }
@@ -250,9 +253,9 @@ var anh = {
 
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
-              this.canAAttack[BA] = true;
+              this.canAAttack[A] = true;
               this.canBasicAttack = true;
-              this.otherPlayer.hitByA[BA] = false;
+              this.otherPlayer.hitByA[A] = false;
           }
       }
 
@@ -260,9 +263,9 @@ var anh = {
           this.basicAttackFrames-=1;
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
-              this.canAAttack[BA] = true;
+              this.canAAttack[FA] = true;
               this.canBasicAttack = true;
-              this.otherPlayer.hitByA[BA] = false;
+              this.otherPlayer.hitByA[FA] = false;
           }
       }
 
@@ -321,9 +324,9 @@ var anh = {
           this.basicAttackFrames-=1;
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
-              this.canBAttack[S] = true;
+              this.canBAttack[SS] = true;
               this.canBasicAttack = true;
-              this.otherPlayer.hitByB[S] = false;
+              this.otherPlayer.hitByB[SS] = false;
           }
       }
 
@@ -355,6 +358,7 @@ var anh = {
 
           this.model.head.leftEye.scale.y = 0.1;
           this.model.head.rightEye.scale.y = 0.1;
+
           if(this.basicAttackFrames <= 0){
               this.model.rotation.z = 0;
               this.model.head.leftEye.scale.y = 1;
