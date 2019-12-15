@@ -4,7 +4,6 @@ var raider = {
     name: "Raider",
     model: createBasicCharacterMesh(0,0,0),
     secondRaider: createBasicCharacterMesh(0,0,0).torso.rightArm.rightHand.coin,
-    secondHat: createBasicCharacterMesh(0,0,0).hat,
     hitBox: createBasicCharacterBounding(0,0,0),
     canAAttack: [true, true, true, true, true, true],
     canBAttack: [true, true, true, true],
@@ -20,7 +19,6 @@ var raider = {
 
         stage.scene.add(this.secondRaider);
         this.secondRaider.position.set(stage.maximumX +300,stage.maximumY + 300,0);
-        this.secondHat.position.set(stage.maximumX +300,stage.maximumY + 300,0);
 
         this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
         attack2: false}
@@ -479,13 +477,8 @@ var raider = {
           this.basicAttackFrames-=1;
           var na = (this.basicAttackObj.attackFrames[NA]-this.basicAttackFrames)/(this.basicAttackObj.attackFrames[NA]);
 
-          // this.secondHat.position.set(this.x, this.y, this.z); //Hit boxes right on this one it seems, but hat no appear.
-          // this.secondHat.scale.set(3,3,1.5);
-          // this.secondHat.rotation.z = na*12;
-          // this.secondHat.position.y -= 2;
-
           this.model.scale.set(.5,.5,.5);
-          this.model.hat.scale.set(3.5,3.5,2);  //Hitboxes weird. Can see legs
+          this.model.hat.scale.set(3.5,3.5,2);
           this.model.hat.rotation.z = na*12;
           this.model.hat.position.y -= .34;
 
@@ -513,13 +506,6 @@ var raider = {
               this.model.hat.scale.set(1,1,1);
               this.model.hat.rotation.z = 0;
               this.model.hat.position.y = 8;
-
-              // this.secondHat.position.set(stage.maximumX +300,stage.maximumY + 300,0);
-              // this.secondHat.scale.set(1,1,1);
-              // this.secondHat.rotation.z = na*12;
-              // this.secondHat.position.y -= .2;
-
-
 
               this.canAAttack[NA] = true;
               this.canBasicAttack = true;
