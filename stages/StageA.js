@@ -194,6 +194,7 @@ var stageA = {
               stage.players[i].yVel = 0;
               stage.players[i].stock -=1;
               stage.players[i].percentage = 0;
+              stage.players[i].isHit = false;
             }
         }
 

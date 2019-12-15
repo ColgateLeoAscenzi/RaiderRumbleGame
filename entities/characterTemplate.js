@@ -57,5 +57,6 @@ var charProto = {
     recoilFrameDefault : 12,
     recoilFrames : 0,
     name: "",
-    isPlayer1: false
+    isPlayer1: false,
+    sleeping : false,
 }

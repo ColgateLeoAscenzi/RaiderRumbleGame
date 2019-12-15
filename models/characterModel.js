@@ -93,6 +93,8 @@ function createBasicCharacterMesh(x, y, z) {
 
   this.mesh.torso.position.y = y-0.6;
 
+
+
   //create the arm
   this.mesh.torso.rightArm = new THREE.Object3D();
   var armBox = new THREE.BoxGeometry(2,3,2, 1,1,1);
@@ -302,6 +304,7 @@ function createPinguMesh(x, y, z) {
   this.mesh.torso.add(shirt);
 
   this.mesh.torso.position.y = y-0.6;
+
 
   //create the arm
   this.mesh.torso.rightArm = new THREE.Object3D();

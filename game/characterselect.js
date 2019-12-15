@@ -133,8 +133,6 @@ function checkCollision(selector, hitboxArray){
   var bbox = new THREE.BoxHelper(selector, 0xff0000);
   var selectorHit = new THREE.Box3().setFromObject(bbox);
 
-  console.log(bbox);
-  console.log(selectorHit);
   for(var i = 0; i < hitboxArray.length; i++){
 
     var bboxHit = new THREE.BoxHelper(hitboxArray[i], 0xff0000);

@@ -82,6 +82,7 @@ var pingu = {
         }
         if(this.isHit){
           this.hitFrames -= 1;
+          this.sleeping = false;
         }
         if(this.hitFrames < 0){
           this.isHit = false;
@@ -100,10 +101,18 @@ var pingu = {
         this.x += this.xVel;
         this.y += this.yVel;
 
+        if(this.xVel > 8 || this.yVel > 8){
+          var trail = this.model.clone();
+          stage.scene.add(trail);
+          setTimeout(function(){stage.scene.remove(trail)}, 50);
+        }
+
         //other held keys
         if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
-          this.recover();
-          this.canJump = false;
+          if(!this.sleeping){
+            this.recover();
+            this.canJump = false;
+          }
         }
         if(this.heldKeys.right && !this.heldKeys.left && !this.isHit){
             this.walkRight();
@@ -768,21 +777,20 @@ var pingu = {
     this.isHit = false;
   },
   jump: function(){
-    if(this.jumpCt == this.maxJumpCt){
-      this.canJump = false;
-    }
-    if(this.canJump){
 
-
-
-      if(!this.isHit){
-
-        this.jumpCt+=1;
-        this.yVel = this.jumpSpeed;
-        this.onGround = false;
-        this.isHit = false;
+    if(!this.sleeping){
+      if(this.jumpCt == this.maxJumpCt){
+        this.canJump = false;
       }
-    }
+      if(this.canJump){
+        if(!this.isHit){
+          this.jumpCt+=1;
+          this.yVel = this.jumpSpeed;
+          this.onGround = false;
+          this.isHit = false;
+        }
+      }
+  }
   },
   drop: function(){
   },

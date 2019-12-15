@@ -16,6 +16,8 @@ var anh = {
         //spawn location
         this.name = "Anh"
 
+        this.zs = createZ(stage, stage.maximumX + 300, stage.maximumY + 300, 0);
+        this.music = createMusic(stage, stage.maximumX + 300, stage.maximumY + 300, 0);
 
         this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
         attack2: false}
@@ -83,6 +85,7 @@ var anh = {
 
         if(this.isHit){
           this.hitFrames -= 1;
+          this.sleeping = false;
         }
         if(this.hitFrames < 0){
           this.isHit = false;
@@ -100,17 +103,25 @@ var anh = {
         this.x += this.xVel;
         this.y += this.yVel;
 
+        if(this.xVel > 8 || this.yVel > 8){
+          var trail = this.model.clone();
+          stage.scene.add(trail);
+          setTimeout(function(){stage.scene.remove(trail)}, 50);
+        }
 
         //other held keys
         if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
-          this.recover();
-          this.canJump = false;
+          if(!this.sleeping){
+            this.recover();
+            this.canJump = false;
+          }
+
         }
 
-        if(this.heldKeys.right && !this.heldKeys.left && !this.isHit && !this.heldKeys.attack1 && !this.heldKeys.attack2){
+        if(this.heldKeys.right && !this.heldKeys.left && !this.isHit && !this.heldKeys.attack1 && !this.heldKeys.attack2 && !this.sleeping && !this.isHit){
             this.walkRight();
         }
-        if(this.heldKeys.left && !this.heldKeys.right && !this.isHit && !this.heldKeys.attack1 && !this.heldKeys.attack2){
+        if(this.heldKeys.left && !this.heldKeys.right && !this.isHit && !this.heldKeys.attack1 && !this.heldKeys.attack2 && !this.sleeping && !this.isHit){
             this.walkLeft();
         }
         //dampen left and right movement on floor
@@ -199,7 +210,7 @@ var anh = {
 
 
         //to reset animation from attack
-        if(this.canAAttack[A]){
+        if(this.canAAttack[A]  && !this.sleeping && !this.isHit){
             this.model.rotation.z = 0;
         }
       }
@@ -217,7 +228,7 @@ var anh = {
         this.model.torso.leftArm.rotation.x = - 0;
 
         //to reset animation from attack
-        if(this.canAAttack[A] && !this.isHit){
+        if(this.canAAttack[A] && !this.sleeping && !this.isHit){
             this.model.rotation.z = 0;
         }
       }
@@ -236,6 +247,7 @@ var anh = {
 
       if(!this.canAAttack[A]){
           this.basicAttackFrames-=1;
+
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
               this.canAAttack[BA] = true;
@@ -325,8 +337,30 @@ var anh = {
           }
       }
       if(!this.canBAttack[DS]){
+          this.sleeping = true;
           this.basicAttackFrames-=1;
+
+          var c = ((this.specialAttackObj.attackFrames[DS]-this.basicAttackFrames)/this.specialAttackObj.attackFrames[DS]);
+          this.zs.position.set(this.x-5,this.y+5,this.z);
+          if(c < 0.25){
+            this.model.rotation.z = 4*c*1.57;
+          }
+          var kd = 1;
+          if(this.basicAttackFrames > this.specialAttackObj.attackFrames[DS] - 5){
+            if((this.x <= this.otherPlayer.x + kd && this.x >= this.otherPlayer.x-kd) && (this.y <= this.otherPlayer.y +kd && this.y >= this.otherPlayer.y-kd) && (this.z <= this.otherPlayer.z +kd && this.z >= this.otherPlayer.z-kd)){
+              this.otherPlayer.percentage = 130;
+              this.checkHit(DS,"B");
+            }
+          }
+
+          this.model.head.leftEye.scale.y = 0.1;
+          this.model.head.rightEye.scale.y = 0.1;
           if(this.basicAttackFrames <= 0){
+              this.model.rotation.z = 0;
+              this.model.head.leftEye.scale.y = 1;
+              this.model.head.rightEye.scale.y = 1;
+              this.sleeping = false;
+              this.zs.position.set(stage.maximumX + 300, stage.maximumY + 300, 0);
               this.basicAttackFrames = 25;
               this.canBAttack[DS] = true;
               this.canBasicAttack = true;
@@ -357,17 +391,19 @@ var anh = {
       this.isHit = false;
     },
     jump: function(){
-      if(this.jumpCt == this.maxJumpCt){
-        this.canJump = false;
-      }
-      if(this.canJump){
-        if(!this.isHit){
-          this.jumpCt+=1;
-          this.yVel = this.jumpSpeed;
-          this.onGround = false;
-          this.isHit = false;
+      if(!this.sleeping){
+        if(this.jumpCt == this.maxJumpCt){
+          this.canJump = false;
         }
-      }
+        if(this.canJump){
+          if(!this.isHit){
+            this.jumpCt+=1;
+            this.yVel = this.jumpSpeed;
+            this.onGround = false;
+            this.isHit = false;
+          }
+        }
+    }
     },
     drop: function(){
     },
@@ -552,4 +588,73 @@ var anh = {
           }
     }
 
+}
+
+function createZ(stage, x, y, z) {
+
+  /*
+    z18z17z16
+        z15
+       z14
+    z13z12z11
+  */
+    var zMesh = new THREE.Mesh();
+    var z1 = new THREE.Mesh();
+
+    var z11 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z11);
+    z11.position.x += 2;
+    var z12 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z12);
+    var z13 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z13);
+    z13.position.x -= 2;
+    var z14 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z14);
+    z14.position.x -= 1.2;
+    z14.position.y += 2;
+    var z15 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z15);
+    z15.position.x += 1.2;
+    z15.position.y += 4;
+    var z16 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z16);
+    z16.position.x += 2;
+    z16.position.y += 6;
+    var z17 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z17);
+    z17.position.y += 6;
+    var z18 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z18);
+    z18.position.x -= 2;
+    z18.position.y += 6;
+
+    z2 = z1.clone();
+    z3 = z1.clone();
+
+    z1.scale.set(0.3,0.3,0.3);
+    zMesh.add(z1);
+    z2.scale.set(0.45,0.45,0.45);
+    zMesh.add(z2);
+    z2.position.set(-1.4,2.5,0);
+    z3.scale.set(0.55,0.55,0.55);
+    zMesh.add(z3);
+    z3.position.set(1.8,7.2,0);
+
+
+    stage.scene.add(zMesh);
+
+    zMesh.position.set(x,y,z);
+    return zMesh;
+}
+
+function createMusic(stage, x, y, z) {
+    var arrToReturn = [];
+    for(var i = 0; i < 27; i++) {
+        var temp = particles.particlePalette.musicPiece.clone();
+
+        arrToReturn.push(temp);
+        stage.scene.add(temp);
+    }
+    return arrToReturn;
 }

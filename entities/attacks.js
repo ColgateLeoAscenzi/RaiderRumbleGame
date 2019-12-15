@@ -60,10 +60,10 @@ var pinguSpecial = {
 var anhSpecial = {
   knockback: 20,
   scaling: 0.1,
-  damage: [2,2,0,2],
+  damage: [2,2,0,5],
   successive: 0,
-  launchAngle: [20, 0, 30, 0],
-  attackFrames: [25, 25, 25, 25]
+  launchAngle: [20, 0, 30, 90],
+  attackFrames: [25, 25, 25, 80]
 }
 
 
