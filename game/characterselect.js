@@ -7,11 +7,29 @@ var p1Model, p2Model;
 
 var gravity = 2;
 
+var lockInMessage = false;
+
 function characterSelectLoop(){
 
     updatePositions();
 
     updateGrabbedPlayers()
+
+
+    //checks to see if it shoudld display message
+    if(p1InPosition && p2InPosition && !lockInMessage){
+        var container = document.getElementById("container");
+        var lockInDiv = document.createElement("div");
+        lockInDiv.id = "lockInReady";
+        lockInDiv.innerHTML = "Ready to Rumble! Press Space To Begin!"
+        container.appendChild(lockInDiv);
+        lockInMessage = true;
+    }
+    else if(((!p1InPosition) || (!p1InPosition)) && lockInMessage){
+        var boxVar = document.getElementById("lockInReady");
+        boxVar.parentNode.removeChild(boxVar);
+        lockInMessage = false;
+    }
 
     if(!charactersSelected){
       requestAnimationFrame(characterSelectLoop);
@@ -19,6 +37,9 @@ function characterSelectLoop(){
     else{
         document.onkeydown = handleMapKeyDown;
         document.onkeyup = handleMapKeyUp;
+
+        var boxVar = document.getElementById("lockInReady");
+        boxVar.parentNode.removeChild(boxVar);
 
         var boxVar = document.getElementById("pSelectContainer");
         boxVar.parentNode.removeChild(boxVar);
@@ -143,6 +164,21 @@ function checkCollision(selector, hitboxArray){
 
     if(selectorHit.intersectsBox(hitBoxHit)){
       if(selector.userData.name == "player1"){
+
+        //first destroy any data that was originally there
+        selectedPlayer1 = undefined;
+        p1InPosition = false;
+
+        var p1SelectBox = document.getElementById("p1Select");
+        p1SelectBox.innerHTML = "<div id = 'p1SelectName'>Player 1: ?</div>"
+        var player1ImgBox = document.createElement("img");
+        player1ImgBox.id = "player1Img";
+        player1ImgBox.src = "./images/characters/unselected.png"
+        player1ImgBox.style.height = "90%";
+        p1SelectBox.appendChild(player1ImgBox);
+
+
+        //then reset data
         grabbedPlayer1 = hitboxArray[i].userData.character;
         p1Model = grabbedPlayer1.model.clone();
         selector.position.z += 12;
@@ -152,6 +188,20 @@ function checkCollision(selector, hitboxArray){
         selector.userData.grabbing = true;
       }
       if(selector.userData.name == "player2"){
+
+        //destroy data
+        selectedPlayer2 = undefined;
+        p2InPosition = false;
+
+        var p2SelectBox = document.getElementById("p2Select");
+        p2SelectBox.innerHTML = "<div id = 'p2SelectName'>Player 2: ?</div>"
+        var player2ImgBox = document.createElement("img");
+        player2ImgBox.id = "player2Img";
+        player2ImgBox.src = "./images/characters/unselected.png"
+        player2ImgBox.style.height = "90%";
+        p2SelectBox.appendChild(player2ImgBox);
+
+
         grabbedPlayer2 = hitboxArray[i].userData.character;
         p2Model = grabbedPlayer2.model.clone();
         selector.position.z += 12;

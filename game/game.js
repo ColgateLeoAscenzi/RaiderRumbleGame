@@ -93,8 +93,8 @@ var HEIGHT, WIDTH
 
 function createCameraRender() {
 
-  HEIGHT = window.innerHeight-20;
-  WIDTH = window.innerWidth-20;
+  HEIGHT = window.innerHeight;
+  WIDTH = window.innerWidth;
 
   aspectRatio = WIDTH / HEIGHT;
   fieldOfView = 60;
@@ -157,8 +157,8 @@ function createCameraRender() {
 // HANDLE SCREEN EVENTS
 
 function handleWindowResize() {
-  HEIGHT = window.innerHeight-20;
-  WIDTH = window.innerWidth-20;
+  HEIGHT = window.innerHeight;
+  WIDTH = window.innerWidth;
 
   renderer.setSize(WIDTH, HEIGHT);
   camera.aspect = WIDTH / HEIGHT;
