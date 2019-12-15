@@ -5,7 +5,7 @@ var raider = {
     model: createBasicCharacterMesh(0,0,0),
     secondRaider: createBasicCharacterMesh(0,0,0).torso.rightArm.rightHand.coin,
     hitBox: createBasicCharacterBounding(0,0,0),
-    canAAttack: [true, true, true, true, true],
+    canAAttack: [true, true, true, true, true, true],
     canBAttack: [true, true, true, true],
     hitByA: [false, false, false, false, false],
     hitByB: [false, false, false, false],
@@ -360,18 +360,61 @@ var raider = {
       }
 
       if(!this.canAAttack[FA]){
-          this.basicAttackFrames-=1;
-          //ANIMATIONS GO HERE
+                this.basicAttackFrames-=1;
+                //ANIMATIONS GO HERE
+                var c = ((this.basicAttackObj.attackFrames[FA]-this.basicAttackFrames)/this.basicAttackObj.attackFrames[FA]);
 
-          //HITBOX CHECK GOES HERE
+                if(!this.facingL){
+                  //this.model.position.x =c*2; Camera follws player movements, currently impossible.
+                  this.model.torso.leftArm.rotation.z = -45;
+                  this.model.torso.rightArm.rotation.z = -45;
 
-          if(this.basicAttackFrames <= 0){
-              this.basicAttackFrames = 25;
-              this.canAAttack[FA] = true;
-              this.canBasicAttack = true;
-              this.otherPlayer.hitByA[FA] = false;
-          }
-      }
+                  if(this.x + 1.8 <= this.minRight){
+                    this.x+=1.8
+                  }
+
+                }
+
+                else{
+                  //this.model.position.x = c*2;
+                  this.model.torso.rightArm.rotation.z = 45;
+                  this.model.torso.leftArm.rotation.z = 45;
+                  if(this.x - 1.8 >= this.minLeft){
+                    this.x-=1.8
+                  }
+                }
+
+
+
+                var bbox = new THREE.BoxHelper(this.model, 0xff0000)
+                this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+                if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+                  this.checkHit(FA,"A");
+                }
+
+                if(hitBoxesOn){
+                  stage.scene.add(bbox);
+                  setTimeout(function(){bbox.geometry.dispose();}, 50);
+                  setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+                }
+
+
+                //HITBOX CHECK GOES HERE
+                if(this.basicAttackFrames <= 0){
+                  this.model.torso.leftArm.rotation.z = 0;
+                  this.model.torso.rightArm.rotation.z = 0;
+
+                  this.model.torso.rightArm.scale.set(1,1,1);
+                  this.model.torso.leftArm.scale.set(1,1,1);
+
+                    this.basicAttackFrames = 25;
+                    this.canAAttack[FA] = true;
+                    this.canBasicAttack = true;
+                    this.otherPlayer.hitByA[FA] = false;
+                }
+
+        }
 
       if(!this.canAAttack[BA]){
           this.basicAttackFrames-=1;
@@ -385,8 +428,31 @@ var raider = {
 
       if(!this.canAAttack[DA]){
           this.basicAttackFrames-=1;
+
+          var cD = (this.basicAttackObj.attackFrames[DA]-this.basicAttackFrames)/(this.basicAttackObj.attackFrames[DA]);
+
+          this.model.rotation.x = 90;
+          this.model.rotation.y = cD*12;
+
+
+          var bbox = new THREE.BoxHelper(this.model.torso, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(DA,"A");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
+
+
           if(this.basicAttackFrames <= 0){
               this.basicAttackFrames = 25;
+              this.model.rotation.x = 0;
+              this.model.rotation.y = 0;
               this.canAAttack[DA] = true;
               this.canBasicAttack = true;
               this.otherPlayer.hitByA[DA] = false;
@@ -395,14 +461,34 @@ var raider = {
 
       if(!this.canAAttack[UA]){
           this.basicAttackFrames-=1;
+          var c = (this.basicAttackObj.attackFrames[UA]-this.basicAttackFrames)/(this.basicAttackObj.attackFrames[UA]);
+
+          this.model.hat.position.y += 1;
+          this.model.hat.rotation.y = c*8;
+
+
+          var bbox = new THREE.BoxHelper(this.model.hat, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(UA,"A");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
+
           if(this.basicAttackFrames <= 0){
-              this.basicAttackFrames = 25;
+              this.basicAttackFrames = 25; //def change length.
+              this.model.hat.position.y = 8;
+              this.model.hat.rotation.y = 0;
               this.canAAttack[UA] = true;
               this.canBasicAttack = true;
               this.otherPlayer.hitByA[UA] = false;
           }
       }
-
       if(!this.canAAttack[NA]){
           this.basicAttackFrames-=1;
           if(this.basicAttackFrames <= 0){
@@ -426,24 +512,6 @@ var raider = {
 
       if(!this.canBAttack[SS]){
         this.basicAttackFrames-=1;
-        // coinToss(ATTACK, modelClone);
-
-        //secondRaider(ATTACK, this.model);
-
-        // if(this.basicAttackFrames == this.specialAttackObj.attackFrames[SS] - 1 && !this.isRecover){
-        //   var coinX = this.model.torso.rightArm.rightHand.coin.position.x;
-        //   var coinY = this.model.torso.rightArm.rightHand.coin.position.y;
-        //   var coinZ = this.model.torso.rightArm.rightHand.coin.position.z;
-        //   if(this.facingL) {
-        //     this.specialAttackObj.castedRight = false;
-        //     this.secondRaider.torso.rightArm.rightHand.coin.position.set(coinX, coinY, coinZ);
-        //   }
-        //   if(this.facingR) {
-        //     this.specialAttackObj.castedRight = true;
-        //     this.secondRaider.torso.rightArm.rightHand.coin.position.set(coinX, coinY, coinZ);
-        //   }
-        // }
-
         if(this.basicAttackFrames == this.specialAttackObj.attackFrames[SS] - 1 && !this.isRecover){
           if(this.facingL) {
             this.specialAttackObj.castedRight = false;
@@ -503,14 +571,48 @@ var raider = {
       }
 
       if(!this.canBAttack[US]){
-          this.basicAttackFrames-=1;
-          if(this.basicAttackFrames <= 0){
-              this.basicAttackFrames = 25;
-              this.canBAttack[US] = true;
-              this.canBasicAttack = true;
-              this.otherPlayer.hitByB[US] = false;
-          }
-      }
+               this.basicAttackFrames-=1;
+
+               this.model.hat.scale.set(1.5,1.5,1.5);
+               this.model.hat.rotation.y += 0.78;
+
+               var geomHBox1 = new THREE.BoxGeometry(8,8,8, 1, 1, 1);
+               var matHBox1  = new THREE.MeshPhongMaterial(
+                                          { emissive : 0x000000, opacity: 1, transparent: true
+                                          ,map: new THREE.TextureLoader().load('images/gateLogo.png')});
+
+               var boxH1 = new THREE.Mesh(geomHBox1, matHBox1).clone();
+
+               boxH1.position.set(this.x,this.y,this.z);
+               stage.scene.add(boxH1);
+               setTimeout(function(){stage.scene.remove(boxH1)}, 28);
+               setTimeout(function(){boxH1.geometry.dispose()}, 28);
+
+
+               var bbox = new THREE.BoxHelper(this.model.hat, 0xff0000)
+               this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+               if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+                 this.checkHit(US,"B");
+               }
+
+               if(hitBoxesOn){
+                 stage.scene.add(bbox);
+                 setTimeout(function(){bbox.geometry.dispose();}, 50);
+                 setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+               }
+
+               if(this.basicAttackFrames <= 0){
+                   this.model.hat.scale.set(1,1,1);
+                   this.basicAttackFrames = 25;
+                   this.model.hat.rotation.y = 0;
+                   this.canBAttack[US] = true;
+                   this.canBasicAttack = true;
+                   this.otherPlayer.hitByB[US] = false;
+               }
+           }
+
+
       if(!this.canBAttack[DS]){
           this.basicAttackFrames-=1;
           if(this.basicAttackFrames <= 0){
