@@ -45,6 +45,7 @@ var stageA = {
         else{
             this.populateScene();
         }
+        console.log(selectedPlayer2);
         this.player1 = selectedPlayer1;
         this.player1.init();
         this.player1.isPlayer1 = true;

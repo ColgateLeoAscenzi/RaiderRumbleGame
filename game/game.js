@@ -73,6 +73,8 @@ var stats;
 var modes = ["normal", "options"];
 var modeBlocks = [];
 
+devMode = false;
+
 //var player1_spotlight = new THREE.SpotLight(0xffffff);
 
 
@@ -259,8 +261,10 @@ function initGame() {
 //creates the stage and calls the main loop
 function initializeWorld(){
     contols = undefined;
-    stage = selectedStage.stageData;
-    selectedStageDat = stage;
+    if(!devMode){
+        stage = selectedStage.stageData;
+        selectedStageDat = stage;
+    }
     //omegaOn = selectedStage.omega;
     //isDay = selectedStage.daytime;
     stage.init();

@@ -4,20 +4,28 @@ function stageSelectLoop(){
    stageSelectCamera.lookAt(0,0,0);
     stageSelectCamera.position.set(0,800,0);
     if(isDay && omegaOn){
-        document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Day<br>Mode: Omega";
-        document.getElementById("stageSelectBox").style.color = "black";
+        document.getElementById("stageSelectBox").innerHTML =  "<div class = 'stageSelectInfo'>Time of Day: Day</div>"
+        +"<div class = 'stageSelectInfo'>Mode: Omega</div>"
+        +"<div class = 'stageSelectInfo'>Click a Stage to Begin!</div>";
+        document.getElementById("stageSelectBox").style.color = "white";
     }
     else if(isDay && !omegaOn){
-        document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Day<br>Mode: Normal";
-        document.getElementById("stageSelectBox").style.color = "black";
+        document.getElementById("stageSelectBox").innerHTML =  "<div class = 'stageSelectInfo'>Time of Day: Day</div>"
+        +"<div class = 'stageSelectInfo'>Mode: Classic</div>"
+        +"<div class = 'stageSelectInfo'>Click a Stage to Begin!</div>";
+        document.getElementById("stageSelectBox").style.color = "white";
 
     }
     else if(!isDay && omegaOn){
-        document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Night<br>Mode: Omega";
+        document.getElementById("stageSelectBox").innerHTML =  "<div class = 'stageSelectInfo'>Time of Day: Night</div>"
+        +"<div class = 'stageSelectInfo'>Mode: Omega</div>"
+        +"<div class = 'stageSelectInfo'>Click a Stage to Begin!</div>";
         document.getElementById("stageSelectBox").style.color = "white";
     }
     else{
-        document.getElementById("stageSelectBox").innerHTML =  "Time of Day: Night<br>Mode: Normal";
+        document.getElementById("stageSelectBox").innerHTML =  "<div class = 'stageSelectInfo'>Time of Day: Night</div>"
+        +"<div class = 'stageSelectInfo'>Mode: Classic</div>"
+        +"<div class = 'stageSelectInfo'>Click a Stage to Begin!</div>";
         document.getElementById("stageSelectBox").style.color = "white";
     }
 
