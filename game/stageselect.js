@@ -115,12 +115,12 @@ function buildStageSelect(){
 
   var fieldOfDreamsGeom = new THREE.BoxGeometry(200,20,50,1,1,1);
   var fieldOfDreamsMat = new THREE.MeshPhongMaterial({color: 0xffffff, opacity: 0, transparent: true});
-  var fieldOfDreamsBlock = new THREE.Mesh(fieldOfDreamsGeom, fieldOfDreamsMat);
-  fieldOfDreamsBlock.userData = {stageData:stageB};
-  mapScene.add(fieldOfDreamsBlock);
-  fieldOfDreamsBlock.position.set(50,20,140);
-  fieldOfDreamsBlock.rotation.set(radians(-10),radians(35),radians(0));
-  selectableStages.push(fieldOfDreamsBlock);
+  var stageCBlock = new THREE.Mesh(fieldOfDreamsGeom, fieldOfDreamsMat);
+  stageCBlock.userData = {stageData:stageC};
+  mapScene.add(stageCBlock);
+  stageCBlock.position.set(50,20,140);
+  stageCBlock.rotation.set(radians(-10),radians(35),radians(0));
+  selectableStages.push(stageCBlock);
 
 
   var container = document.getElementById("container");

@@ -1,4 +1,4 @@
-var stageB= {
+var stageC= {
     init: function(){
         var keys = Object.keys(stageProto);
         for(var i = 0; i < keys.length; i++){
@@ -9,14 +9,14 @@ var stageB= {
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
         this.bgm = './sounds/My happy song Nicholas w lott.mp3';
 
-        this.skyBoxURL = './images/foggyBottom.png'
+        //this.skyBoxURL = './images/testbeach1.jpg'
 
         this.omega = omegaOn;
-        this.blockA = grassBox;
-        this.blockB = dirtBlockB;
-        this.blockC = cloudIco;
+        this.blockA = iceBlock;
+        this.blockB = waterBlock;
+        this.blockC = woodBlock;
 
-        this.snowing = false;
+        this.snowing = true;
 
         this.stageBlocks = [];
         this.blockAMeshes = [];
@@ -68,7 +68,7 @@ var stageB= {
         this.scene = new THREE.Scene();
 
         if(isDay){
-          sunsetLights(this.scene, this.skyBoxURL);
+          noonLights(this.scene);
           $(document.getElementById("theBody")).css("color","black");
 
         }
@@ -78,52 +78,110 @@ var stageB= {
 
         }
 
-        // noonLights(this.scene);
-        // nightLights(this.scene);
-
     },
     populateScene: function(){
         //replace the block with blockA
+        console.log(this.blockA);
         for(var i = -10; i < 11; i++){
-            if(i == -8 || i == 8){
-                createBox(i*this.blockA.width,this.blockA.height, 0, this.blockA, stageB);
-                createBox(i*this.blockA.width, this.blockA.height*2, 0, this.blockA, stageB);
-            }
-            if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
-
-                createBox(i*this.blockC.width, this.blockC.height*7, -12, this.blockC, stageB);
-            }
-            createBox(i*this.blockA.width, 0, 0, this.blockA, stageB);
+            createBox(i*this.blockA.width, 0, 0, this.blockA, this);
+            createBox(i*this.blockA.width, 0, -1*this.blockA.width, this.blockA, this);
+            createBox(i*this.blockA.width, 0, -2*this.blockA.width, this.blockA, this);
+            createBox(i*this.blockA.width, 0, -3*this.blockA.width, this.blockA, this);
         }
+        for(var i = -11; i > -40; i--) {
+          createBox(i*this.blockA.width, -1*this.blockA.width, -1*this.blockA.width, this.blockA, this);
+          createBox(-1*i*this.blockA.width, -1*this.blockA.width, -1*this.blockA.width, this.blockA, this);
+        }
+
+        //water
+        createBox(0, -10.5*this.blockA.height, 0, this.blockB, this);
+
+        //trees
+        for (var x = -9; x < 10; x+=3) {
+          for (var y= 1; y < 6; y++) {
+              createBox(x*this.blockC.height, y*this.blockC.height, -2*this.blockC.width, this.blockC, this);
+          }
+        }
+
+        generateSnow();
         //createBox(0, 50, 0, stage.blockE);
     },
     populateOmega: function(){
         //create floor out of block a
 
+       // createBox(0, 0, 0, this.blockB, this);
+
         for(var i = -10; i < 11; i++){
-          if(i == -10 || i == 10){
-              // createBox(i*this.blockC.width,-this.blockA.height/4, 0, this.blockC, stageB);
-              createBox(i*this.blockC.width, this.blockA.height/4, -12, this.blockC, stageB);
-          }
-          else{
-            createBox(i*this.blockA.width, 0, 0, this.blockA, stageB);
-          }
+            createBox(i*this.blockA.width, 0, 0, this.blockA, this);
+            createBox(i*this.blockA.width, 0, -2*this.blockA.width, this.blockA, this);
         }
+
+        for (var i = -40; i < 40; i++) {
+          createBox(x*this.blockA.width, -1*this.blockA.width, -1*this.blockA.width, this.blockA, this);
+        }
+
+
         //create underside out of block b
         for(var j = 1; j< 5; j++ ){
             for(var i = -10+j; i < 11-j; i++){
                 var choice = Math.random();
-                createBox(i*this.blockA.width, -j*this.blockB.height, 0, this.blockB, stageB);
+                createBox(i*this.blockA.width, -j*this.blockA.height, 0, this.blockA, this);
             }
         }
-        for(var i = -10+j; i < 11-j; i++){
-            if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
+        // for(var i = -10+j; i < 11-j; i++){
+        //     if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
+        //
+        //         createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockA, this);
+        //
+        //         createBox(i*this.blockA.width, this.blockA.height*7, -12, this.blockA, this);
+        //     }
+        // }
 
-                createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockC, stageB);
+        //create surrounding water
 
-                createBox(i*this.blockA.width, this.blockA.height*7, -12, this.blockC, stageB);
-            }
+
+        // for (var x= -10; x > -40; x--) {
+        //   for (var y = 0; y > -2; y--) {
+        //       createBox(x*this.blockB.width, y*this.blockB.height, 0, this.blockB, this);
+        //       createBox(-x*this.blockB.width, y*this.blockB.height, 0, this.blockB, this);
+        //   }
+        // }
+        //
+        // for (var x= -9; x > -40; x--) {
+        //       createBox(x*this.blockB.width, -2*this.blockB.height, 0, this.blockB, this);
+        //       createBox(-x*this.blockB.width, -2*this.blockB.height, 0, this.blockB, this);
+        // }
+        //
+        // for (var x= -8; x > -40; x--) {
+        //       createBox(x*this.blockB.width, -3*this.blockB.height, 0, this.blockB, this);
+        //       createBox(-x*this.blockB.width, -3*this.blockB.height, 0, this.blockB, this);
+        // }
+        //
+        // for (var x= -7; x > -40; x--) {
+        //       createBox(x*this.blockB.width, -4*this.blockB.height, 0, this.blockB, this);
+        //       createBox(-x*this.blockB.width, -4*this.blockB.height, 0, this.blockB, this);
+        // }
+        //
+        // for (var x= 0; x > -40; x--) {
+        //   for (var y = -5; y > -15; y--) {
+        //       createBox(x*this.blockB.width, y*this.blockB.height, 0, this.blockB, this);
+        //       createBox(-x*this.blockB.width, y*this.blockB.height, 0, this.blockB, this);
+        //   }
+        // }
+
+
+
+        //trees
+
+        for (var x = -9; x < 10; x+=3) {
+          for (var y= 1; y < 6; y++) {
+              createBox(x*this.blockC.height, y*this.blockC.height, -2*this.blockC.width, this.blockC, this);
+          }
         }
+
+
+
+        generateSnow();
         //create platforms out of block C
     },
     update: function(){
@@ -149,7 +207,6 @@ var stageB= {
             }
             if(this.maxTime - Math.floor(this.timer/75) == 0){
                 gameOver = true;
-                roundOver = true;
             }
         }
         //Player x and y checks
@@ -201,7 +258,6 @@ var stageB= {
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
             gameOver = true;
-            roundOver = true;
         }
 
         if(gameOver){

@@ -1,4 +1,3 @@
-var SPEED = 0.01
 
 function generateSnow() {
 

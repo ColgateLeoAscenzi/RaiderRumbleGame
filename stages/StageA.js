@@ -18,6 +18,7 @@ var stageA = {
         this.blockE = grassBoxB;
 
         this.night = false;
+        this.snowing = false;
 
 
         this.stageBlocks = [];

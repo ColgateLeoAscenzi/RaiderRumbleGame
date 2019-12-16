@@ -9,7 +9,10 @@ var BlockColors = {
     perssonLightBrown: 0x81715A,
     perssonDarkBrown: 0x4D423D,
     perssonTan:0x997749,
-    perssonGrey: 0x909090
+    perssonGrey: 0x909090,
+    iceBlue: 0xd4f1f9,
+    waterBlue: 0x0077be,
+    woodBrown: 0x986b41,
 };
 function createBasicBoxMesh(num){
 
@@ -368,3 +371,81 @@ function createPlatformBoxBounding(){
   return box;
 
 };
+
+function createIceBlockMesh() {
+
+  this.mesh = new THREE.Object3D();
+  this.mesh.name = "iceBlockMesh"
+
+  //Create the ice block
+  var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+  var matBox = new THREE.MeshPhongMaterial({color: BlockColors.iceBlue});
+
+  var box = new THREE.Mesh(geomBox, matBox);
+
+  box.castShadow = true;
+  box.receiveShadow = true;
+  box.userData ={type: "floor", height: 10, width:10};
+
+  return box;
+}
+
+function createWaterBlockMesh() {
+
+  this.mesh = new THREE.Object3D();
+  this.mesh.name = "waterBlockMesh"
+
+  //Create the ice block
+  var geomBox = new THREE.BoxGeometry(10*220, 10*20, 10, 1, 1, 1);
+  var matBox = new THREE.MeshPhongMaterial({color: BlockColors.waterBlue, transparent: true, opacity:0.95});
+
+  var box = new THREE.Mesh(geomBox, matBox);
+
+  box.castShadow = true;
+  box.receiveShadow = true;
+  box.userData ={type: "floor", height: 10, width:10};
+
+  return box;
+}
+
+function createWoodBlockMesh() {
+
+  this.mesh = new THREE.Object3D();
+  this.mesh.name = "woodBlockMesh"
+
+  //Create the ice block
+  var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+  var matBox = new THREE.MeshPhongMaterial({color: BlockColors.woodBrown});
+
+  var box = new THREE.Mesh(geomBox, matBox);
+
+
+  var geomLight = new THREE.BoxGeometry(1,1,1,1,1,1);
+  var matLight = new THREE.MeshBasicMaterial({color: 0xffff00});
+
+  var light = new THREE.Mesh(geomLight, matLight);
+  var light2 = new THREE.Mesh(geomLight, matLight);
+  var light3 = new THREE.Mesh(geomLight, matLight);
+  var light4 = new THREE.Mesh(geomLight, matLight);
+
+  light.position.set(-3, -3, 5);
+  box.add(light);
+  light2.position.set(-1, -1, 5);
+  box.add(light2);
+  light3.position.set(1, 1, 5);
+  box.add(light3);
+  light4.position.set(3, 3, 5);
+  box.add(light4);
+  //
+  // light.position.set(1, 1, 0);
+
+  // var lightSource = new THREE.PointLight(0xffff00, 1, 100);
+  // lightSource.position.set(1, 1, 5);
+  // box.add(lightSource);
+
+  box.castShadow = true;
+  box.receiveShadow = true;
+  box.userData ={type: "floor", height: 10, width:10};
+
+  return box;
+}

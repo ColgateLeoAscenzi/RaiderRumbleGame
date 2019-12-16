@@ -202,6 +202,9 @@ function loop() {
   if(!roundOver){
       requestAnimationFrame(loop);
       if(!gameOver){
+        if (stage.snowing) {
+          rotateSnow();
+        }
         if(trackPlayer){
           camera.position.set(stage.player1.model.position.x,stage.player1.model.position.y+50,stage.player1.model.position.z+120);
           if(stage.player1.model.position.x < 0){

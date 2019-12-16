@@ -215,3 +215,57 @@ var platformBlock = {
 
     }
 }
+
+var iceBlock = {
+    height: 10,
+    width: 10,
+    model: createIceBlockMesh(),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    grabbable: true,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+
+    }
+}
+
+var waterBlock = {
+    height: 10,
+    width: 10,
+    model: createWaterBlockMesh(),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    grabbable: true,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+
+    }
+}
+
+var woodBlock = {
+    height: 10,
+    width: 10,
+    model: createWoodBlockMesh(),
+    hitBox: createBasicBoxBounding(),
+    hitBoxEnabled: false,
+    grabbable: true,
+    update: function(){
+        if(this.hitBoxEnabled){
+            stage.scene.add(this.hitBox);
+        }
+        else{
+            stage.scene.remove(this.hitBox);
+        }
+
+    }
+}
