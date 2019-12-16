@@ -1,5 +1,6 @@
 var devParameters;
 var params;
+var inMainMenu;
 
 function titleScreenLoop(){
 
@@ -7,6 +8,7 @@ function titleScreenLoop(){
       requestAnimationFrame(titleScreenLoop);
     }
     else{
+        inMainMenu = false;
         var boxVar = document.getElementById("mainMenuContainer");
         boxVar.parentNode.removeChild(boxVar);
         if(!devMode){
@@ -28,7 +30,7 @@ function titleScreenLoop(){
 }
 
 function buildTitleScreen(){
-
+    inMainMenu = true;
     devParameters = function(){
         this.selectedPlayer1 = "pingu";
         this.selectedPlayer2 = "raider";
@@ -69,34 +71,37 @@ function buildTitleScreen(){
 }
 
 function handleTitleKeyDown(keyEvent){
-    if(keyEvent.key != "Alt" && keyEvent.key != "Shift" && keyEvent.key != "Tab" && keyEvent.key != "l"){
-        if(keyEvent.key != "." && !devMode){
-            titleClicked= true;
-        }
-        else{
-            if(!devMode){
-                params = new devParameters();
-                const datGui  = new dat.GUI({ autoPlace: true });
-                datGui.domElement.id = 'gui'
-                folder = datGui.addFolder(`Quick Select`);
-
-                folder.add(params,"selectedPlayer1");
-                folder.add(params,"selectedPlayer2");
-                folder.add(params,"isDay");
-                folder.add(params,"omegaOn");
-                folder.add(params,"stage");
-                folder.add(params,"submit");
-                devMode = true;
+    if(inMainMenu){
+        if(keyEvent.key != "Alt" && keyEvent.key != "Shift" && keyEvent.key != "Tab" && keyEvent.key != "l"){
+            if(keyEvent.key != "." && !devMode){
+                titleClicked= true;
             }
-            // else{
-            //     devMode = false;
-            //     params = undefined;
-            //     var boxVar = document.getElementById("gui");
-            //     boxVar.parentNode.removeChild(boxVar);
-            // }
+            else{
+                if(!devMode){
+                    params = new devParameters();
+                    const datGui  = new dat.GUI({ autoPlace: true });
+                    datGui.domElement.id = 'gui'
+                    folder = datGui.addFolder(`Quick Select`);
 
+                    folder.add(params,"selectedPlayer1");
+                    folder.add(params,"selectedPlayer2");
+                    folder.add(params,"isDay");
+                    folder.add(params,"omegaOn");
+                    folder.add(params,"stage");
+                    folder.add(params,"submit");
+                    devMode = true;
+                }
+                // else{
+                //     devMode = false;
+                //     params = undefined;
+                //     var boxVar = document.getElementById("gui");
+                //     boxVar.parentNode.removeChild(boxVar);
+                // }
+
+            }
         }
     }
+
 }
 
 function setDevParams(){

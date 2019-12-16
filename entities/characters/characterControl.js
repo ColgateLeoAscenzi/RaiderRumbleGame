@@ -57,7 +57,7 @@ var raider = {
            }
 
        }
-e.player1Spot.copy(stage.player1SpotTarget.position);
+       //stage.player1Spot.copy(stage.player1SpotTarget.position);
        // stage.player1SpotTarget.position.set(stage.player1Spot.position.x, stage.player1Spot.position.y + 10, 40);
 
 
