@@ -9,23 +9,34 @@ var gravity = 2;
 
 var lockInMessage = false;
 
+var inCharSelect = false;
+
 function cleanUpDivs(){
 
         var boxVar = document.getElementById("lockInReady");
-        boxVar.parentNode.removeChild(boxVar);
+        if(boxVar != undefined){
+            boxVar.parentNode.removeChild(boxVar);
+        }
 
         boxVar = document.getElementById("characterSelectBanner");
-        boxVar.parentNode.removeChild(boxVar);
+        if(boxVar != undefined){
+            boxVar.parentNode.removeChild(boxVar);
+        }
 
         boxVar = document.getElementById("pSelectContainer");
-        boxVar.parentNode.removeChild(boxVar);
+        if(boxVar != undefined){
+            boxVar.parentNode.removeChild(boxVar);
+        }
 }
 
 function characterSelectLoop(){
 
+    console.log(p1SelectorMesh);
+
     updatePositions();
 
     updateGrabbedPlayers()
+
 
 
     //checks to see if it shoudld display message
@@ -39,14 +50,19 @@ function characterSelectLoop(){
     }
     else if(((!p1InPosition) || (!p1InPosition)) && lockInMessage){
         var boxVar = document.getElementById("lockInReady");
-        boxVar.parentNode.removeChild(boxVar);
+        if(boxVar != undefined){
+            boxVar.parentNode.removeChild(boxVar);
+        }
         lockInMessage = false;
     }
+
 
     if(!charactersSelected){
       requestAnimationFrame(characterSelectLoop);
     }
     else{
+        inCharSelect = false;
+
         document.onkeydown = handleMapKeyDown;
         document.onkeyup = handleMapKeyUp;
 
@@ -59,6 +75,7 @@ function characterSelectLoop(){
 }
 
 function buildCharacterSelect(){
+  inCharSelect = true;
   var characters = [raider, pingu, anh];
 
   characterSelectScene = new THREE.Scene();
@@ -81,13 +98,13 @@ function buildCharacterSelect(){
   for(var i = 0; i < characters.length; i++){
     var playerStandMesh = createBasicBoxMesh(1+Math.random()*3);
     characterSelectScene.add(playerStandMesh);
-    playerStandMesh.position.x += i*30-90;
+    playerStandMesh.position.x = i*30-90;
     playerStandMesh.position.y = 28;
 
     var newChar = characters[i].model.clone();
     characterSelectScene.add(newChar);
     selectableChars.push(newChar);
-    newChar.position.x += i*30-90;
+    newChar.position.x = i*30-90;
     newChar.position.y = 38.5;
 
     var charSelectHitGeom = new THREE.BoxGeometry(10,15,10,1,1,1);
@@ -97,9 +114,9 @@ function buildCharacterSelect(){
 
     characterSelectScene.add(charSelectHitMesh);
     charSelectHitboxes.push(charSelectHitMesh);
-    charSelectHitMesh.position.x += i*30-90;
+    charSelectHitMesh.position.x = i*30-90;
     charSelectHitMesh.position.y = 44;
-    charSelectHitMesh.position.z += 10;
+    charSelectHitMesh.position.z = 10;
 
   }
 
@@ -118,10 +135,12 @@ function buildCharacterSelect(){
 
   buildSelectors();
   buildCapture();
-  window.onkeydown = handleCharSelKeyDown;
-  window.onkeyup = handleCharSelKeyUp;
+
+  document.onkeydown = handleCharSelKeyDown;
+  document.onkeyup = handleCharSelKeyUp;
 
   characterSelectLoop();
+
 }
 
 function buildSelectors(){
@@ -193,7 +212,7 @@ function checkCollision(selector, hitboxArray){
         //then reset data
         grabbedPlayer1 = hitboxArray[i].userData.character;
         p1Model = grabbedPlayer1.model.clone();
-        selector.position.z += 12;
+        selector.position.z = 19;
         characterSelectScene.add(p1Model);
         p1Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
         p1Model.userData = {heldBy: "player1", selected: true, velocity: 0, name:grabbedPlayer1.name}
@@ -216,13 +235,15 @@ function checkCollision(selector, hitboxArray){
 
         grabbedPlayer2 = hitboxArray[i].userData.character;
         p2Model = grabbedPlayer2.model.clone();
-        selector.position.z += 12;
+        selector.position.z = 17;
         characterSelectScene.add(p2Model);
         p2Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
         p2Model.userData = {heldBy: "player2", selected: true, velocity: 0, name:grabbedPlayer2.name}
         selector.userData.grabbing = true;
       }
     }
+
+    console.log(selector);
 
 
   }
@@ -244,7 +265,15 @@ function dropPlayer(selector, playerClone){
             p2InPosition = true;
         }
     }
-    selector.position.z -= 12;
+    if(selector.userData.name == "player1"){
+        selector.position.z = 7;
+    }
+    else{
+        selector.position.z = 6;
+    }
+
+    console.log(selector);
+
 
 }
 
@@ -384,83 +413,89 @@ function updateGrabbedPlayers(){
 }
 
 function handleCharSelKeyDown(keyEvent){
-  if(keyEvent.key == "a"){
-    heldDown1.left = true;
-  }
-  if(keyEvent.key == "d"){
-    heldDown1.right = true;
-  }
-  if(keyEvent.key == "s"){
-    heldDown1.down = true;
-  }
-  if(keyEvent.key == "w"){
-    heldDown1.up = true;
-  }
-  if(keyEvent.key == "j"){
-      if(!p1SelectorMesh.userData.grabbing){
-          checkCollision(p1SelectorMesh, charSelectHitboxes);
-      }
-      else{
-          dropPlayer(p1SelectorMesh, p1Model);
-      }
-  }
+    if(inCharSelect){
+        if(keyEvent.key == "a"){
+          heldDown1.left = true;
+        }
+        if(keyEvent.key == "d"){
+          heldDown1.right = true;
+        }
+        if(keyEvent.key == "s"){
+          heldDown1.down = true;
+        }
+        if(keyEvent.key == "w"){
+          heldDown1.up = true;
+        }
+        if(keyEvent.key == "j"){
+            if(!p1SelectorMesh.userData.grabbing){
+                checkCollision(p1SelectorMesh, charSelectHitboxes);
+            }
+            else{
+                dropPlayer(p1SelectorMesh, p1Model);
+            }
+        }
 
-  if(keyEvent.key == "ArrowLeft"){
-    heldDown2.left = true;
-  }
-  if(keyEvent.key == "ArrowRight"){
-    heldDown2.right = true;
-  }
-  if(keyEvent.key == "ArrowDown"){
-    heldDown2.down = true;
-  }
-  if(keyEvent.key == "ArrowUp"){
-    heldDown2.up = true;
-  }
-  if(keyEvent.key == "1"){
-      if(!p2SelectorMesh.userData.grabbing){
-          checkCollision(p2SelectorMesh, charSelectHitboxes);
-      }
-      else{
-          dropPlayer(p2SelectorMesh, p2Model);
-      }
-  }
+        if(keyEvent.key == "ArrowLeft"){
+          heldDown2.left = true;
+        }
+        if(keyEvent.key == "ArrowRight"){
+          heldDown2.right = true;
+        }
+        if(keyEvent.key == "ArrowDown"){
+          heldDown2.down = true;
+        }
+        if(keyEvent.key == "ArrowUp"){
+          heldDown2.up = true;
+        }
+        if(keyEvent.key == "1"){
+            if(!p2SelectorMesh.userData.grabbing){
+                checkCollision(p2SelectorMesh, charSelectHitboxes);
+            }
+            else{
+                dropPlayer(p2SelectorMesh, p2Model);
+            }
+        }
 
-  if(keyEvent.key == " "){
-    if(selectedPlayer1!= undefined && selectedPlayer2 !=undefined){
-      if(p1InPosition && p2InPosition){
-          charactersSelected = true;
-      }
+        if(keyEvent.key == " "){
+          if(selectedPlayer1!= undefined && selectedPlayer2 !=undefined){
+            if(p1InPosition && p2InPosition){
+                charactersSelected = true;
+            }
+          }
+        }
     }
-  }
+
 
 }
 
 
 function handleCharSelKeyUp(keyEvent){
-  if(keyEvent.key == "a"){
-    heldDown1.left = false;
-  }
-  if(keyEvent.key == "d"){
-    heldDown1.right = false;
-  }
-  if(keyEvent.key == "s"){
-    heldDown1.down = false;
-  }
-  if(keyEvent.key == "w"){
-    heldDown1.up = false;
-  }
+    if(inCharSelect){
+        if(keyEvent.key == "a"){
+          heldDown1.left = false;
+        }
+        if(keyEvent.key == "d"){
+          heldDown1.right = false;
+        }
+        if(keyEvent.key == "s"){
+          heldDown1.down = false;
+        }
+        if(keyEvent.key == "w"){
+          heldDown1.up = false;
+        }
 
-  if(keyEvent.key == "ArrowLeft"){
-    heldDown2.left = false;
-  }
-  if(keyEvent.key == "ArrowRight"){
-    heldDown2.right = false;
-  }
-  if(keyEvent.key == "ArrowDown"){
-    heldDown2.down = false;
-  }
-  if(keyEvent.key == "ArrowUp"){
-    heldDown2.up = false;
-  }
+        if(keyEvent.key == "ArrowLeft"){
+          heldDown2.left = false;
+        }
+        if(keyEvent.key == "ArrowRight"){
+          heldDown2.right = false;
+        }
+        if(keyEvent.key == "ArrowDown"){
+          heldDown2.down = false;
+        }
+        if(keyEvent.key == "ArrowUp"){
+          heldDown2.up = false;
+        }
+    }
+
 }

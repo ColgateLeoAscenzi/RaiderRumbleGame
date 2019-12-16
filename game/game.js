@@ -14,6 +14,8 @@ var camera, fieldOfView, aspectRatio, nearPlane, farPlane,
 var characterSelectCamera;
 var stage;
 
+var firstRun = true;
+
 var numPlayers = 2;
 var omegaOn = false;
 var isDay = true;
@@ -77,6 +79,8 @@ var modeBlocks = [];
 
 devMode = false;
 
+var inPostGame = false;
+
 //var player1_spotlight = new THREE.SpotLight(0xffffff);
 
 
@@ -138,6 +142,13 @@ function createCameraRender() {
       farPlane
     );
 
+    postGameCamera = new THREE.PerspectiveCamera(
+        fieldOfView,
+        aspectRatio,
+        nearPlane,
+        farPlane
+    );
+
 
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -171,6 +182,11 @@ function handleWindowResize() {
 
   characterSelectCamera.aspect = WIDTH / HEIGHT;
   characterSelectCamera.updateProjectionMatrix();
+
+
+  postGameCamera.aspect = WIDTH / HEIGHT;
+  postGameCamera.updateProjectionMatrix();
+
 }
 
 
@@ -225,6 +241,16 @@ function loop() {
 
   }
   else{
+
+      var boxVar = document.getElementById("timerBox");
+      boxVar.parentNode.removeChild(boxVar);
+
+      boxVar = document.getElementById("player1Box");
+      boxVar.parentNode.removeChild(boxVar);
+
+      boxVar = document.getElementById("player2Box");
+      boxVar.parentNode.removeChild(boxVar);
+
       buildPostGame();
   }
 

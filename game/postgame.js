@@ -1,8 +1,101 @@
+var postGameScene;
+
 function postGameLoop(){
+    postGameCamera.position.set(0,15,45);
+    postGameCamera.lookAt(0,0,0);
+
+    if(inPostGame){
+        requestAnimationFrame(postGameLoop);
+        renderer.render(postGameScene, postGameCamera);
+    }
 
 }
 
 function buildPostGame(){
 
+    inPostGame = true;
 
+    document.onkeydown = handlePostGameDown;
+    postGameScene = new THREE.Scene();
+
+    console.log(document.onkeydown);
+
+    noonLights(postGameScene);
+    for(var i = 0; i < stage.players.length; i++){
+        var playerStandMesh = createBasicBoxMesh(1+Math.random()*3);
+        postGameScene.add(playerStandMesh);
+        playerStandMesh.position.x = -15 + i*25;
+        playerStandMesh.position.y = 0;
+        playerStandMesh.position.z = 0;
+
+        postGameScene.add(stage.players[i].model);
+        stage.players[i].model.position.set(-15+i*25, 10, 0);
+
+    }
+
+    renderer.render(postGameScene, postGameCamera);
+
+    postGameCamera.position.set(0,0,10);
+    postGameCamera.lookAt(0,0,0);
+
+    postGameLoop();
+
+}
+
+function handlePostGameDown(keyEvent){
+    if(keyEvent.key == " " || keyEvent.key == "Enter"){
+        playAgain();
+    }
+}
+
+function playAgain(){
+    stage = undefined;
+    omegaOn = false;
+    isDay = true;
+    HIGHLITED = undefined;
+    SELECTEDMODE = undefined;
+    CURRENTCHAR = undefined;
+
+    titleClicked = false;
+    modeSelected = false;
+    stageSelected = false;
+    characterSelected = false;
+    selectedStage = undefined;
+
+    selectedPlayer1 = undefined;
+    selectedPlayer2 = undefined;
+
+    p1InPosition = false;
+    p2InPosition = false;
+
+    selectingTitle = false;
+
+    hitBoxesOn = false;
+    trackPlayer = false;
+    gameOver = false;
+    gameStarted = false;
+    countDown = false;
+    winner = -1;
+
+    roundOver = false;
+
+    titleScene = undefined;
+    modeScene = undefined;
+    characterSelectScene = undefined;
+    mapScene = undefined;
+    selectedStageDat = undefined;
+    currentLights = [];
+    currentSpotLight = undefined;
+
+    charactersSelected = false;
+
+    selectableStages = [];
+
+    statsOn = false;
+    stats = undefined;
+
+    devMode = false;
+
+    inPostGame = false;
+    buildCharacterSelect();
 }
