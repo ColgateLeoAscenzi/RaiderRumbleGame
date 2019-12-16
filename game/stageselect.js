@@ -33,6 +33,10 @@ function stageSelectLoop(){
       requestAnimationFrame(stageSelectLoop);
     }
     else{
+      inStageSelect = false;
+      stageSelected = false;
+      HIGHLITED = undefined;
+
       initializeWorld();
       var boxVar = document.getElementById("stageSelectBox");
       boxVar.parentNode.removeChild(boxVar);
@@ -75,6 +79,8 @@ function stageSelectLoop(){
 
 
 function buildStageSelect(){
+    inStageSelect = true;
+
   mapScene = new THREE.Scene();
   stageSelectLightsDay(mapScene);
 

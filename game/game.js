@@ -12,83 +12,75 @@ var Colors = {
 var camera, fieldOfView, aspectRatio, nearPlane, farPlane,
     renderer, container;
 var characterSelectCamera;
-var stage;
-
-var firstRun = true;
 
 var numPlayers = 2;
 var omegaOn = false;
 var isDay = true;
 
-var HIGHLITED;
-var SELECTEDMODE;
-var CURRENTCHAR;
-
-var titleClicked = false;
-var modeSelected = false;
-var stageSelected = false;
-var charactersSelected = false;
-var selectedStage;
-
-var selectedPlayer1, selectedPlayer2;
-var p1InPosition = false
-var p2InPosition = false;
-
-var selectingTitle = true;
-
 var mediaElement;
 var playingM = false;
-
 var hitBoxesOn = false;
 var trackPlayer = false;
 var mobileMode = false;
 var drawRays = false;
-var gameOver = false;
-var gameStarted = false;
-var countDown = false;
-var winner = -1;
+var devMode = false;
+var statsOn;
+var stats;
 
-var roundOver = false;
-
-var titleScene,modeScene, characterSelectScene, mapScene;
-
-var selectedStageDat;
-
-var currentLights = [];
-var currentSpotLight = undefined;
-
-//TESTING RAYCASTING
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 var controls;
 
-var selectableStages = [];
 
-var p1SelectorMesh, p2SelectorMesh;
-
-var statsOn;
-//DEBUGGING
-// var stats = new Stats();
-// stats.showPanel(1);
-// document.body.appendChild(stats.dom);
-var stats;
 
 
 var modes = ["normal", "options"];
 var modeBlocks = [];
 
-devMode = false;
 
+//menu boolean
+var inMainMenu = false;
+var titleClicked = false;
+var selectingTitle = true;
+
+
+//mode boolean
+var inModeSelect = false;
+var modeSelected = false;
+var SELECTEDMODE;
+
+//character boolean
+var inCharSelect = false;
+var p1InPosition = false
+var p2InPosition = false;
+var charactersSelected = false;
+var selectedPlayer1, selectedPlayer2;
+var p1SelectorMesh, p2SelectorMesh;
+var characterSelectScene;
+
+//stage boolean
+var inStageSelect = false;
+var stageSelected = false;
+var HIGHLITED;
+var selectableStages = [];
+var selectedStage;
+var stage;
+var mapScene;
+var currentLights = [];
+var currentSpotLight = undefined;
+
+//game booleans
+var inGame = false;
+var countDown = false;
+var winner = -1;
+var gameStarted = false;
+
+//postgame boolean
 var inPostGame = false;
+var gameOver = false;
+var roundOver = false;
 
-//var player1_spotlight = new THREE.SpotLight(0xffffff);
 
-
-// stats = new Stats();
-// stats.domElement.style.position = 'absolute';
-// stats.domElement.style.bottom = '0px';
-// stats.domElement.style.zIndex = 100;
-//document.getElementById('container').appendChild( stats.domElement );
 
 
 //SCREEN & MOUSE VARIABLES
@@ -192,6 +184,7 @@ function handleWindowResize() {
 
 //THIS IS THE GAME LOOP
 function loop() {
+    console.log(stageSelected, "GAME");
   doUpdates();
   renderer.render(stage.scene, camera);
   // console.log(renderer.info);
@@ -217,22 +210,27 @@ function loop() {
 
         }
         else{
-          camera.position.set((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2+50,stage.player1.model.position.z+120+Math.abs(stage.player1.model.position.x-stage.player2.model.position.x)*0.1);
-          camera.lookAt((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2,stage.stageBlocks[0].model.position.z);
-          if(camera.position.x < -90){
-              camera.position.x = -90;
-          }
-          if(camera.position.x > 90){
-              camera.position.x = 90;
-          }
-          if(camera.position.y < -40){
-              camera.position.y = -40;
-          }
-          if(camera.position.y > 100){
-              camera.position.y = 100;
-          }
+          camera.lookAt(stage.player1.model.position.x*+stage.player1.model.position.x*0.005,stage.player1.model.position.y,stage.player1.model.position.z);
 
         }
+
+      }
+      else{
+        camera.position.set((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2+50,stage.player1.model.position.z+120+Math.abs(stage.player1.model.position.x-stage.player2.model.position.x)*0.1);
+        camera.lookAt((stage.player1.model.position.x+stage.player2.model.position.x)/2,(stage.player1.model.position.y+stage.player2.model.position.y)/2,stage.stageBlocks[0].model.position.z);
+        if(camera.position.x < -90){
+            camera.position.x = -90;
+        }
+        if(camera.position.x > 90){
+            camera.position.x = 90;
+        }
+        if(camera.position.y < -40){
+            camera.position.y = -40;
+        }
+        if(camera.position.y > 100){
+            camera.position.y = 100;
+        }
+
       }
 
 
@@ -253,6 +251,9 @@ function loop() {
 
       boxVar = document.getElementById("player2Box");
       boxVar.parentNode.removeChild(boxVar);
+
+      roundOver = false;
+      gameOver = false;
 
       buildPostGame();
   }
@@ -304,7 +305,6 @@ function initializeWorld(){
     contols = undefined;
     if(!devMode){
         stage = selectedStage.stageData;
-        selectedStageDat = stage;
     }
     //omegaOn = selectedStage.omega;
     //isDay = selectedStage.daytime;

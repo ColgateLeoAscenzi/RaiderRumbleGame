@@ -18,8 +18,6 @@ function buildPostGame(){
     document.onkeydown = handlePostGameDown;
     postGameScene = new THREE.Scene();
 
-    console.log(document.onkeydown);
-
     noonLights(postGameScene);
     for(var i = 0; i < stage.players.length; i++){
         var playerStandMesh = createBasicBoxMesh(1+Math.random()*3);
@@ -49,53 +47,7 @@ function handlePostGameDown(keyEvent){
 }
 
 function playAgain(){
-    stage = undefined;
-    omegaOn = false;
-    isDay = true;
-    HIGHLITED = undefined;
-    SELECTEDMODE = undefined;
-    CURRENTCHAR = undefined;
-
-    titleClicked = false;
-    modeSelected = false;
-    stageSelected = false;
-    characterSelected = false;
-    selectedStage = undefined;
-
-    selectedPlayer1 = undefined;
-    selectedPlayer2 = undefined;
-
-    p1InPosition = false;
-    p2InPosition = false;
-
-    selectingTitle = false;
-
-    hitBoxesOn = false;
-    trackPlayer = false;
-    gameOver = false;
-    gameStarted = false;
-    countDown = false;
-    winner = -1;
-
-    roundOver = false;
-
-    titleScene = undefined;
-    modeScene = undefined;
-    characterSelectScene = undefined;
-    mapScene = undefined;
-    selectedStageDat = undefined;
-    currentLights = [];
-    currentSpotLight = undefined;
-
-    charactersSelected = false;
-
-    selectableStages = [];
-
-    statsOn = false;
-    stats = undefined;
-
-    devMode = false;
-
+    //RESET ALL VARIABLES
     inPostGame = false;
     buildCharacterSelect();
 }

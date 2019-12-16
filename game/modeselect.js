@@ -3,6 +3,8 @@ function modeSelectLoop(){
       requestAnimationFrame(modeSelectLoop);
     }
     else{
+        inModeSelect = false;
+        
         var boxVar = document.getElementById("modeContainer");
         boxVar.parentNode.removeChild(boxVar);
 
@@ -18,6 +20,8 @@ function modeSelectLoop(){
 }
 
 function buildModeSelect(){
+
+    inModeSelect = true;
 
     var container = document.getElementById("container");
     var modeCont = document.createElement("div");

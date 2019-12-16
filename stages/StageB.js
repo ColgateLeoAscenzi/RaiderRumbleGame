@@ -140,7 +140,7 @@ var stageB= {
                 countDown = false;
             }
         }
-        if(!gameOver && gameStarted){
+        if(!roundOver && gameStarted){
             this.timer+= this.timerIncrement;
             document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/75));
 
@@ -148,7 +148,7 @@ var stageB= {
                 this.stageBlocks[i].update();
             }
             if(this.maxTime - Math.floor(this.timer/75) == 0){
-                gameOver = true;
+                roundOver = true;
                 roundOver = true;
             }
         }
@@ -200,11 +200,11 @@ var stageB= {
         }
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
-            gameOver = true;
+            roundOver = true;
             roundOver = true;
         }
 
-        if(gameOver){
+        if(roundOver){
             this.player1.canMove = false;
             this.player2.canMove = false;
             if(this.player1.stock > this.player2.stock){

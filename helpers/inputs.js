@@ -217,19 +217,25 @@ function onMouseMove(event){
 }
 
 function onMouseDown(event){
-  if (HIGHLITED){
-    selectedStage = HIGHLITED.userData;
-    stageSelected = true;
-  }
-  if(SELECTEDMODE){
-      if(SELECTEDMODE.userData.mode == "playGame"){
-          modeSelected = true;
-      }
-  }
-  if(selectingTitle){
-      selectingTitle = false;
-      titleClicked = true;
-  }
+    if(inStageSelect){
+        if (HIGHLITED){
+          selectedStage = HIGHLITED.userData;
+          stageSelected = true;
+        }
+    }
+    if(inModeSelect){
+        if(SELECTEDMODE){
+            if(SELECTEDMODE.userData.mode == "playGame"){
+                modeSelected = true;
+            }
+        }
+    }
+    if(inMainMenu){
+        if(selectingTitle){
+            selectingTitle = false;
+            titleClicked = true;
+        }
+    }
 }
 
 function handleMapKeyUp(keyEvent){
