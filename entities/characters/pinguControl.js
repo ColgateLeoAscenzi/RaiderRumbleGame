@@ -52,7 +52,7 @@ var pingu = {
           }
           else{
               stage.player1SpotTarget.position.set(this.x, this.y + 10, -10);
-              stage.player1Spot.target = stage.player1SpotTarget;  
+              stage.player1Spot.target = stage.player1SpotTarget;
           }
 
       }
@@ -823,7 +823,6 @@ var pingu = {
       //basic attack air
       if(this.facingR && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
           if(this.canAAttack[FA]){
-            console.log("Forward Air");
             newAttackFrame = this.basicAttackObj.attackFrames[FA];
             this.canAAttack[FA] = false;
             this.canBasicAttack = false;
@@ -831,7 +830,6 @@ var pingu = {
       }
       if(this.facingL && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
         if(this.canAAttack[FA] == true){
-            console.log("Forward Air");
             newAttackFrame = this.basicAttackObj.attackFrames[FA];
             this.canAAttack[FA] = false;
             this.canBasicAttack = false;
@@ -839,7 +837,6 @@ var pingu = {
       }
       if(this.facingL && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
         if(this.canAAttack[BA] == true){
-          console.log("Back Air");
           newAttackFrame = this.basicAttackObj.attackFrames[BA];
           this.canAAttack[BA] = false;
           this.canBasicAttack = false;
@@ -847,7 +844,6 @@ var pingu = {
       }
       if(this.facingR && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
         if(this.canAAttack[BA] == true){
-          console.log("Back Air");
           newAttackFrame = this.basicAttackObj.attackFrames[BA];
           this.canAAttack[BA] = false;
           this.canBasicAttack = false;
@@ -855,7 +851,6 @@ var pingu = {
       }
       if(this.heldKeys.down && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
         if(this.canAAttack[DA] == true){
-          console.log("Down Air");
           newAttackFrame = this.basicAttackObj.attackFrames[DA];
           this.canAAttack[DA] = false;
           this.canBasicAttack = false;
@@ -863,7 +858,6 @@ var pingu = {
       }
       if(this.heldKeys.up && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
         if(this.canAAttack[UA] == true){
-          console.log("Up Air");
           newAttackFrame = this.basicAttackObj.attackFrames[UA];
           this.canAAttack[UA] = false;
           this.canBasicAttack = false;
@@ -871,7 +865,6 @@ var pingu = {
       }
       if(!this.heldKeys.left && !this.heldKeys.right && !this.heldKeys.up && !this.heldKeys.down && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
           if(this.canAAttack[NA] == true){
-            console.log("Neutral Air");
             newAttackFrame = this.basicAttackObj.attackFrames[NA];
             this.canAAttack[NA] = false;
             this.canBasicAttack = false;
@@ -881,7 +874,6 @@ var pingu = {
       //basic attack ground
       if(this.heldKeys.attack1 && this.onGround && this.canBasicAttack){
           if(this.canAAttack[A] == true){
-           console.log("Basic");
            newAttackFrame = this.basicAttackObj.attackFrames[A];
            this.canAAttack[A] = false;
            this.canBasicAttack = false;
@@ -891,7 +883,6 @@ var pingu = {
       //special attacks
       if((this.heldKeys.right || this.heldKeys.left) && this.heldKeys.attack2 && this.canBasicAttack){
         if(this.canBAttack[SS] == true){
-         console.log("Side Special");
          newAttackFrame = this.specialAttackObj.attackFrames[SS];
          this.canBAttack[SS] = false;
          this.canBasicAttack = false;
@@ -901,7 +892,6 @@ var pingu = {
       }
       if((!this.heldKeys.down && !this.heldKeys.up && !this.heldKeys.left && !this.heldKeys.right) && this.heldKeys.attack2 && this.canBasicAttack){
         if(this.canBAttack[S] == true){
-           console.log("Neutral Special");
            newAttackFrame = this.specialAttackObj.attackFrames[S];
            this.canBAttack[S] = false;
            this.canBasicAttack = false;
@@ -910,7 +900,6 @@ var pingu = {
       }
       if(this.heldKeys.down && this.heldKeys.attack2 && this.canBasicAttack){
         if(this.canBAttack[DS] == true){
-           console.log("Down Special");
            newAttackFrame = this.specialAttackObj.attackFrames[DS];
            this.canBAttack[DS] = false;
            this.canBasicAttack = false;
@@ -918,7 +907,6 @@ var pingu = {
       }
       if(this.heldKeys.up && this.heldKeys.attack2 && this.canBasicAttack){
           if(this.canBAttack[US] == true){
-           console.log("Up Special");
            newAttackFrame = this.specialAttackObj.attackFrames[US];
            this.canBAttack[US] = false;
            this.canBasicAttack = false;

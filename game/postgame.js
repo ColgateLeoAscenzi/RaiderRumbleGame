@@ -15,7 +15,6 @@ function buildPostGame(){
 
     inPostGame = true;
 
-    document.onkeydown = handlePostGameDown;
     postGameScene = new THREE.Scene();
 
     noonLights(postGameScene);
@@ -38,12 +37,6 @@ function buildPostGame(){
 
     postGameLoop();
 
-}
-
-function handlePostGameDown(keyEvent){
-    if(keyEvent.key == " " || keyEvent.key == "Enter"){
-        playAgain();
-    }
 }
 
 function playAgain(){

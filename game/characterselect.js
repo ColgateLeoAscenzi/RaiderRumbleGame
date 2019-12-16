@@ -62,9 +62,6 @@ function characterSelectLoop(){
         charactersSelected = false;
         lockInMessage = false;
 
-        document.onkeydown = handleMapKeyDown;
-        document.onkeyup = handleMapKeyUp;
-
         cleanUpDivs();
 
         buildStageSelect();
@@ -145,9 +142,6 @@ function buildCharacterSelect(){
 
   buildSelectors();
   buildCapture();
-
-  document.onkeydown = handleCharSelKeyDown;
-  document.onkeyup = handleCharSelKeyUp;
 
   characterSelectLoop();
 
@@ -416,92 +410,4 @@ function updateGrabbedPlayers(){
             }
         }
     }
-}
-
-function handleCharSelKeyDown(keyEvent){
-    if(inCharSelect){
-        if(keyEvent.key == "a"){
-          heldDown1.left = true;
-        }
-        if(keyEvent.key == "d"){
-          heldDown1.right = true;
-        }
-        if(keyEvent.key == "s"){
-          heldDown1.down = true;
-        }
-        if(keyEvent.key == "w"){
-          heldDown1.up = true;
-        }
-        if(keyEvent.key == "j"){
-            if(!p1SelectorMesh.userData.grabbing){
-                checkCollision(p1SelectorMesh, charSelectHitboxes);
-            }
-            else{
-                dropPlayer(p1SelectorMesh, p1Model);
-            }
-        }
-
-        if(keyEvent.key == "ArrowLeft"){
-          heldDown2.left = true;
-        }
-        if(keyEvent.key == "ArrowRight"){
-          heldDown2.right = true;
-        }
-        if(keyEvent.key == "ArrowDown"){
-          heldDown2.down = true;
-        }
-        if(keyEvent.key == "ArrowUp"){
-          heldDown2.up = true;
-        }
-        if(keyEvent.key == "1"){
-            if(!p2SelectorMesh.userData.grabbing){
-                checkCollision(p2SelectorMesh, charSelectHitboxes);
-            }
-            else{
-                dropPlayer(p2SelectorMesh, p2Model);
-            }
-        }
-
-        if(keyEvent.key == " "){
-          if(selectedPlayer1!= undefined && selectedPlayer2 !=undefined){
-            if(p1InPosition && p2InPosition){
-                charactersSelected = true;
-            }
-          }
-        }
-    }
-
-
-}
-
-
-function handleCharSelKeyUp(keyEvent){
-    if(inCharSelect){
-        if(keyEvent.key == "a"){
-          heldDown1.left = false;
-        }
-        if(keyEvent.key == "d"){
-          heldDown1.right = false;
-        }
-        if(keyEvent.key == "s"){
-          heldDown1.down = false;
-        }
-        if(keyEvent.key == "w"){
-          heldDown1.up = false;
-        }
-
-        if(keyEvent.key == "ArrowLeft"){
-          heldDown2.left = false;
-        }
-        if(keyEvent.key == "ArrowRight"){
-          heldDown2.right = false;
-        }
-        if(keyEvent.key == "ArrowDown"){
-          heldDown2.down = false;
-        }
-        if(keyEvent.key == "ArrowUp"){
-          heldDown2.up = false;
-        }
-    }
-
 }

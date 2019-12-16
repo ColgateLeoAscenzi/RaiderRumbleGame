@@ -245,7 +245,7 @@ function loop() {
 
       roundOver = false;
       gameOver = false;
-
+      inGame = false;
       buildPostGame();
   }
 
@@ -285,6 +285,9 @@ function doUpdates(){
 function initGame() {
 
   THREEx.FullScreen.bindKey({ charCode : 'l'.charCodeAt(0) });
+  document.onkeydown = handleKeyDown;
+  document.onkeyup = handleKeyUp;
+
   buildTitleScreen();
 
 }
@@ -293,6 +296,7 @@ function initGame() {
 
 //creates the stage and calls the main loop
 function initializeWorld(){
+    inGame = true;
     contols = undefined;
     if(!devMode){
         stage = selectedStage.stageData;
@@ -305,8 +309,7 @@ function initializeWorld(){
     camera.lookAt(stage.stageBlocks[0].model.position.x,stage.stageBlocks[0].model.position.y+10,stage.stageBlocks[0].model.position.z);
 
     //just if game starts use this
-    document.onkeydown = handleKeyDown;
-    document.onkeyup = handleKeyUp;
+
 
     var listener = new THREE.AudioListener();
     var audio = new THREE.Audio( listener );
