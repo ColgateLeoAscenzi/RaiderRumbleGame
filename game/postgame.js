@@ -49,53 +49,6 @@ function handlePostGameDown(keyEvent){
 }
 
 function playAgain(){
-    stage = undefined;
-    omegaOn = false;
-    isDay = true;
-    HIGHLITED = undefined;
-    SELECTEDMODE = undefined;
-    CURRENTCHAR = undefined;
-
-    titleClicked = false;
-    modeSelected = false;
-    stageSelected = false;
-    characterSelected = false;
-    selectedStage = undefined;
-
-    selectedPlayer1 = undefined;
-    selectedPlayer2 = undefined;
-
-    p1InPosition = false;
-    p2InPosition = false;
-
-    selectingTitle = false;
-
-    hitBoxesOn = false;
-    trackPlayer = false;
-    gameOver = false;
-    gameStarted = false;
-    countDown = false;
-    winner = -1;
-
-    roundOver = false;
-
-    titleScene = undefined;
-    modeScene = undefined;
-    characterSelectScene = undefined;
-    mapScene = undefined;
-    selectedStageDat = undefined;
-    currentLights = [];
-    currentSpotLight = undefined;
-
-    charactersSelected = false;
-
-    selectableStages = [];
-
-    statsOn = false;
-    stats = undefined;
-
-    devMode = false;
-
-    inPostGame = false;
+    //RESET ALL VARIABLES
     buildCharacterSelect();
 }
