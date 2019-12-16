@@ -45,9 +45,16 @@ var pingu = {
     update: function(){
       this.hitbbox = new THREE.Box3().setFromObject(this.hitBox);
 
-      if(stage.night){
-        stage.player2SpotTarget.position.set(this.x, this.y + 10, -10);
-        stage.player2Spot.target = stage.player2SpotTarget;
+      if(!isDay){
+          if(!this.isPlayer1){
+              stage.player2SpotTarget.position.set(this.x, this.y + 10, -10);
+              stage.player2Spot.target = stage.player2SpotTarget;
+          }
+          else{
+              stage.player1SpotTarget.position.set(this.x, this.y + 10, -10);
+              stage.player1Spot.target = stage.player1SpotTarget;  
+          }
+
       }
 
 
