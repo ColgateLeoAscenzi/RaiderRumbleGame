@@ -178,7 +178,7 @@ function handleWindowResize() {
 function loop() {
   doUpdates();
   renderer.render(stage.scene, camera);
-  console.log(renderer.info);
+  // console.log(renderer.info);
   if(statsOn){
       stats.update();
   }
