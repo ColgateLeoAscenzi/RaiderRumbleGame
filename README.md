@@ -24,7 +24,8 @@ Play the game [here!]([https://colgateleoascenzi.github.io/RaiderRumbleGame/](ht
 		* Down Special
 ### Game Flow Controls
 	*Main Menu:
-		* Press Any Button on the Main Menu to advance to character selection
+		* Developer Tools: .
+		* Advance: Any other key
 	*Character Selection [P1, P2]:
 		* Move selection coin: [WASD, ArrowKeys]
 		* Grab desired character: [J, 1]
@@ -34,6 +35,11 @@ Play the game [here!]([https://colgateleoascenzi.github.io/RaiderRumbleGame/](ht
 		* Change Time of Day: ArrowUp, ArrowDown
 		* Change Mode (Omega/Classic): ArrowLeft, ArrowRight
 		* Select Map: Click on Circle/Waypoint
+	* In Stage:
+		* Fullscreen: L
+		* Start/Stop Music: M
+		* Change Perspective: P
+		* Hitboxes: H
 
 ### Stages
 	* Persson Hall
@@ -43,19 +49,19 @@ Play the game [here!]([https://colgateleoascenzi.github.io/RaiderRumbleGame/](ht
 	* Raider (from Colgate)
 	* Pingu (from Teamfight Tactics)
 	* Phan Anh Nguyen (from Vietnam)
-### Art Direction
-	* In general we wanted to
-	*
+ ### Art Direction
+In general we wanted to keep a block based style with semi-flat lighting. We were inspired to do this by the [Climbing the Hill]([https://www.cs.colgate.edu/~efourquet/cosc435/gallery/climb-the-hill/ClimbingTheHill.html](https://www.cs.colgate.edu/~efourquet/cosc435/gallery/climb-the-hill/ClimbingTheHill.html)) game. We used textures to improve the quality of some stages and models, however made sure that they aligned with the block style. Our sky boxes and font similarly are pixelated to match.
+
 
 
 ## Technical Description
-* *[Cindy:]([https://github.com/cindyvo](https://github.com/cindyvo))*
-* *[Kerr:]([https://github.com/Hanako-Ikezawa](https://github.com/Hanako-Ikezawa))*
-* *[Leo:]([https://github.com/ColgateLeoAscenzi](https://github.com/ColgateLeoAscenzi))*
-* *[Ryan:]([https://github.com/ryanrios](https://github.com/ryanrios))*
+* [Cindy:]([https://github.com/cindyvo](https://github.com/cindyvo))
+* [Kerr:]([https://github.com/Hanako-Ikezawa](https://github.com/Hanako-Ikezawa))
+* [Leo:]([https://github.com/ColgateLeoAscenzi](https://github.com/ColgateLeoAscenzi))
+* [Ryan:]([https://github.com/ryanrios](https://github.com/ryanrios))
 
 **References**
-*  Professor Fourquet
+*  Professor [Elodie Fourquet]([https://www.cs.colgate.edu/~efourquet/](https://www.cs.colgate.edu/~efourquet/))
 * [https://github.com/tzinyama/GraphicsFinalProject](https://github.com/tzinyama/GraphicsFinalProject)
 -   Tutorials
 
