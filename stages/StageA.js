@@ -78,7 +78,8 @@ var stageA = {
         // this.scene.add(newLight);
 
         if(isDay){
-          sunsetLights(this.scene, this.skyBoxURL);
+            noonLights(this.scene);
+          // sunsetLights(this.scene, this.skyBoxURL);
           $(document.getElementById("theBody")).css("color","black");
         }
         else{
