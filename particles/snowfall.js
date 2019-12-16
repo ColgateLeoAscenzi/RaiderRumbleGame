@@ -31,7 +31,6 @@ function generateSnow() {
       stage.snow.position.y = 0;
     }
     stage.snow.translateY(-3);
-    console.log(stage.snow.position);
     // stage.snow.rotation.y += SPEED * 2;
     // stage.snow.rotation.z += SPEED* 10;
     // // console.log("rotating");
