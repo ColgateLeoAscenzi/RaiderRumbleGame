@@ -40,6 +40,8 @@ Play the game [here!]([https://colgateleoascenzi.github.io/RaiderRumbleGame/](ht
 		* Start/Stop Music: M
 		* Change Perspective: P
 		* Hitboxes: H
+	* Post Game:
+		* Play Again: Space/Enter
 
 ### Stages
 	* Persson Hall
