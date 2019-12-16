@@ -9,7 +9,7 @@ var stageB= {
         //I THINK IT'S CAUSE OF WEBPAGE LOAD TIME
         this.bgm = './sounds/My happy song Nicholas w lott.mp3';
 
-        this.skyBoxURL = './images/testbeach1.jpg'
+        this.skyBoxURL = './images/foggyBottom.png'
 
         this.omega = omegaOn;
         this.blockA = grassBox;
@@ -149,6 +149,7 @@ var stageB= {
             }
             if(this.maxTime - Math.floor(this.timer/75) == 0){
                 gameOver = true;
+                roundOver = true;
             }
         }
         //Player x and y checks
@@ -200,6 +201,7 @@ var stageB= {
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
             gameOver = true;
+            roundOver = true;
         }
 
         if(gameOver){

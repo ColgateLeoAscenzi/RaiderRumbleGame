@@ -21,6 +21,7 @@
 <script src="game/modeselect.js"></script>
 <script src="game/characterselect.js"></script>
 <script src="game/stageselect.js"></script>
+<script src="game/postgame.js"></script>
 
 <script src="helpers/playerblockcollision.js"></script>
 <script src="helpers/maths.js"></script>
@@ -31,12 +32,15 @@
 
 <script src="models/boxModel.js"></script>
 <script src="models/characterModel.js"></script>
+<script src="models/anhModel.js"></script>
 
 <script src="entities/attacks.js"></script>
 
 <script src="entities/boxControl.js"></script>
-<script src="entities/characterControl.js"></script>
-<script src="entities/pinguControl.js"></script>
+
+<script src="entities/characters/characterControl.js"></script>
+<script src="entities/characters/pinguControl.js"></script>
+<script src="entities/characters/anhControl.js"></script>
 
 <script src="lighting/stageLights.js"></script>
 <script src="particles/snowfall.js"></script>
@@ -58,28 +62,6 @@
 </head>
 <body onload = "initGame()" id="theBody">
 
-<!-- <div id="start-screen">
-  <div id="start-title">Raider Rumble</div>
-  <div id="start-click">Click to Play!</div>
-</div>
-
-<div id="instructions-screen">
-  <div id="instructions-text-player1">
-    Player 1 Controls:
-    <br/>
-    The W, A, S, and D keys are used for movement.
-    The J (normal) and K (special) keys are used to attack.
-  </div>
-  <div id="instructions-text-player2">
-    Player 2 Controls:
-    <br/>
-    The <i class="fas fa-arrow-up"></i>, <i class="fas fa-arrow-down"></i>, <i class="fas fa-arrow-left"></i>, and <i class="fas fa-arrow-right"></i> keys are used for movement.
-    The 1 (normal) and 2 (special) keys are used to attack.
-  </div>
-</div> -->
-
-  <!-- <div id="continue">Click To Continue! </div>
-  <div> -->
 
 <div id = "container">
 <!-- <div id="glcanvas"></div> -->

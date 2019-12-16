@@ -10,7 +10,7 @@ function modeSelectLoop(){
         var webglwindow = document.createElement("div");
         webglwindow.id = "glcanvas";
         container.appendChild(webglwindow);
-        
+
         createCameraRender();
         buildCharacterSelect();
     }

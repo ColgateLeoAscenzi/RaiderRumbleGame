@@ -6,7 +6,6 @@ var pingu = {
     model: createPinguMesh(0,0,0),
     secondary: createPinguMesh(0,0,0),
     hitBox: createPinguBounding(0,0,0),
-    basicAttackModel: createBasicAttackModel(),
     canAAttack: [true, true, true, true, true, true],
     canBAttack: [true, true, true, true],
     hitByA: [false, false, false, false, false],
@@ -46,9 +45,16 @@ var pingu = {
     update: function(){
       this.hitbbox = new THREE.Box3().setFromObject(this.hitBox);
 
-      if(stage.night){
-        stage.player2SpotTarget.position.set(this.x, this.y + 10, -10);
-        stage.player2Spot.target = stage.player2SpotTarget;
+      if(!isDay){
+          if(!this.isPlayer1){
+              stage.player2SpotTarget.position.set(this.x, this.y + 10, -10);
+              stage.player2Spot.target = stage.player2SpotTarget;
+          }
+          else{
+              stage.player1SpotTarget.position.set(this.x, this.y + 10, -10);
+              stage.player1Spot.target = stage.player1SpotTarget;  
+          }
+
       }
 
 
@@ -83,6 +89,7 @@ var pingu = {
         }
         if(this.isHit){
           this.hitFrames -= 1;
+          this.sleeping = false;
         }
         if(this.hitFrames < 0){
           this.isHit = false;
@@ -101,10 +108,18 @@ var pingu = {
         this.x += this.xVel;
         this.y += this.yVel;
 
+        if(this.xVel > 8 || this.yVel > 8){
+          var trail = this.model.clone();
+          stage.scene.add(trail);
+          setTimeout(function(){stage.scene.remove(trail)}, 50);
+        }
+
         //other held keys
         if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
-          this.recover();
-          this.canJump = false;
+          if(!this.sleeping){
+            this.recover();
+            this.canJump = false;
+          }
         }
         if(this.heldKeys.right && !this.heldKeys.left && !this.isHit){
             this.walkRight();
@@ -769,21 +784,20 @@ var pingu = {
     this.isHit = false;
   },
   jump: function(){
-    if(this.jumpCt == this.maxJumpCt){
-      this.canJump = false;
-    }
-    if(this.canJump){
 
-
-
-      if(!this.isHit){
-
-        this.jumpCt+=1;
-        this.yVel = this.jumpSpeed;
-        this.onGround = false;
-        this.isHit = false;
+    if(!this.sleeping){
+      if(this.jumpCt == this.maxJumpCt){
+        this.canJump = false;
       }
-    }
+      if(this.canJump){
+        if(!this.isHit){
+          this.jumpCt+=1;
+          this.yVel = this.jumpSpeed;
+          this.onGround = false;
+          this.isHit = false;
+        }
+      }
+  }
   },
   drop: function(){
   },

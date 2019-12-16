@@ -7,21 +7,66 @@ var p1Model, p2Model;
 
 var gravity = 2;
 
+var lockInMessage = false;
+
+var inCharSelect = false;
+
+function cleanUpDivs(){
+
+        var boxVar = document.getElementById("lockInReady");
+        if(boxVar != undefined){
+            boxVar.parentNode.removeChild(boxVar);
+        }
+
+        boxVar = document.getElementById("characterSelectBanner");
+        if(boxVar != undefined){
+            boxVar.parentNode.removeChild(boxVar);
+        }
+
+        boxVar = document.getElementById("pSelectContainer");
+        if(boxVar != undefined){
+            boxVar.parentNode.removeChild(boxVar);
+        }
+}
+
 function characterSelectLoop(){
+
+    console.log(p1SelectorMesh);
 
     updatePositions();
 
     updateGrabbedPlayers()
 
+
+
+    //checks to see if it shoudld display message
+    if(p1InPosition && p2InPosition && !lockInMessage && (p1Model == undefined && p2Model == undefined)){
+        var container = document.getElementById("container");
+        var lockInDiv = document.createElement("div");
+        lockInDiv.id = "lockInReady";
+        lockInDiv.innerHTML = "Ready to Rumble! Press Space To Begin!"
+        container.appendChild(lockInDiv);
+        lockInMessage = true;
+    }
+    else if(((!p1InPosition) || (!p1InPosition)) && lockInMessage){
+        var boxVar = document.getElementById("lockInReady");
+        if(boxVar != undefined){
+            boxVar.parentNode.removeChild(boxVar);
+        }
+        lockInMessage = false;
+    }
+
+
     if(!charactersSelected){
       requestAnimationFrame(characterSelectLoop);
     }
     else{
+        inCharSelect = false;
+
         document.onkeydown = handleMapKeyDown;
         document.onkeyup = handleMapKeyUp;
 
-        var boxVar = document.getElementById("pSelectContainer");
-        boxVar.parentNode.removeChild(boxVar);
+        cleanUpDivs();
 
         buildStageSelect();
     }
@@ -30,7 +75,8 @@ function characterSelectLoop(){
 }
 
 function buildCharacterSelect(){
-  var characters = [raider, pingu];
+  inCharSelect = true;
+  var characters = [raider, pingu, anh];
 
   characterSelectScene = new THREE.Scene();
   characterSelectCamera.position.set(0,55,250);
@@ -43,18 +89,23 @@ function buildCharacterSelect(){
   charSelectCont.id = "pSelectContainer";
   container.appendChild(charSelectCont);
 
+  var charSelBan = document.createElement("div");
+  charSelBan.id = "characterSelectBanner";
+  charSelBan.innerHTML = "Choose a Character!"
+  container.appendChild(charSelBan)
+
   //character selection platforms, 2 characters
-  for(var i = 0; i < 2; i++){
+  for(var i = 0; i < characters.length; i++){
     var playerStandMesh = createBasicBoxMesh(1+Math.random()*3);
     characterSelectScene.add(playerStandMesh);
-    playerStandMesh.position.x += i*30-90;
-    playerStandMesh.position.y = 30;
+    playerStandMesh.position.x = i*30-90;
+    playerStandMesh.position.y = 28;
 
     var newChar = characters[i].model.clone();
     characterSelectScene.add(newChar);
     selectableChars.push(newChar);
-    newChar.position.x += i*30-90;
-    newChar.position.y = 40.5;
+    newChar.position.x = i*30-90;
+    newChar.position.y = 38.5;
 
     var charSelectHitGeom = new THREE.BoxGeometry(10,15,10,1,1,1);
     var charSelectHitMat = new THREE.MeshPhongMaterial({color: 0xff0000, transparent: true, opacity:0});
@@ -63,29 +114,33 @@ function buildCharacterSelect(){
 
     characterSelectScene.add(charSelectHitMesh);
     charSelectHitboxes.push(charSelectHitMesh);
-    charSelectHitMesh.position.x += i*30-90;
+    charSelectHitMesh.position.x = i*30-90;
     charSelectHitMesh.position.y = 44;
-    charSelectHitMesh.position.z += 10;
+    charSelectHitMesh.position.z = 10;
 
-    //add p1 select images
-    var charSelect = document.createElement("div");
-    charSelect.id = "p"+(i+1)+"Select";
-    charSelect.innerHTML = "<div id = 'p1SelectBox'>Player "+(i+1)+": ?</div>";
-    charSelectCont.appendChild(charSelect);
+  }
 
-    var playerImg = document.createElement("img");
-    playerImg.id = "player"+(i+1)+"Img";
-    playerImg.src = "./images/characters/unselected.png";
-    playerImg.style.height = "90%";
-    charSelect.appendChild(playerImg);
+  for(var i = 0; i < numPlayers; i++){
+      var charSelect = document.createElement("div");
+      charSelect.id = "p"+(i+1)+"Select";
+      charSelect.innerHTML = "<div id = 'p1SelectBox'>Player "+(i+1)+": ?</div>";
+      charSelectCont.appendChild(charSelect);
+
+      var playerImg = document.createElement("img");
+      playerImg.id = "player"+(i+1)+"Img";
+      playerImg.src = "./images/characters/unselected.png";
+      playerImg.style.height = "90%";
+      charSelect.appendChild(playerImg);
   }
 
   buildSelectors();
   buildCapture();
-  window.onkeydown = handleCharSelKeyDown;
-  window.onkeyup = handleCharSelKeyUp;
+
+  document.onkeydown = handleCharSelKeyDown;
+  document.onkeyup = handleCharSelKeyUp;
 
   characterSelectLoop();
+
 }
 
 function buildSelectors(){
@@ -109,19 +164,19 @@ function buildSelectors(){
 }
 
 function buildCapture(){
-  var p1CaptureGeom = new THREE.BoxGeometry(100,5,10);
+  var p1CaptureGeom = new THREE.BoxGeometry(300,5,10);
   var p1CaptureMat = new THREE.MeshPhongMaterial({color:0x272e92});
   var p1CaptureMesh = new THREE.Mesh(p1CaptureGeom,p1CaptureMat);
 
   characterSelectScene.add(p1CaptureMesh);
-  p1CaptureMesh.position.set(-53,-20,10);
+  p1CaptureMesh.position.set(150,-20,10);
 
-  var p2CaptureGeom = new THREE.BoxGeometry(100,5,10);
+  var p2CaptureGeom = new THREE.BoxGeometry(300,5,10);
   var p2CaptureMat = new THREE.MeshPhongMaterial({color:0xb60e16});
   var p2CaptureMesh = new THREE.Mesh(p2CaptureGeom,p2CaptureMat);
 
   characterSelectScene.add(p2CaptureMesh);
-  p2CaptureMesh.position.set(56,-20,10);
+  p2CaptureMesh.position.set(-150,-20,10);
 
 }
 
@@ -133,8 +188,6 @@ function checkCollision(selector, hitboxArray){
   var bbox = new THREE.BoxHelper(selector, 0xff0000);
   var selectorHit = new THREE.Box3().setFromObject(bbox);
 
-  console.log(bbox);
-  console.log(selectorHit);
   for(var i = 0; i < hitboxArray.length; i++){
 
     var bboxHit = new THREE.BoxHelper(hitboxArray[i], 0xff0000);
@@ -142,24 +195,55 @@ function checkCollision(selector, hitboxArray){
 
     if(selectorHit.intersectsBox(hitBoxHit)){
       if(selector.userData.name == "player1"){
-        selectedPlayer1 = hitboxArray[i].userData.character;
-        p1Model = selectedPlayer1.model.clone();
-        selector.position.z += 12;
+
+        //first destroy any data that was originally there
+        selectedPlayer1 = undefined;
+        p1InPosition = false;
+
+        var p1SelectBox = document.getElementById("p1Select");
+        p1SelectBox.innerHTML = "<div id = 'p1SelectName'>Player 1: ?</div>"
+        var player1ImgBox = document.createElement("img");
+        player1ImgBox.id = "player1Img";
+        player1ImgBox.src = "./images/characters/unselected.png"
+        player1ImgBox.style.height = "90%";
+        p1SelectBox.appendChild(player1ImgBox);
+
+
+        //then reset data
+        grabbedPlayer1 = hitboxArray[i].userData.character;
+        p1Model = grabbedPlayer1.model.clone();
+        selector.position.z = 19;
         characterSelectScene.add(p1Model);
         p1Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
-        p1Model.userData = {heldBy: "player1", selected: true, velocity: 0, name:selectedPlayer1.name}
+        p1Model.userData = {heldBy: "player1", selected: true, velocity: 0, name:grabbedPlayer1.name}
         selector.userData.grabbing = true;
       }
       if(selector.userData.name == "player2"){
-        selectedPlayer2 = hitboxArray[i].userData.character;
-        p2Model = selectedPlayer2.model.clone();
-        selector.position.z += 12;
+
+        //destroy data
+        selectedPlayer2 = undefined;
+        p2InPosition = false;
+
+        var p2SelectBox = document.getElementById("p2Select");
+        p2SelectBox.innerHTML = "<div id = 'p2SelectName'>Player 2: ?</div>"
+        var player2ImgBox = document.createElement("img");
+        player2ImgBox.id = "player2Img";
+        player2ImgBox.src = "./images/characters/unselected.png"
+        player2ImgBox.style.height = "90%";
+        p2SelectBox.appendChild(player2ImgBox);
+
+
+        grabbedPlayer2 = hitboxArray[i].userData.character;
+        p2Model = grabbedPlayer2.model.clone();
+        selector.position.z = 17;
         characterSelectScene.add(p2Model);
         p2Model.position.set(selector.position.x, selector.position.y, selector.position.z-4);
-        p2Model.userData = {heldBy: "player2", selected: true, velocity: 0, name:selectedPlayer2.name}
+        p2Model.userData = {heldBy: "player2", selected: true, velocity: 0, name:grabbedPlayer2.name}
         selector.userData.grabbing = true;
       }
     }
+
+    console.log(selector);
 
 
   }
@@ -181,7 +265,15 @@ function dropPlayer(selector, playerClone){
             p2InPosition = true;
         }
     }
-    selector.position.z -= 12;
+    if(selector.userData.name == "player1"){
+        selector.position.z = 7;
+    }
+    else{
+        selector.position.z = 6;
+    }
+
+    console.log(selector);
+
 
 }
 
@@ -275,13 +367,14 @@ function updatePositions(){
 function updateGrabbedPlayers(){
     if(p1Model != undefined){
         if(p1Model.userData.selected == false){
-            if(p1Model.position.y < -25){
+            if(p1Model.position.y < -25 && p1Model.position.x < 0){
                 var p1SelectBox = document.getElementById("p1Select");
                 p1SelectBox.innerHTML = "<div id = 'p1SelectName'>Player 1: "+p1Model.userData.name+"</div>"
                 var player1ImgBox = document.createElement("img");
                 player1ImgBox.id = "player1Img";
                 player1ImgBox.src = "./images/characters/"+p1Model.userData.name+"Small.png"
                 player1ImgBox.style.height = "90%";
+                selectedPlayer1 = grabbedPlayer1;
                 p1SelectBox.appendChild(player1ImgBox);
                 characterSelectScene.remove(p1Model);
                 p1Model = undefined;
@@ -297,13 +390,14 @@ function updateGrabbedPlayers(){
 
     if(p2Model != undefined){
         if(p2Model.userData.selected == false){
-            if(p2Model.position.y < -25){
+            if(p2Model.position.y < -25 && p2Model.position.x > 0){
                 var p2SelectBox = document.getElementById("p2Select");
                 p2SelectBox.innerHTML = "<div id = 'p2SelectName'>Player 2: "+p2Model.userData.name+"</div>"
                 var player2ImgBox = document.createElement("img");
                 player2ImgBox.id = "player2Img";
                 player2ImgBox.src = "./images/characters/"+p2Model.userData.name+"Small.png"
                 player2ImgBox.style.height = "90%";
+                selectedPlayer2 = grabbedPlayer2;
                 p2SelectBox.appendChild(player2ImgBox);
                 characterSelectScene.remove(p2Model);
                 p2Model = undefined;
@@ -319,83 +413,89 @@ function updateGrabbedPlayers(){
 }
 
 function handleCharSelKeyDown(keyEvent){
-  if(keyEvent.key == "a"){
-    heldDown1.left = true;
-  }
-  if(keyEvent.key == "d"){
-    heldDown1.right = true;
-  }
-  if(keyEvent.key == "s"){
-    heldDown1.down = true;
-  }
-  if(keyEvent.key == "w"){
-    heldDown1.up = true;
-  }
-  if(keyEvent.key == "j"){
-      if(!p1SelectorMesh.userData.grabbing){
-          checkCollision(p1SelectorMesh, charSelectHitboxes);
-      }
-      else{
-          dropPlayer(p1SelectorMesh, p1Model);
-      }
-  }
+    if(inCharSelect){
+        if(keyEvent.key == "a"){
+          heldDown1.left = true;
+        }
+        if(keyEvent.key == "d"){
+          heldDown1.right = true;
+        }
+        if(keyEvent.key == "s"){
+          heldDown1.down = true;
+        }
+        if(keyEvent.key == "w"){
+          heldDown1.up = true;
+        }
+        if(keyEvent.key == "j"){
+            if(!p1SelectorMesh.userData.grabbing){
+                checkCollision(p1SelectorMesh, charSelectHitboxes);
+            }
+            else{
+                dropPlayer(p1SelectorMesh, p1Model);
+            }
+        }
 
-  if(keyEvent.key == "ArrowLeft"){
-    heldDown2.left = true;
-  }
-  if(keyEvent.key == "ArrowRight"){
-    heldDown2.right = true;
-  }
-  if(keyEvent.key == "ArrowDown"){
-    heldDown2.down = true;
-  }
-  if(keyEvent.key == "ArrowUp"){
-    heldDown2.up = true;
-  }
-  if(keyEvent.key == "1"){
-      if(!p2SelectorMesh.userData.grabbing){
-          checkCollision(p2SelectorMesh, charSelectHitboxes);
-      }
-      else{
-          dropPlayer(p2SelectorMesh, p2Model);
-      }
-  }
+        if(keyEvent.key == "ArrowLeft"){
+          heldDown2.left = true;
+        }
+        if(keyEvent.key == "ArrowRight"){
+          heldDown2.right = true;
+        }
+        if(keyEvent.key == "ArrowDown"){
+          heldDown2.down = true;
+        }
+        if(keyEvent.key == "ArrowUp"){
+          heldDown2.up = true;
+        }
+        if(keyEvent.key == "1"){
+            if(!p2SelectorMesh.userData.grabbing){
+                checkCollision(p2SelectorMesh, charSelectHitboxes);
+            }
+            else{
+                dropPlayer(p2SelectorMesh, p2Model);
+            }
+        }
 
-  if(keyEvent.key == " "){
-    if(selectedPlayer1!= undefined && selectedPlayer2 !=undefined){
-      if(p1InPosition && p2InPosition){
-          charactersSelected = true;
-      }
+        if(keyEvent.key == " "){
+          if(selectedPlayer1!= undefined && selectedPlayer2 !=undefined){
+            if(p1InPosition && p2InPosition){
+                charactersSelected = true;
+            }
+          }
+        }
     }
-  }
+
 
 }
 
 
 function handleCharSelKeyUp(keyEvent){
-  if(keyEvent.key == "a"){
-    heldDown1.left = false;
-  }
-  if(keyEvent.key == "d"){
-    heldDown1.right = false;
-  }
-  if(keyEvent.key == "s"){
-    heldDown1.down = false;
-  }
-  if(keyEvent.key == "w"){
-    heldDown1.up = false;
-  }
+    if(inCharSelect){
+        if(keyEvent.key == "a"){
+          heldDown1.left = false;
+        }
+        if(keyEvent.key == "d"){
+          heldDown1.right = false;
+        }
+        if(keyEvent.key == "s"){
+          heldDown1.down = false;
+        }
+        if(keyEvent.key == "w"){
+          heldDown1.up = false;
+        }
 
-  if(keyEvent.key == "ArrowLeft"){
-    heldDown2.left = false;
-  }
-  if(keyEvent.key == "ArrowRight"){
-    heldDown2.right = false;
-  }
-  if(keyEvent.key == "ArrowDown"){
-    heldDown2.down = false;
-  }
-  if(keyEvent.key == "ArrowUp"){
-    heldDown2.up = false;
-  }
+        if(keyEvent.key == "ArrowLeft"){
+          heldDown2.left = false;
+        }
+        if(keyEvent.key == "ArrowRight"){
+          heldDown2.right = false;
+        }
+        if(keyEvent.key == "ArrowDown"){
+          heldDown2.down = false;
+        }
+        if(keyEvent.key == "ArrowUp"){
+          heldDown2.up = false;
+        }
+    }
+
 }

@@ -46,6 +46,7 @@ var stageA = {
         else{
             this.populateScene();
         }
+        console.log(selectedPlayer2);
         this.player1 = selectedPlayer1;
         this.player1.init();
         this.player1.isPlayer1 = true;
@@ -78,7 +79,8 @@ var stageA = {
         // this.scene.add(newLight);
 
         if(isDay){
-          sunsetLights(this.scene, this.skyBoxURL);
+            noonLights(this.scene);
+          // sunsetLights(this.scene, this.skyBoxURL);
           $(document.getElementById("theBody")).css("color","black");
         }
         else{
@@ -181,6 +183,7 @@ var stageA = {
             //rotateSnow();
             if(this.maxTime - Math.floor(this.timer/75) == 0){
                 gameOver = true;
+                roundOver = true;
             }
         }
         //Player x and y checks
@@ -195,6 +198,7 @@ var stageA = {
               stage.players[i].yVel = 0;
               stage.players[i].stock -=1;
               stage.players[i].percentage = 0;
+              stage.players[i].isHit = false;
             }
         }
 
@@ -242,6 +246,7 @@ var stageA = {
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
             gameOver = true;
+            roundOver = true;
         }
 
         if(gameOver){

@@ -1,5 +1,6 @@
 body{
-    background-color:#D2D4D6
+    background-color:#D2D4D6;
+    margin:0px
 }
 @font-face {
   font-family: 'dpcomic';
@@ -9,6 +10,14 @@ body{
 *{
     font-family: "dpcomic";
 }
+
+#start{
+  animation:fading 2s infinite;
+
+}
+@keyframes
+fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+
 #line {
     width: 200%;
     height: 100%;
@@ -23,6 +32,47 @@ body{
     background-color: #821019;
 }
 
+#glcanvas{
+    background-color: rgba(255,255,255,1);
+}
+
+
+#lockInReady{
+    position: absolute;
+    /* based on the text size */
+    height: 4.3%;
+    width: 100%;
+    top: 45%;
+    background-color: rgba(0,0,0,1);
+    color:white;
+    text-align: center;
+    font-size: 2.5em;
+
+    animation:fading 2s infinite;
+}
+@keyframes
+fading{0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2}}
+
+#characterSelectBanner{
+    position: absolute;
+    /* based on the text size */
+    height: 4.3%;
+    width: 100%;
+    top: 0%;
+    background-color: rgba(0,0,0,1);
+    color:white;
+    text-align: center;
+    font-size: 2.5em;
+}
+
+
+#play-game{
+  height: 100%;
+  width: 100%;
+}
+#play-game:hover{
+  background-color: white;
+}
 #play, #game{
   font-family: dpcomic;
   position:absolute;
@@ -74,30 +124,35 @@ body{
     position: absolute;
     text-align: center;
     font-size: 2.5em;
-    background-color: rgba(20,20,20, 0);
-    top: 1%;
-    left: 1%;
-    width: 15%;
+    background-color: rgba(0,0,0, 1);
+    top: 0%;
+    left: 0%;
+    width: 100%;
     height: 10%;
+}
+
+.stageSelectInfo{
+    display:inline-block;
+    margin-top: 0.6%;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 #p1Select{
   display: inline-block;
   text-align: center;
   background-color: rgba(100,100,100, 1);
-  margin-left: 2%;
-  margin-right: 2%;
+  margin: 1%;
   width: 42%;
-  height: 100%;
+  height: 96%;
 }
 #p2Select{
   display: inline-block;
   text-align: center;
   background-color: rgba(100,100,100, 1);
-  margin-left: 2%;
-  margin-right: 2%;
+  margin: 1%;
   width: 42%;
-  height: 100%;
+  height: 96%;
 }
 
 #pSelectContainer{
@@ -107,5 +162,12 @@ body{
   background-color: rgba(0,0,0, 1);
   bottom: 0%;
   width: 100%;
-  height: 30%;
+  height: 35%;
+}
+
+#gui {
+   position: absolute;
+   top: 40%;
+   right: 50%;
+   font-size: 2em;
 }
