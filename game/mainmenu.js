@@ -1,6 +1,5 @@
 var devParameters;
 var params;
-var inMainMenu;
 
 function titleScreenLoop(){
 
@@ -9,6 +8,10 @@ function titleScreenLoop(){
     }
     else{
         inMainMenu = false;
+        devParameters = undefined;
+        params = undefined;
+        selectingTitle = false;
+
         var boxVar = document.getElementById("mainMenuContainer");
         boxVar.parentNode.removeChild(boxVar);
         if(!devMode){
@@ -107,12 +110,10 @@ function handleTitleKeyDown(keyEvent){
 function setDevParams(){
     selectedPlayer1 = eval(params.selectedPlayer1);
     selectedPlayer2 = eval(params.selectedPlayer2);
-    console.log(selectedPlayer2);
     isDay = params.isDay;
     omegaOn = params.omegaOn;
     selectedStageDat = eval(params.stage);
     stage = eval(params.stage);
-    console.log(stage);
 
     titleClicked = true;
 }

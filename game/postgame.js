@@ -18,8 +18,6 @@ function buildPostGame(){
     document.onkeydown = handlePostGameDown;
     postGameScene = new THREE.Scene();
 
-    console.log(document.onkeydown);
-
     noonLights(postGameScene);
     for(var i = 0; i < stage.players.length; i++){
         var playerStandMesh = createBasicBoxMesh(1+Math.random()*3);
@@ -50,5 +48,6 @@ function handlePostGameDown(keyEvent){
 
 function playAgain(){
     //RESET ALL VARIABLES
+    inPostGame = false;
     buildCharacterSelect();
 }

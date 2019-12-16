@@ -1,15 +1,12 @@
-var heldDown1 = {left: false, right: false, up: false, down:false};
-var heldDown2 = {left: false, right: false, up: false, down:false};
+var heldDown1, heldDown2;
 
-var charSelectHitboxes = [];
-var selectableChars = [];
+var charSelectHitboxes;
+var selectableChars;
 var p1Model, p2Model;
 
 var gravity = 2;
 
-var lockInMessage = false;
-
-var inCharSelect = false;
+var lockInMessage;
 
 function cleanUpDivs(){
 
@@ -30,8 +27,6 @@ function cleanUpDivs(){
 }
 
 function characterSelectLoop(){
-
-    console.log(p1SelectorMesh);
 
     updatePositions();
 
@@ -62,6 +57,10 @@ function characterSelectLoop(){
     }
     else{
         inCharSelect = false;
+        p1InPosition = false;
+        p2InPosition = false;
+        charactersSelected = false;
+        lockInMessage = false;
 
         document.onkeydown = handleMapKeyDown;
         document.onkeyup = handleMapKeyUp;
@@ -77,6 +76,17 @@ function characterSelectLoop(){
 function buildCharacterSelect(){
   inCharSelect = true;
   var characters = [raider, pingu, anh];
+  heldDown1 = {left: false, right: false, up: false, down:false};
+  heldDown2 = {left: false, right: false, up: false, down:false};
+  selectedPlayer1 = undefined;
+  selectedPlayer2 = undefined;
+  p1SelectorMesh = undefined;
+  p2SelectorMesh = undefined;
+  charSelectHitboxes = undefined;
+
+  charSelectHitboxes = [];
+  selectableChars = [];
+  lockInMessage = false;
 
   characterSelectScene = new THREE.Scene();
   characterSelectCamera.position.set(0,55,250);
@@ -243,8 +253,6 @@ function checkCollision(selector, hitboxArray){
       }
     }
 
-    console.log(selector);
-
 
   }
 
@@ -271,8 +279,6 @@ function dropPlayer(selector, playerClone){
     else{
         selector.position.z = 6;
     }
-
-    console.log(selector);
 
 
 }
