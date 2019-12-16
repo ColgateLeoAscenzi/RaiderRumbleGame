@@ -16,6 +16,8 @@ var stageB= {
         this.blockB = dirtBlockB;
         this.blockC = cloudIco;
 
+        this.snowing = false;
+
         this.stageBlocks = [];
         this.blockAMeshes = [];
         this.stageHitBoxes = [];

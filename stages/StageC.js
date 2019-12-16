@@ -1,4 +1,4 @@
-var taylorLake= {
+var stageC= {
     init: function(){
         var keys = Object.keys(stageProto);
         for(var i = 0; i < keys.length; i++){
@@ -15,6 +15,8 @@ var taylorLake= {
         this.blockA = iceBlock;
         this.blockB = waterBlock;
         this.blockC = woodBlock;
+
+        this.snowing = true;
 
         this.stageBlocks = [];
         this.blockAMeshes = [];
@@ -76,37 +78,46 @@ var taylorLake= {
 
         }
 
-        // noonLights(this.scene);
-        // nightLights(this.scene);
-
     },
     populateScene: function(){
         //replace the block with blockA
         console.log(this.blockA);
         for(var i = -10; i < 11; i++){
-            if(i == -8 || i == 8){
-                createBox(i*this.blockA.width,this.blockA.height, 0, this.blockA, taylorLake);
-                createBox(i*this.blockA.width, this.blockA.height*2, 0, this.blockA, taylorLake);
-            }
-            if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
-
-                createBox(i*this.blockC.width, this.blockC.height*7, -12, this.blockC, taylorLake);
-            }
-            createBox(i*this.blockA.width, 0, 0, this.blockA, taylorLake);
+            createBox(i*this.blockA.width, 0, 0, this.blockA, this);
+            createBox(i*this.blockA.width, 0, -1*this.blockA.width, this.blockA, this);
+            createBox(i*this.blockA.width, 0, -2*this.blockA.width, this.blockA, this);
+            createBox(i*this.blockA.width, 0, -3*this.blockA.width, this.blockA, this);
         }
+        for(var i = -11; i > -40; i--) {
+          createBox(i*this.blockA.width, -1*this.blockA.width, -1*this.blockA.width, this.blockA, this);
+          createBox(-1*i*this.blockA.width, -1*this.blockA.width, -1*this.blockA.width, this.blockA, this);
+        }
+
+        //water
+        createBox(0, -10.5*this.blockA.height, 0, this.blockB, this);
+
+        //trees
+        for (var x = -9; x < 10; x+=3) {
+          for (var y= 1; y < 6; y++) {
+              createBox(x*this.blockC.height, y*this.blockC.height, -2*this.blockC.width, this.blockC, this);
+          }
+        }
+
         generateSnow();
         //createBox(0, 50, 0, stage.blockE);
     },
     populateOmega: function(){
         //create floor out of block a
 
+       // createBox(0, 0, 0, this.blockB, this);
+
         for(var i = -10; i < 11; i++){
-            createBox(i*this.blockA.width, 0, 0, this.blockA, taylorLake);
-            createBox(i*this.blockA.width, 0, -2*this.blockA.width, this.blockA, taylorLake);
+            createBox(i*this.blockA.width, 0, 0, this.blockA, this);
+            createBox(i*this.blockA.width, 0, -2*this.blockA.width, this.blockA, this);
         }
 
         for (var i = -40; i < 40; i++) {
-          createBox(x*this.blockA.width, -1*this.blockA.width, -1*this.blockA.width, this.blockA, taylorLake);
+          createBox(x*this.blockA.width, -1*this.blockA.width, -1*this.blockA.width, this.blockA, this);
         }
 
 
@@ -114,48 +125,49 @@ var taylorLake= {
         for(var j = 1; j< 5; j++ ){
             for(var i = -10+j; i < 11-j; i++){
                 var choice = Math.random();
-                createBox(i*this.blockA.width, -j*this.blockA.height, 0, this.blockA, taylorLake);
+                createBox(i*this.blockA.width, -j*this.blockA.height, 0, this.blockA, this);
             }
         }
         // for(var i = -10+j; i < 11-j; i++){
         //     if(i == -4 || i == -3 || i == -2 || i == 2 || i == 3 || i == 4){
         //
-        //         createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockA, taylorLake);
+        //         createBox(i*this.blockA.width, this.blockA.height*4, 0, this.blockA, this);
         //
-        //         createBox(i*this.blockA.width, this.blockA.height*7, -12, this.blockA, taylorLake);
+        //         createBox(i*this.blockA.width, this.blockA.height*7, -12, this.blockA, this);
         //     }
         // }
 
         //create surrounding water
 
-        for (var x= -10; x > -40; x--) {
-          for (var y = 0; y > -2; y--) {
-              createBox(x*this.blockB.width, y*this.blockB.height, 0, this.blockB, taylorLake);
-              createBox(-x*this.blockB.width, y*this.blockB.height, 0, this.blockB, taylorLake);
-          }
-        }
 
-        for (var x= -9; x > -40; x--) {
-              createBox(x*this.blockB.width, -2*this.blockB.height, 0, this.blockB, taylorLake);
-              createBox(-x*this.blockB.width, -2*this.blockB.height, 0, this.blockB, taylorLake);
-        }
-
-        for (var x= -8; x > -40; x--) {
-              createBox(x*this.blockB.width, -3*this.blockB.height, 0, this.blockB, taylorLake);
-              createBox(-x*this.blockB.width, -3*this.blockB.height, 0, this.blockB, taylorLake);
-        }
-
-        for (var x= -7; x > -40; x--) {
-              createBox(x*this.blockB.width, -4*this.blockB.height, 0, this.blockB, taylorLake);
-              createBox(-x*this.blockB.width, -4*this.blockB.height, 0, this.blockB, taylorLake);
-        }
-
-        for (var x= 0; x > -40; x--) {
-          for (var y = -5; y > -15; y--) {
-              createBox(x*this.blockB.width, y*this.blockB.height, 0, this.blockB, taylorLake);
-              createBox(-x*this.blockB.width, y*this.blockB.height, 0, this.blockB, taylorLake);
-          }
-        }
+        // for (var x= -10; x > -40; x--) {
+        //   for (var y = 0; y > -2; y--) {
+        //       createBox(x*this.blockB.width, y*this.blockB.height, 0, this.blockB, this);
+        //       createBox(-x*this.blockB.width, y*this.blockB.height, 0, this.blockB, this);
+        //   }
+        // }
+        //
+        // for (var x= -9; x > -40; x--) {
+        //       createBox(x*this.blockB.width, -2*this.blockB.height, 0, this.blockB, this);
+        //       createBox(-x*this.blockB.width, -2*this.blockB.height, 0, this.blockB, this);
+        // }
+        //
+        // for (var x= -8; x > -40; x--) {
+        //       createBox(x*this.blockB.width, -3*this.blockB.height, 0, this.blockB, this);
+        //       createBox(-x*this.blockB.width, -3*this.blockB.height, 0, this.blockB, this);
+        // }
+        //
+        // for (var x= -7; x > -40; x--) {
+        //       createBox(x*this.blockB.width, -4*this.blockB.height, 0, this.blockB, this);
+        //       createBox(-x*this.blockB.width, -4*this.blockB.height, 0, this.blockB, this);
+        // }
+        //
+        // for (var x= 0; x > -40; x--) {
+        //   for (var y = -5; y > -15; y--) {
+        //       createBox(x*this.blockB.width, y*this.blockB.height, 0, this.blockB, this);
+        //       createBox(-x*this.blockB.width, y*this.blockB.height, 0, this.blockB, this);
+        //   }
+        // }
 
 
 
@@ -163,7 +175,7 @@ var taylorLake= {
 
         for (var x = -9; x < 10; x+=3) {
           for (var y= 1; y < 6; y++) {
-              createBox(x*this.blockC.height, y*this.blockC.height, -2*this.blockC.width, this.blockC, taylorLake);
+              createBox(x*this.blockC.height, y*this.blockC.height, -2*this.blockC.width, this.blockC, this);
           }
         }
 

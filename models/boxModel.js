@@ -396,7 +396,7 @@ function createWaterBlockMesh() {
   this.mesh.name = "waterBlockMesh"
 
   //Create the ice block
-  var geomBox = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+  var geomBox = new THREE.BoxGeometry(10*220, 10*20, 10, 1, 1, 1);
   var matBox = new THREE.MeshPhongMaterial({color: BlockColors.waterBlue, transparent: true, opacity:0.95});
 
   var box = new THREE.Mesh(geomBox, matBox);
