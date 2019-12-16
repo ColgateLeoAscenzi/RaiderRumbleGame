@@ -92,6 +92,9 @@ In general we wanted to keep a block based style with semi-flat lighting. We wer
 		* Added music with the new audio loader for the stage instances
 
 * [Leo:]([https://github.com/ColgateLeoAscenzi](https://github.com/ColgateLeoAscenzi))
+	* I'm too tired to write this now
+	* Basically all the starter code, game loops, logic, collision, block design, level generation
+	* Physics, animation parameters, knockback and damage calculations, attack types
 * [Ryan:]([https://github.com/ryanrios](https://github.com/ryanrios))
 	* Lighting
 		* Noon Lighting
