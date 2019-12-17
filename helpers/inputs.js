@@ -24,7 +24,6 @@ function handleKeyUp(keyEvent){
         }
         if(keyEvent.key == "j"){
         //jumping
-
             stage.player1.heldKeys.attack1 = false;
         }
         if(keyEvent.key == "k"){

@@ -17,6 +17,12 @@ function buildPostGame(){
 
     postGameScene = new THREE.Scene();
 
+    player1Info.damageReceived = player2Info.damageDealt;
+    player2Info.damageReceived = player1Info.damageDealt;
+
+    console.log(player1Info);
+    console.log(player2Info);
+
     noonLights(postGameScene);
     for(var i = 0; i < stage.players.length; i++){
         var playerStandMesh = createBasicBoxMesh(1+Math.random()*3);

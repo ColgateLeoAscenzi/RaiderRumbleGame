@@ -26,6 +26,7 @@ var stageA = {
         this.stageHitBoxes = [];
         this.players = [],
         this.timer =  0,
+        this.timerLast = 0,
         this.timerIncrement = 0,
         this.maxTim = 120,
 
@@ -46,7 +47,6 @@ var stageA = {
         else{
             this.populateScene();
         }
-        console.log(selectedPlayer2);
         this.player1 = selectedPlayer1;
         this.player1.init();
         this.player1.isPlayer1 = true;
@@ -161,9 +161,9 @@ var stageA = {
     update: function(){
       //console.log(this.player1Spot);
         if(countDown){
-            document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/75));
+            document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/60));
             this.timer+= this.timerIncrement;
-            if((this.maxTime)-Math.floor(this.timer/75) == 0){
+            if((this.maxTime)-Math.floor(this.timer/60) == 0){
                 document.getElementById("timerBox").innerHTML = "GO!";
                 this.player1.canMove = true;
                 this.player2.canMove = true;
@@ -175,13 +175,13 @@ var stageA = {
         }
         if(!roundOver && gameStarted){
             this.timer+= this.timerIncrement;
-            document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/75));
+            document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/60));
 
             for(var i = 0; i < this.stageBlocks.length; i++){
                 this.stageBlocks[i].update();
             }
             //rotateSnow();
-            if(this.maxTime - Math.floor(this.timer/75) == 0){
+            if(this.maxTime - Math.floor(this.timer/60) == 0){
                 roundOver = true;
                 roundOver = true;
             }
@@ -273,7 +273,7 @@ var stageA = {
         var container = document.getElementById("container");
         var timerBox = document.createElement("div");
         timerBox.id = "timerBox";
-        timerBox.innerHTML = "Time: " +((this.maxTime)- Math.floor(this.timer/75));
+        timerBox.innerHTML = "Time: " +((this.maxTime)- Math.floor(this.timer/60));
         container.appendChild(timerBox);
         countDown = true;
         this.maxTime = 3;

@@ -43,6 +43,16 @@ var pingu = {
         }
     },
     update: function(){
+
+        if(!this.onGround){
+            if(this.isPlayer1){
+                player1Info.inAirDuration += 1/60;
+            }
+            else{
+                player2Info.inAirDuration += 1/60;
+            }
+        }
+
       this.hitbbox = new THREE.Box3().setFromObject(this.hitBox);
 
       if(!isDay){
@@ -809,115 +819,138 @@ var pingu = {
       this.isHit = false;
     }
   },
-  doAnyAttack: function(){
-    //A function that checks the key inputs and assigns the appropriate booleans,
-    //and frame counts to the arrays
-    if(this.canBasicAttack && !this.isHit && !this.isRecover){
-      var newAttackFrame = 0;
+      doAnyAttack: function(){
+        var attackCast = false;
+      //A function that checks the key inputs and assigns the appropriate booleans,
+      //and frame counts to the arrays
+      if(this.canBasicAttack && !this.isHit && !this.isRecover){
+        var newAttackFrame = 0;
 
-      if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
-        this.recover();
-        this.canJump = false;
-      }
+        if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
+          this.recover();
+          this.canJump = false;
+        }
 
-      //basic attack air
-      if(this.facingR && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
-          if(this.canAAttack[FA]){
-            newAttackFrame = this.basicAttackObj.attackFrames[FA];
-            this.canAAttack[FA] = false;
+        //basic attack air
+        if(this.facingR && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
+
+            if(this.canAAttack[FA]){
+              attackCast = true;
+              newAttackFrame = this.basicAttackObj.attackFrames[FA];
+              this.canAAttack[FA] = false;
+              this.canBasicAttack = false;
+            }
+        }
+        if(this.facingL && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
+          if(this.canAAttack[FA] == true){
+              attackCast = true;
+              newAttackFrame = this.basicAttackObj.attackFrames[FA];
+              this.canAAttack[FA] = false;
+              this.canBasicAttack = false;
+            }
+        }
+        if(this.facingL && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
+          if(this.canAAttack[BA] == true){
+              attackCast = true;
+            newAttackFrame = this.basicAttackObj.attackFrames[BA];
+            this.canAAttack[BA] = false;
             this.canBasicAttack = false;
           }
-      }
-      if(this.facingL && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
-        if(this.canAAttack[FA] == true){
-            newAttackFrame = this.basicAttackObj.attackFrames[FA];
-            this.canAAttack[FA] = false;
+        }
+        if(this.facingR && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
+          if(this.canAAttack[BA] == true){
+              attackCast = true;
+            newAttackFrame = this.basicAttackObj.attackFrames[BA];
+            this.canAAttack[BA] = false;
             this.canBasicAttack = false;
           }
-      }
-      if(this.facingL && this.heldKeys.right && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
-        if(this.canAAttack[BA] == true){
-          newAttackFrame = this.basicAttackObj.attackFrames[BA];
-          this.canAAttack[BA] = false;
-          this.canBasicAttack = false;
         }
-      }
-      if(this.facingR && this.heldKeys.left && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
-        if(this.canAAttack[BA] == true){
-          newAttackFrame = this.basicAttackObj.attackFrames[BA];
-          this.canAAttack[BA] = false;
-          this.canBasicAttack = false;
-        }
-      }
-      if(this.heldKeys.down && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
-        if(this.canAAttack[DA] == true){
-          newAttackFrame = this.basicAttackObj.attackFrames[DA];
-          this.canAAttack[DA] = false;
-          this.canBasicAttack = false;
-        }
-      }
-      if(this.heldKeys.up && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
-        if(this.canAAttack[UA] == true){
-          newAttackFrame = this.basicAttackObj.attackFrames[UA];
-          this.canAAttack[UA] = false;
-          this.canBasicAttack = false;
-        }
-      }
-      if(!this.heldKeys.left && !this.heldKeys.right && !this.heldKeys.up && !this.heldKeys.down && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
-          if(this.canAAttack[NA] == true){
-            newAttackFrame = this.basicAttackObj.attackFrames[NA];
-            this.canAAttack[NA] = false;
+        if(this.heldKeys.down && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
+          if(this.canAAttack[DA] == true){
+              attackCast = true;
+            newAttackFrame = this.basicAttackObj.attackFrames[DA];
+            this.canAAttack[DA] = false;
             this.canBasicAttack = false;
+          }
         }
-      }
+        if(this.heldKeys.up && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
+          if(this.canAAttack[UA] == true){
+              attackCast = true;
+            newAttackFrame = this.basicAttackObj.attackFrames[UA];
+            this.canAAttack[UA] = false;
+            this.canBasicAttack = false;
+          }
+        }
+        if(!this.heldKeys.left && !this.heldKeys.right && !this.heldKeys.up && !this.heldKeys.down && this.heldKeys.attack1 && !this.onGround && this.canBasicAttack){
+            if(this.canAAttack[NA] == true){
+                attackCast = true;
+              newAttackFrame = this.basicAttackObj.attackFrames[NA];
+              this.canAAttack[NA] = false;
+              this.canBasicAttack = false;
+          }
+        }
 
-      //basic attack ground
-      if(this.heldKeys.attack1 && this.onGround && this.canBasicAttack){
-          if(this.canAAttack[A] == true){
-           newAttackFrame = this.basicAttackObj.attackFrames[A];
-           this.canAAttack[A] = false;
+        //basic attack ground
+        if(this.heldKeys.attack1 && this.onGround && this.canBasicAttack){
+            if(this.canAAttack[A] == true){
+                attackCast = true;
+             newAttackFrame = this.basicAttackObj.attackFrames[A];
+             this.canAAttack[A] = false;
+             this.canBasicAttack = false;
+          }
+        }
+
+        //special attacks
+        if((this.heldKeys.right || this.heldKeys.left) && this.heldKeys.attack2 && this.canBasicAttack){
+          if(this.canBAttack[SS] == true){
+              attackCast = true;
+           newAttackFrame = this.specialAttackObj.attackFrames[SS];
+           this.canBAttack[SS] = false;
            this.canBasicAttack = false;
         }
-      }
-
-      //special attacks
-      if((this.heldKeys.right || this.heldKeys.left) && this.heldKeys.attack2 && this.canBasicAttack){
-        if(this.canBAttack[SS] == true){
-         newAttackFrame = this.specialAttackObj.attackFrames[SS];
-         this.canBAttack[SS] = false;
-         this.canBasicAttack = false;
-      }
 
 
-      }
-      if((!this.heldKeys.down && !this.heldKeys.up && !this.heldKeys.left && !this.heldKeys.right) && this.heldKeys.attack2 && this.canBasicAttack){
-        if(this.canBAttack[S] == true){
-           newAttackFrame = this.specialAttackObj.attackFrames[S];
-           this.canBAttack[S] = false;
-           this.canBasicAttack = false;
         }
+        if((!this.heldKeys.down && !this.heldKeys.up && !this.heldKeys.left && !this.heldKeys.right) && this.heldKeys.attack2 && this.canBasicAttack){
+          if(this.canBAttack[S] == true){
+              attackCast = true;
+             newAttackFrame = this.specialAttackObj.attackFrames[S];
+             this.canBAttack[S] = false;
+             this.canBasicAttack = false;
+          }
 
-      }
-      if(this.heldKeys.down && this.heldKeys.attack2 && this.canBasicAttack){
-        if(this.canBAttack[DS] == true){
-           newAttackFrame = this.specialAttackObj.attackFrames[DS];
-           this.canBAttack[DS] = false;
-           this.canBasicAttack = false;
         }
-      }
-      if(this.heldKeys.up && this.heldKeys.attack2 && this.canBasicAttack){
-          if(this.canBAttack[US] == true){
-           newAttackFrame = this.specialAttackObj.attackFrames[US];
-           this.canBAttack[US] = false;
-           this.canBasicAttack = false;
+        if(this.heldKeys.down && this.heldKeys.attack2 && this.canBasicAttack){
+          if(this.canBAttack[DS] == true){
+              attackCast = true;
+             newAttackFrame = this.specialAttackObj.attackFrames[DS];
+             this.canBAttack[DS] = false;
+             this.canBasicAttack = false;
+          }
         }
-    }
+        if(this.heldKeys.up && this.heldKeys.attack2 && this.canBasicAttack){
+            if(this.canBAttack[US] == true){
+                attackCast = true;
+             newAttackFrame = this.specialAttackObj.attackFrames[US];
+             this.canBAttack[US] = false;
+             this.canBasicAttack = false;
+          }
+      }
 
-    this.basicAttackFrames = newAttackFrame;
+      this.basicAttackFrames = newAttackFrame;
+
+      if(attackCast){
+          if(this.isPlayer1){
+              player1Info.totalAttacksCast +=1;
+          }
+          else{
+              player2Info.totalAttacksCast +=1;
+          }
+      }
 
      }
 
-  },
+    },
   checkHit: function(attackType, moveType){
     //recieves the call from the animation code and the hitbox produced during,
     //animation, checks what type of move it's hit by, calculates damage and then
@@ -929,6 +962,12 @@ var pingu = {
         tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[attackType],this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
 
         this.otherPlayer.isHit = true;
+        if(this.isPlayer1){
+            player1Info.totalAttacksHit += 1;
+        }
+        else{
+            player2Info.totalAttacksHit += 1;
+        }
         this.otherPlayer.hitByA[attackType] = true;
         this.doKnockBack(damageToDeal, angleToApply, tKnockback);
         // this.isRecoiling = true;
@@ -943,6 +982,12 @@ var pingu = {
         tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[attackType],this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
 
         this.otherPlayer.isHit = true;
+        if(this.isPlayer1){
+            player1Info.totalAttacksHit += 1;
+        }
+        else{
+            player2Info.totalAttacksHit += 1;
+        }
         this.otherPlayer.hitByB[attackType] = true;
         this.doKnockBack(damageToDeal, angleToApply, tKnockback);
         // this.isRecoiling = true;
@@ -968,6 +1013,12 @@ var pingu = {
 
          knockbackVec = knockbackVec.normalize();
          //applying the knockback
+         if(this.isPlayer1){
+             player1Info.damageDealt+=damageToDeal;
+         }
+         else{
+             player2Info.damageDealt+=damageToDeal;
+         }
         this.otherPlayer.percentage += damageToDeal;
         this.otherPlayer.xVel = tKnockback*0.5*knockbackVec.x;
         this.otherPlayer.yVel = tKnockback*0.5*knockbackVec.y;

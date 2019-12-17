@@ -80,7 +80,6 @@ var inPostGame = false;
 var gameOver = false;
 var roundOver = false;
 
-
 var player1Info = {
     damageDealt: 0,
     damageReceived: 0,
@@ -314,6 +313,23 @@ function initGame() {
 function initializeWorld(){
     inGame = true;
     contols = undefined;
+
+    player1Info = {
+        damageDealt: 0,
+        damageReceived: 0,
+        inAirDuration: 0,
+        totalAttacksCast: 0,
+        totalAttacksHit: 0,
+    }
+    player2Info = {
+        damageDealt: 0,
+        damageReceived: 0,
+        inAirDuration: 0,
+        totalAttacksCast: 0,
+        totalAttacksHit: 0,
+    }
+
+
     if(!devMode){
         stage = selectedStage.stageData;
     }
