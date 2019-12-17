@@ -256,24 +256,24 @@ function createDirtBlockMesh(num){
 
   box.add(brick);
 
-  brick.position.set(-2.4,1.0,4.3);
+  brick.position.set(-2.4,0,4.3);
   brick.scale.set(1.1,1.1,1);
 
   var brick1 = new THREE.Mesh(medBrickGeo, brick2Mat);
-  brick1.position.set(2.5,1.0,4.3);
+  brick1.position.set(2.5,0,4.3);
   brick1.scale.set(1.1,1.1,1);
 
   box.add(brick1);
 
 //the borrom row
   var brick3 = new THREE.Mesh(smolBrickGeo, brickMat);
-  brick3.position.set(-3.7,-2.2,4.3);
+  brick3.position.set(-3.7,-3.2,4.3);
   brick3.scale.set(1.3,1.1,1);
 
   box.add(brick3);
 
   var brick4 = new THREE.Mesh(beegBrickGeo, brick3Mat);
-  brick4.position.set(1.2,-2.2,4.3);
+  brick4.position.set(1.2,-3.2,4.3);
   brick4.scale.set(1.2,1.1,1);
 
   box.add(brick4);
@@ -281,12 +281,12 @@ function createDirtBlockMesh(num){
 
   //the very top row
   var brick5 = new THREE.Mesh(smolBeegBrickGeo, brick5Mat);
-  brick5.position.set(2.2,4.4,4.3);
+  brick5.position.set(2.2,3.4,4.3);
 
   box.add(brick5);
 
   var brick6 = new THREE.Mesh(smolBeegBrickGeo, brick3Mat);
-  brick6.position.set(-2.8,4.4,4.3);
+  brick6.position.set(-2.8,3.4,4.3);
 
   box.add(brick6);
 
