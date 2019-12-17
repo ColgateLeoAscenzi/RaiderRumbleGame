@@ -397,11 +397,11 @@ function pollGamepads() {
   pressedButtons = [];
   // Loop through all gamepads connect to the computer
   for(let g = 0; g < gamepads.length; g++) {
-      if(g == 1){
+      if(g == 0){
           pressedButtons1 = [];
           axis1 = [];
       }
-      if(g == 2){
+      if(g == 1){
           pressedButtons2 = [];
           axis2 = [];
       }
