@@ -411,18 +411,18 @@ function pollGamepads() {
       for(let b = 0; b < gp.buttons.length; b++) {
 
         if(gp.buttons[b].pressed) {
-            if(g == 1){
+            if(g == 0){
                 pressedButtons1[b] = true;
             }
-            if(g == 2){
+            if(g == 1){
                 pressedButtons2[b] = true;
             }
         }
         else{
-            if(g == 1){
+            if(g == 0){
                 pressedButtons1[b] = false;
             }
-            if(g == 2){
+            if(g == 1){
                 pressedButtons2[b] = false;
             }
         }
@@ -431,10 +431,10 @@ function pollGamepads() {
 
       for(let a = 0; a < gp.axes.length; a++){
           if(gp.axes[a]){
-              if(g == 1){
+              if(g == 0){
                   axis1[a] = gp.axes[a];
               }
-              if(g == 2){
+              if(g == 1){
                   axis2[a] = gp.axes[a];
               }
           }
