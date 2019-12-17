@@ -41,6 +41,19 @@ function buildPostGame(){
     postGameCamera.position.set(0,0,10);
     postGameCamera.lookAt(0,0,0);
 
+    var container = document.getElementById("container");
+    for(var i = 0; i < numPlayers; i++){
+        var statsDiv = document.createElement("div");
+        statsDiv.id = "p"+(i+1)+"Stats";
+        var pMessage = "";
+        // if(i == 0){
+        //     for(var j = 0; j < )
+        // }
+        statsDiv.innerHTML = "Ready to Rumble! Press Space To Begin!"
+        container.appendChild(statsDiv);
+    }
+
+
     postGameLoop();
 
 }

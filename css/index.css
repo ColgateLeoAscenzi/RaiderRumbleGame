@@ -96,6 +96,8 @@ fading{0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2}}
     left: 40%;
     width: 20%;
     height: 10%;
+    text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15)
+
 }
 #player1Box{
     position: absolute;
@@ -106,6 +108,7 @@ fading{0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2}}
     left: 10%;
     width: 20%;
     height: 10%;
+    text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15)
 
 }
 
@@ -118,6 +121,8 @@ fading{0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2}}
     left: 70%;
     width: 20%;
     height: 10%;
+    text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15)
+
 }
 
 #stageSelectBox{
@@ -170,4 +175,29 @@ fading{0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2}}
    top: 40%;
    right: 50%;
    font-size: 2em;
+}
+
+
+#p1Stats{
+    position: absolute;
+    text-align: center;
+    font-size: 2.5em;
+    background-color: rgba(20,20,20, 0.8);
+    bottom: 20%;
+    left: 10%;
+    width: 20%;
+    height: 10%;
+
+}
+
+#p2Stats{
+    position: absolute;
+    text-align: center;
+    font-size: 2.5em;
+    background-color: rgba(20,20,20, 0.8);
+    bottom: 20%;
+    left: 70%;
+    width: 20%;
+    height: 10%;
+
 }
