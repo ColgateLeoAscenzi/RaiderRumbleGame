@@ -118,7 +118,7 @@ var pingu = {
         this.x += this.xVel;
         this.y += this.yVel;
 
-        if(this.xVel > 8 || this.yVel > 8){
+        if(this.xVel > 6.5 || this.yVel > 6.5){
           var trail = this.model.clone();
           stage.scene.add(trail);
           setTimeout(function(){stage.scene.remove(trail)}, 50);
