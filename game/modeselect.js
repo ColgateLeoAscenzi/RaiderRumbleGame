@@ -1,10 +1,15 @@
+var timed = 0;
+var timedP = 0;
 function modeSelectLoop(){
+
+    timed += 1;
+    checkModeButtons();
     if(!modeSelected){
       requestAnimationFrame(modeSelectLoop);
     }
     else{
         inModeSelect = false;
-        
+
         var boxVar = document.getElementById("modeContainer");
         boxVar.parentNode.removeChild(boxVar);
 
@@ -47,4 +52,10 @@ function buildModeSelect(){
 
 function startGame(){
     modeSelected = true;
+}
+
+function checkModeButtons(){
+    if((pressedButtons1[0] || pressedButtons2[0] || pressedButtons1[1]  || pressedButtons2[1]) && timed > 10){
+        modeSelected = true;
+    }
 }

@@ -6,6 +6,7 @@ var topMeshes = [];
 var time = 0;
 //THIS IS THE STAGE SELECT LOOP
 function stageSelectLoop(){
+    stageSelectButtons();
     time+= 1;
    stageSelectCamera.lookAt(0,0,0);
     stageSelectCamera.position.set(0,800,0);
@@ -180,5 +181,38 @@ function buildStageSelect(){
   container.appendChild(stageModeBox);
 
   stageSelectLoop();
+
+}
+
+function stageSelectButtons(){
+    if((pressedButtons1[0] || pressedButtons2[0] ) && time > 10){
+          HIGHLITED = stageCBlock;
+          selectedStage = HIGHLITED.userData;
+          stageSelected = true;
+    }
+    else if((pressedButtons1[1]  || pressedButtons2[1]) && time > 10){
+        HIGHLITED = perssonBlock;
+        selectedStage = HIGHLITED.userData;
+        stageSelected = true;
+    }
+    else if((pressedButtons1[2]  || pressedButtons2[2]) && time > 10){
+        HIGHLITED = tayLorBlock;
+        selectedStage = HIGHLITED.userData;
+        stageSelected = true;
+    }
+
+
+    if((pressedButtons1[14] || pressedButtons2[14] ) && time > 10){
+          omegaOn = true;
+    }
+    else if((pressedButtons1[15]  || pressedButtons2[15]) && time > 10){
+        omegaOn = false;
+    }
+    else if((pressedButtons1[12]  || pressedButtons2[12]) && time > 10){
+        isDay = true;
+    }
+    else if((pressedButtons1[13]  || pressedButtons2[13]) && time > 10){
+        isDay = false;
+    }
 
 }

@@ -8,8 +8,10 @@ var gravity = 2;
 
 var lockInMessage;
 
-function cleanUpDivs(){
+var timee = 0;
+var timeeP = 0;
 
+function cleanUpDivs(){
         var boxVar = document.getElementById("lockInReady");
         if(boxVar != undefined){
             boxVar.parentNode.removeChild(boxVar);
@@ -27,10 +29,13 @@ function cleanUpDivs(){
 }
 
 function characterSelectLoop(){
+    timee+= 1;
 
     updatePositions();
 
-    updateGrabbedPlayers()
+    updateGrabbedPlayers();
+    updateP1Controller();
+    updateP2Controller();
 
 
 
@@ -39,7 +44,12 @@ function characterSelectLoop(){
         var container = document.getElementById("container");
         var lockInDiv = document.createElement("div");
         lockInDiv.id = "lockInReady";
-        lockInDiv.innerHTML = "Ready to Rumble! Press Space To Begin!"
+        if(!controllersConnected){
+            lockInDiv.innerHTML = "Ready to Rumble! Press Space To Begin!"
+        }
+        else{
+            lockInDiv.innerHTML = "Ready to Rumble! Press B To Begin!"
+        }
         container.appendChild(lockInDiv);
         lockInMessage = true;
     }
@@ -408,6 +418,108 @@ function updateGrabbedPlayers(){
                     p2Model.userData.velocity += 0.1;
                 }
             }
+        }
+    }
+}
+
+function updateP2Controller(){
+    if(inCharSelect){
+        if(axis2.length == 2){
+            if(axis2[0] < -0.5){
+                heldDown2.left = true;
+                heldDown2.right = false;
+            }
+            else if(axis2[0] > 0.5){
+                heldDown2.right = true;
+                heldDown2.left = false;
+            }
+
+            if(axis2[1] < -0.8){
+                heldDown2.up = true;
+                heldDown2.down = false;
+            }
+            else if(axis2[1] > 0.8){
+                heldDown2.down = true;
+                heldDown2.up = false;
+
+            }
+        }
+        else{
+            heldDown2.left = false;
+            heldDown2.right = false;
+            heldDown2.up = false;
+            heldDown2.down = false;
+        }
+
+        if(pressedButtons2[1]){
+            if(timee - timeeP > 30){
+                timeeP = timee;
+                if(!p2SelectorMesh.userData.grabbing){
+                    checkCollision(p2SelectorMesh, charSelectHitboxes);
+                }
+                else{
+                    dropPlayer(p2SelectorMesh, p2Model);
+                }
+            }
+        }
+        if(pressedButtons2[0]){
+          if(selectedPlayer1!= undefined && selectedPlayer2 !=undefined){
+            if(p1InPosition && p2InPosition){
+                charactersSelected = true;
+            }
+          }
+        }
+    }
+}
+
+function updateP1Controller(){
+    if(inCharSelect){
+        if(axis1.length == 2){
+            if(axis1[0] < -0.5){
+                heldDown1.left = true;
+                heldDown1.right = false;
+            }
+            else if(axis1[0] > 0.5){
+                heldDown1.right = true;
+                heldDown1.left = false;
+            }
+
+            if(axis1[1] < -0.5){
+                heldDown1.up = true;
+                heldDown1.down = false;
+
+            }
+            else if(axis1[1] > 0.5){
+                heldDown1.down = true;
+                heldDown1.up = false;
+            }
+        }
+        else{
+            heldDown1.left = false;
+            heldDown1.right = false;
+            heldDown1.up = false;
+            heldDown1.down = false;
+        }
+
+
+        if(pressedButtons1[1]){
+            if(timee - timeeP > 30){
+                timeeP = timee;
+                if(!p1SelectorMesh.userData.grabbing){
+                    checkCollision(p1SelectorMesh, charSelectHitboxes);
+                }
+                else{
+                    dropPlayer(p1SelectorMesh, p1Model);
+                }
+            }
+
+        }
+        if(pressedButtons1[0]){
+          if(selectedPlayer1!= undefined && selectedPlayer2 !=undefined){
+            if(p1InPosition && p2InPosition){
+                charactersSelected = true;
+            }
+          }
         }
     }
 }

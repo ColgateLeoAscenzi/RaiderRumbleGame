@@ -1,4 +1,4 @@
-//COLORS
+axis2//COLORS
 var Colors = {
     skyBlue: 0x86ebcc,
     ground: 0x332609,
@@ -281,10 +281,15 @@ function loop() {
 
 }
 
+var controllersConnected = false;
 
 
 function doUpdates(){
-  // updates all stage.stageBlocks
+    if(controllersConnected){
+        updateInputsPlayer1();
+        updateInputsPlayer2();
+    }
+
 
       stage.player1.update();
       stage.player1.animate();
@@ -295,7 +300,7 @@ function doUpdates(){
     stage.update();
 
 }
-
+let interval;
 
 function initGame() {
 
@@ -303,10 +308,20 @@ function initGame() {
   document.onkeydown = handleKeyDown;
   document.onkeyup = handleKeyUp;
 
+  setUpGamePads();
+
+
   buildTitleScreen();
 
 }
 
+var p1GamePadR = [false, false, false, false];
+var p1GamePadL = [false, false, false, false];
+var p1Control = [0,0,0,0];
+
+var p2GamePadR = [false, false, false, false];
+var p2GamePadL = [false, false, false, false];
+var p2Control = [0,0,0,0];
 
 
 //creates the stage and calls the main loop
@@ -352,4 +367,291 @@ function initializeWorld(){
     mediaElement.loop = true;
 
     loop();
+}
+
+function setUpGamePads(){
+    window.addEventListener("gamepadconnected", function(e) {
+      controllersConnected = true;
+      const gamepad = e.gamepad;
+      console.log(`Gamepad connected at index ${gamepad.index}: ${gamepad.id}.
+                  ${gamepad.buttons.length} buttons, ${gamepad.axes.length} axes.`);
+    });
+
+    if (!('ongamepadconnected' in window)) {
+      // No gamepad events available, poll instead.
+      interval = setInterval(pollGamepads, 10);
+    }
+
+}
+var pressedButtons1 = [];
+var axis1 = [];
+
+var pressedButtons2 = [];
+var axis2 = [];
+
+var allAxis = [];
+
+function pollGamepads() {
+  // Grab a list of gamepads that are currently connected or a empty array
+  const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+  pressedButtons = [];
+  // Loop through all gamepads connect to the computer
+  for(let g = 0; g < gamepads.length; g++) {
+      if(g == 1){
+          pressedButtons1 = [];
+          axis1 = [];
+      }
+      if(g == 2){
+          pressedButtons2 = [];
+          axis2 = [];
+      }
+    const gp = gamepads[g];
+    if(!!gp) {
+      // Loop through all gamepad buttons pick out pressed ones
+      for(let b = 0; b < gp.buttons.length; b++) {
+
+        if(gp.buttons[b].pressed) {
+            if(g == 1){
+                pressedButtons1[b] = true;
+            }
+            if(g == 2){
+                pressedButtons2[b] = true;
+            }
+        }
+        else{
+            if(g == 1){
+                pressedButtons1[b] = false;
+            }
+            if(g == 2){
+                pressedButtons2[b] = false;
+            }
+        }
+
+      }
+
+      for(let a = 0; a < gp.axes.length; a++){
+          if(gp.axes[a]){
+              if(g == 1){
+                  axis1[a] = gp.axes[a];
+              }
+              if(g == 2){
+                  axis2[a] = gp.axes[a];
+              }
+          }
+      }
+
+    }
+
+  }
+
+
+}
+
+// updates all stage.stageBlocks
+function updateInputsPlayer1(){
+
+    if(inCharSelect){
+
+    }
+
+    if(stage.player1.canMove){
+        if(pressedButtons1[0]){
+          stage.player1.heldKeys.attack2 = true;
+          stage.player1.doAnyAttack();
+        }
+        if(!pressedButtons1[0]){
+          stage.player1.heldKeys.attack2 = false;
+        }
+
+        if(pressedButtons1[1]){
+          stage.player1.heldKeys.attack1 = true;
+          stage.player1.doAnyAttack();
+        }
+        if(!pressedButtons1[1]){
+          stage.player1.heldKeys.attack1 = false;
+        }
+
+        if(pressedButtons1[2] || pressedButtons1[3]){
+          stage.player1.heldKeys.up = true;
+          stage.player1.jump();
+        }
+        if(!pressedButtons1[2]){
+          stage.player1.heldKeys.up = false;
+        }
+        if(!pressedButtons1[3]){
+          stage.player1.heldKeys.up = false;
+        }
+
+        if(axis1.length == 2){
+            if(axis1[0] < -0.5){
+                stage.player1.heldKeys.left = true;
+                stage.player1.heldKeys.right = false;
+                stage.player1.movingR = false;
+            }
+            else if(axis1[0] > 0.5){
+                stage.player1.heldKeys.right = true;
+                stage.player1.heldKeys.left = false;
+                stage.player1.movingL = false;
+            }
+
+            if(axis1[1] > -0.8){
+                stage.player1.heldKeys.down = true;
+                stage.player1.heldKeys.up = false;
+                stage.player1.jumping = false;
+            }
+            else if(axis1[1] < 0.8){
+                stage.player1.heldKeys.up = true;
+                stage.player1.heldKeys.down = false;
+                if(stage.player1.heldKeys.up && stage.player1.heldKeys.attack2 && stage.player1.canRecover && !stage.player1.isRecover){
+                  if(!stage.player1.sleeping){
+                    stage.player1.recover();
+                    stage.player1.canJump = false;
+                  }
+                }
+                stage.player1.jump();
+            }
+        }
+        else{
+            stage.player1.heldKeys.left = false;
+            stage.player1.heldKeys.down = false;
+            stage.player1.heldKeys.right = false;
+            stage.player1.heldKeys.up = false;
+            stage.player1.movingL = false;
+            stage.player1.movingR = false;
+        }
+        if(pressedButtons1[13]){
+            stage.player1.heldKeys.down = true;
+        }
+        if(!pressedButtons1[13]){
+            stage.player1.heldKeys.down = false;
+        }
+
+        // if(pressedButtons1[14]){
+        //     stage.player1.heldKeys.left = true;
+        // }
+        // if(!pressedButtons1[14]){
+        //     stage.player1.heldKeys.left = false;
+        //     stage.player1.movingL = false;
+        // }
+
+        // if(pressedButtons1[15]){
+        //     stage.player1.heldKeys.right = true;
+        // }
+        // if(!pressedButtons1[15]){
+        //     stage.player1.heldKeys.right = false;
+        //     stage.player1.movingR = false;
+        // }
+
+        if(pressedButtons1[12]){
+            stage.player1.heldKeys.up = true;
+            stage.player1.jump();
+        }
+        if(!pressedButtons1[12]){
+            stage.player1.heldKeys.up = false;
+        }
+
+    }
+
+}
+
+function updateInputsPlayer2(){
+    if(stage.player2.canMove){
+        if(pressedButtons2[0]){
+          stage.player2.heldKeys.attack2 = true;
+          stage.player2.doAnyAttack();
+        }
+        if(!pressedButtons2[0]){
+          stage.player2.heldKeys.attack2 = false;
+        }
+
+        if(pressedButtons2[1]){
+          stage.player2.heldKeys.attack1 = true;
+          stage.player2.doAnyAttack();
+        }
+        if(!pressedButtons2[1]){
+          stage.player2.heldKeys.attack1 = false;
+        }
+
+        if(pressedButtons2[2] || pressedButtons2[3]){
+          stage.player2.heldKeys.up = true;
+          stage.player2.jump();
+        }
+        if(!pressedButtons2[2]){
+          stage.player2.heldKeys.up = false;
+        }
+        if(!pressedButtons2[3]){
+          stage.player2.heldKeys.up = false;
+        }
+
+        if(axis2.length == 2){
+            if(axis2[0] < -0.5){
+                stage.player2.heldKeys.left = true;
+                stage.player2.heldKeys.right = false;
+                stage.player2.movingR = false;
+            }
+            else if(axis2[0] > 0.5){
+                stage.player2.heldKeys.right = true;
+                stage.player2.heldKeys.left = false;
+                stage.player2.movingL = false;
+            }
+
+            if(axis2[1] > -0.8){
+                stage.player2.heldKeys.down = true;
+                stage.player2.heldKeys.up = false;
+                stage.player2.jumping = false;
+            }
+            else if(axis2[1] < 0.8){
+                stage.player2.heldKeys.up = true;
+                stage.player2.heldKeys.down = false;
+                if(stage.player2.heldKeys.up && stage.player2.heldKeys.attack2 && stage.player2.canRecover && !stage.player2.isRecover){
+                  if(!stage.player2.sleeping){
+                    stage.player2.recover();
+                    stage.player2.canJump = false;
+                  }
+                }
+                stage.player2.jump();
+            }
+        }
+        else{
+            stage.player2.heldKeys.left = false;
+            stage.player2.heldKeys.down = false;
+            stage.player2.heldKeys.right = false;
+            stage.player2.heldKeys.up = false;
+            stage.player2.movingL = false;
+            stage.player2.movingR = false;
+        }
+        if(pressedButtons2[13]){
+            stage.player2.heldKeys.down = true;
+        }
+        if(!pressedButtons2[13]){
+            stage.player2.heldKeys.down = false;
+        }
+
+        // if(pressedButtons2[14]){
+        //     stage.player2.heldKeys.left = true;
+        // }
+        // if(!pressedButtons2[14]){
+        //     stage.player2.heldKeys.left = false;
+        //     stage.player2.movingL = false;
+        // }
+
+        // if(pressedButtons2[15]){
+        //     stage.player2.heldKeys.right = true;
+        // }
+        // if(!pressedButtons2[15]){
+        //     stage.player2.heldKeys.right = false;
+        //     stage.player2.movingR = false;
+        // }
+
+        if(pressedButtons2[12]){
+            stage.player2.heldKeys.up = true;
+            stage.player2.jump();
+        }
+        if(!pressedButtons2[12]){
+            stage.player2.heldKeys.up = false;
+        }
+    }
+
+
+
 }

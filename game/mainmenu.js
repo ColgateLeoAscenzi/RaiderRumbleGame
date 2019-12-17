@@ -3,6 +3,7 @@ var params;
 
 function titleScreenLoop(){
 
+    checkAnyButton();
     if(!titleClicked){
       requestAnimationFrame(titleScreenLoop);
     }
@@ -81,4 +82,10 @@ function setDevParams(){
     stage = eval(params.stage);
 
     titleClicked = true;
+}
+
+function checkAnyButton(){
+    if(pressedButtons1.length > 0 || pressedButtons2.length > 0){
+        titleClicked = true;
+    }
 }
