@@ -93,7 +93,7 @@ var player2Info = {
     damageReceived: 0,
     inAirDuration: 0,
     totalAttacksCast: 0,
-    totalAttacksHit: 0, 
+    totalAttacksHit: 0,
 }
 
 
@@ -199,6 +199,7 @@ function handleWindowResize() {
 
 //THIS IS THE GAME LOOP
 function loop() {
+
   doUpdates();
   renderer.render(stage.scene, camera);
   // console.log(renderer.info);
