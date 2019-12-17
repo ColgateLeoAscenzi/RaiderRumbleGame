@@ -70,15 +70,6 @@ function stageSelectLightsDay(scene) {
    scene.add(directLight);
    currentLights.push(directLight);
 
-   for(var i = 0; i < selectableStages.length; i++){
-     var blockspotter = new THREE.SpotLight(0xffffff, 0.2);
-     blockspotter.angle = radians(30);
-     blockspotter.target = selectableStages[i];
-
-     blockspotter.position.set(selectableStages[i].position.x, 40, selectableStages[i].position.z);
-     mapScene.add(blockspotter);
-     currentLights.push(blockspotter);
-   }
 
 }
 

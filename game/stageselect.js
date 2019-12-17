@@ -1,6 +1,12 @@
-
+var stageCBlock;
+var perssonBlock;
+var perssonTop;
+var tayLorBlock;
+var topMeshes = [];
+var time = 0;
 //THIS IS THE STAGE SELECT LOOP
 function stageSelectLoop(){
+    time+= 1;
    stageSelectCamera.lookAt(0,0,0);
     stageSelectCamera.position.set(0,800,0);
     if(isDay && omegaOn){
@@ -36,6 +42,8 @@ function stageSelectLoop(){
       inStageSelect = false;
       stageSelected = false;
       HIGHLITED = undefined;
+      selectableStages = [];
+      topMeshes =[];
 
       initializeWorld();
       var boxVar = document.getElementById("stageSelectBox");
@@ -57,20 +65,15 @@ function stageSelectLoop(){
           HIGHLITED = intersects[ 0 ].object;
           HIGHLITED.currentHex = HIGHLITED.material.emissive.getHex();
           HIGHLITED.material.emissive.setHex(0xff0000);
-          HIGHLITED.material.opacity = 0;
-          currentSpotLight = new THREE.SpotLight(0xff00ff, 0.4);
-          currentSpotLight.angle = radians(30);
-          currentSpotLight.target = HIGHLITED;
+          HIGHLITED.material.opacity = 0.8;
 
-          currentSpotLight.position.set(HIGHLITED.position.x, 40, HIGHLITED.position.z);
-          mapScene.add(currentSpotLight);
-          currentLights.push(currentSpotLight);
       }
   } else {
       if ( HIGHLITED ){
         HIGHLITED.material.emissive.setHex( HIGHLITED.currentHex );
-        HIGHLITED.material.opacity = 0;
-        mapScene.remove(currentSpotLight);
+        HIGHLITED.material.opacity = 0.8;
+
+        //undo something
       }
       HIGHLITED = null;
   }
@@ -79,7 +82,7 @@ function stageSelectLoop(){
 
 
 function buildStageSelect(){
-    inStageSelect = true;
+  inStageSelect = true;
 
   mapScene = new THREE.Scene();
   stageSelectLightsDay(mapScene);
@@ -108,25 +111,64 @@ function buildStageSelect(){
 
   //each clickable block
 
-  var perssonGeom = new THREE.BoxGeometry(35,10,20,1,1,1);
-  var perssonMat = new THREE.MeshPhongMaterial({color: 0xffffff, opacity: 0, transparent: true});
-  var perssonBlock = new THREE.Mesh(perssonGeom, perssonMat);
-  perssonBlock.userData = {stageData:stageA};
-  mapScene.add(perssonBlock);
+  var perssonGeom = new THREE.TorusGeometry( 10, ( 10 * 0.25), 2, 12 );
+  var perssonMat = new THREE.MeshPhongMaterial({color: 0x00ccff, emissive: 0x00ccff});
+  perssonBlock = new THREE.Mesh(perssonGeom, perssonMat);
   perssonBlock.position.set(-75,10,-65);
-  perssonBlock.rotation.set(radians(-30),radians(68),radians(0));
+  perssonBlock.rotation.set(1.57,0,0);
+  mapScene.add(perssonBlock);
 
+  perssonBlock.userData = {stageData:stageA};
   selectableStages.push(perssonBlock);
 
 
-  var fieldOfDreamsGeom = new THREE.BoxGeometry(200,20,50,1,1,1);
-  var fieldOfDreamsMat = new THREE.MeshPhongMaterial({color: 0xffffff, opacity: 0, transparent: true});
-  var stageCBlock = new THREE.Mesh(fieldOfDreamsGeom, fieldOfDreamsMat);
-  stageCBlock.userData = {stageData:stageC};
+  perssonTop = new THREE.Mesh(new THREE.TetrahedronGeometry(6, 0),new THREE.MeshPhongMaterial({color: 0x00ccff, emissive: 0x00ccff}));
+  perssonTop.position.set(-75,25,-65);
+  perssonTop.rotation.set(0,0,0);
+  mapScene.add(perssonTop);
+
+  perssonTop.userData = {stageData:stageA};
+  selectableStages.push(perssonTop);
+  topMeshes.push(perssonTop);
+
+
+  var fieldOfDreamsGeom = new THREE.TorusGeometry( 15, ( 15 * 0.25), 2, 12 );
+  var fieldOfDreamsMat = new THREE.MeshPhongMaterial({color: 0x00ccff, emissive: 0x00ccff});
+  stageCBlock = new THREE.Mesh(fieldOfDreamsGeom, fieldOfDreamsMat);
+  stageCBlock.userData = {stageData:stageB};
   mapScene.add(stageCBlock);
-  stageCBlock.position.set(50,20,140);
-  stageCBlock.rotation.set(radians(-10),radians(35),radians(0));
+  stageCBlock.position.set(48,11,132);
+  stageCBlock.scale.set(1,1,1);
+  stageCBlock.rotation.set(1.57,0,0);
   selectableStages.push(stageCBlock);
+
+
+  fieldOfDreamsTop = new THREE.Mesh(new THREE.TetrahedronGeometry(10, 0),new THREE.MeshPhongMaterial({color: 0x00ccff, emissive: 0x00ccff}));
+  fieldOfDreamsTop.position.set(48,25,132);
+  mapScene.add(fieldOfDreamsTop);
+  fieldOfDreamsTop.userData = {stageData:stageB};
+  selectableStages.push(fieldOfDreamsTop);
+  topMeshes.push(fieldOfDreamsTop);
+
+
+  var taylorLakeGeom = new THREE.TorusGeometry( 15, ( 15 * 0.25), 2, 12 );
+  var taylorLakeMat = new THREE.MeshPhongMaterial({color: 0x00ccff, emissive: 0x00ccff});
+  tayLorBlock = new THREE.Mesh(taylorLakeGeom, taylorLakeMat);
+  tayLorBlock.userData = {stageData:stageC};
+  mapScene.add(tayLorBlock);
+  tayLorBlock.position.set(-212,10,-151);
+  tayLorBlock.scale.set(1,1,1);
+  tayLorBlock.rotation.set(1.57,0,0);
+  selectableStages.push(tayLorBlock);
+
+
+  taylorTop = new THREE.Mesh(new THREE.TetrahedronGeometry(10, 0),new THREE.MeshPhongMaterial({color: 0x00ccff, emissive: 0x00ccff}));
+  taylorTop.position.set(-212,25,-151);
+  mapScene.add(taylorTop);
+  taylorTop.userData = {stageData:stageC};
+  selectableStages.push(taylorTop);
+  topMeshes.push(taylorTop);
+
 
 
   var container = document.getElementById("container");
