@@ -83,7 +83,8 @@ function characterSelectLoop(){
 
 function buildCharacterSelect(){
   inCharSelect = true;
-  var characters = [raider, pingu, anh];
+
+  var characters = [[raider, raider1], [pingu,pingu1], [anh,anh1]];
   heldDown1 = {left: false, right: false, up: false, down:false};
   heldDown2 = {left: false, right: false, up: false, down:false};
   selectedPlayer1 = undefined;
@@ -119,22 +120,22 @@ function buildCharacterSelect(){
     playerStandMesh.position.x = i*30-90;
     playerStandMesh.position.y = 28;
 
-    var newChar = characters[i].model.clone();
+    var newChar = characters[i][0].model.clone();
     characterSelectScene.add(newChar);
     selectableChars.push(newChar);
     newChar.position.x = i*30-90;
     newChar.position.y = 38.5;
 
-    var charSelectHitGeom = new THREE.BoxGeometry(10,15,10,1,1,1);
-    var charSelectHitMat = new THREE.MeshPhongMaterial({color: 0xff0000, transparent: true, opacity:0});
-    var charSelectHitMesh = new THREE.Mesh(charSelectHitGeom,charSelectHitMat);
-    charSelectHitMesh.userData = {character: characters[i]}
+    var charSelectHitGeom1 = new THREE.BoxGeometry(10,15,10,1,1,1);
+    var charSelectHitMat1 = new THREE.MeshPhongMaterial({color: 0xff0000, transparent: true, opacity:0});
+    var charSelectHitMesh1 = new THREE.Mesh(charSelectHitGeom1,charSelectHitMat1);
+    charSelectHitMesh1.userData = {character: characters[i]}
 
-    characterSelectScene.add(charSelectHitMesh);
-    charSelectHitboxes.push(charSelectHitMesh);
-    charSelectHitMesh.position.x = i*30-90;
-    charSelectHitMesh.position.y = 44;
-    charSelectHitMesh.position.z = 10;
+    characterSelectScene.add(charSelectHitMesh1);
+    charSelectHitboxes.push(charSelectHitMesh1);
+    charSelectHitMesh1.position.x = i*30-90;
+    charSelectHitMesh1.position.y = 44;
+    charSelectHitMesh1.position.z = 10;
 
   }
 
@@ -225,7 +226,7 @@ function checkCollision(selector, hitboxArray){
 
 
         //then reset data
-        grabbedPlayer1 = hitboxArray[i].userData.character;
+        grabbedPlayer1 = hitboxArray[i].userData.character[0];
         p1Model = grabbedPlayer1.model.clone();
         selector.position.z = 19;
         characterSelectScene.add(p1Model);
@@ -248,7 +249,8 @@ function checkCollision(selector, hitboxArray){
         p2SelectBox.appendChild(player2ImgBox);
 
 
-        grabbedPlayer2 = hitboxArray[i].userData.character;
+        grabbedPlayer2 = hitboxArray[i].userData.character[1];
+        console.log(hitboxArray[i]);
         p2Model = grabbedPlayer2.model.clone();
         selector.position.z = 17;
         characterSelectScene.add(p2Model);

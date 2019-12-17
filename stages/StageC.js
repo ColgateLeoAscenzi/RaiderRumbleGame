@@ -192,7 +192,7 @@ var stageC= {
                 document.getElementById("timerBox").innerHTML = "GO!";
                 this.player1.canMove = true;
                 this.player2.canMove = true;
-                this.maxTime = 120;
+                this.maxTime = 180;
                 this.timer = 0;
                 gameStarted = true;
                 countDown = false;
@@ -224,6 +224,7 @@ var stageC= {
             }
         }
 
+
         var stockString1 = ""
         for(var i = 0; i < this.player1.stock; i++){
           stockString1+="<i class='fas fa-heart' style='color:violet'></i> "
@@ -232,27 +233,34 @@ var stageC= {
         for(var i = 0; i < this.player2.stock; i++){
           stockString2+="<i class='fas fa-heart' style='color:violet'></i> "
         }
-        if(this.player1.percentage >= 80) {
+        for(var i = 0; i < this.players.length; i++){
+          if(this.players[i].percentage < 40){
+            if(isDay){
+              color = "black:"
+            }
+            else{
+              color = "white";
+            }
+          }
+          else if(this.players[i].percentage < 60){
+            color = "yellow";
+          }
+          else if(this.players[i].percentage < 80){
+            color = "orange";
+          }
+          else{
+            color = "red"
+          }
 
-          player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ "</div>" + "<div id = 'player1Stock'"+
-                                  stockString1+"</div>" + "<div id ='player1Percent' style = 'color: red;'> Percent: "+this.player1.percentage +"</div>";
 
-        } else {
-
-          player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ "</div>" + "<div id = 'player1Stock'"+
-                                  stockString1+"</div>" + "<div id ='player1Percent'> Percent: "+this.player1.percentage +"</div>";
-
-        }
-
-        if(this.player2.percentage >= 80) {
-
-          player2Box.innerHTML =  "<div id = 'player2Name'>"+ this.player2.name+"</div>"+ "<div id = 'player2Stock'" +
-                                  stockString2+"</div>"+ "<div id= 'player2Percent' style = 'color: red;'> Percent: " +this.player2.percentage + "</div>";
-
-        } else {
-
-          player2Box.innerHTML =  "<div id = 'player2Name'>"+ this.player2.name+"</div>"+ "<div id = 'player2Stock'" +
-                                  stockString2+"</div>"+ "<div id= 'player2Percent'> Percent: " +this.player2.percentage + "</div>";
+          if(i == 0){
+            player1Box.innerHTML = "<div id = 'player1Name'>"+this.player1.name+ "</div>" + "<div id = 'player1Stock'"+
+                                      stockString1+"</div>" + "<div id ='player1Percent' style = 'color: "+color+";'>"+this.player1.percentage +"%</div>";
+          }
+          else{
+            player2Box.innerHTML = "<div id = 'player2Name'>"+this.player2.name+ "</div>" + "<div id = 'player2Stock'"+
+                                      stockString2+"</div>" + "<div id ='player2Percent' style = 'color: "+color+";'>"+this.player2.percentage +"%</div>";
+          }
 
         }
 
