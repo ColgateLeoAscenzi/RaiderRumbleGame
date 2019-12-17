@@ -1,8 +1,1 @@
-function drawbbox(bboxMesh){
-  selectedStageDat.scene.add(bboxMesh);
-}
-
-function removebbox(bboxMesh){
-  selectedStageDat.scene.remove(bboxMesh);
-  bboxMesh.geometry.dispose();
-}
+function drawbbox(e){selectedStageDat.scene.add(e)}function removebbox(e){selectedStageDat.scene.remove(e),e.geometry.dispose()}

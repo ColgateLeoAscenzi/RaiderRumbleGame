@@ -1,7 +1,1 @@
-function radians( degrees ) {
-  return degrees * Math.PI / 180.0;
-}
-
-function degrees( radians ) {
-  return radians * 180 / Math.PI;
-}
+function radians(n){return n*Math.PI/180}function degrees(n){return 180*n/Math.PI}

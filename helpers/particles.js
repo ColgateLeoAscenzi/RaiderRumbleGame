@@ -1,8 +1,1 @@
-var particles = {
-  particlePalette: {
-    sword: new THREE.Mesh(new THREE.BoxGeometry(1.5,1.5,1.5, 1, 1, 1), new THREE.MeshPhongMaterial({ color : 0xaaaaaa, opacity: 1, transparent: true})).clone(),
-    heartPiece: new THREE.Mesh(new THREE.BoxGeometry(2,2,2, 1, 1, 1), new THREE.MeshPhongMaterial({ color : 0xaa0000, opacity: 1, transparent: true, emissive: 0xff7dc2})).clone(),
-    sleepPiece: new THREE.Mesh(new THREE.BoxGeometry(2,2,2, 1, 1, 1), new THREE.MeshPhongMaterial({ color : 0xffb70f, opacity: 1, transparent: true})).clone(),
-    musicPiece: new THREE.Mesh(new THREE.BoxGeometry(2,2,2, 1, 1, 1), new THREE.MeshPhongMaterial({ color : 0xf0e354, opacity: 1, transparent: true})).clone(),
-  }
-}
+var particles={particlePalette:{sword:new THREE.Mesh(new THREE.BoxGeometry(1.5,1.5,1.5,1,1,1),new THREE.MeshPhongMaterial({color:11184810,opacity:1,transparent:!0})).clone(),heartPiece:new THREE.Mesh(new THREE.BoxGeometry(2,2,2,1,1,1),new THREE.MeshPhongMaterial({color:11141120,opacity:1,transparent:!0,emissive:16743874})).clone(),sleepPiece:new THREE.Mesh(new THREE.BoxGeometry(2,2,2,1,1,1),new THREE.MeshPhongMaterial({color:16758543,opacity:1,transparent:!0})).clone(),musicPiece:new THREE.Mesh(new THREE.BoxGeometry(2,2,2,1,1,1),new THREE.MeshPhongMaterial({color:15786836,opacity:1,transparent:!0})).clone()}};
