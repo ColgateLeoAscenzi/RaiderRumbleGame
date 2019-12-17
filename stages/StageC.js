@@ -11,6 +11,7 @@ var stageC= {
 
         //this.skyBoxURL = './images/testbeach1.jpg'
 
+        this.name = "Taylor Lake";
         this.omega = omegaOn;
         this.blockA = iceBlock;
         this.blockB = waterBlock;

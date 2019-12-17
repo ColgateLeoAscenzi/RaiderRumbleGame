@@ -10,6 +10,7 @@ var stageA = {
         this.bgm = './sounds/My happy song Nicholas w lott.mp3';
         this.skyBoxURL = './images/Persson_sunset.png'
 
+        this.name = "Persson Stairs";
         this.omega = omegaOn;
         this.blockA = basicBox1;
         this.blockB = dirtBlock1;

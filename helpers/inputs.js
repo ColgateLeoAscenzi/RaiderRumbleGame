@@ -219,6 +219,7 @@ function handleKeyDown(keyEvent){
     }
 
   if(inStageSelect){
+
       if(keyEvent.key == "ArrowUp"){
         isDay = true;
         removeLights(mapScene);

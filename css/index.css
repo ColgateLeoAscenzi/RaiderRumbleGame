@@ -208,5 +208,14 @@ fading{0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2}}
     height: 100%;
     display: inline-block;
 
+}
 
+#mapBox{
+  position: absolute;
+  text-align: center;
+  font-size: 1.5em;
+  background-color: rgba(1,1,1,1);
+  width: 20%;
+  height: 15%;
+  color: white;
 }

@@ -11,6 +11,7 @@ var stageB= {
 
         this.skyBoxURL = './images/foggyBottom.png'
 
+        this.name = "Field of Dreams";
         this.omega = omegaOn;
         this.blockA = grassBox;
         this.blockB = dirtBlockB;
@@ -206,7 +207,7 @@ var stageB= {
           }
 
         }
-        
+
         if(this.player1.stock == 0 || this.player2.stock == 0){
             roundOver = true;
             roundOver = true;
