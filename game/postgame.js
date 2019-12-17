@@ -74,7 +74,7 @@ function buildPostGame(){
 
     var charSelBan = document.createElement("div");
     charSelBan.id = "characterSelectBanner";
-    charSelBan.innerHTML = "Game! Duration: "+stage.timer;
+    charSelBan.innerHTML = "Game! Duration: "+Math.round(stage.timer/60);
     container.appendChild(charSelBan)
 
 
