@@ -517,7 +517,34 @@ var raider = {
 
       if(!this.canBAttack[S]){
           this.basicAttackFrames-=1;
+
+          var s = (this.basicAttackObj.attackFrames[NA]-this.basicAttackFrames)/(this.basicAttackObj.attackFrames[NA]);
+
+          this.model.torso.leftArm.rotation.z = -75;
+          this.model.torso.rightArm.rotation.z = 75;
+          this.model.torso.leftArm.scale.set(1,1.5,1);
+          this.model.torso.rightArm.scale.set(1,1.5,1);
+
+          var bbox = new THREE.BoxHelper(this.model, 0xff0000)
+          this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+          if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+            this.checkHit(S,"B");
+          }
+
+          if(hitBoxesOn){
+            stage.scene.add(bbox);
+            setTimeout(function(){bbox.geometry.dispose();}, 50);
+            setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+          }
+
           if(this.basicAttackFrames <= 0){
+              this.model.torso.leftArm.rotation.z = 0;
+              this.model.torso.rightArm.rotation.z = 0;
+              this.model.torso.leftArm.scale.set(1,1,1);
+              this.model.torso.rightArm.scale.set(1,1,1);
+              this.model.rotation.z = 0;
+              //this.model.scale.set(1,1,1);
               this.basicAttackFrames = 25;
               this.canBAttack[S] = true;
               this.canBasicAttack = true;
