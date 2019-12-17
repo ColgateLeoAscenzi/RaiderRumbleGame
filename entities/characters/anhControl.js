@@ -356,10 +356,10 @@ var anh = {
           if(c < 0.25){
             this.model.rotation.z = 4*c*1.57;
           }
-          var kd = 3;
+          var kd = 4.5;
           if(this.basicAttackFrames > this.specialAttackObj.attackFrames[DS] - 5){
             if((this.x <= this.otherPlayer.x + kd && this.x >= this.otherPlayer.x-kd) && (this.y <= this.otherPlayer.y +kd && this.y >= this.otherPlayer.y-kd) && (this.z <= this.otherPlayer.z +kd && this.z >= this.otherPlayer.z-kd)){
-              this.otherPlayer.percentage = 130;
+              this.otherPlayer.percentage += 130;
               this.checkHit(DS,"B");
             }
           }
