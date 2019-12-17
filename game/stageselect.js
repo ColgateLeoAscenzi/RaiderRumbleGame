@@ -6,7 +6,9 @@ var topMeshes = [];
 var time = 0;
 //THIS IS THE STAGE SELECT LOOP
 function stageSelectLoop(){
-    stageSelectButtons();
+    if(controllersConnected){
+        stageSelectButtons();
+    }
     time+= 1;
    stageSelectCamera.lookAt(0,0,0);
     stageSelectCamera.position.set(0,800,0);

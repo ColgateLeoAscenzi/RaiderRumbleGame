@@ -34,9 +34,10 @@ function characterSelectLoop(){
     updatePositions();
 
     updateGrabbedPlayers();
-    updateP1Controller();
-    updateP2Controller();
-
+    if(controllersConnected){
+        updateP1Controller();
+        updateP2Controller();
+    }
 
 
     //checks to see if it shoudld display message

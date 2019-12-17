@@ -3,7 +3,9 @@ var params;
 
 function titleScreenLoop(){
 
-    checkAnyButton();
+    if(controllersConnected){
+        checkAnyButton();
+    }
     if(!titleClicked){
       requestAnimationFrame(titleScreenLoop);
     }

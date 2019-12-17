@@ -3,7 +3,9 @@ var timedP = 0;
 function modeSelectLoop(){
 
     timed += 1;
-    checkModeButtons();
+    if(controllersConnected){
+        checkModeButtons();
+    }
     if(!modeSelected){
       requestAnimationFrame(modeSelectLoop);
     }

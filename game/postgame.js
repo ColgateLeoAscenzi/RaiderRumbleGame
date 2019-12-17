@@ -4,6 +4,10 @@ function postGameLoop(){
     postGameCamera.position.set(0,15,45);
     postGameCamera.lookAt(0,0,0);
 
+    if(controllersConnected){
+        checkAllButtons();
+    }
+
     if(inPostGame){
         requestAnimationFrame(postGameLoop);
         renderer.render(postGameScene, postGameCamera);
@@ -67,7 +71,12 @@ function buildPostGame(){
 
     var lockInDiv = document.createElement("div");
     lockInDiv.id = "lockInReady";
-    lockInDiv.innerHTML = "Press Space to Play Again!"
+    if(controllersConnected){
+        lockInDiv.innerHTML = "Press B to Play Again!"
+    }
+    else{
+        lockInDiv.innerHTML = "Press Space to Play Again!"
+    }
     lockInDiv.style.width = "25%";
     lockInDiv.style.left = "35%";
     container.appendChild(lockInDiv);
@@ -103,4 +112,8 @@ function playAgain(){
     }
     inPostGame = false;
     buildCharacterSelect();
+}
+
+function checkAllButtons(){
+
 }
