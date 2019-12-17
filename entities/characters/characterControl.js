@@ -128,12 +128,11 @@ var raider = {
         this.x += this.xVel;
         this.y += this.yVel;
 
-        if(this.xVel > 6.5 || this.yVel > 6.5){
+        if(Math.abs(this.xVel) > 4 || Math.abs(this.yVel) > 4){
           var trail = this.model.clone();
           stage.scene.add(trail);
           setTimeout(function(){stage.scene.remove(trail)}, 50);
-        }
-
+        } 
 
         //other held keys
         if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
