@@ -86,7 +86,7 @@ function stageSelectLoop(){
 
 function buildStageSelect(){
   inStageSelect = true;
-
+  time = 0;
   mapScene = new THREE.Scene();
   stageSelectLightsDay(mapScene);
 
