@@ -41,7 +41,7 @@ var anhBasic = {
 var raiderSpecial = {
   knockback: 20,
   scaling: 0.1,
-  damage: [2,2,0,2],
+  damage: [2,5,0,2],
   successive: 0,
   launchAngle: [20, 0, 30, 0],
   attackFrames: [25, 25, 25, 25]

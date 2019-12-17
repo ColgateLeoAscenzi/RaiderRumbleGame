@@ -68,11 +68,13 @@ function buildPostGame(){
     var lockInDiv = document.createElement("div");
     lockInDiv.id = "lockInReady";
     lockInDiv.innerHTML = "Press Space to Play Again!"
+    lockInDiv.style.width = "25%";
+    lockInDiv.style.left = "35%";
     container.appendChild(lockInDiv);
 
     var charSelBan = document.createElement("div");
     charSelBan.id = "characterSelectBanner";
-    charSelBan.innerHTML = "Game Over"
+    charSelBan.innerHTML = "Game! Duration: "+stage.timer;
     container.appendChild(charSelBan)
 
 
