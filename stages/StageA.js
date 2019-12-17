@@ -79,8 +79,13 @@ var stageA = {
         // this.scene.add(newLight);
 
         if(isDay){
-            noonLights(this.scene);
-          // sunsetLights(this.scene, this.skyBoxURL);
+            var r = Math.random();
+            if(r < 0.8){
+                noonLights(this.scene);
+            }
+            else{
+                sunsetLights(this.scene, this.skyBoxURL);
+            }
           $(document.getElementById("theBody")).css("color","black");
         }
         else{
