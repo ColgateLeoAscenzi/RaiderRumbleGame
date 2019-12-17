@@ -108,7 +108,7 @@ function playAgain(){
     if(boxVar != undefined){
         boxVar.parentNode.removeChild(boxVar);
     }
-    
+
     for(var i = 0; i < numPlayers; i++){
         boxVar = document.getElementById("p"+(i+1)+"Stats");
         if(boxVar != undefined){

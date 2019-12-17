@@ -28,7 +28,7 @@ var stageA = {
         this.timer =  0,
         this.timerLast = 0,
         this.timerIncrement = 0,
-        this.maxTim = 120,
+        this.maxTim = 180,
 
         this.minimumY = -80,
         this.maximumY = 280,

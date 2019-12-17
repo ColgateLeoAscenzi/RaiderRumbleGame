@@ -23,7 +23,7 @@ var stageProto = {
     blockAMeshes: [],
     timer: 0,
     timerIncrement: 0,
-    maxTime: 120,
+    maxTime: 180,
     skyBoxURL: "",
     player1SpawnX: -10,
     player1SpawnY: 20,
