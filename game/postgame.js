@@ -14,6 +14,7 @@ function postGameLoop(){
 function buildPostGame(){
 
     inPostGame = true;
+    gameStarted = false;
 
     postGameScene = new THREE.Scene();
 

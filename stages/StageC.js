@@ -186,9 +186,9 @@ var stageC= {
     },
     update: function(){
         if(countDown){
-            document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/75));
+            document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/60));
             this.timer+= this.timerIncrement;
-            if((this.maxTime)-Math.floor(this.timer/75) == 0){
+            if((this.maxTime)-Math.floor(this.timer/60) == 0){
                 document.getElementById("timerBox").innerHTML = "GO!";
                 this.player1.canMove = true;
                 this.player2.canMove = true;
@@ -200,12 +200,12 @@ var stageC= {
         }
         if(!roundOver && gameStarted){
             this.timer+= this.timerIncrement;
-            document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/75));
+            document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/60));
 
             for(var i = 0; i < this.stageBlocks.length; i++){
                 this.stageBlocks[i].update();
             }
-            if(this.maxTime - Math.floor(this.timer/75) == 0){
+            if(this.maxTime - Math.floor(this.timer/60) == 0){
                 roundOver = true;
             }
         }
@@ -281,10 +281,11 @@ var stageC= {
     },
     startTimer: function(){
         this.timerIncrement = 1;
+        this.timer = 0;
         var container = document.getElementById("container");
         var timerBox = document.createElement("div");
         timerBox.id = "timerBox";
-        timerBox.innerHTML = "Time: " +((this.maxTime)- Math.floor(this.timer/75));
+        timerBox.innerHTML = "Time: " +((this.maxTime)- Math.floor(this.timer/60));
         container.appendChild(timerBox);
         countDown = true;
         this.maxTime = 3;

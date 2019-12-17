@@ -173,7 +173,9 @@ var stageA = {
                 countDown = false;
             }
         }
+
         if(!roundOver && gameStarted){
+
             this.timer+= this.timerIncrement;
             document.getElementById("timerBox").innerHTML = "Time: " +((this.maxTime)-Math.floor(this.timer/60));
 
@@ -269,6 +271,7 @@ var stageA = {
 
     },
     startTimer: function(){
+        this.timer = 0;
         this.timerIncrement = 1;
         var container = document.getElementById("container");
         var timerBox = document.createElement("div");
