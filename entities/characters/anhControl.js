@@ -29,6 +29,9 @@ var anh = {
 
 
     },
+    resetAll: function(){
+
+    },
     setSpawn: function(){
         if(this.isPlayer1){
             this.x = stage.player1SpawnX;

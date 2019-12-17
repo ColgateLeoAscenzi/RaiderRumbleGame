@@ -4,7 +4,7 @@ body{
 }
 @font-face {
   font-family: 'dpcomic';
-  src: url('../font-awesome/fonts/dpcomic.ttf');
+  src: url('../lib/font-awesome/fonts/dpcomic.ttf');
 }
 
 *{
