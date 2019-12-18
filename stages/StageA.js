@@ -190,7 +190,7 @@ var stageA = {
             //rotateSnow();
             if(this.maxTime - Math.floor(this.timer/60) == 0){
                 roundOver = true;
-                roundOver = true;
+                this.player1.resetAll();
             }
         }
         //Player x and y checks
@@ -253,7 +253,7 @@ var stageA = {
 
         if(this.player1.stock == 0 || this.player2.stock == 0){
             roundOver = true;
-            roundOver = true;
+            this.player1.resetAll();
         }
 
         if(roundOver){

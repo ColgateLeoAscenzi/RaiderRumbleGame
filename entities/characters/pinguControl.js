@@ -30,6 +30,23 @@ var pingu = {
 
 
     },
+    resetAll: function(){
+        this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
+        attack2: false};
+        this.canAAttack = [true, true, true, true, true, true];
+        this.canBAttack = [true, true, true, true];
+        this.hitByA = [false, false, false, false, false];
+        this.hitByB = [false, false, false, false];
+        this.xVel = 0;
+        this.yVel = 0;
+        this.model.scale.set(1,1,1);
+        this.model.rotation.set(0,0,0);
+        this.model.torso.rightArm.scale.set(1,1,1);
+        this.model.torso.rightArm.rotation.set(0,0,0);
+        this.model.torso.rightArm.rightHand.sword.scale.set(1,1,1);
+        this.model.torso.rightArm.rightHand.sword.rotation.set(1,1,1);
+
+    },
     setSpawn: function(){
         if(this.isPlayer1){
             this.x = stage.player1SpawnX;

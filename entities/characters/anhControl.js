@@ -29,9 +29,7 @@ var anh = {
         this.maxJumpCt = 4;
 
     },
-    resetAll: function(){
 
-    },
     setSpawn: function(){
         if(this.isPlayer1){
             this.x = stage.player1SpawnX;
