@@ -9,9 +9,9 @@ var S = 0; SS = 1; US = 2; DS = 3;
 
 var raiderBasic = {
   //add knockback based on type of attack, also add
-  knockback: 10,
+  knockback: 3,
   scaling: 0.1,
-  damage: [2,5,5,5,5,5],
+  damage: [2,2,5,5,5,5],
   successive: 0,
   //in degrees measured from 0, right ray
   launchAngle: [10, 20, 20, 20, 0, 0],

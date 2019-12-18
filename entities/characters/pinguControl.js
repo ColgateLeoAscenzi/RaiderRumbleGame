@@ -118,7 +118,7 @@ var pingu = {
         this.x += this.xVel;
         this.y += this.yVel;
 
-        if(Math.abs(this.xVel) > 4 || Math.abs(this.yVel) > 4){
+        if(Math.abs(this.xVel) > 5.5 || Math.abs(this.yVel) > 5.5){
           var trail = this.model.clone();
           stage.scene.add(trail);
           setTimeout(function(){stage.scene.remove(trail)}, 50);
@@ -1152,7 +1152,7 @@ var pingu1 = {
         this.x += this.xVel;
         this.y += this.yVel;
 
-        if(this.xVel > 8 || this.yVel > 8){
+        if(Math.abs(this.xVel) > 5.5 || Math.abs(this.yVel) > 5.5){
           var trail = this.model.clone();
           stage.scene.add(trail);
           setTimeout(function(){stage.scene.remove(trail)}, 50);
@@ -2069,6 +2069,7 @@ var pingu1 = {
         }
   }
 }
+
 
 function dabbing(attackBoolean, model) {
   if(attackBoolean) {

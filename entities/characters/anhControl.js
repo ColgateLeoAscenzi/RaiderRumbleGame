@@ -125,7 +125,7 @@ var anh = {
         this.x += this.xVel;
         this.y += this.yVel;
 
-        if(Math.abs(this.xVel) > 4 || Math.abs(this.yVel) > 4){
+        if(Math.abs(this.xVel) > 5.5 || Math.abs(this.yVel) > 5.5){
           var trail = this.model.clone();
           stage.scene.add(trail);
           setTimeout(function(){stage.scene.remove(trail)}, 50);
@@ -658,76 +658,6 @@ var anh = {
     }
 
 }
-
-function createZ(stage, x, y, z) {
-
-  /*
-    z18z17z16
-        z15
-       z14
-    z13z12z11
-  */
-    var zMesh = new THREE.Mesh();
-    var z1 = new THREE.Mesh();
-
-    var z11 = particles.particlePalette.sleepPiece.clone();
-    z1.add(z11);
-    z11.position.x += 2;
-    var z12 = particles.particlePalette.sleepPiece.clone();
-    z1.add(z12);
-    var z13 = particles.particlePalette.sleepPiece.clone();
-    z1.add(z13);
-    z13.position.x -= 2;
-    var z14 = particles.particlePalette.sleepPiece.clone();
-    z1.add(z14);
-    z14.position.x -= 1.2;
-    z14.position.y += 2;
-    var z15 = particles.particlePalette.sleepPiece.clone();
-    z1.add(z15);
-    z15.position.x += 1.2;
-    z15.position.y += 4;
-    var z16 = particles.particlePalette.sleepPiece.clone();
-    z1.add(z16);
-    z16.position.x += 2;
-    z16.position.y += 6;
-    var z17 = particles.particlePalette.sleepPiece.clone();
-    z1.add(z17);
-    z17.position.y += 6;
-    var z18 = particles.particlePalette.sleepPiece.clone();
-    z1.add(z18);
-    z18.position.x -= 2;
-    z18.position.y += 6;
-
-    z2 = z1.clone();
-    z3 = z1.clone();
-
-    z1.scale.set(0.3,0.3,0.3);
-    zMesh.add(z1);
-    z2.scale.set(0.45,0.45,0.45);
-    zMesh.add(z2);
-    z2.position.set(-1.4,2.5,0);
-    z3.scale.set(0.55,0.55,0.55);
-    zMesh.add(z3);
-    z3.position.set(1.8,7.2,0);
-
-
-    stage.scene.add(zMesh);
-
-    zMesh.position.set(x,y,z);
-    return zMesh;
-}
-
-function createMusic(stage, x, y, z) {
-    var arrToReturn = [];
-    for(var i = 0; i < 27; i++) {
-        var temp = particles.particlePalette.musicPiece.clone();
-
-        arrToReturn.push(temp);
-        stage.scene.add(temp);
-    }
-    return arrToReturn;
-}
-
 var anh1 = {
     name: "Anh",
     model: createAnhMesh(0,0,0),
@@ -853,12 +783,11 @@ var anh1 = {
         this.x += this.xVel;
         this.y += this.yVel;
 
-        if(this.xVel > 8 || this.yVel > 8){
+        if(Math.abs(this.xVel) > 5.5 || Math.abs(this.yVel) > 5.5){
           var trail = this.model.clone();
           stage.scene.add(trail);
           setTimeout(function(){stage.scene.remove(trail)}, 50);
         }
-
         //other held keys
         if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
           if(!this.sleeping){
@@ -1386,6 +1315,74 @@ var anh1 = {
           }
     }
 
+}
+function createZ(stage, x, y, z) {
+
+  /*
+    z18z17z16
+        z15
+       z14
+    z13z12z11
+  */
+    var zMesh = new THREE.Mesh();
+    var z1 = new THREE.Mesh();
+
+    var z11 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z11);
+    z11.position.x += 2;
+    var z12 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z12);
+    var z13 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z13);
+    z13.position.x -= 2;
+    var z14 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z14);
+    z14.position.x -= 1.2;
+    z14.position.y += 2;
+    var z15 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z15);
+    z15.position.x += 1.2;
+    z15.position.y += 4;
+    var z16 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z16);
+    z16.position.x += 2;
+    z16.position.y += 6;
+    var z17 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z17);
+    z17.position.y += 6;
+    var z18 = particles.particlePalette.sleepPiece.clone();
+    z1.add(z18);
+    z18.position.x -= 2;
+    z18.position.y += 6;
+
+    z2 = z1.clone();
+    z3 = z1.clone();
+
+    z1.scale.set(0.3,0.3,0.3);
+    zMesh.add(z1);
+    z2.scale.set(0.45,0.45,0.45);
+    zMesh.add(z2);
+    z2.position.set(-1.4,2.5,0);
+    z3.scale.set(0.55,0.55,0.55);
+    zMesh.add(z3);
+    z3.position.set(1.8,7.2,0);
+
+
+    stage.scene.add(zMesh);
+
+    zMesh.position.set(x,y,z);
+    return zMesh;
+}
+
+function createMusic(stage, x, y, z) {
+    var arrToReturn = [];
+    for(var i = 0; i < 27; i++) {
+        var temp = particles.particlePalette.musicPiece.clone();
+
+        arrToReturn.push(temp);
+        stage.scene.add(temp);
+    }
+    return arrToReturn;
 }
 
 function createZ(stage, x, y, z) {

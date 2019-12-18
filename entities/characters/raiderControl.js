@@ -3,7 +3,7 @@ var ATTACK = true;
 var raider = {
     name: "Raider",
     model: createBasicCharacterMesh(0,0,0),
-    secondRaider: createBasicCharacterMesh(0,0,0).torso.rightArm.rightHand.coin,
+    slicesToken: createBasicCharacterMesh(0,0,0).torso.rightArm.rightHand.coin,
     hitBox: createBasicCharacterBounding(0,0,0),
     canAAttack: [true, true, true, true, true, true],
     canBAttack: [true, true, true, true],
@@ -17,8 +17,8 @@ var raider = {
         //spawn location
         this.name = "Raider"
 
-        stage.scene.add(this.secondRaider);
-        this.secondRaider.position.set(stage.maximumX +300,stage.maximumY + 300,0);
+        stage.scene.add(this.slicesToken);
+        this.slicesToken.position.set(stage.maximumX +300,stage.maximumY + 300,0);
 
         this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
         attack2: false}
@@ -26,6 +26,14 @@ var raider = {
         this.basicAttackObj = raiderBasic;
         this.specialAttackObj = raiderSpecial;
         this.damageDeal = 0;
+
+        this.fsToken = createFSToken();
+        stage.scene.add(this.fsToken);
+        this.fsToken.position.set(stage.maximumX +300,stage.maximumY + 300,0);
+
+        this.holdingSlices = true;
+
+        this.justSwapped = false;
 
 
 
@@ -128,11 +136,11 @@ var raider = {
         this.x += this.xVel;
         this.y += this.yVel;
 
-        if(Math.abs(this.xVel) > 4 || Math.abs(this.yVel) > 4){
+        if(Math.abs(this.xVel) > 5.5 || Math.abs(this.yVel) > 5.5){
           var trail = this.model.clone();
           stage.scene.add(trail);
           setTimeout(function(){stage.scene.remove(trail)}, 50);
-        } 
+        }
 
         //other held keys
         if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
@@ -366,8 +374,8 @@ var raider = {
                   this.model.torso.leftArm.rotation.z = -45;
                   this.model.torso.rightArm.rotation.z = -45;
 
-                  if(this.x + 1.8 <= this.minRight){
-                    this.x+=1.8
+                  if(this.x + 1.2 <= this.minRight){
+                    this.x+=1.2
                   }
 
                 }
@@ -376,8 +384,8 @@ var raider = {
                   //this.model.position.x = c*2;
                   this.model.torso.rightArm.rotation.z = 45;
                   this.model.torso.leftArm.rotation.z = 45;
-                  if(this.x - 1.8 >= this.minLeft){
-                    this.x-=1.8
+                  if(this.x - 1.2 >= this.minLeft){
+                    this.x-=1.2
                   }
                 }
 
@@ -572,58 +580,112 @@ var raider = {
         if(this.basicAttackFrames == this.specialAttackObj.attackFrames[SS] - 1 && !this.isRecover){
           if(this.facingL) {
             this.specialAttackObj.castedRight = false;
-            this.secondRaider.position.set(this.x, this.y, this.z);
+            if(this.holdingSlices){
+                this.slicesToken.position.set(this.x, this.y, this.z);
+            }
+            else{
+                this.fsToken.position.set(this.x, this.y, this.z);
+            }
           }
           if(this.facingR) {
             this.specialAttackObj.castedRight = true;
-            this.secondRaider.position.set(this.x, this.y, this.z);
+            if(this.holdingSlices){
+                this.slicesToken.position.set(this.x, this.y, this.z);
+            }
+            else{
+                this.fsToken.position.set(this.x, this.y, this.z)
+            }
           }
         }
 
         else{
           if(!this.specialAttackObj.castedRight) {
             if(this.basicAttackFrames > 12.5){
-              this.secondRaider.position.x -=2.5;
+                if(this.holdingSlices){
+                    this.slicesToken.position.x -=2.5;
+                }
+                else{
+                    this.fsToken.position.x -=2.5;
+                }
             }
             if(this.basicAttackFrames < 12.5){
-              this.secondRaider.position.x +=2.5;
+                if(this.holdingSlices){
+                    this.slicesToken.position.x +=2.5;
+                }
+                else{
+                    this.fsToken.position.x +=2.5;
+                }
             }
           }
           if(this.specialAttackObj.castedRight) {
             if(this.basicAttackFrames > 12.5){
-              this.secondRaider.position.x +=2.5;
+                if(this.holdingSlices){
+                    this.slicesToken.position.x +=2.5;
+                }
+                else{
+                    this.fsToken.position.x +=2.5;
+                }
             }
             if(this.basicAttackFrames < 12.5){
-              this.secondRaider.position.x -=2.5;
+                if(this.holdingSlices){
+                    this.slicesToken.position.x -=2.5;
+                }
+                else{
+                    this.fsToken.position.x -=2.5;
+                }
             }
           }
         }
 
-        coinToss(ATTACK, this.secondRaider);
+        if(this.holdingSlices){
+            coinToss(ATTACK, this.slicesToken);
+            var bbox = new THREE.BoxHelper(this.slicesToken, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
-        var bbox = new THREE.BoxHelper(this.secondRaider, 0xff0000)
-        this.attackbbox = new THREE.Box3().setFromObject(bbox);
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(SS,"B");
+            }
 
-        if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
-          this.checkHit(SS,"B");
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
+        }
+        else{
+            coinToss(ATTACK, this.fsToken);
+            var bbox = new THREE.BoxHelper(this.fsToken, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(SS,"B");
+            }
+
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
         }
 
-        if(hitBoxesOn){
-          stage.scene.add(bbox);
-          setTimeout(function(){bbox.geometry.dispose();}, 50);
-          setTimeout(function(){  stage.scene.remove(bbox);}, 50);
-        }
+
 
           if(this.basicAttackFrames <= 0){
 
             //coinToss(RESET, this.model);
-            coinToss(RESET, this.secondRaider);
+            if(this.holdingSlices){
+                coinToss(RESET, this.slicesToken);
+            }
+            else{
+                coinToss(RESET, this.fsToken);
+            }
 
               this.basicAttackFrames = 25;
               this.canBAttack[SS] = true;
               this.canBasicAttack = true;
               this.otherPlayer.hitByB[SS] = false;
-              this.secondRaider.position.set(stage.maximumX + 300,stage.maximumY + 300,0);
+              this.slicesToken.position.set(stage.maximumX + 300,stage.maximumY + 300,0);
+              this.fsToken.position.set(stage.maximumX + 300,stage.maximumY + 300,0);
           }
       }
 
@@ -672,7 +734,46 @@ var raider = {
 
       if(!this.canBAttack[DS]){
           this.basicAttackFrames-=1;
+
+          var c = (this.specialAttackObj.attackFrames[DS]-this.basicAttackFrames)/(this.specialAttackObj.attackFrames[DS]);
+
+
+          if(c < 0.25){
+              this.model.torso.rightArm.rotation.z = -Math.PI*c*4;
+              this.model.torso.leftArm.rotation.z = Math.PI*c*4;
+              this.model.torso.rightArm.rightHand.coin.scale.set(1+1.5*c*4,1+1.5*c*4,1+1.5*c*4);
+              this.model.torso.rightArm.rightHand.coin.position.y -= 1.5;
+              this.model.torso.rightArm.rightHand.coin.position.x -= 0.85;
+              this.model.torso.leftArm.position.y += 0.35;
+              this.model.torso.rightArm.position.y += 0.35;
+
+          }
+          else if(c > 0.6){
+              if(!this.justSwapped){
+                  if(this.holdingSlices){
+                      this.holdingSlices = false;
+                      this.model.torso.rightArm.rightHand.coin.children[0].material = fsMat;
+                  }
+                  else{
+                      this.holdingSlices = true;
+                      this.model.torso.rightArm.rightHand.coin.children[0].material = slicesMat;
+                  }
+                  this.justSwapped = true;
+              }
+          }
+
+
+
           if(this.basicAttackFrames <= 0){
+              this.justSwapped = false;
+              this.model.torso.rightArm.rotation.z = 0;
+              this.model.torso.leftArm.rotation.z = 0;
+              this.model.torso.rightArm.rightHand.coin.scale.set(1,1,1);
+              this.model.torso.rightArm.rightHand.coin.position.y = 0;
+              this.model.torso.rightArm.rightHand.coin.position.x = 0;
+              this.model.torso.leftArm.position.y = 0;
+              this.model.torso.rightArm.position.y = 0;
+
               this.basicAttackFrames = 25;
               this.canBAttack[DS] = true;
               this.canBasicAttack = true;
@@ -867,8 +968,17 @@ var raider = {
       if(moveType == "A"){
         if(!this.otherPlayer.hitByA[attackType]){
           damageToDeal = this.basicAttackObj.damage[attackType];
+          if(this.holdingSlices){
+              damageToDeal *=2;
+          }
           angleToApply = this.basicAttackObj.launchAngle[attackType];
-          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[attackType],this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
+          if(this.holdingSlices){
+              tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[attackType]*2,this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback/2);
+          }
+          else{
+              tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[attackType]/2,this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback*2);
+              tKnockback*=3;
+          }
 
           this.otherPlayer.isHit = true;
           if(this.isPlayer1){
@@ -886,10 +996,19 @@ var raider = {
       }
       else{
         if(!this.otherPlayer.hitByB[attackType]){
-          damageToDeal = this.specialAttackObj.damage[attackType];
-          angleToApply = this.specialAttackObj.launchAngle[attackType];
-          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[attackType],this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
 
+          damageToDeal = this.specialAttackObj.damage[attackType];
+          if(this.holdingSlices){
+              damageToDeal *=2;
+          }
+          angleToApply = this.specialAttackObj.launchAngle[attackType];
+          if(this.holdingSlices){
+              tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[attackType]*2,this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback/2);
+          }
+          else{
+              tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[attackType]/2,this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback*2);
+              tKnockback*=3;
+          }
           this.otherPlayer.isHit = true;
           if(this.isPlayer1){
               player1Info.totalAttacksHit += 1;
@@ -948,7 +1067,7 @@ var raider = {
 var raider1 = {
     name: "Raider",
     model: createBasicCharacterMesh(0,0,0),
-    secondRaider: createBasicCharacterMesh(0,0,0).torso.rightArm.rightHand.coin,
+    slicesToken: createBasicCharacterMesh(0,0,0).torso.rightArm.rightHand.coin,
     hitBox: createBasicCharacterBounding(0,0,0),
     canAAttack: [true, true, true, true, true, true],
     canBAttack: [true, true, true, true],
@@ -962,8 +1081,8 @@ var raider1 = {
         //spawn location
         this.name = "Raider"
 
-        stage.scene.add(this.secondRaider);
-        this.secondRaider.position.set(stage.maximumX +300,stage.maximumY + 300,0);
+        stage.scene.add(this.slicesToken);
+        this.slicesToken.position.set(stage.maximumX +300,stage.maximumY + 300,0);
 
         this.heldKeys = {up: false, down: false, left: false, right: false, attack1: false,
         attack2: false}
@@ -971,6 +1090,14 @@ var raider1 = {
         this.basicAttackObj = raiderBasic;
         this.specialAttackObj = raiderSpecial;
         this.damageDeal = 0;
+
+        this.fsToken = createFSToken();
+        stage.scene.add(this.fsToken);
+        this.fsToken.position.set(stage.maximumX +300,stage.maximumY + 300,0);
+
+        this.holdingSlices = true;
+
+        this.justSwapped = false;
 
 
 
@@ -1073,12 +1200,11 @@ var raider1 = {
         this.x += this.xVel;
         this.y += this.yVel;
 
-        if(this.xVel > 8 || this.yVel > 8){
+        if(Math.abs(this.xVel) > 5.5 || Math.abs(this.yVel) > 5.5){
           var trail = this.model.clone();
           stage.scene.add(trail);
           setTimeout(function(){stage.scene.remove(trail)}, 50);
         }
-
 
         //other held keys
         if(this.heldKeys.up && this.heldKeys.attack2 && this.canRecover && !this.isRecover){
@@ -1302,7 +1428,7 @@ var raider1 = {
           }
       }
 
-      if(!this.canAAttack[FA]){
+      if(!this.canAAttack){
                 this.basicAttackFrames-=1;
                 //ANIMATIONS GO HERE
                 var c = ((this.basicAttackObj.attackFrames[FA]-this.basicAttackFrames)/this.basicAttackObj.attackFrames[FA]);
@@ -1312,8 +1438,8 @@ var raider1 = {
                   this.model.torso.leftArm.rotation.z = -45;
                   this.model.torso.rightArm.rotation.z = -45;
 
-                  if(this.x + 1.8 <= this.minRight){
-                    this.x+=1.8
+                  if(this.x + 1.2 <= this.minRight){
+                    this.x+=1.2
                   }
 
                 }
@@ -1322,8 +1448,8 @@ var raider1 = {
                   //this.model.position.x = c*2;
                   this.model.torso.rightArm.rotation.z = 45;
                   this.model.torso.leftArm.rotation.z = 45;
-                  if(this.x - 1.8 >= this.minLeft){
-                    this.x-=1.8
+                  if(this.x - 1.2 >= this.minLeft){
+                    this.x-=1.2
                   }
                 }
 
@@ -1518,58 +1644,112 @@ var raider1 = {
         if(this.basicAttackFrames == this.specialAttackObj.attackFrames[SS] - 1 && !this.isRecover){
           if(this.facingL) {
             this.specialAttackObj.castedRight = false;
-            this.secondRaider.position.set(this.x, this.y, this.z);
+            if(this.holdingSlices){
+                this.slicesToken.position.set(this.x, this.y, this.z);
+            }
+            else{
+                this.fsToken.position.set(this.x, this.y, this.z);
+            }
           }
           if(this.facingR) {
             this.specialAttackObj.castedRight = true;
-            this.secondRaider.position.set(this.x, this.y, this.z);
+            if(this.holdingSlices){
+                this.slicesToken.position.set(this.x, this.y, this.z);
+            }
+            else{
+                this.fsToken.position.set(this.x, this.y, this.z)
+            }
           }
         }
 
         else{
           if(!this.specialAttackObj.castedRight) {
             if(this.basicAttackFrames > 12.5){
-              this.secondRaider.position.x -=2.5;
+                if(this.holdingSlices){
+                    this.slicesToken.position.x -=2.5;
+                }
+                else{
+                    this.fsToken.position.x -=2.5;
+                }
             }
             if(this.basicAttackFrames < 12.5){
-              this.secondRaider.position.x +=2.5;
+                if(this.holdingSlices){
+                    this.slicesToken.position.x +=2.5;
+                }
+                else{
+                    this.fsToken.position.x +=2.5;
+                }
             }
           }
           if(this.specialAttackObj.castedRight) {
             if(this.basicAttackFrames > 12.5){
-              this.secondRaider.position.x +=2.5;
+                if(this.holdingSlices){
+                    this.slicesToken.position.x +=2.5;
+                }
+                else{
+                    this.fsToken.position.x +=2.5;
+                }
             }
             if(this.basicAttackFrames < 12.5){
-              this.secondRaider.position.x -=2.5;
+                if(this.holdingSlices){
+                    this.slicesToken.position.x -=2.5;
+                }
+                else{
+                    this.fsToken.position.x -=2.5;
+                }
             }
           }
         }
 
-        coinToss(ATTACK, this.secondRaider);
+        if(this.holdingSlices){
+            coinToss(ATTACK, this.slicesToken);
+            var bbox = new THREE.BoxHelper(this.slicesToken, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
 
-        var bbox = new THREE.BoxHelper(this.secondRaider, 0xff0000)
-        this.attackbbox = new THREE.Box3().setFromObject(bbox);
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(SS,"B");
+            }
 
-        if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
-          this.checkHit(SS,"B");
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
+        }
+        else{
+            coinToss(ATTACK, this.fsToken);
+            var bbox = new THREE.BoxHelper(this.fsToken, 0xff0000)
+            this.attackbbox = new THREE.Box3().setFromObject(bbox);
+
+            if(this.attackbbox.intersectsBox(this.otherPlayer.hitbbox)){
+              this.checkHit(SS,"B");
+            }
+
+            if(hitBoxesOn){
+              stage.scene.add(bbox);
+              setTimeout(function(){bbox.geometry.dispose();}, 50);
+              setTimeout(function(){  stage.scene.remove(bbox);}, 50);
+            }
         }
 
-        if(hitBoxesOn){
-          stage.scene.add(bbox);
-          setTimeout(function(){bbox.geometry.dispose();}, 50);
-          setTimeout(function(){  stage.scene.remove(bbox);}, 50);
-        }
+
 
           if(this.basicAttackFrames <= 0){
 
             //coinToss(RESET, this.model);
-            coinToss(RESET, this.secondRaider);
+            if(this.holdingSlices){
+                coinToss(RESET, this.slicesToken);
+            }
+            else{
+                coinToss(RESET, this.fsToken);
+            }
 
               this.basicAttackFrames = 25;
               this.canBAttack[SS] = true;
               this.canBasicAttack = true;
               this.otherPlayer.hitByB[SS] = false;
-              this.secondRaider.position.set(stage.maximumX + 300,stage.maximumY + 300,0);
+              this.slicesToken.position.set(stage.maximumX + 300,stage.maximumY + 300,0);
+              this.fsToken.position.set(stage.maximumX + 300,stage.maximumY + 300,0);
           }
       }
 
@@ -1618,7 +1798,46 @@ var raider1 = {
 
       if(!this.canBAttack[DS]){
           this.basicAttackFrames-=1;
+
+          var c = (this.specialAttackObj.attackFrames[DS]-this.basicAttackFrames)/(this.specialAttackObj.attackFrames[DS]);
+
+
+          if(c < 0.25){
+              this.model.torso.rightArm.rotation.z = -Math.PI*c*4;
+              this.model.torso.leftArm.rotation.z = Math.PI*c*4;
+              this.model.torso.rightArm.rightHand.coin.scale.set(1+1.5*c*4,1+1.5*c*4,1+1.5*c*4);
+              this.model.torso.rightArm.rightHand.coin.position.y -= 1.5;
+              this.model.torso.rightArm.rightHand.coin.position.x -= 0.85;
+              this.model.torso.leftArm.position.y += 0.35;
+              this.model.torso.rightArm.position.y += 0.35;
+
+          }
+          else if(c > 0.6){
+              if(!this.justSwapped){
+                  if(this.holdingSlices){
+                      this.holdingSlices = false;
+                      this.model.torso.rightArm.rightHand.coin.children[0].material = fsMat;
+                  }
+                  else{
+                      this.holdingSlices = true;
+                      this.model.torso.rightArm.rightHand.coin.children[0].material = slicesMat;
+                  }
+                  this.justSwapped = true;
+              }
+          }
+
+
+
           if(this.basicAttackFrames <= 0){
+              this.justSwapped = false;
+              this.model.torso.rightArm.rotation.z = 0;
+              this.model.torso.leftArm.rotation.z = 0;
+              this.model.torso.rightArm.rightHand.coin.scale.set(1,1,1);
+              this.model.torso.rightArm.rightHand.coin.position.y = 0;
+              this.model.torso.rightArm.rightHand.coin.position.x = 0;
+              this.model.torso.leftArm.position.y = 0;
+              this.model.torso.rightArm.position.y = 0;
+
               this.basicAttackFrames = 25;
               this.canBAttack[DS] = true;
               this.canBasicAttack = true;
@@ -1813,8 +2032,17 @@ var raider1 = {
       if(moveType == "A"){
         if(!this.otherPlayer.hitByA[attackType]){
           damageToDeal = this.basicAttackObj.damage[attackType];
+          if(this.holdingSlices){
+              damageToDeal *=2;
+          }
           angleToApply = this.basicAttackObj.launchAngle[attackType];
-          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[attackType],this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback);
+          if(this.holdingSlices){
+              tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[attackType]*2,this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback/2);
+          }
+          else{
+              tKnockback = calculateKnockback(this.otherPlayer.percentage, this.basicAttackObj.damage[attackType]/2,this.otherPlayer.weight,this.basicAttackObj.scaling, this.basicAttackObj.knockback*2);
+              tKnockback*=3;
+          }
 
           this.otherPlayer.isHit = true;
           if(this.isPlayer1){
@@ -1833,9 +2061,17 @@ var raider1 = {
       else{
         if(!this.otherPlayer.hitByB[attackType]){
           damageToDeal = this.specialAttackObj.damage[attackType];
+          if(this.holdingSlices){
+              damageToDeal *=2;
+          }
           angleToApply = this.specialAttackObj.launchAngle[attackType];
-          tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[attackType],this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback);
-
+          if(this.holdingSlices){
+              tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[attackType]*2,this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback/2);
+          }
+          else{
+              tKnockback = calculateKnockback(this.otherPlayer.percentage, this.specialAttackObj.damage[attackType]/2,this.otherPlayer.weight,this.specialAttackObj.scaling, this.specialAttackObj.knockback*2);
+              tKnockback*=3;
+          }
           this.otherPlayer.isHit = true;
           if(this.isPlayer1){
               player1Info.totalAttacksHit += 1;
@@ -1907,4 +2143,16 @@ function coinToss(attackBoolean, model) {
   }
 
 
+}
+
+function createFSToken(){
+    fsCoin = new THREE.Object3D();
+    var coinBox = new THREE.CylinderGeometry(2,2,1, 19);
+    var coinMat = new THREE.MeshPhongMaterial({ color: 0xf2be75, map: new THREE.TextureLoader().load('images/fsToken.jpg')});//load('images/slicesToken.jpg')});'images/flourSaltLogo.png'
+
+    var coinBase = new THREE.Mesh(coinBox, coinMat);
+
+    fsCoin.add(coinBase);
+    coinBase.rotation.set(1.57,0,0);
+    return coinBase;
 }
