@@ -86,6 +86,27 @@ function buildPostGame(){
     charSelBan.innerHTML = "Game! Duration: "+Math.round(stage.timer/60);
     container.appendChild(charSelBan)
 
+    var p1WinMessage = document.createElement("div");
+    p1WinMessage.id = "p1WinMessage";
+    if(winner == 1){
+        p1WinMessage.innerHTML = "Winner!";
+    }
+    else{
+        p1WinMessage.innerHTML = "2nd Place!";
+    }
+
+    container.appendChild(p1WinMessage);
+
+    var p2WinMessage = document.createElement("div");
+    p2WinMessage.id = "p2WinMessage";
+    if(winner == 2){
+        p2WinMessage.innerHTML = "Winner!";
+    }
+    else{
+        p2WinMessage.innerHTML = "2nd Place!";
+    }
+    container.appendChild(p2WinMessage);
+
 
     postGameLoop();
 
