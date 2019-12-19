@@ -130,6 +130,18 @@ function playAgain(){
         boxVar.parentNode.removeChild(boxVar);
     }
 
+    boxVar = document.getElementById("p1WinMessage");
+    if(boxVar != undefined){
+        boxVar.parentNode.removeChild(boxVar);
+    }
+
+    boxVar = document.getElementById("p2WinMessage");
+    if(boxVar != undefined){
+        boxVar.parentNode.removeChild(boxVar);
+    }
+
+    p1WinMessage
+
     for(var i = 0; i < numPlayers; i++){
         boxVar = document.getElementById("p"+(i+1)+"Stats");
         if(boxVar != undefined){
