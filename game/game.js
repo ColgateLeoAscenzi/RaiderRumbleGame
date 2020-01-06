@@ -1,4 +1,4 @@
-axis2//COLORS
+// axis2//COLORS
 var Colors = {
     skyBlue: 0x86ebcc,
     ground: 0x332609,
