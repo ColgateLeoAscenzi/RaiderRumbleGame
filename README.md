@@ -4,7 +4,7 @@ Our game is an abstract representation of those special instances when you meet 
 ###### Presented by Merge Conflict Studios
 
 ## Overview
-Play the game [here!]([https://colgateleoascenzi.github.io/RaiderRumbleGame/](https://colgateleoascenzi.github.io/RaiderRumbleGame/))
+Play the game [here!]([https://colgateleoascenzi.github.io/RaiderRumbleGame/](https://colgateleoascenzi.github.io/RaiderRumbleGame/)): https://colgateleoascenzi.github.io/RaiderRumbleGame/](https://colgateleoascenzi.github.io/RaiderRumbleGame/)
 ## Controls
 ### Player Controls
 	* Jump: [W, ArrowUp]
