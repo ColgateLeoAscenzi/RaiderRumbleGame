@@ -71,7 +71,7 @@ function buildTitleScreen(){
        +"<div style='color:white; position:relative; bottom: -50%; left:0%;font-size:20px'> Presented by Merge Conflict Studios</div>"
      +"</div>"
     container.appendChild(mainMenuCont);
-
+    
   titleScreenLoop();
 }
 

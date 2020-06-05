@@ -11,6 +11,8 @@ var lockInMessage;
 var timee = 0;
 var timeeP = 0;
 
+var modalDismissed = false;
+
 function cleanUpDivs(){
         var boxVar = document.getElementById("lockInReady");
         if(boxVar != undefined){
@@ -37,6 +39,10 @@ function characterSelectLoop(){
     if(controllersConnected){
         updateP1Controller();
         updateP2Controller();
+    }
+
+    if(!modalDismissed){
+
     }
 
 
@@ -74,6 +80,9 @@ function characterSelectLoop(){
         lockInMessage = false;
 
         cleanUpDivs();
+
+        var help = document.getElementById("myModal");
+        help.parentNode.removeChild(help);
 
         buildStageSelect();
     }
@@ -154,6 +163,34 @@ function buildCharacterSelect(){
 
   buildSelectors();
   buildCapture();
+
+  if(helpOn){
+    var container = document.getElementById("container");
+    var modalDiv = document.createElement("div");
+    modalDiv.class = "modal";
+    modalDiv.innerHTML = '<div class="modal-content" id = "myModal"><div class="modal-header"><h2>Character Select Help</h2></div><div class="modal-body"><p>Player 1</p><p>WASD to move, J to select</p>'+
+                        '<p>Player 2</p><p>Arrow Keys to move, 1 to select</p>'+
+                        '<p>Hover your circle over a player model and then press select to grab</p><p>Drag player over the bottom boxes and then press select again to drop</p>'+
+                        '<div class="modal-footer1" id = "closeButton"><h3>Close Help</h3></div>'+
+                        '<div class="modal-footer2" id = "noHelp"><h3>Don\'t Show Again</h3></div></div>';
+    container.appendChild(modalDiv)
+
+
+    var modal = document.getElementById("myModal");
+
+    modal.style.display = "block";
+
+    var close = document.getElementById("closeButton");
+    close.onclick = function(event) {
+      modal.style.display = "none";
+    }
+    var helpButton = document.getElementById("noHelp");
+    helpButton.onclick = function(event) {
+      modal.style.display = "none";
+      helpOn = false;
+    }
+  }
+
 
   characterSelectLoop();
 

@@ -48,9 +48,15 @@ function stageSelectLoop(){
       selectableStages = [];
       topMeshes =[];
 
+
+      var help = document.getElementById("myModal");
+      help.parentNode.removeChild(help);
+      
       initializeWorld();
       var boxVar = document.getElementById("stageSelectBox");
       boxVar.parentNode.removeChild(boxVar);
+
+
     }
 
   renderer.render(mapScene, stageSelectCamera);
@@ -181,6 +187,33 @@ function buildStageSelect(){
   +"<div class = 'stageSelectInfo'>Time of Day: Day</div>"
   +"<div class = 'stageSelectInfo'>Mode: Omega</div>";
   container.appendChild(stageModeBox);
+
+
+  if(helpOn){
+    var container = document.getElementById("container");
+    var modalDiv = document.createElement("div");
+    modalDiv.class = "modal";
+    modalDiv.innerHTML = '<div class="modal-content" id = "myModal"><div class="modal-header"><h2>Stage Select Help</h2></div><div class="modal-body"><p>Click on a blue beacon to select a stage!</p>'+
+                        '<p>Use up and down arrow to change time of day</p><p>Use right and left arrow to change map mode</p>'+
+                        '<div class="modal-footer1" id = "closeButton"><h3>Close Help</h3></div>'+
+                        '<div class="modal-footer2" id = "noHelp"><h3>Don\'t Show Again</h3></div></div>';
+    container.appendChild(modalDiv)
+
+
+    var modal = document.getElementById("myModal");
+
+    modal.style.display = "block";
+
+    var close = document.getElementById("closeButton");
+    close.onclick = function(event) {
+      modal.style.display = "none";
+    }
+    var helpButton = document.getElementById("noHelp");
+    helpButton.onclick = function(event) {
+      modal.style.display = "none";
+      helpOn = false;
+    }
+  }
 
   stageSelectLoop();
 

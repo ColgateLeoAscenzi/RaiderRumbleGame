@@ -31,7 +31,7 @@ var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 var controls;
 
-
+var helpOn = true;
 
 
 var modes = ["normal", "options"];
@@ -365,6 +365,34 @@ function initializeWorld(){
     console.log(stage.bgm);
     mediaElement = new Audio(stage.bgm);
     mediaElement.loop = true;
+
+
+    if(helpOn){
+      var container = document.getElementById("container");
+      var modalDiv = document.createElement("div");
+      modalDiv.class = "modal";
+      modalDiv.innerHTML = '<div class="modal-content" id = "myModal"><div class="modal-header"><h2>Game Help</h2></div><div class="modal-body"><p>Player 1</p><p>WASD to move, J to use basic attack, K to use special attack</p>'+
+                          '<p>Player 2</p><p>Arrow Keys to move, 1 to use basic attack, 2 to use special attack</p>'+
+                          '<p>Fight the other player but don\'t fall off the stage!</p><p>Press h to toggle hitboxes for hitboxes</p>'+
+                          '<div class="modal-footer1" id = "closeButton"><h3>Close Help</h3></div>'+
+                          '<div class="modal-footer2" id = "noHelp"><h3>Don\'t Show Again</h3></div></div>';
+      container.appendChild(modalDiv)
+
+
+      var modal = document.getElementById("myModal");
+
+      modal.style.display = "block";
+
+      var close = document.getElementById("closeButton");
+      close.onclick = function(event) {
+        modal.style.display = "none";
+      }
+      var helpButton = document.getElementById("noHelp");
+      helpButton.onclick = function(event) {
+        modal.style.display = "none";
+        helpOn = false;
+      }
+    }
 
     loop();
 }

@@ -49,6 +49,7 @@ function buildModeSelect(){
     playGame.addEventListener('mousedown', startGame, false);
 
 
+
   modeSelectLoop();
 }
 
